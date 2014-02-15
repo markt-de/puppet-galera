@@ -80,16 +80,18 @@ class galera::repo(
                     gpgcheck => $yum_percona_gpgcheck,
                 } -> package {'Percona-Server-shared-compat':
                 } -> Anchor['mysql::server::start']
-
-                # Needed for socat package
-                yumrepo { 'epel':
-                    mirrorlist => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::os_maj_version}&arch=${::architecture}",
-                    baseurl => 'absent',
-                    failovermethod => 'priority',
-                    enabled => '1',
-                    gpgcheck => '1',
-                    gpgkey => 'https://fedoraproject.org/static/0608B895.txt'
-                } -> Anchor['mysql::server::start']
+                
+                if $epel_needed {
+                    # Needed for socat package
+                    yumrepo { 'epel':
+                        mirrorlist => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::os_maj_version}&arch=${::architecture}",
+                        baseurl => 'absent',
+                        failovermethod => 'priority',
+                        enabled => '1',
+                        gpgcheck => '1',
+                        gpgkey => 'https://fedoraproject.org/static/0608B895.txt'
+                    } -> Anchor['mysql::server::start']
+                }
             }
             elsif $repo_vendor == 'mariadb' {
                 yumrepo { 'mariadb':
