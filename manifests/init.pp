@@ -32,12 +32,12 @@ class galera(
 
     if $::fqdn != $galera_master {
 
-        File<| name == "${::root_home}/.my.cnf" |> {
+        File<| title == "${::root_home}/.my.cnf" |> {
           require => Class['mysql::server::service'],
           before => Class['mysql::server::providers']
         }
 
-        Mysql_user<| name == "root@localhost" |> {
+        Mysql_user<| title == "root@localhost" |> {
             require => File["${::root_home}/.my.cnf"]
         }
     }
