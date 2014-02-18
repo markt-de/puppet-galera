@@ -48,7 +48,7 @@ A number of simple options are available:
         $wsrep_group_comm_port = 4567,
 
         local_ip => $::ipaddress_eth0, # This will be used to populate my.cnf values that control where wsrep binds, advertises, and listens
-        rootpassword => 'myrootpassword', # This will be set when the cluster is bootstrapped
+        root_password => 'myrootpassword', # This will be set when the cluster is bootstrapped
         configure_repo => true, # Disable this if you are managing your own repos and mirrors
         configure_firewall => true, # Disable this if you don't want firewall rules to be set
     }

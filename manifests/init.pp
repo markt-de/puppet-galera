@@ -6,7 +6,7 @@ class galera(
     $wsrep_group_comm_port = 4567,
     $wsrep_state_transfer_port = 4444,
     $wsrep_inc_state_transfer_port = 4568,
-    $rootpassword = 'test',
+    $root_password = 'test',
     $override_options = {},
     $vendor_type = 'percona',
     $configure_repo = true,
@@ -30,16 +30,22 @@ class galera(
 
     $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
-    if $::fqdn == $galera_master {
-        $root_password_real = $rootpassword
-    } else {
-        $root_password_real = 'UNSET'
+    if $::fqdn != $galera_master {
+
+        File<| name == "${::root_home}/.my.cnf" |> {
+          require => Class['mysql::server::service'],
+          before => Class['mysql::server::providers']
+        }
+
+        Mysql_user<| name == "root@localhost" |> {
+            require => File["${::root_home}/.my.cnf"]
+        }
     }
 
     class { 'mysql::server':
       package_name => $galera::params::mysql_package_name,
       override_options => $options,
-      root_password => $root_password_real,
+      root_password => $root_password,
       service_name => $galera::params::mysql_service_name, 
     }
 
