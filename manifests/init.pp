@@ -65,9 +65,12 @@ class galera(
         }
     }
 
+    Package<| title == 'mysql_client' |> {
+        name => $galera::params::client_package_name
+    }
+
     package{[
             $galera::params::galera_package_name,
-            $galera::params::client_package_name,
             ] :
       ensure => latest,
       require => Anchor['mysql::server::start'],
@@ -87,7 +90,7 @@ class galera(
             path => '/usr/bin:/bin:/usr/sbin:/sbin'
         }
 
-        database_user { "clustercheckuser@localhost":
+        mysql_user { "clustercheckuser@localhost":
           ensure => "present",
           password_hash => mysql_password("clustercheckpassword!"), # can not change password in clustercheck script
           provider      => 'mysql',
