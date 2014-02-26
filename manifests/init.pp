@@ -2,6 +2,7 @@ class galera(
     $galera_servers,
     $galera_master,
     $local_ip = $::ipaddress_eth1,
+    $bind_address = $::ipaddress_eth1,
     $mysql_port = 3306,
     $wsrep_group_comm_port = 4567,
     $wsrep_state_transfer_port = 4444,
@@ -70,12 +71,14 @@ class galera(
     }
 
     package{[
+            'nc',
             $galera::params::galera_package_name,
             ] :
-      ensure => latest,
+      ensure => installed,
       require => Anchor['mysql::server::start'],
       before  => Class['mysql::server::install']
     }
+
 
     if $fqdn == $galera_master {
         # If there are no other servers up and we are the master, the cluster
@@ -83,7 +86,7 @@ class galera(
         $server_list = join($galera_servers, ' ')
         exec { 'bootstrap_galera_cluster':
             command => "service mysql start --wsrep_cluster_address=gcomm://",
-            onlyif => "ret=1; for i in ${server_list}; do /bin/nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
+            onlyif => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
             require => Class['mysql::server::config'],
             before => [Class['mysql::server::service'], Service['mysqld']],
             provider => shell,
