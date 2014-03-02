@@ -1,6 +1,6 @@
 class galera(
-    $galera_servers,
-    $galera_master,
+    $galera_servers = [$::ipaddress_eth1],
+    $galera_master  = $::fqdn,
     $local_ip = $::ipaddress_eth1,
     $bind_address = $::ipaddress_eth1,
     $mysql_port = 3306,
@@ -16,6 +16,7 @@ class galera(
 { 
     if $configure_repo {
         include galera::repo
+        Class['::galera::repo'] -> Class['mysql::server']
     }
 
     if $configure_firewall {

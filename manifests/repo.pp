@@ -37,6 +37,8 @@ class galera::repo(
     $yum_mariadb_gpgkey = 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
     $yum_mariadb_baseurl = undef
 ) {
+    include ::galera::params
+
     if ! $yum_mariadb_baseurl {
         $lower = downcase($::operatingsystem)
         $real_yum_mariadb_baseurl = "http://yum.mariadb.org/5.5.35-upd/${lower}${::operatingsystemmajrelease}-amd64"
@@ -55,7 +57,7 @@ class galera::repo(
                         key               => $apt_percona_repo_key,
                         key_server        => $apt_percona_repo_key_server,
                         include_src       => $apt_percona_repo_include_src,
-                    } -> Anchor['mysql::server::start']
+                    }
                 } elsif ($repo_vendor == 'mariadb') {
                     apt::source { "galera_mariadb_repo":
                         location          => $apt_mariadb_repo_location,
@@ -64,7 +66,7 @@ class galera::repo(
                         key               => $apt_mariadb_repo_key,
                         key_server        => $apt_mariadb_repo_key_server,
                         include_src       => $apt_mariadb_repo_include_src,
-                    } -> Anchor['mysql::server::start']
+                    }
                 }
 
             }
@@ -79,7 +81,7 @@ class galera::repo(
                     enabled => $yum_percona_enabled,
                     gpgcheck => $yum_percona_gpgcheck,
                 } -> package {'Percona-Server-shared-compat':
-                } -> Anchor['mysql::server::start']
+                }
                 
                 if $epel_needed {
                     # Needed for socat package
@@ -90,7 +92,7 @@ class galera::repo(
                         enabled => '1',
                         gpgcheck => '1',
                         gpgkey => 'https://fedoraproject.org/static/0608B895.txt'
-                    } -> Anchor['mysql::server::start']
+                    }
                 }
             }
             elsif $repo_vendor == 'mariadb' {
@@ -100,7 +102,7 @@ class galera::repo(
                     gpgcheck => $yum_mariadb_gpgcheck,
                     gpgkey =>  $yum_mariadb_gpgkey,
                     baseurl => $real_yum_mariadb_baseurl
-                } -> Anchor['mysql::server::start']
+                }
             }
         }
     }
