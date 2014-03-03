@@ -1,3 +1,7 @@
+# == Class: galera::params
+#
+# Parameters for the galera module
+#
 class galera::params {
   $server_csl = join($galera::galera_servers, ',')
 

@@ -1,3 +1,72 @@
+# == Class galera
+#
+# Installs mysql with galera
+#
+# === Parameters
+#
+# [*galera_servers*]
+#   (optional) A list of IP addresses of the nodes in
+#   the galera cluster
+#   Defaults to [$::ipaddress_eth1]
+#
+# [*galera_master*]
+#   (optional) The node that will bootstrap the cluster if
+#   all nodes go down. (There is no election)
+#   Defaults to $::fqdn
+#
+# [*local_ip*]
+#   (optional) The IP address of this node to use for comms
+#   Defaults to $::ipaddress_eth1
+#
+# [*bind_address*]
+#   (optional) The IP address to bind mysql to
+#   Defaults to $::ipaddress_eth1
+#
+# [*mysql_port*]
+#   (optional) The port to use for mysql
+#   Defaults to 3306
+#
+# [*wsrep_group_comm_port*]
+#   (optional) The port to use for galera clsutering
+#   Defaults to 4567
+#
+# [*wsrep_state_transfer_port*]
+#   (optional) The port to use for galera state transfer
+#   Defaults to 4444
+#
+# [*wsrep_inc_state_transfer_port*]
+#   (optional) The port to use for galera incremental
+#   state transfer
+#   Defaults to 4568
+#
+# [*root_password*]
+#   (optional) The mysql root password.
+#   Defaults to 'test'
+#
+# [*override_options*]
+#   (optional) Options to pass to mysql::server class.
+#   See the puppet-mysql doc for more information.
+#   Defaults to {}
+#
+# [*vendor_type*]
+#   (optional) The galera vendor to use. Valid options
+#   are 'mariadb' and 'percona'
+#   Defaults to 'percona'
+#
+# [*configure_repo*]
+#   (optional) Whether to configure additional repositories for
+#   installing galera
+#   Defaults to true
+#
+# [*configure_firewall*]
+#   (optional) Whether to open firewall ports used by galera
+#   Defaults to true
+#
+# [*deb_sysmaint_password*]
+#   (optional) The password to set on Debian for the sysmaint
+#   user used during updates.
+#   Defaults to 'sysmaint'
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,

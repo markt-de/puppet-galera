@@ -1,3 +1,7 @@
+# == Class: galera::debian
+#
+# Fixes Debian specific compatibility issues
+#
 class galera::debian {
 
   if ($::osfamily != 'Debian') {
