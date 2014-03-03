@@ -16,6 +16,7 @@ describe 'galera' do
       :vendor_type                   => 'percona',
       :configure_repo                => true,
       :configure_firewall            => true,
+      :deb_sysmaint_password         => 'sysmaint',
     }
   end
 

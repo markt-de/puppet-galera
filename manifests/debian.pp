@@ -21,7 +21,7 @@ class galera::debian {
     # and needs to be consistent across the cluster.
     database_user { "debian-sys-maint@localhost":
       ensure => "present",
-      password_hash => mysql_password($deb_sysmaint_password),
+      password_hash => mysql_password($galera::deb_sysmaint_password),
       provider  => "mysql",
       require => File["/root/.my.cnf"]
     }
