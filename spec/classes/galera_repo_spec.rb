@@ -50,7 +50,7 @@ describe 'galera::repo' do
         :descr      => params[:yum_percona_descr],
         :enabled    => params[:yum_percona_enabled],
         :gpgcheck   => params[:yum_percona_gpgcheck],
-        :gpgkey     => params[:yum_percona_gpgkey],
+        :gpgkey     => params[:yum_percona_gpgkey]
       ) }
     end
 
@@ -60,7 +60,7 @@ describe 'galera::repo' do
         :descr      => params[:yum_mariadb_descr],
         :enabled    => params[:yum_mariadb_enabled],
         :gpgcheck   => params[:yum_mariadb_gpgcheck],
-        :gpgkey     => params[:yum_mariadb_gpgkey],
+        :gpgkey     => params[:yum_mariadb_gpgkey]
       ) }
     end
   end
@@ -83,7 +83,7 @@ describe 'galera::repo' do
         :repos         => params[:apt_percona_repo_repos],
         :key           => params[:apt_percona_repo_key],
         :key_server    => params[:apt_percona_repo_key_server],
-        :include_src   => params[:apt_percona_repo_include_src],
+        :include_src   => params[:apt_percona_repo_include_src]
       ) }
     end
 
@@ -95,7 +95,7 @@ describe 'galera::repo' do
         :repos         => params[:apt_mariadb_repo_repos],
         :key           => params[:apt_mariadb_repo_key],
         :key_server    => params[:apt_mariadb_repo_key_server],
-        :include_src   => params[:apt_mariadb_repo_include_src],
+        :include_src   => params[:apt_mariadb_repo_include_src]
       ) }
     end
   end

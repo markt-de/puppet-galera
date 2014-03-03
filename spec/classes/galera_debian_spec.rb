@@ -18,7 +18,7 @@ describe 'galera::debian' do
       :command     => "service mysql stop",
       :path        => "/usr/bin:/bin:/usr/sbin:/sbin",
       :refreshonly => true,
-      :subscribe   => "Package[mysql-server]",
+      :subscribe   => "Package[mysql-server]"
     ) }
   end
 
