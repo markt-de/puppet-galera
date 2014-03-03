@@ -14,7 +14,7 @@ class galera(
   $configure_firewall               = true,
   $deb_sysmaint_password            = 'sysmaint',
 )
-{ 
+{
   if $configure_repo {
     include galera::repo
     Class['::galera::repo'] -> Class['mysql::server']
@@ -40,31 +40,31 @@ class galera(
       before => Class['mysql::server::providers']
     }
 
-    Mysql_user<| title == "root@localhost" |> {
+    Mysql_user<| title == 'root@localhost' |> {
       require => File["${::root_home}/.my.cnf"]
     }
   }
 
   class { 'mysql::server':
-    package_name => $galera::params::mysql_package_name,
-    override_options => $options,
-    root_password => $root_password,
-    service_name => $galera::params::mysql_service_name, 
+    package_name        => $galera::params::mysql_package_name,
+    override_options    => $options,
+    root_password       => $root_password,
+    service_name        => $galera::params::mysql_service_name,
   }
 
   file { $galera::params::rundir:
-    ensure => directory,
-    owner  => 'mysql',
-    group  => 'mysql',
+    ensure  => directory,
+    owner   => 'mysql',
+    group   => 'mysql',
     require => Class['mysql::server::install'],
-    before => Class['mysql::server::config']
+    before  => Class['mysql::server::config']
   }
 
   if $galera::params::additional_packages {
     package{ $galera::params::additional_packages:
-      ensure => installed,
-      require => Anchor['mysql::server::start'],
-      before  => Class['mysql::server::install']
+      ensure    => installed,
+      require   => Anchor['mysql::server::start'],
+      before    => Class['mysql::server::install']
     }
   }
 
@@ -76,30 +76,30 @@ class galera(
       'nc',
       $galera::params::galera_package_name,
       ] :
-    ensure => installed,
+    ensure  => installed,
     require => Anchor['mysql::server::start'],
     before  => Class['mysql::server::install']
   }
 
 
-  if $fqdn == $galera_master {
+  if $::fqdn == $galera_master {
     # If there are no other servers up and we are the master, the cluster
-    # needs to be bootstrapped. This happens before the service is managed 
+    # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
     exec { 'bootstrap_galera_cluster':
-      command => "service mysql start --wsrep_cluster_address=gcomm://",
-      onlyif => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
-      require => Class['mysql::server::config'],
-      before => [Class['mysql::server::service'], Service['mysqld']],
-      provider => shell,
-      path => '/usr/bin:/bin:/usr/sbin:/sbin'
+      command   => 'service mysql start --wsrep_cluster_address=gcomm://',
+      onlyif    => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
+      require   => Class['mysql::server::config'],
+      before    => [Class['mysql::server::service'], Service['mysqld']],
+      provider  => shell,
+      path      => '/usr/bin:/bin:/usr/sbin:/sbin'
     }
 
-    mysql_user { "clustercheckuser@localhost":
-      ensure => "present",
-      password_hash => mysql_password("clustercheckpassword!"), # can not change password in clustercheck script
+    mysql_user { 'clustercheckuser@localhost':
+      ensure        => 'present',
+      password_hash => mysql_password('clustercheckpassword!'), # can not change password in clustercheck script
       provider      => 'mysql',
-      require => [ File["/root/.my.cnf"], Service['mysqld']],
+      require       => [ File['/root/.my.cnf'], Service['mysqld']],
     }
 
   }

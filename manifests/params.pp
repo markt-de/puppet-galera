@@ -1,5 +1,5 @@
 class galera::params {
- $server_csl = join($galera::galera_servers, ',')
+  $server_csl = join($galera::galera_servers, ',')
 
   if ($::osfamily == 'RedHat') {
     $mysql_service_name = 'mysql'
@@ -42,22 +42,22 @@ class galera::params {
   else {
     fail('This distribution is not supported by the puppet-galera module')
   }
- $default_options = {
-    'mysqld' => {
-      'bind-address'       => $galera::bind_address,
-      'wsrep_node_address' => $galera::local_ip,
-      'wsrep_provider'     => $galera::params::libgalera_location,
-      'wsrep_cluster_address' => "gcomm://${server_csl}",
-      'wsrep_slave_threads' => '8',
-      'wsrep_sst_method' => 'rsync',
-      'binlog_format' => 'ROW',
-      'default_storage_engine' => 'InnoDB',
-      'innodb_locks_unsafe_for_binlog' => '1',
-      'innodb_autoinc_lock_mode' => '2',
-      'query_cache_size' => '0',
-      'query_cache_type' => '0',
-      'wsrep_node_incoming_address' => $galera::local_ip,
-      'wsrep_sst_receive_address' => $galera::local_ip
+    $default_options = {
+      'mysqld' => {
+        'bind-address'                      => $galera::bind_address,
+        'wsrep_node_address'                => $galera::local_ip,
+        'wsrep_provider'                    => $galera::params::libgalera_location,
+        'wsrep_cluster_address'             => "gcomm://${server_csl}",
+        'wsrep_slave_threads'               => '8',
+        'wsrep_sst_method'                  => 'rsync',
+        'binlog_format'                     => 'ROW',
+        'default_storage_engine'            => 'InnoDB',
+        'innodb_locks_unsafe_for_binlog'    => '1',
+        'innodb_autoinc_lock_mode'          => '2',
+        'query_cache_size'                  => '0',
+        'query_cache_type'                  => '0',
+        'wsrep_node_incoming_address'       => $galera::local_ip,
+        'wsrep_sst_receive_address'         => $galera::local_ip
     }
   }
 

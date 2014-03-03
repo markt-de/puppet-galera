@@ -5,3 +5,4 @@ PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('disable_names_containing_dash')
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_class_parameter_defaults')
+PuppetLint.configuration.ignore_paths = ["vendor/**/*.pp"]
