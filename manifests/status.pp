@@ -21,11 +21,16 @@
 #  (optional) The name of the user to use for status checks
 #  Defaults to 'clustercheck'
 # 
+# [*port*]
+#  (optional) Port for cluster check service
+#  Defaults to 9200
+# 
 class galera::status (
   $status_password  = 'statuscheck!',
   $status_allow     = '%',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
+  $port             = 9200
 ) {
 
   mysql_user { "${status_user}@${status_allow}":
@@ -50,15 +55,15 @@ class galera::status (
   augeas { 'mysqlchk':
     context => '/files/etc/services',
     changes => [
-      'set /files/etc/services/service-name[port = '9200']/port 9200',
-      'set /files/etc/services/service-name[port = '9200'] mysqlchk',
-      'set /files/etc/services/service-name[port = '9200']/protocol tcp',
+      "set /files/etc/services/service-name[port = '${port}']/port ${port}",
+      "set /files/etc/services/service-name[port = '${port}'] mysqlchk",
+      "set /files/etc/services/service-name[port = '${port}']/protocol tcp",
     ],
   }
 
   xinetd::service { 'mysqlchk':
     server => '/usr/local/bin/clustercheck',
-    port   => '9200',
+    port   => $port,
     user   => 'nobody',
     flags  => 'REUSE',
   }
