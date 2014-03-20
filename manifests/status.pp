@@ -8,23 +8,23 @@
 # [*status_password*]
 #  (optional) The password of the status check user
 #  Defaults to 'statuscheck!'
-# 
+#
 # [*status_allow*]
 #  (optional) The subnet to allow status checks from
 #  Defaults to '%'
-# 
+#
 # [*status_host*]
 #  (optional) The cluster to add the cluster check user to
 #  Defaults to 'localhost'
-# 
+#
 # [*status_user*]
 #  (optional) The name of the user to use for status checks
 #  Defaults to 'clustercheck'
-# 
+#
 # [*port*]
 #  (optional) Port for cluster check service
 #  Defaults to 9200
-# 
+#
 class galera::status (
   $status_password  = 'statuscheck!',
   $status_allow     = '%',
