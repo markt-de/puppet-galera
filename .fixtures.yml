@@ -4,5 +4,6 @@ fixtures:
     "mysql": "git://github.com/puppetlabs/puppetlabs-mysql.git"
     "apt": "git://github.com/puppetlabs/puppetlabs-apt.git"
     "firewall": "git://github.com/puppetlabs/puppetlabs-firewall.git"
+    "xinetd": "git://github.com/puppetlabs/puppetlabs-xinetd.git"
   symlinks:
     "galera": "#{source_dir}"

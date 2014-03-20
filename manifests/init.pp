@@ -82,6 +82,8 @@ class galera(
   $configure_repo                   = true,
   $configure_firewall               = true,
   $deb_sysmaint_password            = 'sysmaint',
+  $validate_connection              = true,
+  $status_check                     = true
 )
 {
   if $configure_repo {
@@ -96,6 +98,14 @@ class galera(
   # Debian machines need some help
   if ($::osfamily == 'Debian') {
     include galera::debian
+  }
+
+  if $status_check {
+    include galera::status
+  }
+
+  if $validate_connection {
+    include galera::validate
   }
 
   include galera::params
@@ -162,13 +172,6 @@ class galera(
       before    => [Class['mysql::server::service'], Service['mysqld']],
       provider  => shell,
       path      => '/usr/bin:/bin:/usr/sbin:/sbin'
-    }
-
-    mysql_user { 'clustercheckuser@localhost':
-      ensure        => 'present',
-      password_hash => mysql_password('clustercheckpassword!'), # can not change password in clustercheck script
-      provider      => 'mysql',
-      require       => [ File['/root/.my.cnf'], Service['mysqld']],
     }
 
   }
