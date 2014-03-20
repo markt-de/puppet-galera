@@ -1,13 +1,13 @@
-# == Class: galera::validate
+# == Class galera::validate
 #
 # This class will ensure that the mysql cluster
 # can accept connections at the point where the
 # mysql::server resource is marked as complete.
-# 
+#
 # This is used because after returning success,
 # the service is still not quite ready.
 #
-# === Parameters:
+# === Parameters
 #
 # [*user*]
 # (optional) The mysql user to use.
@@ -27,18 +27,18 @@
 #
 # [*delay*]
 # (optional) Seconds to sleep between attempts.
-#  Defaults to 2 
+#  Defaults to 2
 #
 # [*action*]
 # (optional) The mysql command to run
 #  Defaults to 'select user,host from mysql.user;'
 #
 # [*catch*]
-# (optional) A string that if present indicates failure 
-#  Defaults to 'ERROR' 
+# (optional) A string that if present indicates failure
+#  Defaults to 'ERROR'
 #
 # [*inv_catch*]
-# (optional) A string that if not present indicates failure  
+# (optional) A string that if not present indicates failure
 #  Defaults to undef
 #
 class galera::validate(
