@@ -45,8 +45,8 @@ class galera::validate(
   $user      = $galera::status::status_user,
   $password  = $galera::status::status_password,
   $host      = $galera::status::status_host,
-  $retries   = 10,
-  $delay     = 2,
+  $retries   = 20,
+  $delay     = 3,
   $action    = 'select user,host from mysql.user;',
   $catch     = 'ERROR',
   $inv_catch = 'undef'
@@ -66,7 +66,9 @@ class galera::validate(
   exec { 'validate_connection':
     path          => '/usr/bin:/bin:/usr/sbin:/sbin',
     provider      => shell,
-    command       => "ret=0; count=0; while [ \$count -lt ${retries} ]; do if ${cmd} | grep -q ${truecatch}; then ret=1; break; fi; sleep ${delay}; count=\$((\$count + 1)); done; echo \$ret | grep 0 -q;",
+    command       => $cmd,
+    tries         => $retries,
+    try_sleep     => $delay,
     subscribe     => [Exec['bootstrap_galera_cluster'], Service['mysql']],
     refreshonly   => true,
     before        => Anchor['mysql::server::end'],
