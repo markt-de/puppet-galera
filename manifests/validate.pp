@@ -69,10 +69,12 @@ class galera::validate(
     command       => $cmd,
     tries         => $retries,
     try_sleep     => $delay,
-    subscribe     => [Exec['bootstrap_galera_cluster'], Service['mysql']],
+    subscribe     => Service['mysql'],
     refreshonly   => true,
     before        => Anchor['mysql::server::end'],
     require       => Class['galera::status']
   }
+
+  Exec<| title == 'bootstrap_galera_cluster' |> ~> Exec['validate_connection']
 }
 
