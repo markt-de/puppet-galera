@@ -7,6 +7,7 @@ class galera::params {
 
   if ($::osfamily == 'RedHat') {
     $mysql_service_name = 'mysql'
+    $nc_package_name = 'nc'
     if $galera::vendor_type == 'percona' {
       $mysql_package_name = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name = 'Percona-XtraDB-Cluster-galera-2'
@@ -27,6 +28,7 @@ class galera::params {
   }
   elsif ($::osfamily == 'Debian'){
     $mysql_service_name = 'mysql'
+    $nc_package_name = 'netcat'
     if $galera::vendor_type == 'percona' {
       $mysql_package_name = 'percona-xtradb-cluster-server-5.5'
       $galera_package_name = 'percona-xtradb-cluster-galera-2.x'

@@ -152,7 +152,7 @@ class galera(
   }
 
   package{[
-      'nc',
+      $galera::params::nc_package_name,
       $galera::params::galera_package_name,
       ] :
     ensure  => installed,
