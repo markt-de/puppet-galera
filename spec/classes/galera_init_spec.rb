@@ -22,7 +22,7 @@ describe 'galera' do
 
   shared_examples_for 'galera' do
     it { should contain_class('galera::params') }
-    it { should contain_package('nc').with(:ensure => 'installed') }
+    it { should contain_package(os_params[:nc_package_name]).with(:ensure => 'installed') }
 
     context 'with default parameters' do
       it { should contain_class('galera::repo') }
@@ -64,7 +64,8 @@ describe 'galera' do
         :m_galera_package_name => 'galera',
         :m_client_package_name => 'mariadb-client-5.5',
         :m_libgalera_location  => '/usr/lib/galera/libgalera_smm.so',
-        :mysql_service_name    => 'mysql'
+        :mysql_service_name    => 'mysql',
+        :nc_package_name       => 'netcat',
       }
     end
     it_configures 'galera'
@@ -85,6 +86,7 @@ describe 'galera' do
         :m_client_package_name => 'MariaDB-client',
         :m_libgalera_location  => '/usr/lib64/galera/libgalera_smm.so',
         :mysql_service_name    => 'mysql',
+        :nc_package_name       => 'nc',
       }
     end
    it_configures 'galera'
