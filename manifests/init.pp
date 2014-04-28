@@ -166,7 +166,7 @@ class galera(
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
     exec { 'bootstrap_galera_cluster':
-      command   => 'service mysql start --wsrep_cluster_address=gcomm://',
+      command   => $galera::params::bootstrap_command,
       onlyif    => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
       require   => Class['mysql::server::config'],
       before    => [Class['mysql::server::service'], Service['mysqld']],
