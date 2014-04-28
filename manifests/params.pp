@@ -5,6 +5,12 @@
 class galera::params {
   $server_csl = join($galera::galera_servers, ',')
 
+  if $galera::vendor_type == 'percona' {
+    $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
+  } elsif $galera::vendor_type == 'mariadb' {
+    $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
+  }
+
   if ($::osfamily == 'RedHat') {
     $mysql_service_name = 'mysql'
     $nc_package_name = 'nc'
