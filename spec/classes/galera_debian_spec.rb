@@ -31,14 +31,14 @@ describe 'galera::debian' do
     end
     let(:node) { 'control1' }
 
-    it { should contain_database_user('debian-sys-maint@localhost').with(
+    it { should contain_mysql_user('debian-sys-maint@localhost').with(
       :ensure   => 'present',
       :provider => 'mysql',
       :require  => "File[/root/.my.cnf]"
     ) }
 
     it { should contain_file('/etc/mysql/debian.cnf').with(
-      :require => 'Database_user[debian-sys-maint@localhost]'
+      :require => 'Mysql_user[debian-sys-maint@localhost]'
     ) }
 
     it { should_not contain_file('/etc/mysql/debian.cnf').with(
@@ -55,14 +55,14 @@ describe 'galera::debian' do
     end
     let(:node) { 'slave' }
 
-    it { should_not contain_database_user('debian-sys-maint@localhost').with(
+    it { should_not contain_mysql_user('debian-sys-maint@localhost').with(
       :ensure   => 'present',
       :provider => 'mysql',
       :require  => "File[/root/.my.cnf]"
     ) }
 
     it { should_not contain_file('/etc/mysql/debian.cnf').with(
-      :require => 'Database_user[debian-sys-maint@localhost]'
+      :require => 'Mysql_user[debian-sys-maint@localhost]'
     ) }
   end
 end

@@ -23,7 +23,7 @@ class galera::debian {
   if ($::fqdn == $galera::galera_master) {
     # Debian sysmaint pw will be set on the master,
     # and needs to be consistent across the cluster.
-    database_user { 'debian-sys-maint@localhost':
+    mysql_user { 'debian-sys-maint@localhost':
       ensure        => 'present',
       password_hash => mysql_password($galera::deb_sysmaint_password),
       provider      => 'mysql',
@@ -35,7 +35,7 @@ class galera::debian {
       owner     => 'mysql',
       group     => 'mysql',
       content   => template('galera/debian.cnf.erb'),
-      require   => Database_user['debian-sys-maint@localhost']
+      require   => Mysql_user['debian-sys-maint@localhost']
     }
   } else {
     file { '/etc/mysql/debian.cnf':
