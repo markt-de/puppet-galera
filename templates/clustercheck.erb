@@ -1,52 +1,83 @@
-#s file to /usr/local/bin
+#!/bin/bash
 #
-# This script checks if a mysql server is healthy running on localhost. It will
-# return:
+# Script to make a proxy (ie HAProxy) capable of monitoring Percona XtraDB Cluster nodes properly
 #
-# "HTTP/1.x 200 OK\r" (if mysql is running smoothly)
+# Author: Olaf van Zandwijk <olaf.vanzandwijk@nedap.com>
+# Author: Raghavendra Prabhu <raghavendra.prabhu@percona.com>
 #
-# - OR -
+# Documentation and download: https://github.com/olafz/percona-clustercheck
 #
-# "HTTP/1.x 500 Internal Server Error\r" (else)
-#
-# The purpose of this script is make haproxy capable of monitoring mysql properly
-#
-# Author: Unai Rodriguez
-#
-# It is recommended that a user with limited privileges is created to be used by
-# this script. Something like this:
-#
-# mysql> GRANT PROCESS on mysql.* TO 'clustercheckuser'@'localhost' \
-# -> IDENTIFIED BY 'clustercheckpassword!' WITH GRANT OPTION;
-# mysql> flush privileges;
-
-MYSQL_HOST="<%= @status_host %>"
-MYSQL_PORT="3306"
-MYSQL_USERNAME=<%= @status_user %>
-MYSQL_PASSWORD=<%= @status_password %>
-TMP_FILE="/tmp/clustercheck.out"
-ERR_FILE="/tmp/clustercheck.err"
-
-#
-# We perform a simple query that should return a few results :-p
+# Based on the original script from Unai Rodriguez
 #
 
-WSSREP_STATUS=`mysql --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "show status like 'wsrep_local_state';" | awk '{if (NR!=1){print $2}}' 2>/dev/null`
-GCOMM_ADDRESS=`mysql --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "show variables like 'wsrep_cluster_address';" | awk '{if (NR!=1){print $2}}' 2>/dev/null`
+if [[ $1 == '-h' || $1 == '--help' ]];then
+    echo "Usage: $0 <user> <pass> <available_when_donor=0|1> <log_file> <available_when_readonly=0|1> <defaults_extra_file>"
+    exit
+fi
 
-if [ "$WSSREP_STATUS" == "4" ] && [ "$GCOMM_ADDRESS" != 'gcomm://' ]
-then
-    # mysql is fine, return http 200
-    /bin/echo -e "HTTP/1.1 200 OK\r\n"
-    /bin/echo -e "Content-Type: Content-Type: text/plain\r\n"
-    /bin/echo -e "\r\n"
-    /bin/echo -e "Node is running.\r\n"
-    /bin/echo -e "\r\n"
+MYSQL_USERNAME="<%= @status_user %>"
+MYSQL_PASSWORD="<%= @status_password %>"
+AVAILABLE_WHEN_DONOR=${3:-0}
+ERR_FILE="${4:-/dev/null}"
+AVAILABLE_WHEN_READONLY=${5:-1}
+DEFAULTS_EXTRA_FILE=${6:-/etc/my.cnf}
+
+#Timeout exists for instances where mysqld may be hung
+TIMEOUT=10
+
+if [[ -r $DEFAULTS_EXTRA_FILE ]];then
+    MYSQL_CMDLINE="mysql --defaults-extra-file=$DEFAULTS_EXTRA_FILE -nNE --connect-timeout=$TIMEOUT \
+                    --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD}"
 else
-    # mysql is fine, return http 503
-    /bin/echo -e "HTTP/1.1 503 Service Unavailable\r\n"
-    /bin/echo -e "Content-Type: Content-Type: text/plain\r\n"
-    /bin/echo -e "\r\n"
-    /bin/echo -e "Node is *down*.\r\n"
-    /bin/echo -e "\r\n"
+    MYSQL_CMDLINE="mysql -nNE --connect-timeout=$TIMEOUT --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD}"
+fi
+#
+# Perform the query to check the wsrep_local_state
+#
+WSREP_STATUS=$($MYSQL_CMDLINE -e "SHOW STATUS LIKE 'wsrep_local_state';" \
+    2>${ERR_FILE} | tail -1 2>>${ERR_FILE})
+
+if [[ "${WSREP_STATUS}" == "4" ]] || [[ "${WSREP_STATUS}" == "2" && ${AVAILABLE_WHEN_DONOR} == 1 ]]
+then
+    # Check only when set to 0 to avoid latency in response.
+    if [[ $AVAILABLE_WHEN_READONLY -eq 0 ]];then
+        READ_ONLY=$($MYSQL_CMDLINE -e "SHOW GLOBAL VARIABLES LIKE 'read_only';" \
+                    2>${ERR_FILE} | tail -1 2>>${ERR_FILE})
+
+        if [[ "${READ_ONLY}" == "ON" ]];then
+            # Percona XtraDB Cluster node local state is 'Synced', but it is in
+            # read-only mode. The variable AVAILABLE_WHEN_READONLY is set to 0.
+            # => return HTTP 503
+            # Shell return-code is 1
+            echo -en "HTTP/1.1 503 Service Unavailable\r\n"
+            echo -en "Content-Type: text/plain\r\n"
+            echo -en "Connection: close\r\n"
+            echo -en "Content-Length: 43\r\n"
+            echo -en "\r\n"
+            echo -en "Percona XtraDB Cluster Node is read-only.\r\n"
+            sleep 0.1
+            exit 1
+        fi
+    fi
+    # Percona XtraDB Cluster node local state is 'Synced' => return HTTP 200
+    # Shell return-code is 0
+    echo -en "HTTP/1.1 200 OK\r\n"
+    echo -en "Content-Type: text/plain\r\n"
+    echo -en "Connection: close\r\n"
+    echo -en "Content-Length: 40\r\n"
+    echo -en "\r\n"
+    echo -en "Percona XtraDB Cluster Node is synced.\r\n"
+    sleep 0.1
+    exit 0
+else
+    # Percona XtraDB Cluster node local state is not 'Synced' => return HTTP 503
+    # Shell return-code is 1
+    echo -en "HTTP/1.1 503 Service Unavailable\r\n"
+    echo -en "Content-Type: text/plain\r\n"
+    echo -en "Connection: close\r\n"
+    echo -en "Content-Length: 44\r\n"
+    echo -en "\r\n"
+    echo -en "Percona XtraDB Cluster Node is not synced.\r\n"
+    sleep 0.1
+    exit 1
 fi
