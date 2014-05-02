@@ -39,6 +39,17 @@
 #   state transfer
 #   Defaults to 4568
 #
+# [*wsrep_sst_method*]
+#   (optional) The method to use for state snapshot transfer
+#   between nodes
+#   Defaults to rsync
+#   xtrabackup, xtrabackup-v2, mysqldump, and skip options are also
+#   accepted
+#   Note that rsync 3.10 is incompatible with Percona XtraDB 5.5
+#   currently (see launchpad bug #1315528). xtrabackup-v2 is the
+#   recommended solution when using Percona XtraDB on platforms such as
+#   Ubuntu trusty which provide rsync 3.10
+#
 # [*root_password*]
 #   (optional) The mysql root password.
 #   Defaults to 'test'
@@ -76,6 +87,7 @@ class galera(
   $wsrep_group_comm_port            = 4567,
   $wsrep_state_transfer_port        = 4444,
   $wsrep_inc_state_transfer_port    = 4568,
+  $wsrep_sst_method                 = 'rsync',
   $root_password                    = 'test',
   $override_options                 = {},
   $vendor_type                      = 'percona',
