@@ -60,12 +60,16 @@ class galera::params {
   if ($galera::wsrep_sst_method in [ 'skip', 'rsync' ]) {
     $wsrep_sst_auth = undef
   }
-  elsif ($galera::wsrep_sst_method in [ 'mysqldump', 'xtrabackup', 'xtrabackup-v2' ]) {
-    $wsrep_sst_auth = "root:$galera::root_password"
+  elsif ($galera::wsrep_sst_method in
+    [ 'mysqldump',
+    'xtrabackup',
+    'xtrabackup-v2' ])
+  {
+    $wsrep_sst_auth = "root:${galera::root_password}"
   }
   else {
     $wsrep_sst_auth = undef
-    warning("wsrep_sst_method of $galera::wsrep_sst_method not recognized and may need authentication configured")
+    warning("wsrep_sst_method of ${galera::wsrep_sst_method} not recognized")
   }
 
 
