@@ -11,6 +11,7 @@ describe 'galera' do
       :wsrep_group_comm_port         => 4567,
       :wsrep_state_transfer_port     => 4444,
       :wsrep_inc_state_transfer_port => 4568,
+      :wsrep_sst_method              => 'rsync',
       :root_password                 => 'test',
       :override_options              => {},
       :vendor_type                   => 'percona',
