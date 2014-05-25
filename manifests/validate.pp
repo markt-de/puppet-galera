@@ -23,11 +23,11 @@
 #
 # [*retries*]
 # (optional) Number of times to retry connection
-#  Defaults to 10
+#  Defaults to 20
 #
 # [*delay*]
 # (optional) Seconds to sleep between attempts.
-#  Defaults to 2
+#  Defaults to 3
 #
 # [*action*]
 # (optional) The mysql command to run
