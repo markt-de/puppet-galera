@@ -18,6 +18,7 @@ describe 'galera' do
       :configure_repo                => true,
       :configure_firewall            => true,
       :deb_sysmaint_password         => 'sysmaint',
+      :mysql_restart                 => false,
     }
   end
 
