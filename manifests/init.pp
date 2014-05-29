@@ -78,6 +78,11 @@
 #   user used during updates.
 #   Defaults to 'sysmaint'
 #
+# [*mysql_restart*]
+#   (optional) The option to pass through to mysql::server::restart
+#   This can cause issues during bootstrapping if switched on.
+#   Defaults to false
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -95,7 +100,8 @@ class galera(
   $configure_firewall               = true,
   $deb_sysmaint_password            = 'sysmaint',
   $validate_connection              = true,
-  $status_check                     = true
+  $status_check                     = true,
+  $mysql_restart                    = false
 )
 {
   if $configure_repo {
@@ -141,6 +147,7 @@ class galera(
     override_options    => $options,
     root_password       => $root_password,
     service_name        => $galera::params::mysql_service_name,
+    restart             => $mysql_restart,
   }
 
   file { $galera::params::rundir:
