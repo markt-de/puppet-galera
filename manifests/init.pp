@@ -113,7 +113,7 @@ class galera(
   $deb_sysmaint_password            = 'sysmaint',
   $validate_connection              = true,
   $status_check                     = true,
-  $mysql_restart                    = false
+  $mysql_restart                    = false,
   $mysql_package_name               = undef,
   $galera_package_name              = undef,
   $client_package_name              = undef,
