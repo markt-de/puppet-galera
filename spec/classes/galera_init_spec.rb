@@ -50,6 +50,20 @@ describe 'galera' do
 
       it { should contain_package(os_params[:m_galera_package_name]).with(:ensure => 'installed') }
     end
+
+    context 'when specifying package names' do
+      before { params.merge!({
+        :mysql_package_name => 'mysql-package-test',
+        :galera_package_name => 'galera-package-test',
+      }) }
+      it { should contain_class('mysql::server').with(
+        :package_name => 'mysql-package-test',
+        :root_password => params[:root_password],
+        :service_name  => os_params[:mysql_service_name]
+      ) }
+
+      it { should contain_package('galera-package-test').with(:ensure => 'installed') }
+    end
   end
 
   context 'on Debian platforms' do
