@@ -69,7 +69,7 @@ class galera::validate(
     command       => $cmd,
     tries         => $retries,
     try_sleep     => $delay,
-    subscribe     => Service['mysql'],
+    subscribe     => Service['mysqld'],
     refreshonly   => true,
     before        => Anchor['mysql::server::end'],
     require       => Class['galera::status']
