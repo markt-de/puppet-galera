@@ -15,16 +15,16 @@ class galera::params {
     $mysql_service_name = 'mysql'
     $nc_package_name = 'nc'
     if $galera::vendor_type == 'percona' {
-      $mysql_package_name = 'Percona-XtraDB-Cluster-server-55'
-      $galera_package_name = 'Percona-XtraDB-Cluster-galera-2'
-      $client_package_name = 'Percona-XtraDB-Cluster-client-55'
+      $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
+      $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
+      $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
       $additional_packages = 'percona-xtrabackup'
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
-      $mysql_package_name = 'MariaDB-Galera-server'
-      $galera_package_name = 'galera'
-      $client_package_name = 'MariaDB-client'
+      $mysql_package_name_internal = 'MariaDB-Galera-server'
+      $galera_package_name_internal = 'galera'
+      $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
       $additional_packages = 'rsync'
     }
@@ -36,16 +36,16 @@ class galera::params {
     $mysql_service_name = 'mysql'
     $nc_package_name = 'netcat'
     if $galera::vendor_type == 'percona' {
-      $mysql_package_name = 'percona-xtradb-cluster-server-5.5'
-      $galera_package_name = 'percona-xtradb-cluster-galera-2.x'
-      $client_package_name = 'percona-xtradb-cluster-client-5.5'
+      $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
+      $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
+      $client_package_name_internal = 'percona-xtradb-cluster-client-5.5'
       $additional_packages = 'percona-xtrabackup'
       $libgalera_location = '/usr/lib/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
-      $mysql_package_name = 'mariadb-galera-server-5.5'
-      $galera_package_name = 'galera'
-      $client_package_name = 'mariadb-client-5.5'
+      $mysql_package_name_internal = 'mariadb-galera-server-5.5'
+      $galera_package_name_internal = 'galera'
+      $client_package_name_internal = 'mariadb-client-5.5'
       $additional_packages = 'rsync'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
@@ -93,4 +93,16 @@ class galera::params {
     }
   }
 
+  $mysql_package_name = pick(
+    $::galera::mysql_package_name,
+    $mysql_package_name_internal
+  )
+  $galera_package_name = pick(
+    $::galera::galera_package_name,
+    $galera_package_name_internal
+  )
+  $client_package_name = pick(
+    $::galera::client_package_name,
+    $client_package_name_internal
+  )
 }

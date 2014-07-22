@@ -83,6 +83,18 @@
 #   This can cause issues during bootstrapping if switched on.
 #   Defaults to false
 #
+# [*mysql_package_name*]
+#   (optional) The name of the server package to install.  The default is
+#   platform and vendor dependent.
+#
+# [*galera_package_name*]
+#   (optional) The name of the galera wsrep package to install.  The default is
+#   platform and vendor dependent.
+#
+# [*client_package_name*]
+#   (optional) The name of the mysql client package.  The default is platform
+#   and vendor dependent.
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -101,7 +113,10 @@ class galera(
   $deb_sysmaint_password            = 'sysmaint',
   $validate_connection              = true,
   $status_check                     = true,
-  $mysql_restart                    = false
+  $mysql_restart                    = false,
+  $mysql_package_name               = undef,
+  $galera_package_name              = undef,
+  $client_package_name              = undef,
 )
 {
   if $configure_repo {
