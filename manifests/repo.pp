@@ -69,6 +69,9 @@ class galera::repo(
           }
         }
       }
+      if ($repo_vendor == 'osp5') {
+        fail('OSP5 is only supported on RHEL platforms.')
+      }
     }
 
     'RedHat': {

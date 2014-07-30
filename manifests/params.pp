@@ -9,12 +9,16 @@ class galera::params {
     $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
   } elsif $galera::vendor_type == 'mariadb' {
     $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
+  } elsif $galera::vendor_type == 'osp5' {
+    # mysqld log part is a workaround for a packaging bug
+    # to be removed when packages are fixed
+    $bootstrap_command = 'touch /var/log/mysqld.log ; chown mysql:mysql /var/log/mysqld.log ; systemctl start mysqld'
   }
 
   if ($::osfamily == 'RedHat') {
-    $mysql_service_name = 'mysql'
-    $nc_package_name = 'nc'
     if $galera::vendor_type == 'percona' {
+      $nc_package_name = 'nc'
+      $mysql_service_name = 'mysql'
       $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
       $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
@@ -22,11 +26,22 @@ class galera::params {
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
+      $nc_package_name = 'nc'
+      $mysql_service_name = 'mysql'
       $mysql_package_name_internal = 'MariaDB-Galera-server'
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
       $additional_packages = 'rsync'
+    }
+    elsif $galera::vendor_type == 'osp5' {
+      $nc_package_name              = 'nmap-ncat'
+      $mysql_service_name           = 'mariadb'
+      $mysql_package_name_internal  = 'mariadb-galera-server'
+      $galera_package_name_internal = 'galera'
+      $client_package_name_internal = 'mariadb'
+      $libgalera_location           = '/usr/lib64/galera/libgalera_smm.so'
+      $additional_packages          = 'rsync'
     }
 
     $rundir = '/var/run/mysqld'
@@ -49,6 +64,10 @@ class galera::params {
       $additional_packages = 'rsync'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
+    elsif $galera::vendor_type == 'osp5' {
+      fail('OSP5 is only supported on RHEL platforms.')
+    }
+
     $rundir = '/var/run/mysqld'
   }
   else {
