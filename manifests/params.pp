@@ -100,7 +100,7 @@ class galera::params {
         'wsrep_cluster_address'             => "gcomm://${server_csl}",
         'wsrep_slave_threads'               => '8',
         'wsrep_sst_method'                  => $galera::wsrep_sst_method,
-        'wsrep_sst_auth'                    => $wsrep_sst_auth,
+        'wsrep_sst_auth'                    => "\"${wsrep_sst_auth}\"",
         'binlog_format'                     => 'ROW',
         'default_storage_engine'            => 'InnoDB',
         'innodb_locks_unsafe_for_binlog'    => '1',
