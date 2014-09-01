@@ -155,12 +155,17 @@ class galera(
     Mysql_user<| title == 'root@localhost' |> {
       require => File["${::root_home}/.my.cnf"]
     }
+
+  if $::fqdn == $galera_master {
+    $temp_root_password = $root_password
+  } else {
+    $temp_root_password = 'UNSET'
   }
 
   class { 'mysql::server':
     package_name        => $galera::params::mysql_package_name,
     override_options    => $options,
-    root_password       => $root_password,
+    root_password       => $temp_root_password,
     service_name        => $galera::params::mysql_service_name,
     restart             => $mysql_restart,
   }
