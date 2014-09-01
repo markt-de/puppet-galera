@@ -190,6 +190,14 @@ class galera(
     name => $galera::params::client_package_name
   }
 
+  if $galera::params::rhel_mysql_client_repo_hack == true and $::fqdn == $galera_master {
+    class { 'mysql::client': }
+
+    Yumrepo['mariadb'] -> Class['mysql::client']
+
+    Class['mysql::client'] -> Mysql_user['root@localhost']
+  }
+
   package{[
       $galera::params::nc_package_name,
       $galera::params::galera_package_name,
