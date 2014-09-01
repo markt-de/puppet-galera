@@ -156,6 +156,15 @@ class galera(
       require => File["${::root_home}/.my.cnf"]
     }
 
+    exec { 'wait_for_galera_master':
+      command => "bash -c \"while [ 1 ]; do nc -z ${galera_master} ${wsrep_group_comm_port}; if [ \$? -eq 0 ]; then break; fi; sleep 3; done; sleep 30\"",
+      timeout  => 900,	# 15 minutes
+      before   => [Class['mysql::server::service'], Service['mysqld']],
+      require  => Package[$galera::params::nc_package_name],
+      path     => '/usr/bin:/bin:/usr/sbin:/sbin',
+    }
+  }
+
   if $::fqdn == $galera_master {
     $temp_root_password = $root_password
   } else {
@@ -214,7 +223,6 @@ class galera(
     $server_list = join($galera_servers, ' ')
     exec { 'bootstrap_galera_cluster':
       command   => $galera::params::bootstrap_command,
-      onlyif    => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
       require   => Class['mysql::server::config'],
       before    => [Class['mysql::server::service'], Service['mysqld']],
       provider  => shell,
