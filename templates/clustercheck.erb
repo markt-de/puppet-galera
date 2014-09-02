@@ -17,7 +17,7 @@ fi
 
 MYSQL_USERNAME="<%= @status_user %>"
 MYSQL_PASSWORD="<%= @status_password %>"
-AVAILABLE_WHEN_DONOR=${3:-0}
+AVAILABLE_WHEN_DONOR="<%= @available_when_donor %>"
 ERR_FILE="${4:-/dev/null}"
 AVAILABLE_WHEN_READONLY=${5:-1}
 DEFAULTS_EXTRA_FILE=${6:-/etc/my.cnf}
