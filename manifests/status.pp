@@ -26,8 +26,10 @@
 #  Defaults to 9200
 #
 # [*available_when_donor*]
-#  (optional) 0 for false, 1 for true
-#  Defaults to false/0
+#  (optional) When set to 1, the node will remain in the cluster
+#  when it enters donor mode. A value of 0 will remove the node
+#  from the cluster.
+#  Defaults to 0
 #
 class galera::status (
   $status_password  = 'statuscheck!',
