@@ -25,12 +25,19 @@
 #  (optional) Port for cluster check service
 #  Defaults to 9200
 #
+# [*available_when_donor*]
+#  (optional) When set to 1, the node will remain in the cluster
+#  when it enters donor mode. A value of 0 will remove the node
+#  from the cluster.
+#  Defaults to 0
+#
 class galera::status (
   $status_password  = 'statuscheck!',
   $status_allow     = '%',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
-  $port             = 9200
+  $port             = 9200,
+  $available_when_donor = 0,
 ) {
 
   mysql_user { "${status_user}@${status_allow}":
