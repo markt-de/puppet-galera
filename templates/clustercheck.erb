@@ -17,6 +17,7 @@ fi
 
 MYSQL_USERNAME="<%= @status_user %>"
 MYSQL_PASSWORD="<%= @status_password %>"
+MYSQL_HOST="<%= @status_host %>"
 AVAILABLE_WHEN_DONOR="<%= @available_when_donor %>"
 ERR_FILE="${4:-/dev/null}"
 AVAILABLE_WHEN_READONLY=${5:-1}
@@ -27,9 +28,9 @@ TIMEOUT=10
 
 if [[ -r $DEFAULTS_EXTRA_FILE ]];then
     MYSQL_CMDLINE="mysql --defaults-extra-file=$DEFAULTS_EXTRA_FILE -nNE --connect-timeout=$TIMEOUT \
-                    --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD}"
+                    --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD} --host=${MYSQL_HOST}"
 else
-    MYSQL_CMDLINE="mysql -nNE --connect-timeout=$TIMEOUT --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD}"
+    MYSQL_CMDLINE="mysql -nNE --connect-timeout=$TIMEOUT --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD} --host=${MYSQL_HOST}"
 fi
 #
 # Perform the query to check the wsrep_local_state
