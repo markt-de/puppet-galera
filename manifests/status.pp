@@ -73,5 +73,7 @@ class galera::status (
     port   => $port,
     user   => 'nobody',
     flags  => 'REUSE',
+    log_on_success => '',
+    log_on_success_operator => '=',
   }
 }
