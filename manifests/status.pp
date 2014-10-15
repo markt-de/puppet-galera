@@ -69,11 +69,11 @@ class galera::status (
   }
 
   xinetd::service { 'mysqlchk':
-    server => '/usr/local/bin/clustercheck',
-    port   => $port,
-    user   => 'nobody',
-    flags  => 'REUSE',
-    log_on_success => '',
+    server                  => '/usr/local/bin/clustercheck',
+    port                    => $port,
+    user                    => 'nobody',
+    flags                   => 'REUSE',
+    log_on_success          => '',
     log_on_success_operator => '=',
   }
 }
