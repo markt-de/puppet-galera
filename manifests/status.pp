@@ -31,13 +31,21 @@
 #  from the cluster.
 #  Defaults to 0
 #
+# [*available_when_readonly*]
+#  (optional) When set to 0, clustercheck will return a 503
+#  Service Unavailable if the node is in the read_only state,
+#  as defined by the "read_only" mysql variable. Values other
+#  than 0 have no effect.
+#  Defaults to -1
+#
 class galera::status (
   $status_password  = 'statuscheck!',
   $status_allow     = '%',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
   $port             = 9200,
-  $available_when_donor = 0,
+  $available_when_donor    = 0,
+  $available_when_readonly = -1,
 ) {
 
   mysql_user { "${status_user}@${status_allow}":
