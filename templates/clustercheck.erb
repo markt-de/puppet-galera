@@ -20,7 +20,7 @@ MYSQL_PASSWORD="<%= @status_password %>"
 MYSQL_HOST="<%= @status_host %>"
 AVAILABLE_WHEN_DONOR="<%= @available_when_donor %>"
 ERR_FILE="${4:-/dev/null}"
-AVAILABLE_WHEN_READONLY="<%= @available_when_readonly %>"
+AVAILABLE_WHEN_READONLY="${AVAILABLE_WHEN_READONLY:-<%= @available_when_readonly %>}"
 DEFAULTS_EXTRA_FILE=${6:-/etc/my.cnf}
 
 #Timeout exists for instances where mysqld may be hung
