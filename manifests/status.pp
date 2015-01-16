@@ -65,6 +65,7 @@ class galera::status (
   file { '/usr/local/bin/clustercheck':
     content => template('galera/clustercheck.erb'),
     mode    => '0755',
+    before  => Anchor['mysql::server::end'],
   }
 
   augeas { 'mysqlchk':
@@ -74,6 +75,7 @@ class galera::status (
       "set /files/etc/services/service-name[port = '${port}'] mysqlchk",
       "set /files/etc/services/service-name[port = '${port}']/protocol tcp",
     ],
+    before  => Anchor['mysql::server::end'],
   }
 
   xinetd::service { 'mysqlchk':
@@ -83,5 +85,6 @@ class galera::status (
     flags                   => 'REUSE',
     log_on_success          => '',
     log_on_success_operator => '=',
+    before                  => Anchor['mysql::server::end'],
   }
 }
