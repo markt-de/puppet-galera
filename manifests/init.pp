@@ -95,6 +95,10 @@
 #   (optional) The name of the mysql client package.  The default is platform
 #   and vendor dependent.
 #
+# [*package_ensure*]
+#   (Optional) Ensure state for package.
+#   Defaults to 'installed'
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -117,6 +121,7 @@ class galera(
   $mysql_package_name               = undef,
   $galera_package_name              = undef,
   $client_package_name              = undef,
+  $package_ensure                   = 'installed',
 )
 {
   if $configure_repo {
@@ -175,7 +180,7 @@ class galera(
 
   if $galera::params::additional_packages {
     package{ $galera::params::additional_packages:
-      ensure    => installed,
+      ensure    => $package_ensure,
       require   => Anchor['mysql::server::start'],
       before    => Class['mysql::server::install']
     }
@@ -189,7 +194,7 @@ class galera(
       $galera::params::nc_package_name,
       $galera::params::galera_package_name,
       ] :
-    ensure  => installed,
+    ensure  => $package_ensure,
     require => Anchor['mysql::server::start'],
     before  => Class['mysql::server::install']
   }
