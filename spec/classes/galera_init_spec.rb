@@ -64,6 +64,11 @@ describe 'galera' do
 
       it { should contain_package('galera-package-test').with(:ensure => 'installed') }
     end
+
+    context 'when specifying latest packages' do
+      before { params.merge!( :package_ensure => 'latest') }
+      it { should contain_package(os_params[:p_galera_package_name]).with(:ensure => 'latest') }
+    end
   end
 
   context 'on Debian platforms' do
