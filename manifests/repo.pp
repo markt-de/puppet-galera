@@ -41,7 +41,7 @@ class galera::repo(
 
   if ! $yum_mariadb_baseurl {
     $lower = downcase($::operatingsystem)
-    $real_yum_mariadb_baseurl = "http://yum.mariadb.org/5.5.35-upd/${lower}${::operatingsystemmajrelease}-amd64"
+    $real_yum_mariadb_baseurl = "http://yum.mariadb.org/5.5/${lower}${::operatingsystemmajrelease}-amd64/"
   } else {
     $real_yum_mariadb_baseurl = $yum_mariadb_baseurl
   }
