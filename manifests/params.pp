@@ -17,7 +17,6 @@ class galera::params {
 
   if ($::osfamily == 'RedHat') {
     if $galera::vendor_type == 'percona' {
-      $nc_package_name = 'nc'
       $mysql_service_name = 'mysql'
       $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
@@ -26,7 +25,6 @@ class galera::params {
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
-      $nc_package_name = 'nc'
       $mysql_service_name = 'mysql'
       $mysql_package_name_internal = 'MariaDB-Galera-server'
       $galera_package_name_internal = 'galera'
@@ -35,7 +33,6 @@ class galera::params {
       $additional_packages = 'rsync'
     }
     elsif $galera::vendor_type == 'osp5' {
-      $nc_package_name              = 'nmap-ncat'
       $mysql_service_name           = 'mariadb'
       $mysql_package_name_internal  = 'mariadb-galera-server'
       $galera_package_name_internal = 'galera'
@@ -44,12 +41,11 @@ class galera::params {
       $additional_packages          = 'rsync'
     }
 
-    $rundir = '/var/run/mysqld'
-
+    $rundir            = '/var/run/mysqld'
+    $nmap_package_name = 'nmap'
   }
   elsif ($::osfamily == 'Debian'){
     $mysql_service_name = 'mysql'
-    $nc_package_name = 'netcat'
     if $galera::vendor_type == 'percona' {
       $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
       $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
@@ -68,7 +64,8 @@ class galera::params {
       fail('OSP5 is only supported on RHEL platforms.')
     }
 
-    $rundir = '/var/run/mysqld'
+    $rundir            = '/var/run/mysqld'
+    $nmap_package_name = 'nmap'
   }
   else {
     fail('This distribution is not supported by the puppet-galera module')

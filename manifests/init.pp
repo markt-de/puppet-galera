@@ -191,7 +191,7 @@ class galera(
   }
 
   package{[
-      $galera::params::nc_package_name,
+      $galera::params::nmap_package_name,
       $galera::params::galera_package_name,
       ] :
     ensure  => $package_ensure,
@@ -205,12 +205,12 @@ class galera(
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
     exec { 'bootstrap_galera_cluster':
-      command   => $galera::params::bootstrap_command,
-      onlyif    => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
-      require   => Class['mysql::server::config'],
-      before    => [Class['mysql::server::service'], Service['mysqld']],
-      provider  => shell,
-      path      => '/usr/bin:/bin:/usr/sbin:/sbin'
+      command  => $galera::params::bootstrap_command,
+      unless   => "nmap --open -p ${wsrep_group_comm_port} ${server_list} | grep -q open",
+      require  => Class['mysql::server::config'],
+      before   => [Class['mysql::server::service'], Service['mysqld']],
+      provider => shell,
+      path     => '/usr/bin:/bin:/usr/sbin:/sbin'
     }
 
   }
