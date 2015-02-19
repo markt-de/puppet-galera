@@ -40,7 +40,7 @@
 #
 class galera::status (
   $status_password  = 'statuscheck!',
-  $status_allow     = '%',
+  $status_allow     = 'localhost',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
   $port             = 9200,
