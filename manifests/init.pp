@@ -155,10 +155,10 @@ class galera(
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
     exec { "create ${::root_home}/.my.cnf":
-      command => "/bin/echo -e \"$my_cnf\" > ${::root_home}/.my.cnf",
+      command => "/bin/echo -e \"${my_cnf}\" > ${::root_home}/.my.cnf",
       onlyif  => [
         "/usr/bin/mysql --user=root --password=${root_password} -e 'select count(1);'",
-        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='$root_password'\"` -eq 0",
+        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='${root_password}'\"` -eq 0",
         ],
       require => [Service['mysqld']],
       before  => [Class['mysql::server::root_password']],
