@@ -150,15 +150,18 @@ class galera(
 
   $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
-  if $::fqdn != $galera_master {
+  if ($root_password != 'UNSET') {
+    # Check if we can already login with the given password
+    $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
-    File<| title == "${::root_home}/.my.cnf" |> {
-      require => Class['mysql::server::service'],
-      before => Class['mysql::server::providers']
-    }
-
-    Mysql_user<| title == 'root@localhost' |> {
-      require => File["${::root_home}/.my.cnf"]
+    exec { "create ${::root_home}/.my.cnf":
+      command => "/bin/echo -e \"$my_cnf\" > ${::root_home}/.my.cnf",
+      onlyif  => [
+        "/usr/bin/mysql --user=root --password=${root_password} -e 'select count(1);'",
+        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='$root_password'\"` -eq 0",
+        ],
+      require => [Service['mysqld']],
+      before  => [Class['mysql::server::root_password']],
     }
   }
 
