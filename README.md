@@ -8,8 +8,10 @@ This module will massage puppetlabs-mysql into creating a mysql galera cluster. 
 
 This module was build against master of the following repos in early 2014, which corresponds to the listed version:
 
+    # Minimal module
     puppetlabs-mysql    2.2.0
     puppetlabs-stdlib   4.1.0
+    puppetlabs-xinetd   1.2.0
 
     # If you're on debian and need the repo to be set
     puppetlabs-apt      1.4.1
@@ -41,18 +43,18 @@ A number of simple options are available:
         # to change the my.cnf settings, use the override options
         # described below
 
-        $mysql_port = 3306, 
-        $wsrep_state_transfer_port = 4444,
-        $wsrep_inc_state_transfer_port = 4568,
+        mysql_port => 3306, 
+        wsrep_state_transfer_port => 4444,
+        wsrep_inc_state_transfer_port => 4568,
 
         # this is used for the firewall + for status checks
         # when deciding whether to bootstrap
-        $wsrep_group_comm_port = 4567,
+        wsrep_group_comm_port => 4567,
 
         local_ip => $::ipaddress_eth0, # This will be used to populate my.cnf values that control where wsrep binds, advertises, and listens
         root_password => 'myrootpassword', # This will be set when the cluster is bootstrapped
         configure_repo => true, # Disable this if you are managing your own repos and mirrors
-        configure_firewall => true, # Disable this if you don't want firewall rules to be set
+        configure_firewall => false, # Enable this if you want firewall rules to be set
     }
 
 A catch-all parameter can be used to populate my.cnf in the same way as the puppetlabs-mysql module:
