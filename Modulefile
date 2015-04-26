@@ -9,7 +9,7 @@ project_page 'https://github.com/michaeltchapman/puppet-galera'
 
 # Dependencies
 dependency 'puppetlabs/stdlib',  '>= 4.1.0'
-dependency 'puppetlabs/apt',     '>= 1.4.1'
+dependency 'puppetlabs/apt',     '>= 1.4.1 <= 1.7.0'
 dependency 'puppetlabs/mysql',   '>=2.2.0'
 dependency 'puppetlabs/firewall', '>=1.0.0'
 dependency 'puppetlabs/xinetd',   '>=1.3.0'
