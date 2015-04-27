@@ -46,4 +46,7 @@ class galera::debian {
       before    => Service['mysql']
     }
   }
+  # Ensure mysql server is installed before writing debian.cnf, since the
+  # package will create /etc/mysql
+  Package['mysql-server'] -> File['/etc/mysql/debian.cnf']
 }
