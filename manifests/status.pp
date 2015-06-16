@@ -6,8 +6,7 @@
 # === Parameters:
 #
 # [*status_password*]
-#  (optional) The password of the status check user
-#  Defaults to 'statuscheck!'
+#  (required) The password of the status check user
 #
 # [*status_allow*]
 #  (optional) The subnet to allow status checks from
@@ -39,7 +38,7 @@
 #  Defaults to -1
 #
 class galera::status (
-  $status_password  = 'statuscheck!',
+  $status_password  = undef,
   $status_allow     = '%',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
@@ -47,6 +46,10 @@ class galera::status (
   $available_when_donor    = 0,
   $available_when_readonly = -1,
 ) {
+
+  if ! $status_password {
+    fail('galera::status::status_password unset. Please specify a password for the clustercheck MySQL user.')
+  }
 
   mysql_user { "${status_user}@${status_allow}":
     ensure          => 'present',
