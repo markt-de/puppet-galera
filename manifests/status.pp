@@ -59,7 +59,7 @@ class galera::status (
   mysql_grant { "${status_user}@${status_allow}/*.*":
     ensure     => 'present',
     options    => [ 'GRANT' ],
-    privileges => [ 'SELECT' ],
+    privileges => [ 'USAGE' ],
     table      => '*.*',
     user       => "${status_user}@${status_allow}",
     before     => Anchor['mysql::server::end']
