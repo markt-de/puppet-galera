@@ -65,9 +65,17 @@ class galera::status (
     before     => Anchor['mysql::server::end']
   }
 
+  user{'clustercheck':
+    shell  => '/bin/false',
+    home   => '/var/empty',
+    before => File['/usr/local/bin/clustercheck'],
+    }
+
   file { '/usr/local/bin/clustercheck':
     content => template('galera/clustercheck.erb'),
-    mode    => '0755',
+    owner   => 'clustercheck',
+    group   => 'clustercheck',
+    mode    => '0500',
     before  => Anchor['mysql::server::end'],
   }
 
@@ -81,13 +89,15 @@ class galera::status (
     before  => Anchor['mysql::server::end'],
   }
 
+
   xinetd::service { 'mysqlchk':
     server                  => '/usr/local/bin/clustercheck',
     port                    => $port,
-    user                    => 'nobody',
+    user                    => 'clustercheck',
     flags                   => 'REUSE',
     log_on_success          => '',
     log_on_success_operator => '=',
+    require                 => [ File['/usr/local/bin/clustercheck'], User['clustercheck'] ],
     before                  => Anchor['mysql::server::end'],
   }
 }
