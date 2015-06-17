@@ -4,7 +4,8 @@ describe 'galera::debian' do
 
   let :pre_condition do
     "class { 'galera':
-       galera_master => 'control1'
+       galera_master => 'control1',
+       status_password => 'nonempty'
     }"
   end
 

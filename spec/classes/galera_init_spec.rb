@@ -22,6 +22,13 @@ describe 'galera' do
     }
   end
 
+  let :pre_condition do
+    "
+    class { 'galera::status':
+       status_password => 'nonempty'
+    }"
+  end
+
   shared_examples_for 'galera' do
     it { should contain_class('galera::params') }
     it { should contain_package(os_params[:nc_package_name]).with(:ensure => 'installed') }

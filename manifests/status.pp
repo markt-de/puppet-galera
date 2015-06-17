@@ -6,8 +6,7 @@
 # === Parameters:
 #
 # [*status_password*]
-#  (optional) The password of the status check user
-#  Defaults to 'statuscheck!'
+#  (required) The password of the status check user
 #
 # [*status_allow*]
 #  (optional) The subnet to allow status checks from
@@ -39,7 +38,7 @@
 #  Defaults to -1
 #
 class galera::status (
-  $status_password  = 'statuscheck!',
+  $status_password  = $galera::status_password,
   $status_allow     = '%',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
@@ -47,6 +46,10 @@ class galera::status (
   $available_when_donor    = 0,
   $available_when_readonly = -1,
 ) {
+
+  if ! $status_password {
+    fail('galera::status::status_password unset. Please specify a password for the clustercheck MySQL user.')
+  }
 
   mysql_user { "${status_user}@${status_allow}":
     ensure          => 'present',
@@ -56,15 +59,23 @@ class galera::status (
   mysql_grant { "${status_user}@${status_allow}/*.*":
     ensure     => 'present',
     options    => [ 'GRANT' ],
-    privileges => [ 'SELECT' ],
+    privileges => [ 'USAGE' ],
     table      => '*.*',
     user       => "${status_user}@${status_allow}",
     before     => Anchor['mysql::server::end']
   }
 
+  user{'clustercheck':
+    shell  => '/bin/false',
+    home   => '/var/empty',
+    before => File['/usr/local/bin/clustercheck'],
+    }
+
   file { '/usr/local/bin/clustercheck':
     content => template('galera/clustercheck.erb'),
-    mode    => '0755',
+    owner   => 'clustercheck',
+    group   => 'clustercheck',
+    mode    => '0500',
     before  => Anchor['mysql::server::end'],
   }
 
@@ -78,13 +89,15 @@ class galera::status (
     before  => Anchor['mysql::server::end'],
   }
 
+
   xinetd::service { 'mysqlchk':
     server                  => '/usr/local/bin/clustercheck',
     port                    => $port,
-    user                    => 'nobody',
+    user                    => 'clustercheck',
     flags                   => 'REUSE',
     log_on_success          => '',
     log_on_success_operator => '=',
+    require                 => [ File['/usr/local/bin/clustercheck'], User['clustercheck'] ],
     before                  => Anchor['mysql::server::end'],
   }
 }
