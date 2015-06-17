@@ -36,7 +36,8 @@ describe 'galera::repo' do
   let :pre_condition do
     "class { 'galera':
       configure_repo => false,
-    }"
+      status_password => 'nonblank'
+    } "
   end
 
   context 'on RedHat' do

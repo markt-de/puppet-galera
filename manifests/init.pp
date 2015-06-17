@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*status_password*]
+#  (required) The password of the status check user
+#
 # [*galera_servers*]
 #   (optional) A list of IP addresses of the nodes in
 #   the galera cluster
@@ -122,6 +125,7 @@ class galera(
   $galera_package_name              = undef,
   $client_package_name              = undef,
   $package_ensure                   = 'installed',
+  $status_password                  = undef,
 )
 {
   if $configure_repo {

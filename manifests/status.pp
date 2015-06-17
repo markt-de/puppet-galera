@@ -38,7 +38,7 @@
 #  Defaults to -1
 #
 class galera::status (
-  $status_password  = undef,
+  $status_password  = $galera::status_password,
   $status_allow     = '%',
   $status_host      = 'localhost',
   $status_user      = 'clustercheck',
