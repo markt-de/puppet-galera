@@ -31,7 +31,7 @@
 #
 # [*action*]
 # (optional) The mysql command to run
-#  Defaults to 'select user,host from mysql.user;'
+#  Defaults to 'select count(1);'
 #
 # [*catch*]
 # (optional) A string that if present indicates failure
@@ -47,7 +47,7 @@ class galera::validate(
   $host      = $galera::status::status_host,
   $retries   = 20,
   $delay     = 3,
-  $action    = 'select user,host from mysql.user;',
+  $action    = 'select count(1);',
   $catch     = 'ERROR',
   $inv_catch = 'undef'
 )
