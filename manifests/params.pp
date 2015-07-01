@@ -42,7 +42,7 @@ class galera::params {
     }
     $osr_array = split($::operatingsystemrelease,'[\/\.]')
     $distrelease = $osr_array[0]
-    if versioncmp($distrelease, '7') >= 0 {
+    if versioncmp($distrelease, '7') >= 0 or $galera::vendor_type == 'osp5' {
       $nc_package_name = 'nmap-ncat'
     } else {
       $nc_package_name = 'nc'
