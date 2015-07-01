@@ -1,0 +1,35 @@
+{
+  "author": "Michael Chapman",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.1.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">= 1.4.1 <= 1.7.0"
+    },
+    {
+      "name": "puppetlabs/mysql",
+      "version_requirement": ">=2.2.0"
+    },
+    {
+      "name": "puppetlabs/firewall",
+      "version_requirement": ">=1.0.0"
+    },
+    {
+      "name": "puppetlabs/xinetd",
+      "version_requirement": ">=1.3.0"
+    }
+  ],
+  "description": "Install/configure MySQL with Galera",
+  "license": "Apache License, Version 2.0",
+  "name": "puppet-galera",
+  "operatingsystem_support": [],
+  "project_page": "https://github.com/michaeltchapman/puppet-galera",
+  "requirements": [],
+  "source": "none",
+  "summary": "Install/configure MySQL with Galera",
+  "tags": [],
+  "version": "0.0.1"
+}
