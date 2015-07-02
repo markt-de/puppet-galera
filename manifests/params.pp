@@ -31,6 +31,7 @@ class galera::params {
       $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
       $additional_packages = 'rsync'
+      $rhel_mysql_client_repo_hack = true
     }
     elsif $galera::vendor_type == 'osp5' {
       $mysql_service_name           = 'mariadb'
