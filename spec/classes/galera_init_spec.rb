@@ -99,9 +99,11 @@ describe 'galera' do
     it_configures 'galera'
   end
 
-  context 'on RedHat platforms' do
+  context 'on RedHat 6 platforms' do
     let :facts do
-      { :osfamily => 'RedHat' }
+      { :osfamily => 'RedHat',
+        :operatingsystemrelease => '6.6',
+      }
     end
 
     let :os_params do
@@ -118,6 +120,28 @@ describe 'galera' do
       }
     end
    it_configures 'galera'
-   end
+  end
+  context 'on RedHat 7 platforms' do
+    let :facts do
+      { :osfamily => 'RedHat',
+        :operatingsystemrelease => '7.1',
+      }
+    end
+
+    let :os_params do
+      { :p_mysql_package_name  => 'Percona-XtraDB-Cluster-server-55',
+        :p_galera_package_name => 'Percona-XtraDB-Cluster-galera-2',
+        :p_client_package_name => 'Percona-XtraDB-Cluster-client-55',
+        :p_libgalera_location  => '/usr/lib64/libgalera_smm.so',
+        :m_mysql_package_name  => 'MariaDB-Galera-server',
+        :m_galera_package_name => 'galera',
+        :m_client_package_name => 'MariaDB-client',
+        :m_libgalera_location  => '/usr/lib64/galera/libgalera_smm.so',
+        :mysql_service_name    => 'mysql',
+        :nc_package_name       => 'nmap-ncat',
+      }
+    end
+   it_configures 'galera'
+  end
 end
 

@@ -42,7 +42,9 @@ describe 'galera::repo' do
 
   context 'on RedHat' do
     let :facts do
-      { :osfamily => 'RedHat' }
+      { :osfamily => 'RedHat',
+        :operatingsystemrelease => '6.6',
+      }
     end
 
     context 'installing percona on redhat' do

@@ -17,7 +17,6 @@ class galera::params {
 
   if ($::osfamily == 'RedHat') {
     if $galera::vendor_type == 'percona' {
-      $nc_package_name = 'nc'
       $mysql_service_name = 'mysql'
       $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
@@ -26,7 +25,6 @@ class galera::params {
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
-      $nc_package_name = 'nc'
       $mysql_service_name = 'mysql'
       $mysql_package_name_internal = 'MariaDB-Galera-server'
       $galera_package_name_internal = 'galera'
@@ -35,7 +33,6 @@ class galera::params {
       $additional_packages = 'rsync'
     }
     elsif $galera::vendor_type == 'osp5' {
-      $nc_package_name              = 'nmap-ncat'
       $mysql_service_name           = 'mariadb'
       $mysql_package_name_internal  = 'mariadb-galera-server'
       $galera_package_name_internal = 'galera'
@@ -43,6 +40,14 @@ class galera::params {
       $libgalera_location           = '/usr/lib64/galera/libgalera_smm.so'
       $additional_packages          = 'rsync'
     }
+    $osr_array = split($::operatingsystemrelease,'[\/\.]')
+    $distrelease = $osr_array[0]
+    if versioncmp($distrelease, '7') >= 0 or $galera::vendor_type == 'osp5' {
+      $nc_package_name = 'nmap-ncat'
+    } else {
+      $nc_package_name = 'nc'
+    }
+
 
     $rundir = '/var/run/mysqld'
 
