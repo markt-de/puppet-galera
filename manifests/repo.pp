@@ -23,6 +23,14 @@ class galera::repo(
   $apt_mariadb_repo_key_server = 'keys.gnupg.net',
   $apt_mariadb_repo_include_src = false,
 
+  # Ubuntu/codership
+  $apt_codership_repo_location     = 'http://releases.galeracluster.com/ubuntu',
+  $apt_codership_repo_release      = $::lsbdistcodename,
+  $apt_codership_repo_repos        = 'main',
+  $apt_codership_repo_key          = 'BC19DDBA',
+  $apt_codership_repo_key_server   = 'keyserver.ubuntu.com',
+  $apt_codership_repo_include_src  = false,
+
   #RedHat/percona
   $yum_percona_descr = "CentOS ${::operatingsystemmajrelease} - Percona",
   $yum_percona_baseurl = "http://repo.percona.com/centos/${::operatingsystemmajrelease}/os/${::architecture}/",
@@ -35,7 +43,14 @@ class galera::repo(
   $yum_mariadb_enabled = 1,
   $yum_mariadb_gpgcheck = 1,
   $yum_mariadb_gpgkey = 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
-  $yum_mariadb_baseurl = undef
+  $yum_mariadb_baseurl = undef,
+
+  #RedHat/codership
+  $yum_codership_descr    = "CentOS ${::operatingsystemmajrelease} - Codership",
+  $yum_codership_baseurl  = "http://releases.galeracluster.com/centos/${::operatingsystemmajrelease}/${::architecture}/",
+  $yum_codership_gpgkey   = 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com',
+  $yum_codership_enabled  = 1,
+  $yum_codership_gpgcheck = 1,
 ) {
   include ::galera::params
 
@@ -66,6 +81,15 @@ class galera::repo(
             key               => $apt_mariadb_repo_key,
             key_server        => $apt_mariadb_repo_key_server,
             include_src       => $apt_mariadb_repo_include_src,
+          }
+        } elsif ($repo_vendor == 'codership') {
+          apt::source { 'galera_codership_repo':
+            location          => $apt_codership_repo_location,
+            release           => $apt_codership_repo_release,
+            repos             => $apt_codership_repo_repos,
+            key               => $apt_codership_repo_key,
+            key_server        => $apt_codership_repo_key_server,
+            include_src       => $apt_codership_repo_include_src,
           }
         }
       }
@@ -102,8 +126,17 @@ class galera::repo(
           descr     => $yum_mariadb_descr,
           enabled   => $yum_mariadb_enabled,
           gpgcheck  => $yum_mariadb_gpgcheck,
-          gpgkey    =>  $yum_mariadb_gpgkey,
+          gpgkey    => $yum_mariadb_gpgkey,
           baseurl   => $real_yum_mariadb_baseurl
+        }
+      }
+      elsif $repo_vendor == 'codership' {
+        yumrepo { 'codership':
+          descr     => $yum_codership_descr,
+          enabled   => $yum_codership_enabled,
+          gpgcheck  => $yum_codership_gpgcheck,
+          gpgkey    => $yum_codership_gpgkey,
+          baseurl   => $yum_codership_baseurl
         }
       }
     }

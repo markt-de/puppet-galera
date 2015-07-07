@@ -7,7 +7,7 @@ class galera::params {
 
   if $galera::vendor_type == 'percona' {
     $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
-  } elsif $galera::vendor_type == 'mariadb' {
+  } elsif ($galera::vendor_type == 'mariadb' or $galera::vendor_type == 'codership') {
     $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
   } elsif $galera::vendor_type == 'osp5' {
     # mysqld log part is a workaround for a packaging bug
@@ -30,6 +30,14 @@ class galera::params {
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
+      $additional_packages = 'rsync'
+    }
+    elsif $galera::vendor_type == 'codership' {
+      $mysql_service_name = 'mysql'
+      $mysql_package_name_internal = 'mysql-wsrep-5.5'
+      $galera_package_name_internal = 'galera-3'
+      $client_package_name_internal = 'mysql-wsrep-client-5.5'
+      $libgalera_location = '/usr/lib64/galera-3/libgalera_smm.so'
       $additional_packages = 'rsync'
     }
     elsif $galera::vendor_type == 'osp5' {
@@ -66,6 +74,13 @@ class galera::params {
       $mysql_package_name_internal = 'mariadb-galera-server-5.5'
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'mariadb-client-5.5'
+      $additional_packages = 'rsync'
+      $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
+    }
+    elsif $galera::vendor_type == 'codership' {
+      $mysql_package_name_internal = 'mysql-wsrep-5.5'
+      $galera_package_name_internal = 'galera-3'
+      $client_package_name_internal = 'mysql-wsrep-client-5.5'
       $additional_packages = 'rsync'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
