@@ -105,7 +105,7 @@ class galera::repo(
           gpgkey    =>  $yum_mariadb_gpgkey,
           baseurl   => $real_yum_mariadb_baseurl
         }
-        if $::operatingsystemmajrelease >= '7' {
+        if versioncmp($::operatingsystemmajrelease, '7') >=0 {
           file { '/var/log/mariadb':
             ensure => 'directory',
             before => Class['mysql::server::config'],
