@@ -23,13 +23,34 @@
     }
   ],
   "description": "Install/configure MySQL with Galera",
-  "license": "Apache License, Version 2.0",
-  "name": "puppet-galera",
-  "operatingsystem_support": [],
+  "license": "Apache-2.0",
+  "name": "michaeltchapman-galera",
+  "operatingsystem_support": [
+    {
+    "operatingsystem":"Debian"
+    },
+    {
+    "operatingsystem":"Ubuntu"
+    },
+    {
+    "operatingsystem":"RedHat"
+    },
+    {
+    "operatingsystem":"CentOS"
+    },
+    {
+    "operatingsystem":"Scientific"
+    },
+    {
+    "operatingsystem":"OracleLinux"
+    }
+  ],
   "project_page": "https://github.com/michaeltchapman/puppet-galera",
+  "issues_url": "https://github.com/michaeltchapman/puppet-galera/issues",
   "requirements": [],
-  "source": "none",
+  "source": "https://github.com/michaeltchapman/puppet-galera",
   "summary": "Install/configure MySQL with Galera",
-  "tags": [],
-  "version": "0.0.1"
+  "tags": ["mysql", "percona", "mariadb", "galera", "database"],
+  "version": "0.1.0"
 }
+
