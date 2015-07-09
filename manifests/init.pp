@@ -170,11 +170,11 @@ class galera(
   }
 
   class { 'mysql::server':
-    package_name        => $galera::params::mysql_package_name,
-    override_options    => $options,
-    root_password       => $root_password,
-    service_name        => $galera::params::mysql_service_name,
-    restart             => $mysql_restart,
+    package_name     => $galera::params::mysql_package_name,
+    override_options => $options,
+    root_password    => $root_password,
+    service_name     => $galera::params::mysql_service_name,
+    restart          => $mysql_restart,
   }
 
   file { $galera::params::rundir:
@@ -187,9 +187,9 @@ class galera(
 
   if $galera::params::additional_packages {
     package{ $galera::params::additional_packages:
-      ensure    => $package_ensure,
-      require   => Anchor['mysql::server::start'],
-      before    => Class['mysql::server::install']
+      ensure  => $package_ensure,
+      require => Anchor['mysql::server::start'],
+      before  => Class['mysql::server::install']
     }
   }
 
@@ -212,12 +212,12 @@ class galera(
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
     exec { 'bootstrap_galera_cluster':
-      command   => $galera::params::bootstrap_command,
-      onlyif    => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
-      require   => Class['mysql::server::config'],
-      before    => [Class['mysql::server::service'], Service['mysqld']],
-      provider  => shell,
-      path      => '/usr/bin:/bin:/usr/sbin:/sbin'
+      command  => $galera::params::bootstrap_command,
+      onlyif   => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
+      require  => Class['mysql::server::config'],
+      before   => [Class['mysql::server::service'], Service['mysqld']],
+      provider => shell,
+      path     => '/usr/bin:/bin:/usr/sbin:/sbin'
     }
 
   }

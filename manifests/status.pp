@@ -52,9 +52,9 @@ class galera::status (
   }
 
   mysql_user { "${status_user}@${status_allow}":
-    ensure          => 'present',
-    password_hash   => mysql_password($status_password),
-    require         => [File['/root/.my.cnf'],Service['mysqld']]
+    ensure        => 'present',
+    password_hash => mysql_password($status_password),
+    require       => [File['/root/.my.cnf'],Service['mysqld']]
   } ->
   mysql_grant { "${status_user}@${status_allow}/*.*":
     ensure     => 'present',
