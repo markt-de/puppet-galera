@@ -64,15 +64,15 @@ class galera::validate(
 
   $cmd = "mysql --host=${host} --user=${user} --password=${password} -e '${action}'"
   exec { 'validate_connection':
-    path          => '/usr/bin:/bin:/usr/sbin:/sbin',
-    provider      => shell,
-    command       => $cmd,
-    tries         => $retries,
-    try_sleep     => $delay,
-    subscribe     => Service['mysqld'],
-    refreshonly   => true,
-    before        => Anchor['mysql::server::end'],
-    require       => Class['galera::status']
+    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    provider    => shell,
+    command     => $cmd,
+    tries       => $retries,
+    try_sleep   => $delay,
+    subscribe   => Service['mysqld'],
+    refreshonly => true,
+    before      => Anchor['mysql::server::end'],
+    require     => Class['galera::status']
   }
 
   Exec<| title == 'bootstrap_galera_cluster' |> ~> Exec['validate_connection']
