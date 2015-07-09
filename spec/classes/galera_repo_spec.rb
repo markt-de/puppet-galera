@@ -20,6 +20,13 @@ describe 'galera::repo' do
       :apt_mariadb_repo_key_server   => 'keys.gnupg.net',
       :apt_mariadb_repo_include_src  => false,
 
+      :apt_codership_repo_location     => 'http://releases.galeracluster.com/ubuntu',
+      :apt_codership_repo_release      => 'precise',
+      :apt_codership_repo_repos        => 'main',
+      :apt_codership_repo_key          => 'BC19DDBA',
+      :apt_codership_repo_key_server   => 'keyserver.ubuntu.com',
+      :apt_codership_repo_include_src  => false,
+
       :yum_percona_descr             => "CentOS 6 - Percona",
       :yum_percona_baseurl           => "http://repo.percona.com/centos/os/6/x86_64/",
       :yum_percona_gpgkey            => 'http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona',
@@ -30,6 +37,12 @@ describe 'galera::repo' do
       :yum_mariadb_enabled           => 1,
       :yum_mariadb_gpgcheck          => 1,
       :yum_mariadb_gpgkey            => 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
+
+      :yum_codership_descr             => "CentOS 6 - Codership",
+      :yum_codership_baseurl           => "http://releases.galeracluster.com/centos/6/x86_64/",
+      :yum_codership_gpgkey            => 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com',
+      :yum_codership_enabled           => 1,
+      :yum_codership_gpgcheck          => 1,
     }
   end
 
@@ -66,6 +79,16 @@ describe 'galera::repo' do
         :gpgkey     => params[:yum_mariadb_gpgkey]
       ) }
     end
+
+    context 'installing codership on redhat' do
+      before { params.merge!( :repo_vendor => 'codership' ) }
+      it { should contain_yumrepo('codership').with(
+        :descr      => params[:yum_codership_descr],
+        :enabled    => params[:yum_codership_enabled],
+        :gpgcheck   => params[:yum_codership_gpgcheck],
+        :gpgkey     => params[:yum_codership_gpgkey]
+      ) }
+    end
   end
 
   context 'on Ubuntu' do
@@ -99,6 +122,18 @@ describe 'galera::repo' do
         :key           => params[:apt_mariadb_repo_key],
         :key_server    => params[:apt_mariadb_repo_key_server],
         :include_src   => params[:apt_mariadb_repo_include_src]
+      ) }
+    end
+
+    context 'installing codership on debian' do
+      before { params.merge!( :repo_vendor => 'codership' ) }
+      it { should contain_apt__source('galera_codership_repo').with(
+        :location      => params[:apt_codership_repo_location],
+        :release       => params[:apt_codership_repo_release],
+        :repos         => params[:apt_codership_repo_repos],
+        :key           => params[:apt_codership_repo_key],
+        :key_server    => params[:apt_codership_repo_key_server],
+        :include_src   => params[:apt_codership_repo_include_src]
       ) }
     end
   end
