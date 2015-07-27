@@ -126,22 +126,10 @@ class galera::repo(
           descr    => $yum_mariadb_descr,
           enabled  => $yum_mariadb_enabled,
           gpgcheck => $yum_mariadb_gpgcheck,
-          gpgkey   =>  $yum_mariadb_gpgkey,
+          gpgkey   => $yum_mariadb_gpgkey,
           baseurl  => $real_yum_mariadb_baseurl
         }
-        if versioncmp($::operatingsystemmajrelease, '7') >=0 {
-          file { '/var/log/mariadb':
-            ensure => 'directory',
-            before => Class['mysql::server::config'],
-          }
-          file { '/var/run/mariadb':
-            ensure  => 'directory',
-            owner   => 'mysql',
-            group   => 'mysql',
-            require => Class['mysql::server::install'],
-            before  => Class['mysql::server::config'],
-          }
-        }
+        include galera::mariadb
       }
       elsif $repo_vendor == 'codership' {
         yumrepo { 'codership':

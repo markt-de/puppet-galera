@@ -44,7 +44,7 @@
 class galera::validate(
   $user      = $galera::status::status_user,
   $password  = $galera::status::status_password,
-  $host      = $galera::status::status_host,
+  $host      = $galera::bind_address,
   $retries   = 20,
   $delay     = 3,
   $action    = 'select count(1);',
