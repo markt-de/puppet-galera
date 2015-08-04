@@ -222,7 +222,8 @@ class galera(
   if $configure_repo {
     include galera::repo
     Class['::galera::repo'] -> Class['mysql::server']
-  }
+    Class['::galera::repo'] -> Package<| title == 'mysql_client' |>
+    }
 
   if $configure_firewall {
     include galera::firewall
