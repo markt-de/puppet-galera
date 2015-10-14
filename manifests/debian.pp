@@ -21,11 +21,15 @@ class galera::debian {
   }
 
   if ($::fqdn == $galera::galera_master) {
+    # Assign this locally so that it is in scope for the template below.
+    # Required for Puppet 4
+    $deb_sysmaint_password = $galera::deb_sysmaint_password
+
     # Debian sysmaint pw will be set on the master,
     # and needs to be consistent across the cluster.
     mysql_user { 'debian-sys-maint@localhost':
       ensure        => 'present',
-      password_hash => mysql_password($galera::deb_sysmaint_password),
+      password_hash => mysql_password($deb_sysmaint_password),
       provider      => 'mysql',
       require       => File['/root/.my.cnf'],
     }
