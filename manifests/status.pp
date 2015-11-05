@@ -74,6 +74,7 @@ class galera::status (
     service_type            => 'UNLISTED',
     user                    => 'nobody',
     flags                   => 'REUSE',
+    cps                     => '300 10',
     log_on_success          => '',
     log_on_success_operator => '=',
     before                  => Anchor['mysql::server::end'],
