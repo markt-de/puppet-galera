@@ -102,6 +102,10 @@
 #   (Optional) Ensure state for package.
 #   Defaults to 'installed'
 #
+# [*service_enabled*]
+#   (optional) Whether the mysql service should be enabled
+#   Defaults to undef
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -126,6 +130,7 @@ class galera(
   $client_package_name              = undef,
   $package_ensure                   = 'installed',
   $status_password                  = undef,
+  $service_enabled                  = undef,
 )
 {
   if $configure_repo {
@@ -173,6 +178,7 @@ class galera(
     package_name     => $galera::params::mysql_package_name,
     override_options => $options,
     root_password    => $root_password,
+    service_enabled  => $service_enabled,
     service_name     => $galera::params::mysql_service_name,
     restart          => $mysql_restart,
   }
