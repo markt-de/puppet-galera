@@ -205,7 +205,6 @@ class galera(
   }
 
   package{[
-      $galera::params::nc_package_name,
       $galera::params::galera_package_name,
       ] :
     ensure  => $package_ensure,
@@ -218,9 +217,14 @@ class galera(
     # If there are no other servers up and we are the master, the cluster
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
+
+    package { 'nmap':
+      ensure => $package_ensure
+    } ->
+
     exec { 'bootstrap_galera_cluster':
       command  => $galera::params::bootstrap_command,
-      onlyif   => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
+      unless   => "nmap -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
       require  => Class['mysql::server::config'],
       before   => [Class['mysql::server::service'], Service['mysqld']],
       provider => shell,

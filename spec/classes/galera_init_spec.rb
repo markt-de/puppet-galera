@@ -31,7 +31,6 @@ describe 'galera' do
 
   shared_examples_for 'galera' do
     it { should contain_class('galera::params') }
-    it { should contain_package(os_params[:nc_package_name]).with(:ensure => 'installed') }
 
     context 'with default parameters' do
       it { should contain_class('galera::repo') }
@@ -115,7 +114,6 @@ describe 'galera' do
         :c_libgalera_location  => '/usr/lib/libgalera_smm.so',
         :c_additional_packages => 'rsync',
         :mysql_service_name    => 'mysql',
-        :nc_package_name       => 'netcat',
       }
     end
     it_configures 'galera'
@@ -145,7 +143,6 @@ describe 'galera' do
         :c_libgalera_location  => '/usr/lib64/galera-3/libgalera_smm.so',
         :c_additional_packages => 'rsync',
         :mysql_service_name    => 'mysql',
-        :nc_package_name       => 'nc',
       }
     end
     it_configures 'galera'
@@ -175,7 +172,6 @@ describe 'galera' do
         :c_libgalera_location  => '/usr/lib64/galera-3/libgalera_smm.so',
         :c_additional_packages => 'rsync',
         :mysql_service_name    => 'mysql',
-        :nc_package_name       => 'nmap-ncat',
       }
     end
     it_configures 'galera'
