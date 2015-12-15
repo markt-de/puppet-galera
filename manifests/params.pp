@@ -50,11 +50,6 @@ class galera::params {
     }
     $osr_array = split($::operatingsystemrelease,'[\/\.]')
     $distrelease = $osr_array[0]
-    if versioncmp($distrelease, '7') >= 0 or $galera::vendor_type == 'osp5' {
-      $nc_package_name = 'nmap-ncat'
-    } else {
-      $nc_package_name = 'nc'
-    }
 
 
     $rundir = '/var/run/mysqld'
@@ -62,7 +57,6 @@ class galera::params {
   }
   elsif ($::osfamily == 'Debian'){
     $mysql_service_name = 'mysql'
-    $nc_package_name = 'netcat'
     if $galera::vendor_type == 'percona' {
       $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
       $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
