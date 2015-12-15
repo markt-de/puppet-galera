@@ -21,7 +21,6 @@ class galera::params {
       $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
       $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
-      $additional_packages = 'percona-xtrabackup'
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
@@ -30,7 +29,6 @@ class galera::params {
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
-      $additional_packages = 'rsync'
     }
     elsif $galera::vendor_type == 'codership' {
       $mysql_service_name = 'mysql'
@@ -38,7 +36,6 @@ class galera::params {
       $galera_package_name_internal = 'galera-3'
       $client_package_name_internal = 'mysql-wsrep-client-5.5'
       $libgalera_location = '/usr/lib64/galera-3/libgalera_smm.so'
-      $additional_packages = 'rsync'
     }
     elsif $galera::vendor_type == 'osp5' {
       $mysql_service_name           = 'mariadb'
@@ -46,7 +43,6 @@ class galera::params {
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'mariadb'
       $libgalera_location           = '/usr/lib64/galera/libgalera_smm.so'
-      $additional_packages          = 'rsync'
     }
     $osr_array = split($::operatingsystemrelease,'[\/\.]')
     $distrelease = $osr_array[0]
@@ -61,21 +57,18 @@ class galera::params {
       $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
       $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
       $client_package_name_internal = 'percona-xtradb-cluster-client-5.5'
-      $additional_packages = 'percona-xtrabackup'
       $libgalera_location = '/usr/lib/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
       $mysql_package_name_internal = 'mariadb-galera-server-5.5'
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'mariadb-client-5.5'
-      $additional_packages = 'rsync'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'codership' {
       $mysql_package_name_internal = 'mysql-wsrep-5.5'
       $galera_package_name_internal = 'galera-3'
       $client_package_name_internal = 'mysql-wsrep-client-5.5'
-      $additional_packages = 'rsync'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
@@ -90,6 +83,13 @@ class galera::params {
 
   # add auth credentials for SST methods which need them:
   #  mysqldump, xtrabackup, and xtrabackup-v2
+  if ($galera::wsrep_sst_method == 'rsync') {
+    $additional_packages = 'rsync'
+  } elsif ($galera::wsrep_sst_method in
+    [ 'xtrabackup',
+    'xtrabackup-v2' ]) {
+    $additional_packages = 'percona-xtrabackup'
+  }
   if ($galera::wsrep_sst_method in [ 'skip', 'rsync' ]) {
     $wsrep_sst_auth = undef
   }
