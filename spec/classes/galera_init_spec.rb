@@ -64,6 +64,19 @@ describe 'galera' do
       it { should contain_package('percona-xtrabackup').with(:ensure => 'installed') }
     end
 
+    context 'when managing root .my.cnf' do
+      before { params.merge!( :create_root_my_cnf => true ) }
+      it { should contain_class('mysql::server').with(:create_root_my_cnf => true) }
+      it { should contain_exec("create #{facts[:root_home]}/.my.cnf") }
+    end
+
+    context 'when not managing root .my.cnf' do
+      before { params.merge!( :create_root_my_cnf => false ) }
+      it { should contain_class('mysql::server').with(:create_root_my_cnf => false) }
+      it { should_not contain_exec("create #{facts[:root_home]}/.my.cnf") }
+    end
+
+
     context 'when installing codership' do
       before { params.merge!( :vendor_type => 'codership') }
       it { should contain_class('mysql::server').with(
