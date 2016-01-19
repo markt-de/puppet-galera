@@ -57,6 +57,11 @@
 #   (optional) The mysql root password.
 #   Defaults to 'test'
 #
+# [*create_root_my_cnf*]
+#   (optional) Flag to indicate if we should manage the root .my.cnf. Set this
+#   to false if you wish to manage your root .my.cnf file elsewhere.
+#   Defaults to true
+#
 # [*override_options*]
 #   (optional) Options to pass to mysql::server class.
 #   See the puppet-mysql doc for more information.
@@ -117,6 +122,7 @@ class galera(
   $wsrep_inc_state_transfer_port    = 4568,
   $wsrep_sst_method                 = 'rsync',
   $root_password                    = 'test',
+  $create_root_my_cnf               = true,
   $override_options                 = {},
   $vendor_type                      = 'percona',
   $configure_repo                   = true,
@@ -159,7 +165,7 @@ class galera(
 
   $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
-  if ($root_password != 'UNSET') {
+  if ($create_root_my_cnf == true and $root_password != 'UNSET') {
     # Check if we can already login with the given password
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
@@ -175,12 +181,13 @@ class galera(
   }
 
   class { 'mysql::server':
-    package_name     => $galera::params::mysql_package_name,
-    override_options => $options,
-    root_password    => $root_password,
-    service_enabled  => $service_enabled,
-    service_name     => $galera::params::mysql_service_name,
-    restart          => $mysql_restart,
+    package_name       => $galera::params::mysql_package_name,
+    override_options   => $options,
+    root_password      => $root_password,
+    create_root_my_cnf => $create_root_my_cnf,
+    service_enabled    => $service_enabled,
+    service_name       => $galera::params::mysql_service_name,
+    restart            => $mysql_restart,
   }
 
   file { $galera::params::rundir:
