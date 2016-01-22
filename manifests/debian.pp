@@ -50,7 +50,7 @@ class galera::debian {
       group   => 'mysql',
       content => template('galera/debian.cnf.erb'),
       require => Exec['clean_up_ubuntu'],
-      before  => Service['mysql'],
+      before  => Service['mysqld'],
     }
   }
   # Ensure mysql server is installed before writing debian.cnf, since the
