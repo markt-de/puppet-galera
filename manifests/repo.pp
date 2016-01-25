@@ -7,7 +7,7 @@ class galera::repo(
   $repo_vendor = $galera::vendor_type,
   $epel_needed = true,
 
-  # Ubuntu/percona
+  # Ubuntu-Debian/percona
   $apt_percona_repo_location = 'http://repo.percona.com/apt/',
   $apt_percona_repo_release = $::lsbdistcodename,
   $apt_percona_repo_repos = 'main',
@@ -15,16 +15,22 @@ class galera::repo(
   $apt_percona_repo_key_server = 'keys.gnupg.net',
   $apt_percona_repo_include_src = false,
 
-  # Ubuntu/mariadb
-  $apt_mariadb_repo_location = 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
+  # Ubuntu-Debian/mariadb
+  $apt_mariadb_repo_location = $::operatingsystem ? {
+    'Debian' => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/debian',
+    default  => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
+  },
   $apt_mariadb_repo_release = $::lsbdistcodename,
   $apt_mariadb_repo_repos = 'main',
   $apt_mariadb_repo_key = '1BB943DB',
   $apt_mariadb_repo_key_server = 'keys.gnupg.net',
   $apt_mariadb_repo_include_src = false,
 
-  # Ubuntu/codership
-  $apt_codership_repo_location     = 'http://releases.galeracluster.com/ubuntu',
+  # Ubuntu-Debian/codership
+  $apt_codership_repo_location = $::operatingsystem ? {
+    'Debian' => 'http://releases.galeracluster.com/debian',
+    default  => 'http://releases.galeracluster.com/ubuntu',
+  },
   $apt_codership_repo_release      = $::lsbdistcodename,
   $apt_codership_repo_repos        = 'main',
   $apt_codership_repo_key          = 'BC19DDBA',
@@ -63,7 +69,7 @@ class galera::repo(
 
   case $::osfamily {
     'Debian': {
-      if $::operatingsystem == 'Ubuntu' {
+      if ($::operatingsystem == 'Ubuntu') or ($::operatingsystem == 'Debian') {
         if ($repo_vendor == 'percona') {
           apt::source { 'galera_percona_repo':
             location    => $apt_percona_repo_location,
