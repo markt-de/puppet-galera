@@ -62,6 +62,12 @@
 #   to false if you wish to manage your root .my.cnf file elsewhere.
 #   Defaults to true
 #
+# [*create_root_user*]
+#   (optional) Flag to indicate if we should manage the root user. Set this
+#   to false if you wish to manage your root user elsewhere.
+#   If this is set to undef, we will use true if galera_master == $::fqdn
+#   Defaults to undef
+#
 # [*override_options*]
 #   (optional) Options to pass to mysql::server class.
 #   See the puppet-mysql doc for more information.
@@ -123,6 +129,7 @@ class galera(
   $wsrep_sst_method                 = 'rsync',
   $root_password                    = 'test',
   $create_root_my_cnf               = true,
+  $create_root_user                 = undef,
   $override_options                 = {},
   $vendor_type                      = 'percona',
   $configure_repo                   = true,
@@ -165,6 +172,20 @@ class galera(
 
   $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
+  if ($create_root_user == undef) {
+    if ($galera_master == $::fqdn) {
+      # manage root user on the galera master
+      $create_root_user_real = true
+    } else {
+      # skip manage root user on nodes that are not the galera master since
+      # they should get a database with the root user already configured when
+      # they sync from the master
+      $create_root_user_real = false
+    }
+  } else {
+    $create_root_user_real = $create_root_user
+  }
+
   if ($create_root_my_cnf == true and $root_password != 'UNSET') {
     # Check if we can already login with the given password
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
@@ -185,6 +206,7 @@ class galera(
     override_options   => $options,
     root_password      => $root_password,
     create_root_my_cnf => $create_root_my_cnf,
+    create_root_user   => $create_root_user_real,
     service_enabled    => $service_enabled,
     service_name       => $galera::params::mysql_service_name,
     restart            => $mysql_restart,

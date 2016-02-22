@@ -76,6 +76,29 @@ describe 'galera' do
       it { should_not contain_exec("create #{facts[:root_home]}/.my.cnf") }
     end
 
+    context 'when create root user is undef and the master' do
+      before { params.merge!( :galera_master => facts[:fqdn] ) }
+      it { should contain_class('mysql::server').with(:create_root_user => true) }
+      it { should contain_mysql_user('root@localhost') }
+    end
+
+    context 'when create root user is undef and not the master' do
+      before { params.merge!( :galera_master => "not_#{facts[:fqdn]}" ) }
+      it { should contain_class('mysql::server').with(:create_root_user => false ) }
+      it { should_not contain_mysql_user('root@localhost') }
+    end
+
+    context 'when create root user is true' do
+      before { params.merge!( :create_root_user => true ) }
+      it { should contain_class('mysql::server').with(:create_root_user => true) }
+      it { should contain_mysql_user('root@localhost') }
+    end
+
+    context 'when create root user is false' do
+      before { params.merge!( :create_root_user => false ) }
+      it { should contain_class('mysql::server').with(:create_root_user => false) }
+      it { should_not contain_mysql_user('root@localhost') }
+    end
 
     context 'when installing codership' do
       before { params.merge!( :vendor_type => 'codership') }
