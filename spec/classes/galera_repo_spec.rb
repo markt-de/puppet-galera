@@ -9,21 +9,21 @@ describe 'galera::repo' do
       :apt_percona_repo_location     => 'http://repo.percona.com/apt/',
       :apt_percona_repo_release      => 'precise',
       :apt_percona_repo_repos        => 'main',
-      :apt_percona_repo_key          => '1C4CBDCDCD2EFD2A',
+      :apt_percona_repo_key          => '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
       :apt_percona_repo_key_server   => 'keys.gnupg.net',
       :apt_percona_repo_include_src  => false,
 
       :apt_mariadb_repo_location     => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
       :apt_mariadb_repo_release      => 'precise',
       :apt_mariadb_repo_repos        => 'main',
-      :apt_mariadb_repo_key          => '1BB943DB',
+      :apt_mariadb_repo_key          => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
       :apt_mariadb_repo_key_server   => 'keys.gnupg.net',
       :apt_mariadb_repo_include_src  => false,
 
       :apt_codership_repo_location     => 'http://releases.galeracluster.com/ubuntu',
       :apt_codership_repo_release      => 'precise',
       :apt_codership_repo_repos        => 'main',
-      :apt_codership_repo_key          => 'BC19DDBA',
+      :apt_codership_repo_key          => '44B7345738EBDE52594DAD80D669017EBC19DDBA',
       :apt_codership_repo_key_server   => 'keyserver.ubuntu.com',
       :apt_codership_repo_include_src  => false,
 
@@ -89,36 +89,48 @@ describe 'galera::repo' do
     context 'installing percona on debian' do
       before { params.merge!( :repo_vendor => 'percona' ) }
       it { should contain_apt__source('galera_percona_repo').with(
-          :location      => params[:apt_percona_repo_location],
-          :release       => params[:apt_percona_repo_release],
-          :repos         => params[:apt_percona_repo_repos],
-          :key           => params[:apt_percona_repo_key],
-          :key_server    => params[:apt_percona_repo_key_server],
-          :include_src   => params[:apt_percona_repo_include_src]
+          :location => params[:apt_percona_repo_location],
+          :release  => params[:apt_percona_repo_release],
+          :repos    => params[:apt_percona_repo_repos],
+          :key      => {
+              "id"     => params[:apt_percona_repo_key],
+              "server" => params[:apt_percona_repo_key_server]
+          },
+          :include  => {
+              "src" => params[:apt_percona_repo_include_src]
+          }
       ) }
     end
 
     context 'installing mariadb on debian' do
       before { params.merge!( :repo_vendor => 'mariadb' ) }
       it { should contain_apt__source('galera_mariadb_repo').with(
-          :location      => params[:apt_mariadb_repo_location],
-          :release       => params[:apt_mariadb_repo_release],
-          :repos         => params[:apt_mariadb_repo_repos],
-          :key           => params[:apt_mariadb_repo_key],
-          :key_server    => params[:apt_mariadb_repo_key_server],
-          :include_src   => params[:apt_mariadb_repo_include_src]
+          :location => params[:apt_mariadb_repo_location],
+          :release  => params[:apt_mariadb_repo_release],
+          :repos    => params[:apt_mariadb_repo_repos],
+          :key      => {
+              "id"     => params[:apt_mariadb_repo_key],
+              "server" => params[:apt_mariadb_repo_key_server]
+          },
+          :include  => {
+              "src" => params[:apt_mariadb_repo_include_src]
+          }
       ) }
     end
 
     context 'installing codership on debian' do
       before { params.merge!( :repo_vendor => 'codership' ) }
       it { should contain_apt__source('galera_codership_repo').with(
-          :location      => params[:apt_codership_repo_location],
-          :release       => params[:apt_codership_repo_release],
-          :repos         => params[:apt_codership_repo_repos],
-          :key           => params[:apt_codership_repo_key],
-          :key_server    => params[:apt_codership_repo_key_server],
-          :include_src   => params[:apt_codership_repo_include_src]
+          :location => params[:apt_codership_repo_location],
+          :release  => params[:apt_codership_repo_release],
+          :repos    => params[:apt_codership_repo_repos],
+          :key      => {
+              "id"     => params[:apt_codership_repo_key],
+              "server" => params[:apt_codership_repo_key_server]
+          },
+          :include  => {
+              "src" => params[:apt_codership_repo_include_src]
+          }
       ) }
     end
   end
