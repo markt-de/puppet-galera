@@ -11,7 +11,7 @@ class galera::repo(
   $apt_percona_repo_location = 'http://repo.percona.com/apt/',
   $apt_percona_repo_release = $::lsbdistcodename,
   $apt_percona_repo_repos = 'main',
-  $apt_percona_repo_key = '1C4CBDCDCD2EFD2A',
+  $apt_percona_repo_key = '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
   $apt_percona_repo_key_server = 'keys.gnupg.net',
   $apt_percona_repo_include_src = false,
 
@@ -22,7 +22,7 @@ class galera::repo(
   },
   $apt_mariadb_repo_release = $::lsbdistcodename,
   $apt_mariadb_repo_repos = 'main',
-  $apt_mariadb_repo_key = '1BB943DB',
+  $apt_mariadb_repo_key = '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
   $apt_mariadb_repo_key_server = 'keys.gnupg.net',
   $apt_mariadb_repo_include_src = false,
 
@@ -33,7 +33,7 @@ class galera::repo(
   },
   $apt_codership_repo_release      = $::lsbdistcodename,
   $apt_codership_repo_repos        = 'main',
-  $apt_codership_repo_key          = 'BC19DDBA',
+  $apt_codership_repo_key          = '44B7345738EBDE52594DAD80D669017EBC19DDBA',
   $apt_codership_repo_key_server   = 'keyserver.ubuntu.com',
   $apt_codership_repo_include_src  = false,
 
@@ -72,30 +72,42 @@ class galera::repo(
       if ($::operatingsystem == 'Ubuntu') or ($::operatingsystem == 'Debian') {
         if ($repo_vendor == 'percona') {
           apt::source { 'galera_percona_repo':
-            location    => $apt_percona_repo_location,
-            release     => $apt_percona_repo_release,
-            repos       => $apt_percona_repo_repos,
-            key         => $apt_percona_repo_key,
-            key_server  => $apt_percona_repo_key_server,
-            include_src => $apt_percona_repo_include_src,
+            location => $apt_percona_repo_location,
+            release  => $apt_percona_repo_release,
+            repos    => $apt_percona_repo_repos,
+            key      => {
+              'id'     => $apt_percona_repo_key,
+              'server' => $apt_percona_repo_key_server,
+            },
+            include  => {
+              'src' => $apt_percona_repo_include_src,
+            },
           }
         } elsif ($repo_vendor == 'mariadb') {
           apt::source { 'galera_mariadb_repo':
-            location    => $apt_mariadb_repo_location,
-            release     => $apt_mariadb_repo_release,
-            repos       => $apt_mariadb_repo_repos,
-            key         => $apt_mariadb_repo_key,
-            key_server  => $apt_mariadb_repo_key_server,
-            include_src => $apt_mariadb_repo_include_src,
+            location => $apt_mariadb_repo_location,
+            release  => $apt_mariadb_repo_release,
+            repos    => $apt_mariadb_repo_repos,
+            key      => {
+              'id'     => $apt_mariadb_repo_key,
+              'server' => $apt_mariadb_repo_key_server,
+            },
+            include  => {
+              'src' => $apt_mariadb_repo_include_src,
+            },
           }
         } elsif ($repo_vendor == 'codership') {
           apt::source { 'galera_codership_repo':
-            location    => $apt_codership_repo_location,
-            release     => $apt_codership_repo_release,
-            repos       => $apt_codership_repo_repos,
-            key         => $apt_codership_repo_key,
-            key_server  => $apt_codership_repo_key_server,
-            include_src => $apt_codership_repo_include_src,
+            location => $apt_codership_repo_location,
+            release  => $apt_codership_repo_release,
+            repos    => $apt_codership_repo_repos,
+            key      => {
+              'id'     => $apt_codership_repo_key,
+              'server' => $apt_codership_repo_key_server,
+            },
+            include  => {
+              'src' => $apt_codership_repo_include_src,
+            },
           }
         }
       }

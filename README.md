@@ -6,13 +6,13 @@ This module will massage puppetlabs-mysql into creating a mysql galera cluster. 
 
 ## Requirements
 
-This module was build against master of the following repos in early 2014, which corresponds to the listed version:
+This module depends on, at minimum, the following modules at the listed versions:
 
     puppetlabs-mysql    2.2.0
     puppetlabs-stdlib   4.1.0
 
     # If you're on debian and need the repo to be set
-    puppetlabs-apt      1.4.1
+    puppetlabs-apt      2.0.0
 
     # If you want the firewall to be configured for you
     puppetlabs-firewall 1.0.0
