@@ -54,7 +54,7 @@ class galera::params {
   elsif ($::osfamily == 'Debian'){
     $mysql_service_name = 'mysql'
     if $galera::vendor_type == 'percona' {
-      if $galera::version == '5.6' {
+      if $galera::vendor_version == '5.6' {
         $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.6'
         $galera_package_name_internal = 'percona-xtradb-cluster-galera-3.x'
         $client_package_name_internal = 'percona-xtradb-cluster-client-5.6'
