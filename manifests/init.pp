@@ -80,7 +80,7 @@
 #
 # [*vendor_version*]
 #   (optional) The galera version to use. Valid option for percona
-#   are '5.5' and '5.6'
+#   are '5.5' and '5.6'. Only valid for percona+debian.
 #   Defaults to undef
 #
 # [*configure_repo*]
