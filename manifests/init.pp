@@ -254,7 +254,7 @@ class galera(
     exec { 'bootstrap_galera_cluster':
       command  => $galera::params::bootstrap_command,
       unless   => "nmap -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
-      require  => Class['mysql::server::config'],
+      require  => [Class['mysql::server::config'],Class['mysql::server::installdb']],
       before   => [Class['mysql::server::service'], Service['mysqld']],
       provider => shell,
       path     => '/usr/bin:/bin:/usr/sbin:/sbin'
