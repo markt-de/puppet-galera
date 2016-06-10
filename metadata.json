@@ -11,7 +11,7 @@
     },
     {
       "name": "puppetlabs/mysql",
-      "version_requirement": ">=2.2.0"
+      "version_requirement": ">=3.7.0"
     },
     {
       "name": "puppetlabs/firewall",
