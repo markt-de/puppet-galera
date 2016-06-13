@@ -54,9 +54,16 @@ class galera::params {
   elsif ($::osfamily == 'Debian'){
     $mysql_service_name = 'mysql'
     if $galera::vendor_type == 'percona' {
-      $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
-      $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
-      $client_package_name_internal = 'percona-xtradb-cluster-client-5.5'
+      if $galera::vendor_version == '5.6' {
+        $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.6'
+        $galera_package_name_internal = 'percona-xtradb-cluster-galera-3.x'
+        $client_package_name_internal = 'percona-xtradb-cluster-client-5.6'
+      }
+      else {
+        $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
+        $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
+        $client_package_name_internal = 'percona-xtradb-cluster-client-5.5'
+      }
       $libgalera_location = '/usr/lib/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {

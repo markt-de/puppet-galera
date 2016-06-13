@@ -78,6 +78,11 @@
 #   are 'mariadb' and 'percona'
 #   Defaults to 'percona'
 #
+# [*vendor_version*]
+#   (optional) The galera version to use. Valid option for percona
+#   are '5.5' and '5.6'. Only valid for percona+debian.
+#   Defaults to undef
+#
 # [*configure_repo*]
 #   (optional) Whether to configure additional repositories for
 #   installing galera
@@ -132,6 +137,7 @@ class galera(
   $create_root_user                 = undef,
   $override_options                 = {},
   $vendor_type                      = 'percona',
+  $vendor_version                   = undef,
   $configure_repo                   = true,
   $configure_firewall               = true,
   $deb_sysmaint_password            = 'sysmaint',
