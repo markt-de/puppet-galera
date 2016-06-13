@@ -51,18 +51,20 @@ class galera::status (
     fail('galera::status::status_password unset. Please specify a password for the clustercheck MySQL user.')
   }
 
-  mysql_user { "${status_user}@${status_allow}":
-    ensure        => 'present',
-    password_hash => mysql_password($status_password),
-    require       => [File['/root/.my.cnf'],Service['mysqld']]
-  } ->
-  mysql_grant { "${status_user}@${status_allow}/*.*":
-    ensure     => 'present',
-    options    => [ 'GRANT' ],
-    privileges => [ 'USAGE' ],
-    table      => '*.*',
-    user       => "${status_user}@${status_allow}",
-    before     => Anchor['mysql::server::end']
+  if $status_allow != 'localhost' {
+    mysql_user { "${status_user}@${status_allow}":
+      ensure        => 'present',
+      password_hash => mysql_password($status_password),
+      require       => [File['/root/.my.cnf'],Service['mysqld']]
+    } ->
+    mysql_grant { "${status_user}@${status_allow}/*.*":
+      ensure     => 'present',
+      options    => [ 'GRANT' ],
+      privileges => [ 'USAGE' ],
+      table      => '*.*',
+      user       => "${status_user}@${status_allow}",
+      before     => Anchor['mysql::server::end']
+    }
   }
 
   mysql_user { "${status_user}@localhost":
