@@ -122,6 +122,9 @@
 #   (optional) Whether the mysql service should be enabled
 #   Defaults to undef
 #
+# [*manage_package_nmap*]
+#   (optional) Whether the package nmap should be installed
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -150,6 +153,7 @@ class galera(
   $package_ensure                   = 'installed',
   $status_password                  = undef,
   $service_enabled                  = undef,
+  $manage_package_nmap              = true,
 )
 {
   if $configure_repo {
@@ -253,9 +257,12 @@ class galera(
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
 
-    package { 'nmap':
-      ensure => $package_ensure
-    } ->
+    if $manage_package_nmap {
+      package { 'nmap':
+        ensure => $package_ensure,
+        before => Exec['bootstrap_galera_cluster']
+      }
+    }
 
     exec { 'bootstrap_galera_cluster':
       command  => $galera::params::bootstrap_command,
