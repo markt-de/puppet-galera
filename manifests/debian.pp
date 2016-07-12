@@ -8,6 +8,33 @@ class galera::debian {
     warn('the galera::debian class has been included on a non-debian host')
   }
 
+  # puppetlabs-mysql now places config before installing the package, which causes issues
+  # if the service is started as part of package installs, as it is on debians. Resolve this
+  # by putting a default my.cnf in place before installing the package, then putting the
+  # real config file back after installing the package but before starting the service for real
+  file { '/etc/mysql/puppet_debfix.cnf':
+    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    content => template('galera/debian_default_my_cnf'),
+    require => Class['mysql::server::config'],
+  } ~>
+
+  exec { 'fix_galera_config_errors_episode_I':
+    command     => 'mv -f /etc/mysql/my.cnf /tmp/my.cnf && cp -f /etc/mysql/puppet_debfix.cnf /etc/mysql/my.cnf',
+    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    refreshonly => true,
+  } ~>
+
+  exec { 'fix_galera_config_errors_episode_II':
+    command     => 'cp -f /tmp/my.cnf /etc/mysql/my.cnf',
+    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    refreshonly => true,
+    require     => Class['mysql::server::install'],
+    before      => Class['mysql::server::installdb'],
+  }
+
+
   # Debian policy will autostart the non galera mysql after
   # package install, so kill it if the package is
   # installed during this puppet run
@@ -16,7 +43,7 @@ class galera::debian {
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     refreshonly => true,
     subscribe   => Package['mysql-server'],
-    before      => Class['mysql::server::config'],
+    before      => Class['mysql::server::installdb'],
     require     => Class['mysql::server::install'],
   }
 

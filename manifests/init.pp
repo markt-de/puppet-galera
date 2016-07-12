@@ -206,12 +206,12 @@ class galera(
         "/usr/bin/mysql --user=root --password=${root_password} -e 'select count(1);'",
         "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='${root_password}'\"` -eq 0",
         ],
-      require => [Service['mysqld']],
+      require => Service['mysqld'],
       before  => [Class['mysql::server::root_password']],
     }
   }
 
-  class { 'mysql::server':
+  class { '::mysql::server':
     package_name       => $galera::params::mysql_package_name,
     override_options   => $options,
     root_password      => $root_password,
@@ -227,15 +227,15 @@ class galera(
     owner   => 'mysql',
     group   => 'mysql',
     require => Class['mysql::server::install'],
-    before  => Class['mysql::server::config']
+    before  => Class['mysql::server::installdb']
   }
 
   if $galera::params::additional_packages {
     ensure_resource(package, $galera::params::additional_packages,
     {
       ensure  => $package_ensure,
-      require => Anchor['mysql::server::start'],
-      before  => Class['mysql::server::install']
+      before  => Class['mysql::server::install'],
+      require => Class['mysql::server::config']
     })
   }
 
@@ -247,8 +247,8 @@ class galera(
       $galera::params::galera_package_name,
       ] :
     ensure  => $package_ensure,
-    require => Anchor['mysql::server::start'],
-    before  => Class['mysql::server::install']
+    before  => Class['mysql::server::install'],
+    require => Class['mysql::server::config']
   }
 
 
@@ -267,8 +267,8 @@ class galera(
     exec { 'bootstrap_galera_cluster':
       command  => $galera::params::bootstrap_command,
       unless   => "nmap -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
-      require  => [Class['mysql::server::config'],Class['mysql::server::installdb']],
-      before   => [Class['mysql::server::service'], Service['mysqld']],
+      require  => Class['mysql::server::installdb'],
+      before   => Service['mysqld'],
       provider => shell,
       path     => '/usr/bin:/bin:/usr/sbin:/sbin'
     }

@@ -3,6 +3,7 @@
 
 # Change this to swap between a centos and an ubuntu box
 box = 'puppetlabs/centos-7.0-64-puppet'
+#box = 'trusty64'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -21,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                'ln -s /vagrant /etc/puppet/modules/galera'
     end
 
-    if box == 'precise64'
+    if box == 'precise64' or box == 'trusty64'
       control1.vm.provision :shell do |shell|
         script =
         "if grep 127.0.1.1 /etc/hosts ; then \n" +
@@ -81,7 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                'ln -s /vagrant /etc/puppet/modules/galera'
     end
 
-    if box == 'precise64'
+    if box == 'precise64' or box == 'trusty64'
       control2.vm.provision :shell do |shell|
         script =
         "if grep 127.0.1.1 /etc/hosts ; then \n" +
