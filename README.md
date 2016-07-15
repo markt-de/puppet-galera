@@ -16,6 +16,10 @@ This module depends on, at minimum, the following modules at the listed versions
 
     # If you want the firewall to be configured for you
     puppetlabs-firewall 1.0.0
+
+    # If using clustercheck
+    puppetlabs-xinetd   1.3.0
+
 ## Structure
 
 This module was created to work in tandem with the mysql module, rather than replacing it. As the stages in the mysql module are quite strictly laid out in the mysql::server class, this module places its own resources in the gaps between them. Of note is an exec that will start the mysql service with the parameter --wsrep_address=gcomm:// which will start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple nc command and should not be considered terribly reliable.
