@@ -73,9 +73,16 @@ class galera::params {
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'codership' {
-      $mysql_package_name_internal = 'mysql-wsrep-5.5'
-      $galera_package_name_internal = 'galera-3'
-      $client_package_name_internal = 'mysql-wsrep-client-5.5'
+      if $galera::vendor_version == '5.6' {
+        $mysql_package_name_internal = 'mysql-wsrep-5.6'
+        $galera_package_name_internal = 'galera-3'
+        $client_package_name_internal = 'mysql-wsrep-client-5.6'
+      }
+      else {
+        $mysql_package_name_internal = 'mysql-wsrep-5.5'
+        $galera_package_name_internal = 'galera-3'
+        $client_package_name_internal = 'mysql-wsrep-client-5.5'
+      }
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
