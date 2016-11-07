@@ -61,10 +61,19 @@ class galera::debian {
       require       => File['/root/.my.cnf'],
     }
 
+    mysql_grant { 'debian-sys-maint@localhost/*.*':
+      ensure     => 'present',
+      options    => ['GRANT'],
+      privileges => ['ALL'],
+      table      => '*.*',
+      user       => 'debian-sys-maint@localhost',
+    }
+
     file { '/etc/mysql/debian.cnf':
       ensure  => present,
-      owner   => 'mysql',
-      group   => 'mysql',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
       content => template('galera/debian.cnf.erb'),
       require => Mysql_user['debian-sys-maint@localhost'],
     }
@@ -73,8 +82,9 @@ class galera::debian {
     # said service stop operation will fail
     file { '/etc/mysql/debian.cnf':
       ensure  => present,
-      owner   => 'mysql',
-      group   => 'mysql',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
       content => template('galera/debian.cnf.erb'),
       require => Exec['clean_up_ubuntu'],
       before  => Service['mysqld'],
