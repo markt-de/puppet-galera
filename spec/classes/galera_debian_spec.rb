@@ -32,7 +32,18 @@ describe 'galera::debian' do
         :require  => "File[/root/.my.cnf]"
       ) }
 
+      it { should contain_mysql_grant('debian-sys-maint@localhost/*.*').with(
+        :ensure     => 'present',
+        :options    => ['GRANT'],
+        :privileges => ['ALL'],
+        :table      => '*.*',
+        :user       => 'debian-sys-maint@localhost',
+      ) }
+
       it { should contain_file('/etc/mysql/debian.cnf').with(
+        :user    => 'root',
+        :group   => 'root',
+        :mode    => '0600',
         :require => 'Mysql_user[debian-sys-maint@localhost]'
       ) }
 
