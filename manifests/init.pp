@@ -125,6 +125,9 @@
 # [*manage_package_nmap*]
 #   (optional) Whether the package nmap should be installed
 #
+# [*manage_additional_packages*]
+#   (optional) Whether additional packages should be installed
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -154,6 +157,7 @@ class galera(
   $status_password                  = undef,
   $service_enabled                  = undef,
   $manage_package_nmap              = true,
+  $manage_additional_packages       = true,
 )
 {
   if $configure_repo {
@@ -230,7 +234,7 @@ class galera(
     before  => Class['mysql::server::installdb']
   }
 
-  if $galera::params::additional_packages {
+  if $manage_additional_packages and $galera::params::additional_packages {
     ensure_resource(package, $galera::params::additional_packages,
     {
       ensure  => $package_ensure,
