@@ -125,6 +125,50 @@
 # [*manage_package_nmap*]
 #   (optional) Whether the package nmap should be installed
 #
+# [*status_password*]
+#  (required) The password of the status check user
+#
+# [*status_allow*]
+#  (optional) The subnet to allow status checks from
+#  Defaults to '%'
+#
+# [*status_host*]
+#  (optional) The cluster to add the cluster check user to
+#  Defaults to 'localhost'
+#
+# [*status_user*]
+#  (optional) The name of the user to use for status checks
+#  Defaults to 'clustercheck'
+#
+# [*status_port*]
+#  (optional) Port for cluster check service
+#  Defaults to 9200
+#
+# [*status_available_when_donor*]
+#  (optional) When set to 1, the node will remain in the cluster
+#  when it enters donor mode. A value of 0 will remove the node
+#  from the cluster.
+#  Defaults to 0
+#
+# [*status_available_when_readonly*]
+#  (optional) When set to 0, clustercheck will return a 503
+#  Service Unavailable if the node is in the read_only state,
+#  as defined by the "read_only" mysql variable. Values other
+#  than 0 have no effect.
+#  Defaults to -1
+#
+# [*status_log_on_success_operator*]
+#   (optional) Determines which operator xinetd uses to output logs on success
+#   Defaults to '='
+#
+# [*status_log_on_success*]
+#   (optional) Determines which fields xinetd will log on success
+#   Defaults to ''
+#
+# [*status_log_on_failure*]
+#   (optional) Determines which fields xinetd will log on failure
+#   Defaults to undef
+#
 class galera(
   $galera_servers                   = [$::ipaddress_eth1],
   $galera_master                    = $::fqdn,
@@ -154,6 +198,15 @@ class galera(
   $status_password                  = undef,
   $service_enabled                  = undef,
   $manage_package_nmap              = true,
+  $status_allow                     = '%',
+  $status_host                      = 'localhost',
+  $status_user                      = 'clustercheck',
+  $status_port                      = 9200,
+  $status_available_when_donor      = 0,
+  $status_available_when_readonly   = -1,
+  $status_log_on_success_operator   = '=',
+  $status_log_on_success            = '',
+  $status_log_on_failure            = undef,
 )
 {
   if $configure_repo {

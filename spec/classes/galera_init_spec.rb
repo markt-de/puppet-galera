@@ -3,30 +3,24 @@ require 'spec_helper'
 describe 'galera' do
   let :params do
     {
-      :galera_servers                => ['10.2.2.1'],
-      :galera_master                 => 'control1',
-      :local_ip                      => '10.2.2.1',
-      :bind_address                  => '10.2.2.1',
-      :mysql_port                    => 3306,
-      :wsrep_group_comm_port         => 4567,
-      :wsrep_state_transfer_port     => 4444,
-      :wsrep_inc_state_transfer_port => 4568,
-      :wsrep_sst_method              => 'rsync',
-      :root_password                 => 'test',
-      :override_options              => {},
-      :vendor_type                   => 'percona',
-      :configure_repo                => true,
-      :configure_firewall            => true,
-      :deb_sysmaint_password         => 'sysmaint',
-      :mysql_restart                 => false,
+      :galera_servers                 => ['10.2.2.1'],
+      :galera_master                  => 'control1',
+      :local_ip                       => '10.2.2.1',
+      :bind_address                   => '10.2.2.1',
+      :mysql_port                     => 3306,
+      :wsrep_group_comm_port          => 4567,
+      :wsrep_state_transfer_port      => 4444,
+      :wsrep_inc_state_transfer_port  => 4568,
+      :wsrep_sst_method               => 'rsync',
+      :root_password                  => 'test',
+      :override_options               => {},
+      :vendor_type                    => 'percona',
+      :configure_repo                 => true,
+      :configure_firewall             => true,
+      :deb_sysmaint_password          => 'sysmaint',
+      :mysql_restart                  => false,
+      :status_password                => 'nonempty',
     }
-  end
-
-  let :pre_condition do
-    "
-    class { 'galera::status':
-       status_password => 'nonempty'
-    }"
   end
 
   shared_examples_for 'galera' do
@@ -45,6 +39,18 @@ describe 'galera' do
 
       it { should contain_package(os_params[:p_galera_package_name]).with(:ensure => 'installed') }
       it { should contain_package(os_params[:p_additional_packages]).with(:ensure => 'installed') }
+
+      it { should contain_xinetd__service('mysqlchk').with(
+        :log_on_success => '',
+        :log_on_success_operator => '=',
+        :log_on_failure => nil,
+      ) }
+
+      it { should contain_group('clustercheck').with(:system => true) }
+      it { should contain_user('clustercheck').with(
+        :system => true,
+        :gid => 'clustercheck',
+      ) }
     end
 
     context 'when installing mariadb' do
@@ -129,6 +135,19 @@ describe 'galera' do
     context 'when specifying latest packages' do
       before { params.merge!( :package_ensure => 'latest') }
       it { should contain_package(os_params[:p_galera_package_name]).with(:ensure => 'latest') }
+    end
+
+    context 'when specifying logging options' do
+      before { params.merge!({
+        :status_log_on_success => 'PID HOST USERID EXIT DURATION TRAFFIC',
+        :status_log_on_success_operator => '-=',
+        :status_log_on_failure => 'USERID',
+      }) }
+      it { should contain_xinetd__service('mysqlchk').with(
+        :log_on_success => 'PID HOST USERID EXIT DURATION TRAFFIC',
+        :log_on_success_operator => '-=',
+        :log_on_failure => 'USERID'
+      ) }
     end
   end
 
