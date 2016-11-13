@@ -41,7 +41,7 @@ describe 'galera::debian' do
       ) }
 
       it { should contain_file('/etc/mysql/debian.cnf').with(
-        :user    => 'root',
+        :owner   => 'root',
         :group   => 'root',
         :mode    => '0600',
         :require => 'Mysql_user[debian-sys-maint@localhost]'

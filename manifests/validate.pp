@@ -11,15 +11,15 @@
 #
 # [*user*]
 # (optional) The mysql user to use.
-#  Defaults to $galera::status::status_user
+#  Defaults to $galera::status_user
 #
 # [*password*]
 # (optional) The password for the mysql user.
-#  Defaults to $galera::status::status_password
+#  Defaults to $galera::status_password
 #
 # [*host*]
 # (optional) The mysql host to check.
-#  Defaults to $galera::status::status_host
+#  Defaults to $galera::status_host
 #
 # [*retries*]
 # (optional) Number of times to retry connection
@@ -42,8 +42,8 @@
 #  Defaults to undef
 #
 class galera::validate(
-  $user      = $galera::status::status_user,
-  $password  = $galera::status::status_password,
+  $user      = $galera::status_user,
+  $password  = $galera::status_password,
   $host      = $galera::bind_address,
   $retries   = 20,
   $delay     = 3,
