@@ -9,15 +9,15 @@ describe 'galera::repo' do
       :apt_percona_repo_location     => 'http://repo.percona.com/apt/',
       :apt_percona_repo_release      => 'precise',
       :apt_percona_repo_repos        => 'main',
-      :apt_percona_repo_key          => '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
-      :apt_percona_repo_key_server   => 'keys.gnupg.net',
+      :apt_percona_repo_key          => '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
+      :apt_percona_repo_key_server   => 'keyserver.ubuntu.com',
       :apt_percona_repo_include_src  => false,
 
       :apt_mariadb_repo_location     => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
       :apt_mariadb_repo_release      => 'precise',
       :apt_mariadb_repo_repos        => 'main',
       :apt_mariadb_repo_key          => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
-      :apt_mariadb_repo_key_server   => 'keys.gnupg.net',
+      :apt_mariadb_repo_key_server   => 'keyserver.ubuntu.com',
       :apt_mariadb_repo_include_src  => false,
 
       :apt_codership_repo_location     => 'http://releases.galeracluster.com/ubuntu',

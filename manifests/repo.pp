@@ -11,8 +11,8 @@ class galera::repo(
   $apt_percona_repo_location = 'http://repo.percona.com/apt/',
   $apt_percona_repo_release = $::lsbdistcodename,
   $apt_percona_repo_repos = 'main',
-  $apt_percona_repo_key = '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
-  $apt_percona_repo_key_server = 'keys.gnupg.net',
+  $apt_percona_repo_key = '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
+  $apt_percona_repo_key_server = 'keyserver.ubuntu.com',
   $apt_percona_repo_include_src = false,
 
   # Ubuntu-Debian/mariadb
