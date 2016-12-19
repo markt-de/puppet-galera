@@ -17,6 +17,10 @@
 #   all nodes go down. (There is no election)
 #   Defaults to $::fqdn
 #
+# [*bootstrap_command*]
+#   (optional) Command used to bootstrap the galera cluster
+#   Defaults to $::galera::params::bootstrap_command
+#
 # [*local_ip*]
 #   (optional) The IP address of this node to use for comms
 #   Defaults to $::ipaddress_eth1
@@ -180,6 +184,7 @@
 class galera(
   $galera_servers                 = [$::ipaddress_eth1],
   $galera_master                  = $::fqdn,
+  $bootstrap_command              = undef,
   $local_ip                       = $::ipaddress_eth1,
   $bind_address                   = $::ipaddress_eth1,
   $mysql_port                     = 3306,
@@ -327,8 +332,9 @@ class galera(
       }
     }
 
+    $_bs_command = pick($bootstrap_command, $::galera::params::bootstrap_command)
     exec { 'bootstrap_galera_cluster':
-      command  => $galera::params::bootstrap_command,
+      command  => $_bs_command,
       unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
       require  => Class['mysql::server::installdb'],
       before   => Service['mysqld'],
