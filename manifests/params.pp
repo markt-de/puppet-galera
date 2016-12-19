@@ -3,7 +3,6 @@
 # Parameters for the galera module
 #
 class galera::params {
-  $server_csl = join($galera::galera_servers, ',')
 
   if $galera::vendor_type == 'percona' {
     $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
@@ -168,7 +167,6 @@ class galera::params {
       'bind-address'                    => $galera::bind_address,
       'wsrep_node_address'              => $galera::local_ip,
       'wsrep_provider'                  => $galera::params::libgalera_location,
-      'wsrep_cluster_address'           => "gcomm://${server_csl}",
       'wsrep_slave_threads'             => '8',
       'wsrep_sst_method'                => $galera::wsrep_sst_method,
       'wsrep_sst_auth'                  => "\"${wsrep_sst_auth}\"",

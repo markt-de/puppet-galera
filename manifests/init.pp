@@ -248,7 +248,14 @@ class galera(
 
   include galera::params
 
-  $options = mysql_deepmerge($galera::params::default_options, $override_options)
+  $node_list = join($galera_servers, ',')
+  $_wsrep_cluster_address = {
+    'mysqld' => {
+      'wsrep_cluster_address' => "gcomm://${node_list}/"
+    }
+  }
+
+  $options = mysql_deepmerge($galera::params::default_options, $_wsrep_cluster_address, $override_options)
 
   if ($create_root_user == undef) {
     if ($galera_master == $::fqdn) {
