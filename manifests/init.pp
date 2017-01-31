@@ -193,6 +193,7 @@ class galera(
   $wsrep_inc_state_transfer_port  = 4568,
   $wsrep_sst_method               = 'rsync',
   $root_password                  = 'test',
+  $purge_conf_dir                 = false,
   $create_root_my_cnf             = true,
   $create_root_user               = undef,
   $create_status_user             = true,
@@ -293,6 +294,7 @@ class galera(
     create_root_my_cnf => $create_root_my_cnf,
     create_root_user   => $create_root_user_real,
     service_enabled    => $service_enabled,
+    purge_conf_dir     => $purge_conf_dir,
     service_name       => $galera::params::mysql_service_name,
     restart            => $mysql_restart,
   }
