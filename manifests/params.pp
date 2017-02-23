@@ -58,8 +58,11 @@ class galera::params {
         $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.6'
         $galera_package_name_internal = 'percona-xtradb-cluster-galera-3.x'
         $client_package_name_internal = 'percona-xtradb-cluster-client-5.6'
-      }
-      else {
+      } elsif $galera::vendor_version == '5.7' {
+        $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.7'
+        $galera_package_name_internal = 'percona-xtradb-cluster-galera-3.x'
+        $client_package_name_internal = 'percona-xtradb-cluster-client-5.7'
+      } else {
         $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
         $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
         $client_package_name_internal = 'percona-xtradb-cluster-client-5.5'
@@ -102,7 +105,12 @@ class galera::params {
   } elsif ($galera::wsrep_sst_method in
     [ 'xtrabackup',
     'xtrabackup-v2' ]) {
-    $additional_packages = 'percona-xtrabackup'
+
+    if $galera::vendor_version == '5.7' {
+	$additional_packages = 'percona-xtrabackup-24'
+    } else {
+	$additional_packages = 'percona-xtrabackup'
+    }
   }
   if ($galera::wsrep_sst_method in [ 'skip', 'rsync' ]) {
     $wsrep_sst_auth = undef
