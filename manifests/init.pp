@@ -197,6 +197,7 @@ class galera(
   $package_ensure                   = 'installed',
   $status_password                  = undef,
   $service_enabled                  = undef,
+  $mysql_service_name               = undef,
   $manage_package_nmap              = true,
   $status_allow                     = '%',
   $status_host                      = 'localhost',
