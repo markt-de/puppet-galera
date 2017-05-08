@@ -31,10 +31,20 @@ class galera::params {
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'codership' {
+      if $galera::vendor_version == '5.6' {
+        $mysql_package_name_internal = 'mysql-wsrep-5.5'
+        $client_package_name_internal = 'mysql-wsrep-client-5.5'
+      }
+      elsif $galera::vendor_version == '5.7' {
+        $mysql_package_name_internal = 'mysql-wsrep-5.7'
+        $client_package_name_internal = 'mysql-wsrep-client-5.7'
+      }
+      else {
+        $mysql_package_name_internal = 'mysql-wsrep-5.5'
+        $client_package_name_internal = 'mysql-wsrep-client-5.5'
+      }
       $mysql_service_name = 'mysql'
-      $mysql_package_name_internal = 'mysql-wsrep-5.5'
       $galera_package_name_internal = 'galera-3'
-      $client_package_name_internal = 'mysql-wsrep-client-5.5'
       $libgalera_location = '/usr/lib64/galera-3/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
@@ -78,14 +88,17 @@ class galera::params {
     elsif $galera::vendor_type == 'codership' {
       if $galera::vendor_version == '5.6' {
         $mysql_package_name_internal = 'mysql-wsrep-5.6'
-        $galera_package_name_internal = 'galera-3'
         $client_package_name_internal = 'mysql-wsrep-client-5.6'
+      }
+      elsif $galera::vendor_version == '5.7' {
+        $mysql_package_name_internal = 'mysql-wsrep-5.7'
+        $client_package_name_internal = 'mysql-wsrep-client-5.7'
       }
       else {
         $mysql_package_name_internal = 'mysql-wsrep-5.5'
-        $galera_package_name_internal = 'galera-3'
         $client_package_name_internal = 'mysql-wsrep-client-5.5'
       }
+      $galera_package_name_internal = 'galera-3'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
