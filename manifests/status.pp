@@ -74,10 +74,12 @@ class galera::status {
   augeas { 'mysqlchk':
     context => '/files/etc/services',
     changes => [
+      "rm /files/etc/services/service-name[port = '${port}']",
       "set /files/etc/services/service-name[port = '${port}']/port ${port}",
       "set /files/etc/services/service-name[port = '${port}'] mysqlchk",
       "set /files/etc/services/service-name[port = '${port}']/protocol tcp",
     ],
+    onlyif => "match service-name[. = 'mysqlchk'] size == 0",
     before  => Anchor['mysql::server::end'],
   }
 
