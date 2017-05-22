@@ -68,6 +68,11 @@
 #   If this is set to undef, we will use true if galera_master == $::fqdn
 #   Defaults to undef
 #
+# [*create_status_user*]
+#   (optional) Flag to indicate if we should manage the status user. Set this
+#   to false if you wish to manage your status user elsewhere.
+#   Defaults to true
+#
 # [*override_options*]
 #   (optional) Options to pass to mysql::server class.
 #   See the puppet-mysql doc for more information.
@@ -182,6 +187,7 @@ class galera(
   $root_password                    = 'test',
   $create_root_my_cnf               = true,
   $create_root_user                 = undef,
+  $create_status_user               = true,
   $override_options                 = {},
   $vendor_type                      = 'percona',
   $vendor_version                   = undef,

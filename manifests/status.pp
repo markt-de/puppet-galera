@@ -15,39 +15,42 @@ class galera::status {
   $status_log_on_success_operator = $galera::status_log_on_success_operator
   $status_log_on_success          = $galera::status_log_on_success
   $status_log_on_failure          = $galera::status_log_on_failure
+  $create_status_user             = $galera::create_status_user
 
   if ! $status_password {
     fail('galera::status_password unset. Please specify a password for the clustercheck MySQL user.')
   }
 
-  if $status_allow != 'localhost' {
-    mysql_user { "${status_user}@${status_allow}":
+  if ( $create_status_user == true ) {
+    if $status_allow != 'localhost' {
+      mysql_user { "${status_user}@${status_allow}":
+        ensure        => 'present',
+        password_hash => mysql_password($status_password),
+        require       => [File['/root/.my.cnf'],Service['mysqld']]
+      } ->
+      mysql_grant { "${status_user}@${status_allow}/*.*":
+        ensure     => 'present',
+        options    => [ 'GRANT' ],
+        privileges => [ 'USAGE' ],
+        table      => '*.*',
+        user       => "${status_user}@${status_allow}",
+        before     => Anchor['mysql::server::end']
+      }
+    }
+
+    mysql_user { "${status_user}@localhost":
       ensure        => 'present',
       password_hash => mysql_password($status_password),
       require       => [File['/root/.my.cnf'],Service['mysqld']]
     } ->
-    mysql_grant { "${status_user}@${status_allow}/*.*":
+    mysql_grant { "${status_user}@localhost/*.*":
       ensure     => 'present',
       options    => [ 'GRANT' ],
       privileges => [ 'USAGE' ],
       table      => '*.*',
-      user       => "${status_user}@${status_allow}",
+      user       => "${status_user}@localhost",
       before     => Anchor['mysql::server::end']
     }
-  }
-
-  mysql_user { "${status_user}@localhost":
-    ensure        => 'present',
-    password_hash => mysql_password($status_password),
-    require       => [File['/root/.my.cnf'],Service['mysqld']]
-  } ->
-  mysql_grant { "${status_user}@localhost/*.*":
-    ensure     => 'present',
-    options    => [ 'GRANT' ],
-    privileges => [ 'USAGE' ],
-    table      => '*.*',
-    user       => "${status_user}@localhost",
-    before     => Anchor['mysql::server::end']
   }
 
   group { 'clustercheck':
