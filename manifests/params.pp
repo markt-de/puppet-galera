@@ -8,7 +8,14 @@ class galera::params {
   if $galera::vendor_type == 'percona' {
     $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
   } elsif ($galera::vendor_type == 'mariadb' or $galera::vendor_type == 'codership') {
-    $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
+    if ($::osfamily == 'RedHat' and versioncmp($::operatingsystemrelease, '7') >= 0 and
+      $galera::vendor_version and versioncmp($galera::vendor_version, '10.0') == 1
+    ) {
+      # We have systemd and we should use the binary
+      $bootstrap_command = '/usr/bin/galera_new_cluster'
+    } else {
+      $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
+    }
   } elsif $galera::vendor_type == 'osp5' {
     # mysqld log part is a workaround for a packaging bug
     # to be removed when packages are fixed
@@ -25,10 +32,14 @@ class galera::params {
     }
     elsif $galera::vendor_type == 'mariadb' {
       $mysql_service_name = 'mysql'
-      $mysql_package_name_internal = 'MariaDB-Galera-server'
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
+      if $galera::vendor_version and versioncmp($galera::vendor_version, '10.0') == 1 {
+        $mysql_package_name_internal = 'MariaDB-server'
+      } else {
+        $mysql_package_name_internal = 'MariaDB-Galera-server'
+      }
     }
     elsif $galera::vendor_type == 'codership' {
       $mysql_service_name = 'mysql'
@@ -144,7 +155,8 @@ class galera::params {
         'query_cache_size'                  => '0',
         'query_cache_type'                  => '0',
         'wsrep_node_incoming_address'       => $galera::local_ip,
-        'wsrep_sst_receive_address'         => $galera::local_ip
+        'wsrep_sst_receive_address'         => $galera::local_ip,
+        'wsrep_on'                          => 'ON',
     }
   }
 
