@@ -1,5 +1,7 @@
 # puppet-galera module
 
+## This project is now maintained at https://github.com/fraenki/puppet-galera
+
 [![Build Status](https://travis-ci.org/michaeltchapman/puppet-galera.png?branch=master)](https://travis-ci.org/michaeltchapman/puppet-galera)
 
 This module will massage puppetlabs-mysql into creating a mysql galera cluster. It will try to recover from failures by bootstrapping on a node designated as the master if no other nodes appear to be running mysql, but if the cluster goes down and the master is permanently taken out, another node will need to be specified as the 'master' that can bootstrap the cluster.
