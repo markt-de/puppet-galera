@@ -81,10 +81,12 @@ A vagrant file is provided. Control1 is set as the master and control2 as the sl
     vagrant up control1
     vagrant up control2
 
+Vagrant support is currently not under active maintenance.
+
 ## Contributions
 
-Pull requests most welcome :)
+Please use the github issues functionality to report any bugs or requests for new features. Feel free to fork and submit pull requests for potential contributions.
 
 # Authors
 
-- Michael Chapman
+Written by Michael Chapman, currently maintained by Frank Wall.
