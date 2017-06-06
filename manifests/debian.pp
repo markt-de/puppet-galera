@@ -3,7 +3,6 @@
 # Fixes Debian specific compatibility issues
 #
 class galera::debian {
-
   if ($::osfamily != 'Debian') {
     warn('the galera::debian class has been included on a non-debian host')
   }
@@ -33,7 +32,6 @@ class galera::debian {
     require     => Class['mysql::server::install'],
     before      => Class['mysql::server::installdb'],
   }
-
 
   # Debian policy will autostart the non galera mysql after
   # package install, so kill it if the package is
@@ -91,6 +89,7 @@ class galera::debian {
       before  => Service['mysqld'],
     }
   }
+
   # Ensure mysql server is installed before writing debian.cnf, since the
   # package will create /etc/mysql
   Package['mysql-server'] -> File['/etc/mysql/debian.cnf']

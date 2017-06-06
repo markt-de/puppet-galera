@@ -10,36 +10,36 @@
 # === Parameters
 #
 # [*user*]
-# (optional) The mysql user to use.
-#  Defaults to $galera::status_user
+#   (optional) The mysql user to use.
+#    Defaults to $galera::status_user
 #
 # [*password*]
-# (optional) The password for the mysql user.
-#  Defaults to $galera::status_password
+#   (optional) The password for the mysql user.
+#    Defaults to $galera::status_password
 #
 # [*host*]
-# (optional) The mysql host to check.
-#  Defaults to $galera::status_host
+#   (optional) The mysql host to check.
+#    Defaults to $galera::status_host
 #
 # [*retries*]
-# (optional) Number of times to retry connection
-#  Defaults to 20
+#   (optional) Number of times to retry connection
+#   Defaults to 20
 #
 # [*delay*]
-# (optional) Seconds to sleep between attempts.
-#  Defaults to 3
+#   (optional) Seconds to sleep between attempts.
+#   Defaults to 3
 #
 # [*action*]
-# (optional) The mysql command to run
-#  Defaults to 'select count(1);'
+#   (optional) The mysql command to run
+#   Defaults to 'select count(1);'
 #
 # [*catch*]
-# (optional) A string that if present indicates failure
-#  Defaults to 'ERROR'
+#   (optional) A string that if present indicates failure
+#   Defaults to 'ERROR'
 #
 # [*inv_catch*]
-# (optional) A string that if not present indicates failure
-#  Defaults to undef
+#   (optional) A string that if not present indicates failure
+#   Defaults to undef
 #
 class galera::validate(
   $user      = $galera::status_user,
@@ -50,8 +50,7 @@ class galera::validate(
   $action    = 'select count(1);',
   $catch     = 'ERROR',
   $inv_catch = 'undef'
-)
-{
+) {
   include galera::status
 
   if $catch {

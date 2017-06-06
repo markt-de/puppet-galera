@@ -4,7 +4,6 @@
 # of the galera cluster,
 #
 class galera::status {
-
   $status_password                = $galera::status_password
   $status_allow                   = $galera::status_allow
   $status_host                    = $galera::status_host
@@ -82,10 +81,9 @@ class galera::status {
       "set /files/etc/services/service-name[port = '${port}'] mysqlchk",
       "set /files/etc/services/service-name[port = '${port}']/protocol tcp",
     ],
-    onlyif => "match service-name[. = 'mysqlchk'] size == 0",
+    onlyif  => "match service-name[. = 'mysqlchk'] size == 0",
     before  => Anchor['mysql::server::end'],
   }
-
 
   xinetd::service { 'mysqlchk':
     server                  => '/usr/local/bin/clustercheck',

@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*status_password*]
-#  (required) The password of the status check user
+#   (required) The password of the status check user
 #
 # [*galera_servers*]
 #   (optional) A list of IP addresses of the nodes in
@@ -134,36 +134,36 @@
 #   (optional) Whether additional packages should be installed
 #
 # [*status_password*]
-#  (required) The password of the status check user
+#   (required) The password of the status check user
 #
 # [*status_allow*]
-#  (optional) The subnet to allow status checks from
-#  Defaults to '%'
+#   (optional) The subnet to allow status checks from
+#   Defaults to '%'
 #
 # [*status_host*]
-#  (optional) The cluster to add the cluster check user to
-#  Defaults to 'localhost'
+#   (optional) The cluster to add the cluster check user to
+#   Defaults to 'localhost'
 #
 # [*status_user*]
-#  (optional) The name of the user to use for status checks
-#  Defaults to 'clustercheck'
+#   (optional) The name of the user to use for status checks
+#   Defaults to 'clustercheck'
 #
 # [*status_port*]
-#  (optional) Port for cluster check service
-#  Defaults to 9200
+#   (optional) Port for cluster check service
+#   Defaults to 9200
 #
 # [*status_available_when_donor*]
-#  (optional) When set to 1, the node will remain in the cluster
-#  when it enters donor mode. A value of 0 will remove the node
-#  from the cluster.
-#  Defaults to 0
+#   (optional) When set to 1, the node will remain in the cluster
+#   when it enters donor mode. A value of 0 will remove the node
+#   from the cluster.
+#   Defaults to 0
 #
 # [*status_available_when_readonly*]
-#  (optional) When set to 0, clustercheck will return a 503
-#  Service Unavailable if the node is in the read_only state,
-#  as defined by the "read_only" mysql variable. Values other
-#  than 0 have no effect.
-#  Defaults to -1
+#   (optional) When set to 0, clustercheck will return a 503
+#   Service Unavailable if the node is in the read_only state,
+#   as defined by the "read_only" mysql variable. Values other
+#   than 0 have no effect.
+#   Defaults to -1
 #
 # [*status_log_on_success_operator*]
 #   (optional) Determines which operator xinetd uses to output logs on success
@@ -178,48 +178,47 @@
 #   Defaults to undef
 #
 class galera(
-  $galera_servers                   = [$::ipaddress_eth1],
-  $galera_master                    = $::fqdn,
-  $local_ip                         = $::ipaddress_eth1,
-  $bind_address                     = $::ipaddress_eth1,
-  $mysql_port                       = 3306,
-  $wsrep_group_comm_port            = 4567,
-  $wsrep_state_transfer_port        = 4444,
-  $wsrep_inc_state_transfer_port    = 4568,
-  $wsrep_sst_method                 = 'rsync',
-  $root_password                    = 'test',
-  $create_root_my_cnf               = true,
-  $create_root_user                 = undef,
-  $create_status_user               = true,
-  $override_options                 = {},
-  $vendor_type                      = 'percona',
-  $vendor_version                   = undef,
-  $configure_repo                   = true,
-  $configure_firewall               = true,
-  $deb_sysmaint_password            = 'sysmaint',
-  $validate_connection              = true,
-  $status_check                     = true,
-  $mysql_restart                    = false,
-  $mysql_package_name               = undef,
-  $galera_package_name              = undef,
-  $client_package_name              = undef,
-  $package_ensure                   = 'installed',
-  $status_password                  = undef,
-  $service_enabled                  = undef,
-  $mysql_service_name               = undef,
-  $manage_package_nmap              = true,
-  $manage_additional_packages       = true,
-  $status_allow                     = '%',
-  $status_host                      = 'localhost',
-  $status_user                      = 'clustercheck',
-  $status_port                      = 9200,
-  $status_available_when_donor      = 0,
-  $status_available_when_readonly   = -1,
-  $status_log_on_success_operator   = '=',
-  $status_log_on_success            = '',
-  $status_log_on_failure            = undef,
-)
-{
+  $galera_servers                 = [$::ipaddress_eth1],
+  $galera_master                  = $::fqdn,
+  $local_ip                       = $::ipaddress_eth1,
+  $bind_address                   = $::ipaddress_eth1,
+  $mysql_port                     = 3306,
+  $wsrep_group_comm_port          = 4567,
+  $wsrep_state_transfer_port      = 4444,
+  $wsrep_inc_state_transfer_port  = 4568,
+  $wsrep_sst_method               = 'rsync',
+  $root_password                  = 'test',
+  $create_root_my_cnf             = true,
+  $create_root_user               = undef,
+  $create_status_user             = true,
+  $override_options               = {},
+  $vendor_type                    = 'percona',
+  $vendor_version                 = undef,
+  $configure_repo                 = true,
+  $configure_firewall             = true,
+  $deb_sysmaint_password          = 'sysmaint',
+  $validate_connection            = true,
+  $status_check                   = true,
+  $mysql_restart                  = false,
+  $mysql_package_name             = undef,
+  $galera_package_name            = undef,
+  $client_package_name            = undef,
+  $package_ensure                 = 'installed',
+  $status_password                = undef,
+  $service_enabled                = undef,
+  $mysql_service_name             = undef,
+  $manage_package_nmap            = true,
+  $manage_additional_packages     = true,
+  $status_allow                   = '%',
+  $status_host                    = 'localhost',
+  $status_user                    = 'clustercheck',
+  $status_port                    = 9200,
+  $status_available_when_donor    = 0,
+  $status_available_when_readonly = -1,
+  $status_log_on_success_operator = '=',
+  $status_log_on_success          = '',
+  $status_log_on_failure          = undef,
+) {
   if $configure_repo {
     include galera::repo
     Class['::galera::repo'] -> Class['mysql::server']

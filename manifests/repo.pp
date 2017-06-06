@@ -1,8 +1,8 @@
 # Class galera::repo
-
+#
 # Installs the appropriate repositories from which percona packages
 # can be installed
-
+#
 class galera::repo(
   $repo_vendor = $galera::vendor_type,
   $epel_needed = true,

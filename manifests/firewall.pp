@@ -3,13 +3,12 @@
 # === Parameters
 #
 # [*source*]
-# (optional) The firewall source addresses to unblock
-# Defaults to undef
+#   (optional) The firewall source addresses to unblock
+#   Defaults to undef
 #
 class galera::firewall (
   $source = undef,
 ) {
-
   $galera_ports = [
     $galera::mysql_port,
     $galera::wsrep_group_comm_port,
