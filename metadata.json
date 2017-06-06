@@ -31,7 +31,7 @@
     },
     {
     "operatingsystem":"Ubuntu",
-    "operatingsystemrelease": ["12.04", "14.04"]
+    "operatingsystemrelease": ["12.04", "14.04", "16.04"]
     },
     {
     "operatingsystem":"RedHat",
@@ -53,7 +53,7 @@
   "requirements": [],
   "source": "https://github.com/fraenki/puppet-galera",
   "summary": "Install/configure MySQL with Galera",
-  "tags": ["mysql", "percona", "mariadb", "galera", "database"],
-  "version": "0.6.0"
+  "tags": ["mysql", "percona", "mariadb", "galera", "database", "codership", "cluster", "wsrep"],
+  "version": "0.7.0"
 }
 
