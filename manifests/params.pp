@@ -24,14 +24,14 @@ class galera::params {
 
   if ($::osfamily == 'RedHat') {
     if $galera::vendor_type == 'percona' {
-      $mysql_service_name = 'mysql'
+      $mysql_service_name_internal = 'mysql'
       $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
       $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
-      $mysql_service_name = 'mysql'
+      $mysql_service_name_internal = 'mysql'
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'MariaDB-client'
       $libgalera_location = '/usr/lib64/galera/libgalera_smm.so'
@@ -54,12 +54,12 @@ class galera::params {
         $mysql_package_name_internal = 'mysql-wsrep-5.5'
         $client_package_name_internal = 'mysql-wsrep-client-5.5'
       }
-      $mysql_service_name = 'mysql'
+      $mysql_service_name_internal = 'mysqld'
       $galera_package_name_internal = 'galera-3'
       $libgalera_location = '/usr/lib64/galera-3/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
-      $mysql_service_name           = 'mariadb'
+      $mysql_service_name_internal  = 'mariadb'
       $mysql_package_name_internal  = 'mariadb-galera-server'
       $galera_package_name_internal = 'galera'
       $client_package_name_internal = 'mariadb'
@@ -73,7 +73,7 @@ class galera::params {
 
   }
   elsif ($::osfamily == 'Debian'){
-    $mysql_service_name = 'mysql'
+    $mysql_service_name_internal = 'mysql'
     if $galera::vendor_type == 'percona' {
       if $galera::vendor_version == '5.6' {
         $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.6'
@@ -184,5 +184,9 @@ class galera::params {
   $client_package_name = pick(
     $::galera::client_package_name,
     $client_package_name_internal
+  )
+  $mysql_service_name = pick(
+    $::galera::mysql_service_name,
+    $mysql_service_name_internal
   )
 }
