@@ -24,10 +24,22 @@ class galera::params {
 
   if ($::osfamily == 'RedHat') {
     if $galera::vendor_type == 'percona' {
+      if $galera::vendor_version == '5.6' {
+        $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-56'
+        $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-3'
+        $client_package_name_internal = 'Percona-XtraDB-Cluster-client-56'
+      }
+      elsif $galera::vendor_version == '5.7' {
+        $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-57'
+        $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-3'
+        $client_package_name_internal = 'Percona-XtraDB-Cluster-client-57'
+      }
+      else {
+        $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
+        $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
+        $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
+      }
       $mysql_service_name_internal = 'mysql'
-      $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
-      $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
-      $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {

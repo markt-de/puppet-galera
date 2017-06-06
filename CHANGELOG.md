@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.1
+* Feature: Add Percona XtraDB cluster 5.6 and 5.7 support on RedHat (experimental!)
+
 ## 0.7.0
 * WARNING: First release in almost a year, please use with caution!
 * Feature: Support MySQL 5.6 and 5.7 with codership repo (#76, #86)

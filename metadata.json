@@ -22,7 +22,7 @@
       "version_requirement": ">=1.3.0"
     }
   ],
-  "description": "Install/configure MySQL with Galera",
+  "description": "Install/configure MySQL with Galera/XtraDB cluster support",
   "license": "Apache-2.0",
   "name": "fraenki-galera",
   "operatingsystem_support": [
@@ -53,7 +53,7 @@
   "requirements": [],
   "source": "https://github.com/fraenki/puppet-galera",
   "summary": "Install/configure MySQL with Galera",
-  "tags": ["mysql", "percona", "mariadb", "galera", "database", "codership", "cluster", "wsrep"],
-  "version": "0.7.0"
+  "tags": ["mysql", "percona", "mariadb", "galera", "database", "codership", "cluster", "wsrep", "xtradb"],
+  "version": "0.7.1"
 }
 
