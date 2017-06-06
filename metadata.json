@@ -1,5 +1,5 @@
 {
-  "author": "Michael Chapman",
+  "author": "Frank Wall",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
@@ -24,7 +24,7 @@
   ],
   "description": "Install/configure MySQL with Galera",
   "license": "Apache-2.0",
-  "name": "michaeltchapman-galera",
+  "name": "fraenki-galera",
   "operatingsystem_support": [
     {
     "operatingsystem":"Debian"
@@ -48,12 +48,12 @@
     "operatingsystem":"OracleLinux"
     }
   ],
-  "project_page": "https://github.com/michaeltchapman/puppet-galera",
-  "issues_url": "https://github.com/michaeltchapman/puppet-galera/issues",
+  "project_page": "https://github.com/fraenki/puppet-galera",
+  "issues_url": "https://github.com/fraenki/puppet-galera/issues",
   "requirements": [],
-  "source": "https://github.com/michaeltchapman/puppet-galera",
+  "source": "https://github.com/fraenki/puppet-galera",
   "summary": "Install/configure MySQL with Galera",
   "tags": ["mysql", "percona", "mariadb", "galera", "database"],
-  "version": "0.5.0"
+  "version": "0.6.0"
 }
 
