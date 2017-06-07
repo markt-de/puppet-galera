@@ -23,7 +23,7 @@
     }
   ],
   "description": "Install/configure MySQL with Galera/XtraDB cluster support",
-  "license": "Apache-2.0",
+  "license": "BSD-2-Clause",
   "name": "fraenki-galera",
   "operatingsystem_support": [
     {
