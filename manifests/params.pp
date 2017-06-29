@@ -14,7 +14,7 @@ class galera::params {
       # We have systemd and we should use the binary
       $bootstrap_command = '/usr/bin/galera_new_cluster'
     } else {
-      $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
+      $bootstrap_command = 'service mysql bootstrap'
     }
   } elsif $galera::vendor_type == 'osp5' {
     # mysqld log part is a workaround for a packaging bug
