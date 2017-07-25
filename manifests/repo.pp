@@ -95,6 +95,7 @@ class galera::repo(
             include  => {
               'src' => $apt_mariadb_repo_include_src,
             },
+            notify   => Exec['apt_update'],
           }
         } elsif ($repo_vendor == 'codership') {
           apt::source { 'galera_codership_repo':
@@ -108,6 +109,7 @@ class galera::repo(
             include  => {
               'src' => $apt_codership_repo_include_src,
             },
+            notify   => Exec['apt_update'],
           }
         }
       }
