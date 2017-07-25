@@ -112,6 +112,7 @@ class galera::repo(
             notify   => Exec['apt_update'],
           }
         }
+        Exec['apt_update'] -> Package<||>
       }
       if ($repo_vendor == 'osp5') {
         fail('OSP5 is only supported on RHEL platforms.')
