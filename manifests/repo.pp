@@ -28,8 +28,8 @@ class galera::repo(
 
   # Ubuntu-Debian/codership
   $apt_codership_repo_location = $::operatingsystem ? {
-    'Debian' => 'http://releases.galeracluster.com/debian',
-    default  => 'http://releases.galeracluster.com/ubuntu',
+    'Debian' => 'http://releases.galeracluster.com/galera-3/debian',
+    default  => 'http://releases.galeracluster.com/galera-3/ubuntu',
   },
   $apt_codership_repo_release      = $::lsbdistcodename,
   $apt_codership_repo_repos        = 'main',
