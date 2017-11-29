@@ -247,7 +247,7 @@ class galera(
   $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
   if ($create_root_user == undef) {
-    if ($galera_master == $::fqdn) {
+    if ($galera_master == $::fqdn) or ($galera_master == $::hostname) {
       # manage root user on the galera master
       $create_root_user_real = true
     } else {
