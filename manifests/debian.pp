@@ -57,7 +57,7 @@ class galera::debian {
       ensure        => 'present',
       password_hash => mysql_password($deb_sysmaint_password),
       provider      => 'mysql',
-      require       => File['/root/.my.cnf'],
+      require       => File["${::root_home}/.my.cnf"],
     }
 
     mysql_grant { 'debian-sys-maint@localhost/*.*':

@@ -111,7 +111,7 @@ describe 'galera' do
       it { should contain_class('mysql::server').with(
         :package_name => os_params[:c_mysql_package_name],
         :root_password => params[:root_password],
-        :service_name  => os_params[:mysql_service_name]
+        :service_name  => os_params[:c_mysql_service_name]
       ) }
 
       it { should contain_package(os_params[:c_galera_package_name]).with(:ensure => 'installed') }
@@ -154,7 +154,7 @@ describe 'galera' do
   on_supported_os.each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge({ })
+        facts.merge({})
       end
 
       let (:os_params) do
@@ -174,6 +174,7 @@ describe 'galera' do
             :c_client_package_name => 'mysql-wsrep-client-5.5',
             :c_libgalera_location  => '/usr/lib64/galera-3/libgalera_smm.so',
             :c_additional_packages => 'rsync',
+            :c_mysql_service_name  => 'mysqld',
             :mysql_service_name    => 'mysql',
           }
         elsif facts[:osfamily] == 'Debian'
@@ -192,6 +193,7 @@ describe 'galera' do
             :c_client_package_name => 'mysql-wsrep-client-5.5',
             :c_libgalera_location  => '/usr/lib/libgalera_smm.so',
             :c_additional_packages => 'rsync',
+            :c_mysql_service_name  => 'mysql',
             :mysql_service_name    => 'mysql',
           }
         end
