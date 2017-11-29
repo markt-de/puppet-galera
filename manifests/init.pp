@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*status_password*]
-#  (required) The password of the status check user
+#   (required) The password of the status check user
 #
 # [*galera_servers*]
 #   (optional) A list of IP addresses of the nodes in
@@ -57,6 +57,22 @@
 #   (optional) The mysql root password.
 #   Defaults to 'test'
 #
+# [*create_root_my_cnf*]
+#   (optional) Flag to indicate if we should manage the root .my.cnf. Set this
+#   to false if you wish to manage your root .my.cnf file elsewhere.
+#   Defaults to true
+#
+# [*create_root_user*]
+#   (optional) Flag to indicate if we should manage the root user. Set this
+#   to false if you wish to manage your root user elsewhere.
+#   If this is set to undef, we will use true if galera_master == $::fqdn
+#   Defaults to undef
+#
+# [*create_status_user*]
+#   (optional) Flag to indicate if we should manage the status user. Set this
+#   to false if you wish to manage your status user elsewhere.
+#   Defaults to true
+#
 # [*override_options*]
 #   (optional) Options to pass to mysql::server class.
 #   See the puppet-mysql doc for more information.
@@ -66,6 +82,11 @@
 #   (optional) The galera vendor to use. Valid options
 #   are 'mariadb' and 'percona'
 #   Defaults to 'percona'
+#
+# [*vendor_version*]
+#   (optional) The galera version to use. Valid option for percona
+#   are '5.5' and '5.6'. Only valid for percona+debian.
+#   Defaults to undef
 #
 # [*configure_repo*]
 #   (optional) Whether to configure additional repositories for
@@ -102,32 +123,102 @@
 #   (Optional) Ensure state for package.
 #   Defaults to 'installed'
 #
+# [*service_enabled*]
+#   (optional) Whether the mysql service should be enabled
+#   Defaults to undef
+#
+# [*manage_package_nmap*]
+#   (optional) Whether the package nmap should be installed
+#
+# [*manage_additional_packages*]
+#   (optional) Whether additional packages should be installed
+#
+# [*status_password*]
+#   (required) The password of the status check user
+#
+# [*status_allow*]
+#   (optional) The subnet to allow status checks from
+#   Defaults to '%'
+#
+# [*status_host*]
+#   (optional) The cluster to add the cluster check user to
+#   Defaults to 'localhost'
+#
+# [*status_user*]
+#   (optional) The name of the user to use for status checks
+#   Defaults to 'clustercheck'
+#
+# [*status_port*]
+#   (optional) Port for cluster check service
+#   Defaults to 9200
+#
+# [*status_available_when_donor*]
+#   (optional) When set to 1, the node will remain in the cluster
+#   when it enters donor mode. A value of 0 will remove the node
+#   from the cluster.
+#   Defaults to 0
+#
+# [*status_available_when_readonly*]
+#   (optional) When set to 0, clustercheck will return a 503
+#   Service Unavailable if the node is in the read_only state,
+#   as defined by the "read_only" mysql variable. Values other
+#   than 0 have no effect.
+#   Defaults to -1
+#
+# [*status_log_on_success_operator*]
+#   (optional) Determines which operator xinetd uses to output logs on success
+#   Defaults to '='
+#
+# [*status_log_on_success*]
+#   (optional) Determines which fields xinetd will log on success
+#   Defaults to ''
+#
+# [*status_log_on_failure*]
+#   (optional) Determines which fields xinetd will log on failure
+#   Defaults to undef
+#
 class galera(
-  $galera_servers                   = [$::ipaddress_eth1],
-  $galera_master                    = $::fqdn,
-  $local_ip                         = $::ipaddress_eth1,
-  $bind_address                     = $::ipaddress_eth1,
-  $mysql_port                       = 3306,
-  $wsrep_group_comm_port            = 4567,
-  $wsrep_state_transfer_port        = 4444,
-  $wsrep_inc_state_transfer_port    = 4568,
-  $wsrep_sst_method                 = 'rsync',
-  $root_password                    = 'test',
-  $override_options                 = {},
-  $vendor_type                      = 'percona',
-  $configure_repo                   = true,
-  $configure_firewall               = true,
-  $deb_sysmaint_password            = 'sysmaint',
-  $validate_connection              = true,
-  $status_check                     = true,
-  $mysql_restart                    = false,
-  $mysql_package_name               = undef,
-  $galera_package_name              = undef,
-  $client_package_name              = undef,
-  $package_ensure                   = 'installed',
-  $status_password                  = undef,
-)
-{
+  $galera_servers                 = [$::ipaddress_eth1],
+  $galera_master                  = $::fqdn,
+  $local_ip                       = $::ipaddress_eth1,
+  $bind_address                   = $::ipaddress_eth1,
+  $mysql_port                     = 3306,
+  $wsrep_group_comm_port          = 4567,
+  $wsrep_state_transfer_port      = 4444,
+  $wsrep_inc_state_transfer_port  = 4568,
+  $wsrep_sst_method               = 'rsync',
+  $root_password                  = 'test',
+  $create_root_my_cnf             = true,
+  $create_root_user               = undef,
+  $create_status_user             = true,
+  $override_options               = {},
+  $vendor_type                    = 'percona',
+  $vendor_version                 = undef,
+  $configure_repo                 = true,
+  $configure_firewall             = true,
+  $deb_sysmaint_password          = 'sysmaint',
+  $validate_connection            = true,
+  $status_check                   = true,
+  $mysql_restart                  = false,
+  $mysql_package_name             = undef,
+  $galera_package_name            = undef,
+  $client_package_name            = undef,
+  $package_ensure                 = 'installed',
+  $status_password                = undef,
+  $service_enabled                = undef,
+  $mysql_service_name             = undef,
+  $manage_package_nmap            = true,
+  $manage_additional_packages     = true,
+  $status_allow                   = '%',
+  $status_host                    = 'localhost',
+  $status_user                    = 'clustercheck',
+  $status_port                    = 9200,
+  $status_available_when_donor    = 0,
+  $status_available_when_readonly = -1,
+  $status_log_on_success_operator = '=',
+  $status_log_on_success          = '',
+  $status_log_on_failure          = undef,
+) {
   if $configure_repo {
     include galera::repo
     Class['::galera::repo'] -> Class['mysql::server']
@@ -155,7 +246,21 @@ class galera(
 
   $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
-  if ($root_password != 'UNSET') {
+  if ($create_root_user == undef) {
+    if ($galera_master == $::fqdn) {
+      # manage root user on the galera master
+      $create_root_user_real = true
+    } else {
+      # skip manage root user on nodes that are not the galera master since
+      # they should get a database with the root user already configured when
+      # they sync from the master
+      $create_root_user_real = false
+    }
+  } else {
+    $create_root_user_real = $create_root_user
+  }
+
+  if ($create_root_my_cnf == true and $root_password != 'UNSET') {
     # Check if we can already login with the given password
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
@@ -165,17 +270,20 @@ class galera(
         "/usr/bin/mysql --user=root --password=${root_password} -e 'select count(1);'",
         "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='${root_password}'\"` -eq 0",
         ],
-      require => [Service['mysqld']],
+      require => Service['mysqld'],
       before  => [Class['mysql::server::root_password']],
     }
   }
 
-  class { 'mysql::server':
-    package_name     => $galera::params::mysql_package_name,
-    override_options => $options,
-    root_password    => $root_password,
-    service_name     => $galera::params::mysql_service_name,
-    restart          => $mysql_restart,
+  class { '::mysql::server':
+    package_name       => $galera::params::mysql_package_name,
+    override_options   => $options,
+    root_password      => $root_password,
+    create_root_my_cnf => $create_root_my_cnf,
+    create_root_user   => $create_root_user_real,
+    service_enabled    => $service_enabled,
+    service_name       => $galera::params::mysql_service_name,
+    restart            => $mysql_restart,
   }
 
   file { $galera::params::rundir:
@@ -183,15 +291,15 @@ class galera(
     owner   => 'mysql',
     group   => 'mysql',
     require => Class['mysql::server::install'],
-    before  => Class['mysql::server::config']
+    before  => Class['mysql::server::installdb']
   }
 
-  if $galera::params::additional_packages {
+  if $manage_additional_packages and $galera::params::additional_packages {
     ensure_resource(package, $galera::params::additional_packages,
     {
       ensure  => $package_ensure,
-      require => Anchor['mysql::server::start'],
-      before  => Class['mysql::server::install']
+      before  => Class['mysql::server::install'],
+      require => Class['mysql::server::config']
     })
   }
 
@@ -200,24 +308,31 @@ class galera(
   }
 
   package{[
-      $galera::params::nc_package_name,
       $galera::params::galera_package_name,
       ] :
     ensure  => $package_ensure,
-    require => Anchor['mysql::server::start'],
-    before  => Class['mysql::server::install']
+    before  => Class['mysql::server::install'],
+    require => Class['mysql::server::config']
   }
 
 
-  if ($::fqdn == $galera_master) or ( $::hostname == $galera_master ) {
+  if $::fqdn == $galera_master or $::hostname == $galera_master {
     # If there are no other servers up and we are the master, the cluster
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
+
+    if $manage_package_nmap {
+      package { 'nmap':
+        ensure => $package_ensure,
+        before => Exec['bootstrap_galera_cluster']
+      }
+    }
+
     exec { 'bootstrap_galera_cluster':
       command  => $galera::params::bootstrap_command,
-      onlyif   => "ret=1; for i in ${server_list}; do nc -z \$i ${wsrep_group_comm_port}; if [ \"\$?\" = \"0\" ]; then ret=0; fi; done; /bin/echo \$ret | /bin/grep 1 -q",
-      require  => Class['mysql::server::config'],
-      before   => [Class['mysql::server::service'], Service['mysqld']],
+      unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
+      require  => Class['mysql::server::installdb'],
+      before   => Service['mysqld'],
       provider => shell,
       path     => '/usr/bin:/bin:/usr/sbin:/sbin'
     }
