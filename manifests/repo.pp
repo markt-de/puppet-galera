@@ -31,6 +31,10 @@ class galera::repo(
     'Debian' => 'http://releases.galeracluster.com/galera-3/debian',
     default  => 'http://releases.galeracluster.com/galera-3/ubuntu',
   },
+  $apt_codership_wsrep_repo_location = $::operatingsystem ? {
+    'Debian' => 'http://releases.galeracluster.com/mysql-wsrep-5.7/debian',
+    default  => 'http://releases.galeracluster.com/mysql-wsrep-5.7/ubuntu',
+  },
   $apt_codership_repo_release      = $::lsbdistcodename,
   $apt_codership_repo_repos        = 'main',
   $apt_codership_repo_key          = '44B7345738EBDE52594DAD80D669017EBC19DDBA',
@@ -111,14 +115,26 @@ class galera::repo(
             },
             notify   => Exec['apt_update'],
           }
-        }
+          apt::source { 'wsrep_codership_repo':
+            location => $apt_codership_wsrep_repo_location,
+            release  => $apt_codership_repo_release,
+            repos    => $apt_codership_repo_repos,
+            key      => {
+              'id'     => $apt_codership_repo_key,
+              'server' => $apt_codership_repo_key_server,
+            },
+            include  => {
+              'src' => $apt_codership_repo_include_src,
+            },
+           notify   => Exec['apt_update'],
+          }
         Exec['apt_update'] -> Package<||>
       }
       if ($repo_vendor == 'osp5') {
         fail('OSP5 is only supported on RHEL platforms.')
       }
     }
-
+   }
     'RedHat': {
       if $repo_vendor == 'percona' {
         yumrepo { 'percona':
