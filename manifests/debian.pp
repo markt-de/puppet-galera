@@ -45,6 +45,12 @@ class galera::debian {
     require     => Class['mysql::server::install'],
   }
 
+  file { '/var/lib/mysql/debian-5.7.flag':
+    ensure  => absent,
+    before  => Class['mysql::server::installdb'],
+    require => Class['mysql::server::install'],
+  }
+
   # Assign this locally so that it is in scope for the template below.
   # Required for Puppet 4
   $deb_sysmaint_password = $galera::deb_sysmaint_password
