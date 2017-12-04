@@ -20,7 +20,8 @@ describe 'galera::repo' do
       :apt_mariadb_repo_key_server   => 'keyserver.ubuntu.com',
       :apt_mariadb_repo_include_src  => false,
 
-      :apt_codership_repo_location     => 'http://releases.galeracluster.com/ubuntu',
+      :apt_codership_repo_location     => 'http://releases.galeracluster.com/galera-3/ubuntu',
+			:apt_codership_wsrep_repo_location     => 'http://releases.galeracluster.com/mysql-wsrep-5.7/ubuntu',
       :apt_codership_repo_release      => 'precise',
       :apt_codership_repo_repos        => 'main',
       :apt_codership_repo_key          => '44B7345738EBDE52594DAD80D669017EBC19DDBA',
@@ -132,13 +133,25 @@ describe 'galera::repo' do
               "src" => params[:apt_codership_repo_include_src]
           }
       ) }
+      it { should contain_apt__source('wsrep_codership_repo').with(
+          :location => params[:apt_codership_wsrep_repo_location],
+          :release  => params[:apt_codership_repo_release],
+          :repos    => params[:apt_codership_repo_repos],
+          :key      => {
+              "id"     => params[:apt_codership_repo_key],
+              "server" => params[:apt_codership_repo_key_server]
+          },
+          :include  => {
+              "src" => params[:apt_codership_repo_include_src]
+          }
+      ) }
     end
   end
 
   on_supported_os.each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge({ })
+        facts.merge({})
       end
 
       case facts[:osfamily]

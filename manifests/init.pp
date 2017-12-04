@@ -193,7 +193,7 @@ class galera(
   $create_status_user             = true,
   $override_options               = {},
   $vendor_type                    = 'percona',
-  $vendor_version                 = undef,
+  $vendor_version                 = '5.7',
   $configure_repo                 = true,
   $configure_firewall             = true,
   $deb_sysmaint_password          = 'sysmaint',
@@ -222,7 +222,8 @@ class galera(
   if $configure_repo {
     include galera::repo
     Class['::galera::repo'] -> Class['mysql::server']
-  }
+    Class['::galera::repo'] -> Package<| title == 'mysql_client' |>
+    }
 
   if $configure_firewall {
     include galera::firewall
@@ -246,7 +247,7 @@ class galera(
   $options = mysql_deepmerge($galera::params::default_options, $override_options)
 
   if ($create_root_user == undef) {
-    if ($galera_master == $::fqdn) {
+    if ($galera_master == $::fqdn) or ($galera_master == $::hostname) {
       # manage root user on the galera master
       $create_root_user_real = true
     } else {
@@ -315,7 +316,7 @@ class galera(
   }
 
 
-  if $::fqdn == $galera_master {
+  if $::fqdn == $galera_master or $::hostname == $galera_master {
     # If there are no other servers up and we are the master, the cluster
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')

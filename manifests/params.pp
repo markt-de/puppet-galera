@@ -9,12 +9,12 @@ class galera::params {
     $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
   } elsif ($galera::vendor_type == 'mariadb' or $galera::vendor_type == 'codership') {
     if ($::osfamily == 'RedHat' and versioncmp($::operatingsystemrelease, '7') >= 0 and
-      $galera::vendor_version and versioncmp($galera::vendor_version, '10.0') == 1
+        $galera::vendor_version and versioncmp($galera::vendor_version, '10.0') == 1
     ) {
       # We have systemd and we should use the binary
       $bootstrap_command = '/usr/bin/galera_new_cluster'
     } else {
-      $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
+      $bootstrap_command = '/usr/bin/mysqld_bootstrap'
     }
   } elsif $galera::vendor_type == 'osp5' {
     # mysqld log part is a workaround for a packaging bug

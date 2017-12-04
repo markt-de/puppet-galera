@@ -111,7 +111,7 @@ describe 'galera' do
       it { should contain_class('mysql::server').with(
         :package_name => os_params[:c_mysql_package_name],
         :root_password => params[:root_password],
-        :service_name  => os_params[:mysql_service_name]
+        :service_name  => os_params[:c_mysql_service_name]
       ) }
 
       it { should contain_package(os_params[:c_galera_package_name]).with(:ensure => 'installed') }
@@ -154,14 +154,14 @@ describe 'galera' do
   on_supported_os.each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge({ })
+        facts.merge({})
       end
 
       let (:os_params) do
         if facts[:osfamily] == 'RedHat'
-          { :p_mysql_package_name  => 'Percona-XtraDB-Cluster-server-55',
+          { :p_mysql_package_name  => 'Percona-XtraDB-Cluster-server-57',
             :p_galera_package_name => 'Percona-XtraDB-Cluster-galera-2',
-            :p_client_package_name => 'Percona-XtraDB-Cluster-client-55',
+            :p_client_package_name => 'Percona-XtraDB-Cluster-client-57',
             :p_libgalera_location  => '/usr/lib64/libgalera_smm.so',
             :p_additional_packages => 'rsync',
             :m_mysql_package_name  => 'MariaDB-Galera-server',
@@ -169,29 +169,31 @@ describe 'galera' do
             :m_client_package_name => 'MariaDB-client',
             :m_libgalera_location  => '/usr/lib64/galera/libgalera_smm.so',
             :m_additional_packages => 'rsync',
-            :c_mysql_package_name  => 'mysql-wsrep-5.5',
+            :c_mysql_package_name  => 'mysql-wsrep-5.7',
             :c_galera_package_name => 'galera-3',
-            :c_client_package_name => 'mysql-wsrep-client-5.5',
+            :c_client_package_name => 'mysql-wsrep-client-5.7',
             :c_libgalera_location  => '/usr/lib64/galera-3/libgalera_smm.so',
             :c_additional_packages => 'rsync',
+            :c_mysql_service_name  => 'mysqld',
             :mysql_service_name    => 'mysql',
           }
         elsif facts[:osfamily] == 'Debian'
-          { :p_mysql_package_name  => 'percona-xtradb-cluster-server-5.5',
-            :p_galera_package_name => 'percona-xtradb-cluster-galera-2.x',
-            :p_client_package_name => 'percona-xtradb-cluster-client-5.5',
+          { :p_mysql_package_name  => 'percona-xtradb-cluster-server-5.7',
+            :p_galera_package_name => 'percona-xtradb-cluster-galera-3',
+            :p_client_package_name => 'percona-xtradb-cluster-client-5.7',
             :p_libgalera_location  => '/usr/lib/libgalera_smm.so',
             :p_additional_packages => 'rsync',
             :m_mysql_package_name  => 'mariadb-galera-server-5.5',
             :m_galera_package_name => 'galera',
-            :m_client_package_name => 'mariadb-client-5.5',
+            :m_client_package_name => 'mariadb-client-5.7',
             :m_libgalera_location  => '/usr/lib/galera/libgalera_smm.so',
             :m_additional_packages => 'rsync',
-            :c_mysql_package_name  => 'mysql-wsrep-5.5',
+            :c_mysql_package_name  => 'mysql-wsrep-5.7',
             :c_galera_package_name => 'galera-3',
-            :c_client_package_name => 'mysql-wsrep-client-5.5',
+            :c_client_package_name => 'mysql-wsrep-client-5.7',
             :c_libgalera_location  => '/usr/lib/libgalera_smm.so',
             :c_additional_packages => 'rsync',
+            :c_mysql_service_name  => 'mysql',
             :mysql_service_name    => 'mysql',
           }
         end

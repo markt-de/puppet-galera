@@ -29,7 +29,7 @@ describe 'galera::debian' do
       it { should contain_mysql_user('debian-sys-maint@localhost').with(
         :ensure   => 'present',
         :provider => 'mysql',
-        :require  => "File[/root/.my.cnf]"
+        :require  => "File[#{facts[:root_home]}/.my.cnf]"
       ) }
 
       it { should contain_mysql_grant('debian-sys-maint@localhost/*.*').with(
@@ -63,7 +63,7 @@ describe 'galera::debian' do
       it { should_not contain_mysql_user('debian-sys-maint@localhost').with(
         :ensure   => 'present',
         :provider => 'mysql',
-        :require  => "File[/root/.my.cnf]"
+        :require  => "File[/#{facts[:root_home]}/.my.cnf]"
       ) }
 
       it { should_not contain_file('/etc/mysql/debian.cnf').with(
