@@ -123,6 +123,12 @@
 #   (Optional) Ensure state for package.
 #   Defaults to 'installed'
 #
+# [*galera_package_ensure*]
+#   (Optional) Ensure state for Galera package.
+#   In some distibutions Galera package should have different versioning. You
+#   can use this variable to lock galera package.
+#   Defaults to 'installed'
+#
 # [*service_enabled*]
 #   (optional) Whether the mysql service should be enabled
 #   Defaults to undef
@@ -204,6 +210,7 @@ class galera(
   $galera_package_name            = undef,
   $client_package_name            = undef,
   $package_ensure                 = 'installed',
+  $galera_package_ensure          = 'installed',
   $status_password                = undef,
   $service_enabled                = undef,
   $mysql_service_name             = undef,
@@ -309,7 +316,7 @@ class galera(
   package{[
       $galera::params::galera_package_name,
       ] :
-    ensure  => $package_ensure,
+    ensure  => $galera_package_ensure,
     before  => Class['mysql::server::install'],
     require => Class['mysql::server::config']
   }
