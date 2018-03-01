@@ -73,23 +73,12 @@ class galera::status {
     before  => Anchor['mysql::server::end'],
   }
 
-  augeas { 'mysqlchk':
-    context => '/files/etc/services',
-    changes => [
-      "rm /files/etc/services/service-name[port = '${port}']",
-      "set /files/etc/services/service-name[port = '${port}']/port ${port}",
-      "set /files/etc/services/service-name[port = '${port}'] mysqlchk",
-      "set /files/etc/services/service-name[port = '${port}']/protocol tcp",
-    ],
-    onlyif  => "match service-name[. = 'mysqlchk'] size == 0",
-    before  => Anchor['mysql::server::end'],
-  }
-
   xinetd::service { 'mysqlchk':
     server                  => '/usr/local/bin/clustercheck',
     port                    => $port,
     user                    => 'clustercheck',
     flags                   => 'REUSE',
+    service_type            => 'UNLISTED',
     log_on_success          => $status_log_on_success,
     log_on_success_operator => $status_log_on_success_operator,
     log_on_failure          => $status_log_on_failure,

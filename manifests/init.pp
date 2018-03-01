@@ -17,6 +17,10 @@
 #   all nodes go down. (There is no election)
 #   Defaults to $::fqdn
 #
+# [*bootstrap_command*]
+#   (optional) Command used to bootstrap the galera cluster
+#   Defaults to $::galera::params::bootstrap_command
+#
 # [*local_ip*]
 #   (optional) The IP address of this node to use for comms
 #   Defaults to $::ipaddress_eth1
@@ -186,6 +190,7 @@
 class galera(
   $galera_servers                 = [$::ipaddress_eth1],
   $galera_master                  = $::fqdn,
+  $bootstrap_command              = undef,
   $local_ip                       = $::ipaddress_eth1,
   $bind_address                   = $::ipaddress_eth1,
   $mysql_port                     = 3306,
@@ -194,6 +199,7 @@ class galera(
   $wsrep_inc_state_transfer_port  = 4568,
   $wsrep_sst_method               = 'rsync',
   $root_password                  = 'test',
+  $purge_conf_dir                 = false,
   $create_root_my_cnf             = true,
   $create_root_user               = undef,
   $create_status_user             = true,
@@ -250,7 +256,14 @@ class galera(
 
   include galera::params
 
-  $options = mysql_deepmerge($galera::params::default_options, $override_options)
+  $node_list = join($galera_servers, ',')
+  $_wsrep_cluster_address = {
+    'mysqld' => {
+      'wsrep_cluster_address' => "gcomm://${node_list}/"
+    }
+  }
+
+  $options = mysql_deepmerge($galera::params::default_options, $_wsrep_cluster_address, $override_options)
 
   if ($create_root_user == undef) {
     if ($galera_master == $::fqdn) {
@@ -288,6 +301,7 @@ class galera(
     create_root_my_cnf => $create_root_my_cnf,
     create_root_user   => $create_root_user_real,
     service_enabled    => $service_enabled,
+    purge_conf_dir     => $purge_conf_dir,
     service_name       => $galera::params::mysql_service_name,
     restart            => $mysql_restart,
   }
@@ -334,8 +348,9 @@ class galera(
       }
     }
 
+    $_bs_command = pick($bootstrap_command, $::galera::params::bootstrap_command)
     exec { 'bootstrap_galera_cluster':
-      command  => $galera::params::bootstrap_command,
+      command  => $_bs_command,
       unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
       require  => Class['mysql::server::installdb'],
       before   => Service['mysqld'],
