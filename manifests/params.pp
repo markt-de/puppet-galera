@@ -6,20 +6,32 @@ class galera::params {
 
   if $galera::vendor_type == 'percona' {
     $bootstrap_command = '/etc/init.d/mysql bootstrap-pxc'
+
   } elsif ($galera::vendor_type == 'mariadb' or $galera::vendor_type == 'codership') {
     if ($::osfamily == 'RedHat' and versioncmp($::operatingsystemrelease, '7') >= 0 and
       $galera::vendor_version and versioncmp($galera::vendor_version, '10.0') == 1
     ) {
       # We have systemd and we should use the binary
       $bootstrap_command = '/usr/bin/galera_new_cluster'
+    }
+    elsif ($::osfamily == 'Debian' and
+      ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '15.04') >= 0 or
+      ($::operatingsystem == 'Debian' and versioncmp($::operatingsystemrelease, '8') >= 0)) and
+      $galera::vendor_version and versioncmp($galera::vendor_version, '10.0') >= 0
+    ) {
+      # We have systemd and we should run the correct script
+      # See https://mariadb.com/kb/en/library/systemd/#galera
+      $bootstrap_command = '/usr/bin/galera_new_cluster'
     } else {
       $bootstrap_command = 'service mysql start --wsrep_cluster_address=gcomm://'
     }
+
   } elsif $galera::vendor_type == 'osp5' {
     # mysqld log part is a workaround for a packaging bug
     # to be removed when packages are fixed
     $bootstrap_command = 'touch /var/log/mysqld.log ; chown mysql:mysql /var/log/mysqld.log ; systemctl start mysqld'
   }
+
 
   if ($::osfamily == 'RedHat') {
     if $galera::vendor_type == 'percona' {
