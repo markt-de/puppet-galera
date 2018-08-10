@@ -17,15 +17,13 @@ class galera::debian {
     group   => 'root',
     content => template('galera/debian_default_my_cnf'),
     require => Class['mysql::server::config'],
-  } ~>
-
-  exec { 'fix_galera_config_errors_episode_I':
+  }
+  ~> exec { 'fix_galera_config_errors_episode_I':
     command     => 'mv -f /etc/mysql/my.cnf /tmp/my.cnf && cp -f /etc/mysql/puppet_debfix.cnf /etc/mysql/my.cnf',
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     refreshonly => true,
-  } ~>
-
-  exec { 'fix_galera_config_errors_episode_II':
+  }
+  ~> exec { 'fix_galera_config_errors_episode_II':
     command     => 'cp -f /tmp/my.cnf /etc/mysql/my.cnf',
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     refreshonly => true,
