@@ -4,17 +4,17 @@
 # of the galera cluster,
 #
 class galera::status {
-  $status_password                = $galera::status_password
-  $status_allow                   = $galera::status_allow
-  $status_host                    = $galera::status_host
-  $status_user                    = $galera::status_user
-  $port                           = $galera::status_port
-  $available_when_donor           = $galera::status_available_when_donor
-  $available_when_readonly        = $galera::status_available_when_readonly
+  $available_when_donor = $galera::status_available_when_donor
+  $available_when_readonly = $galera::status_available_when_readonly
+  $create_status_user = $galera::create_status_user
+  $port = $galera::status_port
+  $status_allow = $galera::status_allow
+  $status_host = $galera::status_host
+  $status_log_on_failure = $galera::status_log_on_failure
+  $status_log_on_success = $galera::status_log_on_success
   $status_log_on_success_operator = $galera::status_log_on_success_operator
-  $status_log_on_success          = $galera::status_log_on_success
-  $status_log_on_failure          = $galera::status_log_on_failure
-  $create_status_user             = $galera::create_status_user
+  $status_password = $galera::status_password
+  $status_user = $galera::status_user
 
   if ! $status_password {
     fail('galera::status_password unset. Please specify a password for the clustercheck MySQL user.')
