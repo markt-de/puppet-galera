@@ -326,11 +326,9 @@ class galera(
     name => $galera::params::client_package_name
   }
 
-  package{[
-      $galera::params::galera_package_name,
-      ] :
-    ensure  => $galera_package_ensure,
-    before  => Class['mysql::server::install'],
+  package{[ $galera::params::galera_package_name ] :
+    ensure => $galera_package_ensure,
+    before => Class['mysql::server::install'],
   }
 
 
