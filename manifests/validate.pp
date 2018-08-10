@@ -42,14 +42,14 @@
 #   Defaults to undef
 #
 class galera::validate(
-  $user      = $galera::status_user,
-  $password  = $galera::status_password,
-  $host      = $galera::bind_address,
-  $retries   = 20,
-  $delay     = 3,
-  $action    = 'select count(1);',
-  $catch     = 'ERROR',
+  $action = 'select count(1);',
+  $catch = 'ERROR',
+  $delay = 3,
+  $host = $galera::bind_address,
   $inv_catch = 'undef'
+  $password = $galera::status_password,
+  $retries = 20,
+  $user = $galera::status_user,
 ) {
   include galera::status
 
