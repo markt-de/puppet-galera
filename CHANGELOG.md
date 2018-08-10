@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.2
+* Enhancement: Use dport parameter for puppetlabs-firewall (#59)
+* Enhancement: Remove upper restriction on puppetlabs-apt (#98)
+* Enhancement: Add galera_package_parameter, so we can ensure version on galera package (#100)
+* Enhancement: Make bootstrap_command configurable (#101)
+* Enhancement: Add possibility to purge config dir (#101)
+* Enhancement: Update upper restriction on puppetlabs-mysql
+* Bugfix: Use an unlisted service type instead to avoid augeas dependency (#101)
+* Bugfix: Support systemd bootstrap in Ubuntu and Debian (#105)
+* Bugfix: Fix mysql dependency cycle (#107)
+* License: Relicense under 2-Clause BSD license (#92)
+
 ## 0.7.1
 * Feature: Add Percona XtraDB cluster 5.6 and 5.7 support on RedHat (experimental!)
 
