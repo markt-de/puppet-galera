@@ -7,7 +7,7 @@
 #   Defaults to undef
 #
 class galera::firewall (
-  $source = undef,
+  Optional[String] $source = undef,
 ) {
   $galera_ports = [
     $galera::mysql_port,
