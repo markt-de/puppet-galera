@@ -229,7 +229,7 @@ class galera(
   Optional[String] $vendor_version = undef,
   Integer $wsrep_group_comm_port = 4567,
   Integer $wsrep_inc_state_transfer_port = 4568,
-  Enum['skip', 'rsync', 'xtrabackup'] $wsrep_sst_method = 'rsync',
+  Enum['mysqldump', 'rsync', 'skip', 'xtrabackup'] $wsrep_sst_method = 'rsync',
   Integer $wsrep_state_transfer_port = 4444,
 ) {
   if $configure_repo {
