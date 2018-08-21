@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0 (unreleased)
+* WARNING: Contains possibly breaking changes, please use with caution!
+* Fix bootstrap_command on CentOS/RHEL 7
+* Drop params.pp, move defaults to hiera module data
+* Drop support for EOL operating systems: CentOS 5, Debian 7, Ubuntu 12.04
+* Drop support for EOL databases: MariaDB 5.5 (except on Ubuntu 14.04)
+* Drop support for Puppet 3
+* Change $sst_method: Drop support for "xtrabackup-v2", use "xtrabackup" instead
+* Change $bind_address, $galera_servers, $local_ip: Default to $networking::ip fact
+* Change $root_password and $status_password: Drop insecure default values
+
 ## 0.7.2
 * Enhancement: Use dport parameter for puppetlabs-firewall (#59)
 * Enhancement: Remove upper restriction on puppetlabs-apt (#98)

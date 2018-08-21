@@ -19,7 +19,7 @@
 #
 # [*bootstrap_command*]
 #   (optional) Command used to bootstrap the galera cluster
-#   Defaults to $::galera::params::bootstrap_command
+#   Defaults to a vendor- or os-specific bootstrap command.
 #
 # [*local_ip*]
 #   (optional) The IP address of this node to use for comms
@@ -188,49 +188,71 @@
 #   Defaults to undef
 #
 class galera(
-  String $bind_address = $::ipaddress_eth1,
-  Optional[String] $bootstrap_command = undef,
-  Optional[String] $client_package_name = undef,
-  Boolean $configure_firewall = true,
-  Boolean $configure_repo = true,
-  Boolean $create_root_my_cnf = true,
-  Optional[String] $create_root_user = undef,
-  Boolean $create_status_user = true,
-  String $deb_sysmaint_password = 'sysmaint',
-  String $galera_master = $::fqdn,
-  String $galera_package_ensure = 'installed',
-  Optional[String] $galera_package_name = undef,
-  String $galera_servers = [$::ipaddress_eth1],
-  String $local_ip = $::ipaddress_eth1,
-  Boolean $manage_additional_packages = true,
-  Boolean $manage_package_nmap = true,
-  Optional[String] $mysql_package_name = undef,
-  Integer $mysql_port = 3306,
-  Boolean $mysql_restart = false,
-  Optional[String] $mysql_service_name = undef,
-  Optional[Array] $override_options = {},
-  String $package_ensure = 'installed',
-  Boolean $purge_conf_dir = false,
-  String $root_password = 'test',
-  Optional[String] $service_enabled = undef,
-  String $status_allow = '%',
-  Integer $status_available_when_donor = 0,
-  Integer $status_available_when_readonly = -1,
-  Boolean $status_check = true,
-  String $status_host = 'localhost',
-  Optional[String] $status_log_on_failure = undef,
-  Optional[String] $status_log_on_success = '',
-  String $status_log_on_success_operator = '=',
-  Optional[String] $status_password = undef,
-  Integer $status_port = 9200,
-  String $status_user = 'clustercheck',
-  Boolean $validate_connection = true,
-  Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type = 'percona',
-  Optional[String] $vendor_version = undef,
-  Integer $wsrep_group_comm_port = 4567,
-  Integer $wsrep_inc_state_transfer_port = 4568,
-  Enum['mysqldump', 'rsync', 'skip', 'xtrabackup'] $wsrep_sst_method = 'rsync',
-  Integer $wsrep_state_transfer_port = 4444,
+  # required parameters
+  String $bind_address,
+  String $bootstrap_command = lookup("${name}::${vendor_type}::${vendor_version}::bootstrap_command", {default_value => undef}) ? {
+    undef => lookup("${name}::${vendor_type}::bootstrap_command"),
+    default => lookup("${name}::${vendor_type}::${vendor_version}::bootstrap_command"),
+  },
+  String $client_package_name = lookup("${name}::${vendor_type}::${vendor_version}::client_package_name", {default_value => undef}) ? {
+    undef => lookup("${name}::${vendor_type}::client_package_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version}::client_package_name"),
+  },
+  Boolean $configure_firewall,
+  Boolean $configure_repo,
+  Boolean $create_root_my_cnf,
+  Boolean $create_status_user,
+  String $deb_sysmaint_password,
+  String $galera_master,
+  String $galera_package_ensure,
+  String $galera_package_name = lookup("${name}::${vendor_type}::${vendor_version}::galera_package_name", {default_value => undef}) ? {
+    undef => lookup("${name}::${vendor_type}::galera_package_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version}::galera_package_name"),
+  },
+  String $galera_servers,
+  String $grep_binary,
+  String $local_ip,
+  Boolean $manage_additional_packages,
+  Boolean $manage_package_nmap,
+  String $mysql_binary,
+  Integer $mysql_port,
+  Boolean $mysql_restart,
+  String $mysql_service_name = lookup("${name}::${vendor_type}::${vendor_version}::service_name", {default_value => undef}) ? {
+    undef => lookup("${name}::${vendor_type}::service_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version}::service_name"),
+  },
+  String $package_ensure,
+  Boolean $purge_conf_dir,
+  String $root_password,
+  String $rundir,
+  Boolean $service_enabled,
+  String $status_allow,
+  Integer $status_available_when_donor,
+  Integer $status_available_when_readonly,
+  Boolean $status_check,
+  String $status_host,
+  String $status_log_on_success_operator,
+  String $status_password,
+  Integer $status_port,
+  String $status_user,
+  Boolean $validate_connection,
+  Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
+  Integer $wsrep_group_comm_port,
+  Integer $wsrep_inc_state_transfer_port,
+  String $wsrep_sst_auth,
+  Enum['mysqldump', 'rsync', 'skip', 'xtrabackup'] $wsrep_sst_method,
+  Integer $wsrep_state_transfer_port,
+  # optional parameters
+  Optional[Array] $additional_packages = lookup("${name}::sst::${wsrep_sst_method}::additional_packages", {default_value => undef})
+  Optional[String] $create_root_user,
+  Optional[String] $mysql_package_name = lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name", {default_value => undef}) ? {
+    undef => lookup("${name}::${vendor_type}::mysql_package_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name"),
+  },
+  Optional[Array] $override_options,
+  Optional[String] $status_log_on_failure,
+  Optional[String] $status_log_on_success,
+  Optional[String] $vendor_version,
 ) {
   if $configure_repo {
     include galera::repo
@@ -254,8 +276,6 @@ class galera(
     include galera::validate
   }
 
-  include galera::params
-
   $node_list = join($galera_servers, ',')
   $_wsrep_cluster_address = {
     'mysqld' => {
@@ -263,9 +283,11 @@ class galera(
     }
   }
 
-  $options = mysql_deepmerge($galera::params::default_options, $_wsrep_cluster_address, $override_options)
+  $options = mysql_deepmerge($default_options, $_wsrep_cluster_address, $override_options)
 
-  if ($create_root_user == undef) {
+  if ($create_root_user =~ String) {
+    $create_root_user_real = $create_root_user
+  } else {
     if ($galera_master == $::fqdn) {
       # manage root user on the galera master
       $create_root_user_real = true
@@ -275,19 +297,17 @@ class galera(
       # they sync from the master
       $create_root_user_real = false
     }
-  } else {
-    $create_root_user_real = $create_root_user
   }
 
-  if ($create_root_my_cnf == true and $root_password != 'UNSET') {
+  if (($create_root_my_cnf == true) and ($root_password =~ String)) {
     # Check if we can already login with the given password
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
     exec { "create ${::root_home}/.my.cnf":
       command => "/bin/echo -e \"${my_cnf}\" > ${::root_home}/.my.cnf",
       onlyif  => [
-        "/usr/bin/mysql --user=root --password=${root_password} -e 'select count(1);'",
-        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='${root_password}'\"` -eq 0",
+        "${mysql_binary} --user=root --password=${root_password} -e 'select count(1);'",
+        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | ${grep_binary} -c \"password='${root_password}'\"` -eq 0",
         ],
       require => Service['mysqld'],
       before  => [Class['mysql::server::root_password']],
@@ -295,18 +315,18 @@ class galera(
   }
 
   class { '::mysql::server':
-    package_name       => $galera::params::mysql_package_name,
+    package_name       => $galera::mysql_package_name,
     override_options   => $options,
     root_password      => $root_password,
     create_root_my_cnf => $create_root_my_cnf,
     create_root_user   => $create_root_user_real,
     service_enabled    => $service_enabled,
     purge_conf_dir     => $purge_conf_dir,
-    service_name       => $galera::params::mysql_service_name,
+    service_name       => $galera::mysql_service_name,
     restart            => $mysql_restart,
   }
 
-  file { $galera::params::rundir:
+  file { $galera::rundir:
     ensure  => directory,
     owner   => 'mysql',
     group   => 'mysql',
@@ -314,8 +334,8 @@ class galera(
     before  => Class['mysql::server::installdb']
   }
 
-  if $manage_additional_packages and $galera::params::additional_packages {
-    ensure_resource(package, $galera::params::additional_packages,
+  if ($manage_additional_packages and $additional_packages) {
+    ensure_resource(package, $additional_packages,
     {
       ensure  => $package_ensure,
       before  => Class['mysql::server::install'],
@@ -323,16 +343,15 @@ class galera(
   }
 
   Package<| title == 'mysql_client' |> {
-    name => $galera::params::client_package_name
+    name => $galera::client_package_name
   }
 
-  package{[ $galera::params::galera_package_name ] :
+  package {[ $galera::galera_package_name ] :
     ensure => $galera_package_ensure,
     before => Class['mysql::server::install'],
   }
 
-
-  if $::fqdn == $galera_master {
+  if ($fqdn == $galera_master) {
     # If there are no other servers up and we are the master, the cluster
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
@@ -344,9 +363,12 @@ class galera(
       }
     }
 
-    $_bs_command = pick($bootstrap_command, $::galera::params::bootstrap_command)
+    # NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
+    #       See http://galeracluster.com/documentation-webpages/startingcluster.html.
+    # NOTE: MariaDB >=10.1 on systemd systems should use galera_new_cluster.
+    #       See https://mariadb.com/kb/en/library/getting-started-with-mariadb-galera-cluster/.
     exec { 'bootstrap_galera_cluster':
-      command  => $_bs_command,
+      command  => $bootstrap_command,
       unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
       require  => Class['mysql::server::installdb'],
       before   => Service['mysqld'],

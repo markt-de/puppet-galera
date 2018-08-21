@@ -1,0 +1,9 @@
+---
+lookup_options:
+  # Usually we want to REPLACE (not merge) package lists.
+  "^galera::.*::.*package_name":
+    merge:
+      strategy: first
+  "^galera::.*":
+    merge:
+      strategy: deep

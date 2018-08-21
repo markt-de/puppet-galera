@@ -1,0 +1,4 @@
+---
+galera::codership::bootstrap_command: 'service mysql start --wsrep_cluster_address=gcomm://'
+galera::mariadb::bootstrap_command: 'service mysql start --wsrep_cluster_address=gcomm://'
+galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'

@@ -4,57 +4,42 @@
 # can be installed
 #
 class galera::repo(
-  Boolean $apt_codership_repo_include_src = false,
-  String $apt_codership_repo_key = '44B7345738EBDE52594DAD80D669017EBC19DDBA',
-  String $apt_codership_repo_key_server = 'keyserver.ubuntu.com',
-  String $apt_codership_repo_location = $::operatingsystem ? {
-    'Debian' => 'http://releases.galeracluster.com/debian',
-    default  => 'http://releases.galeracluster.com/ubuntu',
-  },
-  String $apt_codership_repo_release = $::lsbdistcodename,
-  String $apt_codership_repo_repos = 'main',
-  Boolean $apt_mariadb_repo_include_src = false,
-  String $apt_mariadb_repo_key = '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
-  String $apt_mariadb_repo_key_server = 'keys.gnupg.net',
-  String $apt_mariadb_repo_location = $::operatingsystem ? {
-    'Debian' => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/debian',
-    default  => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
-  },
-  String $apt_mariadb_repo_release = $::lsbdistcodename,
-  String $apt_mariadb_repo_repos = 'main',
-  Boolean $apt_percona_repo_include_src = false,
-  String $apt_percona_repo_key = '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
-  String $apt_percona_repo_key_server = 'keyserver.ubuntu.com',
-  String $apt_percona_repo_location = 'http://repo.percona.com/apt/',
-  String $apt_percona_repo_release = $::lsbdistcodename,
-  String $apt_percona_repo_repos = 'main',
-  Boolean $epel_needed = true,
-  String $repo_vendor = $galera::vendor_type,
-  String $yum_codership_baseurl = "http://releases.galeracluster.com/centos/${::operatingsystemmajrelease}/${::architecture}/",
-  String $yum_codership_descr = "CentOS ${::operatingsystemmajrelease} - Codership",
-  Integer $yum_codership_enabled = 1,
-  Integer $yum_codership_gpgcheck = 1,
-  String $yum_codership_gpgkey = 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com',
-  Optional[String] $yum_mariadb_baseurl = undef,
-  String $yum_mariadb_descr = 'MariaDB Yum Repo',
-  Integer $yum_mariadb_enabled = 1,
-  Integer $yum_mariadb_gpgcheck = 1,
-  String $yum_mariadb_gpgkey = 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
-  String $yum_percona_baseurl = "http://repo.percona.com/centos/${::operatingsystemmajrelease}/os/${::architecture}/",
-  String $yum_percona_descr = "CentOS ${::operatingsystemmajrelease} - Percona",
-  Integer $yum_percona_enabled = 1,
-  Integer $yum_percona_gpgcheck = 1,
-  String $yum_percona_gpgkey = 'http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona',
+  Boolean $apt_codership_repo_include_src,
+  String $apt_codership_repo_key,
+  String $apt_codership_repo_key_server,
+  String $apt_codership_repo_location,
+  String $apt_codership_repo_release,
+  String $apt_codership_repo_repos,
+  Boolean $apt_mariadb_repo_include_src,
+  String $apt_mariadb_repo_key,
+  String $apt_mariadb_repo_key_server,
+  String $apt_mariadb_repo_location,
+  String $apt_mariadb_repo_release,
+  String $apt_mariadb_repo_repos,
+  Boolean $apt_percona_repo_include_src,
+  String $apt_percona_repo_key,
+  String $apt_percona_repo_key_server,
+  String $apt_percona_repo_location,
+  String $apt_percona_repo_release,
+  String $apt_percona_repo_repos,
+  Boolean $epel_needed,
+  String $repo_vendor,
+  String $yum_codership_baseurl,
+  String $yum_codership_descr,
+  Integer $yum_codership_enabled,
+  Integer $yum_codership_gpgcheck,
+  String $yum_codership_gpgkey,
+  String $yum_mariadb_descr,
+  Integer $yum_mariadb_enabled,
+  Integer $yum_mariadb_gpgcheck,
+  String $yum_mariadb_gpgkey,
+  String $yum_percona_baseurl,
+  String $yum_percona_descr,
+  Integer $yum_percona_enabled,
+  Integer $yum_percona_gpgcheck,
+  String $yum_percona_gpgkey,
+  Optional[String] $yum_mariadb_baseurl,
 ) {
-  include ::galera::params
-
-  if ! $yum_mariadb_baseurl {
-    $lower = downcase($::operatingsystem)
-    $real_yum_mariadb_baseurl = "http://yum.mariadb.org/5.5-galera/${lower}${::operatingsystemmajrelease}-amd64"
-  } else {
-    $real_yum_mariadb_baseurl = $yum_mariadb_baseurl
-  }
-
   case $::osfamily {
     'Debian': {
       if ($::operatingsystem == 'Ubuntu') or ($::operatingsystem == 'Debian') {
@@ -133,7 +118,7 @@ class galera::repo(
           enabled  => $yum_mariadb_enabled,
           gpgcheck => $yum_mariadb_gpgcheck,
           gpgkey   => $yum_mariadb_gpgkey,
-          baseurl  => $real_yum_mariadb_baseurl
+          baseurl  => $yum_mariadb_baseurl
         }
         include galera::mariadb
       }

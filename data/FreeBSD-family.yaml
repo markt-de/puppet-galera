@@ -1,0 +1,3 @@
+---
+galera::grep_binary: '/usr/bin/grep'
+galera::mysql_binary: '/usr/local/bin/mysql'
