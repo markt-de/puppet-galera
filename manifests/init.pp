@@ -245,15 +245,15 @@ class galera(
   Integer $wsrep_state_transfer_port,
   # optional parameters
   Optional[Array] $additional_packages = lookup("${name}::sst::${wsrep_sst_method}::additional_packages", {default_value => undef}),
-  Optional[String] $create_root_user,
+  Optional[String] $create_root_user = undef,
   Optional[String] $mysql_package_name = lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::mysql_package_name"),
     default => lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name"),
   },
-  Optional[Array] $galera_servers,
-  Optional[String] $status_log_on_failure,
-  Optional[String] $status_log_on_success,
-  Optional[String] $vendor_version,
+  Optional[Array] $galera_servers = undef,
+  Optional[String] $status_log_on_failure = undef,
+  Optional[String] $status_log_on_success = undef,
+  Optional[String] $vendor_version = undef,
 ) {
   if $configure_repo {
     include galera::repo

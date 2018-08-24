@@ -38,7 +38,7 @@ class galera::repo(
   Integer $yum_percona_enabled,
   Integer $yum_percona_gpgcheck,
   String $yum_percona_gpgkey,
-  Optional[String] $yum_mariadb_baseurl,
+  Optional[String] $yum_mariadb_baseurl = undef,
 ) {
   case $::osfamily {
     'Debian': {
