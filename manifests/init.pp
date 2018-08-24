@@ -188,15 +188,17 @@
 #   Defaults to undef
 #
 class galera(
+  # parameters that need to be evaluated early
+  String $vendor_version_internal = regsubst($vendor_version, '\.', '', 'G'),
   # required parameters
   String $bind_address,
-  String $bootstrap_command = lookup("${name}::${vendor_type}::${vendor_version}::bootstrap_command", {default_value => undef}) ? {
+  String $bootstrap_command = lookup("${name}::${vendor_type}::${vendor_version_internal}::bootstrap_command", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::bootstrap_command"),
-    default => lookup("${name}::${vendor_type}::${vendor_version}::bootstrap_command"),
+    default => lookup("${name}::${vendor_type}::${vendor_version_internal}::bootstrap_command"),
   },
-  String $client_package_name = lookup("${name}::${vendor_type}::${vendor_version}::client_package_name", {default_value => undef}) ? {
+  String $client_package_name = lookup("${name}::${vendor_type}::${vendor_version_internal}::client_package_name", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::client_package_name"),
-    default => lookup("${name}::${vendor_type}::${vendor_version}::client_package_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version_internal}::client_package_name"),
   },
   Boolean $configure_firewall,
   Boolean $configure_repo,
@@ -206,9 +208,9 @@ class galera(
   Hash $default_options,
   String $galera_master,
   String $galera_package_ensure,
-  String $galera_package_name = lookup("${name}::${vendor_type}::${vendor_version}::galera_package_name", {default_value => undef}) ? {
+  String $galera_package_name = lookup("${name}::${vendor_type}::${vendor_version_internal}::galera_package_name", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::galera_package_name"),
-    default => lookup("${name}::${vendor_type}::${vendor_version}::galera_package_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version_internal}::galera_package_name"),
   },
   String $grep_binary,
   String $local_ip,
@@ -217,9 +219,9 @@ class galera(
   String $mysql_binary,
   Integer $mysql_port,
   Boolean $mysql_restart,
-  String $mysql_service_name = lookup("${name}::${vendor_type}::${vendor_version}::service_name", {default_value => undef}) ? {
+  String $mysql_service_name = lookup("${name}::${vendor_type}::${vendor_version_internal}::service_name", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::service_name"),
-    default => lookup("${name}::${vendor_type}::${vendor_version}::service_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version_internal}::service_name"),
   },
   Hash $override_options,
   String $package_ensure,
@@ -247,9 +249,9 @@ class galera(
   # optional parameters
   Optional[Array] $additional_packages = lookup("${name}::sst::${wsrep_sst_method}::additional_packages", {default_value => undef}),
   Optional[String] $create_root_user = undef,
-  Optional[String] $mysql_package_name = lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name", {default_value => undef}) ? {
+  Optional[String] $mysql_package_name = lookup("${name}::${vendor_type}::${vendor_version_internal}::mysql_package_name", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::mysql_package_name"),
-    default => lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name"),
+    default => lookup("${name}::${vendor_type}::${vendor_version_internal}::mysql_package_name"),
   },
   Optional[Array] $galera_servers = undef,
   Optional[String] $status_log_on_failure = undef,
