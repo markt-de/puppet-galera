@@ -238,6 +238,7 @@ class galera(
   String $status_user,
   Boolean $validate_connection,
   Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
+  String $vendor_version = lookup("${name}::${vendor_type}::default_version", {default_value => undef}),
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,
   String $wsrep_sst_auth,
@@ -253,7 +254,6 @@ class galera(
   Optional[Array] $galera_servers = undef,
   Optional[String] $status_log_on_failure = undef,
   Optional[String] $status_log_on_success = undef,
-  Optional[String] $vendor_version = undef,
 ) {
   if $configure_repo {
     include galera::repo
