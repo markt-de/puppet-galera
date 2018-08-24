@@ -244,7 +244,7 @@ class galera(
   Enum['mysqldump', 'rsync', 'skip', 'xtrabackup'] $wsrep_sst_method,
   Integer $wsrep_state_transfer_port,
   # optional parameters
-  Optional[Array] $additional_packages = lookup("${name}::sst::${wsrep_sst_method}::additional_packages", {default_value => undef})
+  Optional[Array] $additional_packages = lookup("${name}::sst::${wsrep_sst_method}::additional_packages", {default_value => undef}),
   Optional[String] $create_root_user,
   Optional[String] $mysql_package_name = lookup("${name}::${vendor_type}::${vendor_version}::mysql_package_name", {default_value => undef}) ? {
     undef => lookup("${name}::${vendor_type}::mysql_package_name"),
