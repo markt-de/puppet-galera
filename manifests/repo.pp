@@ -1,6 +1,6 @@
 # Class galera::repo
 #
-# Installs the appropriate repositories from which percona packages
+# Installs the appropriate repositories from which galera packages
 # can be installed
 #
 class galera::repo(
