@@ -86,6 +86,14 @@ galera::status_log_on_success: ''
 galera::status_log_on_success_operator: '='
 galera::status_port: 9200
 galera::status_user: 'clustercheck'
+galera::validate::action: 'select count(1);'
+galera::validate::catch: 'ERROR'
+galera::validate::delay: 3
+galera::validate::host: "%{lookup('galera::status_host')}"
+galera::validate::inv_catch: undef
+galera::validate::password: "%{lookup('galera::status_password')}"
+galera::validate::retries: 20
+galera::validate::user: "%{lookup('galera::status_user')}"
 galera::validate_connection: true
 galera::vendor_type: 'percona'
 galera::wsrep_group_comm_port: 4567

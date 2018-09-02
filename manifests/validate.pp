@@ -42,14 +42,14 @@
 #   Defaults to undef
 #
 class galera::validate(
-  String $action = 'select count(1);',
-  String $catch = 'ERROR',
-  Integer $delay = 3,
-  String $host = $galera::status_host,
-  String $password = $galera::status_password,
-  Integer $retries = 20,
-  String $user = $galera::status_user,
-  Optional[String] $inv_catch = 'undef',
+  String $action,
+  String $catch,
+  Integer $delay,
+  String $host,
+  String $password,
+  Integer $retries,
+  String $user,
+  Optional[String] $inv_catch,
 ) {
   include galera::status
 
@@ -76,4 +76,3 @@ class galera::validate(
 
   Exec<| title == 'bootstrap_galera_cluster' |> ~> Exec['validate_connection']
 }
-
