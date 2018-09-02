@@ -267,7 +267,7 @@ class galera(
   }
 
   # Debian machines need some help
-  if ($::osfamily == 'Debian') {
+  if ($facts['os']['family'] == 'Debian') {
     include galera::debian
   }
 

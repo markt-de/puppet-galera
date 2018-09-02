@@ -3,7 +3,7 @@
 # Fixes Debian specific compatibility issues
 #
 class galera::debian {
-  if ($::osfamily != 'Debian') {
+  if ($facts['os']['family'] != 'Debian') {
     warn('the galera::debian class has been included on a non-debian host')
   }
 

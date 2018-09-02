@@ -4,7 +4,7 @@
 # mysql-galera
 #
 class galera::mariadb {
-  if versioncmp($::operatingsystemmajrelease, '7') >=0 {
+  if versioncmp($facts['os']['release']['major'], '7') >=0 {
     file { '/var/log/mariadb':
       ensure => 'directory',
       before => Class['mysql::server::install'],
