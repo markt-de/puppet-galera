@@ -10,6 +10,7 @@
 * Change $sst_method: Drop support for "xtrabackup-v2", use "xtrabackup" instead
 * Change $bind_address, $galera_servers, $local_ip: Default to $networking::ip fact
 * Change $root_password and $status_password: Drop insecure default values
+* Change $galera::repo::repo_vendor: Rename to $galera::repo::vendor_type
 
 ## 0.7.2
 * Enhancement: Use dport parameter for puppetlabs-firewall (#59)

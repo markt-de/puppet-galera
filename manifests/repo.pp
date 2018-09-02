@@ -4,136 +4,105 @@
 # can be installed
 #
 class galera::repo(
-  Boolean $apt_codership_repo_include_src,
-  String $apt_codership_repo_key,
-  String $apt_codership_repo_key_server,
-  String $apt_codership_repo_location,
-  String $apt_codership_repo_release,
-  String $apt_codership_repo_repos,
-  Boolean $apt_mariadb_repo_include_src,
-  String $apt_mariadb_repo_key,
-  String $apt_mariadb_repo_key_server,
-  String $apt_mariadb_repo_location,
-  String $apt_mariadb_repo_release,
-  String $apt_mariadb_repo_repos,
-  Boolean $apt_percona_repo_include_src,
-  String $apt_percona_repo_key,
-  String $apt_percona_repo_key_server,
-  String $apt_percona_repo_location,
-  String $apt_percona_repo_release,
-  String $apt_percona_repo_repos,
+  # parameters that need to be evaluated early
+  String $vendor_type = lookup("${module_name}::${vendor_type}"),
+  String $vendor_version_internal = lookup("${module_name}::${vendor_version_internal}"),
+  # APT
+  Boolean $apt_repo_include_src = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::apt_${vendor_type}_include_src"),
+    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src"),
+  },
+  String $apt_key = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::apt_${vendor_type}_key"),
+    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key"),
+  },
+  String $apt_key_server  = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::apt_${vendor_type}_key_server"),
+    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server"),
+  },
+  String $apt_location = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::apt_${vendor_type}_location"),
+    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location"),
+  },
+  String $apt_release = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::apt_${vendor_type}_release"),
+    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release"),
+  },
+  String $apt_repos = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::apt_${vendor_type}_repos"),
+    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos"),
+  },
+  # YUM
   Boolean $epel_needed,
-  String $repo_vendor,
-  String $yum_codership_baseurl,
-  String $yum_codership_descr,
-  Integer $yum_codership_enabled,
-  Integer $yum_codership_gpgcheck,
-  String $yum_codership_gpgkey,
-  String $yum_mariadb_descr,
-  Integer $yum_mariadb_enabled,
-  Integer $yum_mariadb_gpgcheck,
-  String $yum_mariadb_gpgkey,
-  String $yum_percona_baseurl,
-  String $yum_percona_descr,
-  Integer $yum_percona_enabled,
-  Integer $yum_percona_gpgcheck,
-  String $yum_percona_gpgkey,
-  Optional[String] $yum_mariadb_baseurl = undef,
+  String $yum_baseurl = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::yum_${vendor_type}_baseurl"),
+    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl"),
+  },
+  String $yum_descr = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::yum_${vendor_type}_descr"),
+    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr"),
+  },
+  Integer $yum_enabled = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::yum_${vendor_type}_enabled"),
+    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled"),
+  },
+  Integer $yum_gpgcheck = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::yum_${vendor_type}_gpgcheck"),
+    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck"),
+  },
+  String $yum_gpgkey = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey"), {default_value => undef}) ? {
+    undef => lookup("${module_name}::repo::yum_${vendor_type}_gpgkey"),
+    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey"),
+  },
 ) {
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
-      if ($::operatingsystem == 'Ubuntu') or ($::operatingsystem == 'Debian') {
-        if ($repo_vendor == 'percona') {
-          apt::source { 'galera_percona_repo':
-            location => $apt_percona_repo_location,
-            release  => $apt_percona_repo_release,
-            repos    => $apt_percona_repo_repos,
-            key      => {
-              'id'     => $apt_percona_repo_key,
-              'server' => $apt_percona_repo_key_server,
-            },
-            include  => {
-              'src' => $apt_percona_repo_include_src,
-            },
-          }
-        } elsif ($repo_vendor == 'mariadb') {
-          apt::source { 'galera_mariadb_repo':
-            location => $apt_mariadb_repo_location,
-            release  => $apt_mariadb_repo_release,
-            repos    => $apt_mariadb_repo_repos,
-            key      => {
-              'id'     => $apt_mariadb_repo_key,
-              'server' => $apt_mariadb_repo_key_server,
-            },
-            include  => {
-              'src' => $apt_mariadb_repo_include_src,
-            },
-          }
-        } elsif ($repo_vendor == 'codership') {
-          apt::source { 'galera_codership_repo':
-            location => $apt_codership_repo_location,
-            release  => $apt_codership_repo_release,
-            repos    => $apt_codership_repo_repos,
-            key      => {
-              'id'     => $apt_codership_repo_key,
-              'server' => $apt_codership_repo_key_server,
-            },
-            include  => {
-              'src' => $apt_codership_repo_include_src,
-            },
-          }
-        }
-      }
-      if ($repo_vendor == 'osp5') {
+      if ($vendor_type == 'osp5') {
         fail('OSP5 is only supported on RHEL platforms.')
       }
+      apt::source { "${module_name} ${vendor_type} repository":
+        location => $apt_location,
+        release  => $apt_release,
+        repos    => $apt_repos,
+        key      => {
+          'id'     => $apt_key,
+          'server' => $apt_server,
+        },
+        include  => {
+          'src' => $apt_include_src,
+        },
+      }
     }
-
     'RedHat': {
-      if $repo_vendor == 'percona' {
-        yumrepo { 'percona':
-          descr    => $yum_percona_descr,
-          baseurl  => $yum_percona_baseurl,
-          gpgkey   => $yum_percona_gpgkey,
-          enabled  => $yum_percona_enabled,
-          gpgcheck => $yum_percona_gpgcheck,
-        } -> package {'Percona-Server-shared-compat':
+      yumrepo { "${module_name} ${vendor_type} repository":
+        descr    => $yum_descr,
+        baseurl  => $yum_baseurl,
+        gpgkey   => $yum_gpgkey,
+        enabled  => $yum_enabled,
+        gpgcheck => $yum_gpgcheck,
       }
 
-        if $epel_needed {
-          # Needed for socat package
-          yumrepo { 'epel':
-            mirrorlist     => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::os_maj_version}&arch=${::architecture}",
-            baseurl        => 'absent',
-            failovermethod => 'priority',
-            enabled        => '1',
-            gpgcheck       => '1',
-            gpgkey         => 'https://fedoraproject.org/static/0608B895.txt'
-          }
+      if $epel_needed {
+        # Needed for socat package
+        yumrepo { "${module_name} epel repository":
+          mirrorlist     => "https://mirrors.fedoraproject.org/metalink?repo=epel-${facts['os']['release']['major']}&arch=${facts['os']['architecture']}",
+          baseurl        => 'absent',
+          failovermethod => 'priority',
+          enabled        => '1',
+          gpgcheck       => '1',
+          gpgkey         => "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${facts['os']['release']['major']}"
         }
       }
-      elsif $repo_vendor == 'mariadb' {
-        yumrepo { 'mariadb':
-          descr    => $yum_mariadb_descr,
-          enabled  => $yum_mariadb_enabled,
-          gpgcheck => $yum_mariadb_gpgcheck,
-          gpgkey   => $yum_mariadb_gpgkey,
-          baseurl  => $yum_mariadb_baseurl
-        }
+
+      if $vendor_type == 'mariadb' {
         include galera::mariadb
       }
-      elsif $repo_vendor == 'codership' {
-        yumrepo { 'codership':
-          descr    => $yum_codership_descr,
-          enabled  => $yum_codership_enabled,
-          gpgcheck => $yum_codership_gpgcheck,
-          gpgkey   => $yum_codership_gpgkey,
-          baseurl  => $yum_codership_baseurl
-        }
+      elsif $vendor_type == 'percona' {
+        package {'Percona-Server-shared-compat':}
       }
     }
     default: {
-      fail('This distribution is not currently supported by the galera module')
+      fail("Operating system ${facts['os']['family']} is not currently supported")
     }
   }
 }
