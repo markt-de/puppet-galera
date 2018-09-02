@@ -37,15 +37,15 @@ galera::override_options: {}
 galera::package_ensure: 'installed'
 galera::purge_conf_dir: false
 galera::repo::apt_codership_repo_include_src: false
-galera::repo::apt_codership_repo_key: '44B7345738EBDE52594DAD80D669017EBC19DDBA'
+galera::repo::apt_codership_repo_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
 galera::repo::apt_codership_repo_key_server: 'keyserver.ubuntu.com'
-galera::repo::apt_codership_repo_location: "http://releases.galeracluster.com/%{os_name_lc}"
+galera::repo::apt_codership_repo_location: "http://releases.galeracluster.com/mysql-wsrep-%{lookup('galera::vendor_version')}/%{os_name_lc}"
 galera::repo::apt_codership_repo_release: "%{lsbdistcodename}"
 galera::repo::apt_codership_repo_repos: 'main'
 galera::repo::apt_mariadb_repo_include_src: false
-galera::repo::apt_mariadb_repo_key: '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB'
-galera::repo::apt_mariadb_repo_key_server: 'keys.gnupg.net'
-galera::repo::apt_mariadb_repo_location: "http://mirror.aarnet.edu.au/pub/MariaDB/repo/%{lookup('galera::vendor_version')}/%{os_name_lc}"
+galera::repo::apt_mariadb_repo_key: '6DC53DD92B7A8C298D5E54F950371E2B8950D2F2'
+galera::repo::apt_mariadb_repo_key_server: 'keyserver.ubuntu.com'
+galera::repo::apt_mariadb_repo_location: "http://mirror.rackspace.com/mariadb/repo/%{lookup('galera::vendor_version')}/ubuntu"
 galera::repo::apt_mariadb_repo_release: "%{lsbdistcodename}"
 galera::repo::apt_mariadb_repo_repos: 'main'
 galera::repo::apt_percona_repo_include_src: false
@@ -56,17 +56,17 @@ galera::repo::apt_percona_repo_release: "%{lsbdistcodename}"
 galera::repo::apt_percona_repo_repos: 'main'
 galera::repo::epel_needed: true
 galera::repo::repo_vendor: "%{lookup('galera::vendor_type')}"
-galera::repo::yum_codership_baseurl: "http://releases.galeracluster.com/centos/%{os.release.major}/%{os.architecture}/"
+galera::repo::yum_codership_baseurl: "http://releases.galeracluster.com/mysql-wsrep-%{lookup('galera::vendor_version')}/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
 galera::repo::yum_codership_descr: "CentOS %{os.release.major} - Codership"
 galera::repo::yum_codership_enabled: 1
 galera::repo::yum_codership_gpgcheck: 1
 galera::repo::yum_codership_gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
-galera::repo::yum_mariadb_baseurl: "http://yum.mariadb.org/%{lookup('galera::vendor_version')}-galera/%{os_name_lc}%{os.release.major}-amd64"
+galera::repo::yum_mariadb_baseurl: "http://yum.mariadb.org/%{lookup('galera::vendor_version')}/%{os_name_lc}%{os.release.major}-amd64"
 galera::repo::yum_mariadb_descr: 'MariaDB Yum Repo'
 galera::repo::yum_mariadb_enabled: 1
 galera::repo::yum_mariadb_gpgcheck: 1
 galera::repo::yum_mariadb_gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
-galera::repo::yum_percona_baseurl: "http://repo.percona.com/centos/%{os.release.major}/os/%{os.architecture}/"
+galera::repo::yum_percona_baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"
 galera::repo::yum_percona_descr: "CentOS %{os.release.major} - Percona"
 galera::repo::yum_percona_enabled: 1
 galera::repo::yum_percona_gpgcheck: 1
