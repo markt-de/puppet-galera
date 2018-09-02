@@ -40,21 +40,25 @@ It will try to recover from failures by bootstrapping on a node designated as th
 
 ### Beginning with galera
 
-Basic usage requires only the fqdn of the master node, and a list of IP addresses of other nodes:
+Basic usage requires only the FQDN of the master node, a list of IP addresses of other nodes and two passwords:
 
     class { 'galera':
-        galera_servers => ['192.168.99.101', '192.168.99.102'],
-        galera_master  => 'control1.domain.name'
+        galera_servers  => ['10.0.99.101', '10.0.99.102'],
+        galera_master   => 'node1.example.com',
+        root_password   => 'pa$$w0rd',
+        status_password => 'pa$$w0rd',
     }
 
 A number of simple options are available:
 
     class { 'galera':
-        galera_servers => ['192.168.99.101', '192.168.99.102'],
-        galera_master  => 'control1.domain.name',
+        galera_servers  => ['10.0.99.101', '10.0.99.102'],
+        galera_master   => 'node1.example.com',
+        root_password   => 'pa$$w0rd',
+        status_password => 'pa$$w0rd',
 
         # Default is 'percona'
-        vendor_type => 'codership',
+        vendor_type     => 'codership',
 
         # This will be used to populate my.cnf values that
         # control where wsrep binds, advertises, and listens
@@ -81,15 +85,12 @@ A number of simple options are available:
 A catch-all parameter can be used to populate my.cnf in the same way as the puppetlabs-mysql module:
 
     class { 'galera':
-        galera_servers => ['192.168.99.101', '192.168.99.102'],
-        galera_master  => 'control1.domain.name',
-
         override_options = {
             'mysqld' => {
                 'bind_address' => '0.0.0.0',
             }
         }
-    }
+        ...
 
 ### Custom repository configuration
 

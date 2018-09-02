@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*status_password*]
-#   (required) The password of the status check user
+#   The password of the status check user.
 #
 # [*galera_servers*]
 #   (optional) A list of IP addresses of the nodes in
@@ -58,8 +58,7 @@
 #   Ubuntu trusty which provide rsync 3.10
 #
 # [*root_password*]
-#   (optional) The mysql root password.
-#   Defaults to 'test'
+#   The mysql root password.
 #
 # [*create_root_my_cnf*]
 #   (optional) Flag to indicate if we should manage the root .my.cnf. Set this
