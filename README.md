@@ -12,9 +12,8 @@ NOTE: Do NOT use the "master" branch, it may break at any time. If you really ne
     - [Beginning with galera](#beginning-with-galera)
     - [Custom repository configuration](#custom-repository-configuration)
 4. [Reference](#reference)
-    - [Public classes][]
-    - [Private classes][]
-    - [Templates][]
+    - [Public classes][#public-classes]
+    - [Private classes][#private-classes]
 5. [Limitations](#limitations)
 6. [Development](#development)
     - [Contributing](#contributing)
@@ -181,6 +180,25 @@ This class will try to automatically lookup the repository data by taking `$gale
 * `yum_enabled`: Specifies whether to enable the YUM repository. Valid options: `true` and `false`. Default: `true`.
 * `yum_gpgcheck`: Specifies whether to verify packages using the specified GPG key. Valid options: `true` and `false`. Default: `true`.
 * `yum_gpgkey`: Specifies the GPG key ID of the YUM repository. Valid options: a string.
+
+### Private Classes
+
+#### Class: `galera::debian`
+
+This private class adds several workarounds to solve issues specific to Debian-based systems.
+
+#### Class: `galera::mariadb`
+
+This private class fixes issue when using MariaDB.
+
+#### Class: `galera::status`
+
+This private class configures a user and script that will check the status of the galera cluster.
+
+#### Class: `galera::validate`
+
+This private accept connections at the point where the `mysql::server` resource is marked as complete.
+This is used because after returning success, the service is still not quite ready.
 
 ## Limitations
 
