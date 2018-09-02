@@ -12,8 +12,8 @@ NOTE: Do NOT use the "master" branch, it may break at any time. If you really ne
     - [Beginning with galera](#beginning-with-galera)
     - [Custom repository configuration](#custom-repository-configuration)
 4. [Reference](#reference)
-    - [Public classes][#public-classes]
-    - [Private classes][#private-classes]
+    - [Public classes](#public-classes)
+    - [Private classes](#private-classes)
 5. [Limitations](#limitations)
 6. [Development](#development)
     - [Contributing](#contributing)
