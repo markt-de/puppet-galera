@@ -5,52 +5,53 @@
 #
 class galera::repo(
   # parameters that need to be evaluated early
-  String $vendor_type = lookup("${module_name}::${vendor_type}"),
-  String $vendor_version_internal = lookup("${module_name}::${vendor_version_internal}"),
+  String $vendor_type = $galera::vendor_type,
+  String $vendor_version = $galera::vendor_version,
+  String $vendor_version_internal = regsubst($vendor_version, '\.', '', 'G'),
   # APT
-  Boolean $apt_repo_include_src = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src"), {default_value => undef}) ? {
+  Boolean $apt_repo_include_src = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::apt_${vendor_type}_include_src"),
     default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src"),
   },
-  String $apt_key = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key"), {default_value => undef}) ? {
+  String $apt_key = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::apt_${vendor_type}_key"),
     default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key"),
   },
-  String $apt_key_server  = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server"), {default_value => undef}) ? {
+  String $apt_key_server  = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::apt_${vendor_type}_key_server"),
     default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server"),
   },
-  String $apt_location = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location"), {default_value => undef}) ? {
+  String $apt_location = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::apt_${vendor_type}_location"),
     default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location"),
   },
-  String $apt_release = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release"), {default_value => undef}) ? {
+  String $apt_release = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::apt_${vendor_type}_release"),
     default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release"),
   },
-  String $apt_repos = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos"), {default_value => undef}) ? {
+  String $apt_repos = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::apt_${vendor_type}_repos"),
     default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos"),
   },
   # YUM
   Boolean $epel_needed,
-  String $yum_baseurl = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl"), {default_value => undef}) ? {
+  String $yum_baseurl = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::yum_${vendor_type}_baseurl"),
     default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl"),
   },
-  String $yum_descr = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr"), {default_value => undef}) ? {
+  String $yum_descr = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::yum_${vendor_type}_descr"),
     default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr"),
   },
-  Integer $yum_enabled = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled"), {default_value => undef}) ? {
+  Integer $yum_enabled = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::yum_${vendor_type}_enabled"),
     default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled"),
   },
-  Integer $yum_gpgcheck = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck"), {default_value => undef}) ? {
+  Integer $yum_gpgcheck = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::yum_${vendor_type}_gpgcheck"),
     default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck"),
   },
-  String $yum_gpgkey = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey"), {default_value => undef}) ? {
+  String $yum_gpgkey = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey", {default_value => undef}) ? {
     undef => lookup("${module_name}::repo::yum_${vendor_type}_gpgkey"),
     default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey"),
   },

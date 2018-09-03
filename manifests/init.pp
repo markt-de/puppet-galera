@@ -188,6 +188,8 @@
 #
 class galera(
   # parameters that need to be evaluated early
+  Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
+  String $vendor_version = lookup("${name}::${vendor_type}::default_version", {default_value => undef}),
   String $vendor_version_internal = regsubst($vendor_version, '\.', '', 'G'),
   # required parameters
   String $bind_address,
@@ -238,8 +240,6 @@ class galera(
   Integer $status_port,
   String $status_user,
   Boolean $validate_connection,
-  Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
-  String $vendor_version = lookup("${name}::${vendor_type}::default_version", {default_value => undef}),
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,
   String $wsrep_sst_auth,
