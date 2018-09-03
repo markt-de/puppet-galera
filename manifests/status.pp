@@ -66,7 +66,7 @@ class galera::status {
   }
 
   file { '/usr/local/bin/clustercheck':
-    content => template('galera/clustercheck.erb'),
+    content => epp('galera/clustercheck.epp'),
     owner   => 'clustercheck',
     group   => 'clustercheck',
     mode    => '0500',

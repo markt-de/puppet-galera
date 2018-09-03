@@ -2,7 +2,6 @@
 port		= 3306
 socket		= /var/run/mysqld/mysqld.sock
 
-
 [mysqld_safe]
 socket		= /var/run/mysqld/mysqld.sock
 nice		= 0
@@ -53,8 +52,6 @@ innodb_file_per_table	= 1
 innodb_open_files	= 400
 innodb_io_capacity	= 400
 innodb_flush_method	= O_DIRECT
-
-
 
 [mysqldump]
 quick

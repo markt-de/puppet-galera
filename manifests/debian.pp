@@ -71,7 +71,7 @@ class galera::debian {
       owner   => 'root',
       group   => 'root',
       mode    => '0600',
-      content => template('galera/debian.cnf.erb'),
+      content => epp('galera/debian.cnf.epp'),
       require => Mysql_user['debian-sys-maint@localhost'],
     }
   } else {
@@ -82,7 +82,7 @@ class galera::debian {
       owner   => 'root',
       group   => 'root',
       mode    => '0600',
-      content => template('galera/debian.cnf.erb'),
+      content => epp('galera/debian.cnf.epp'),
       require => Exec['clean_up_ubuntu'],
       before  => Service['mysqld'],
     }
