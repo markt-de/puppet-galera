@@ -15,7 +15,7 @@ class galera::debian {
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    content => template('galera/debian_default_my_cnf'),
+    content => epp('galera/debian_default_my_cnf.epp'),
     require => Class['mysql::server::config'],
   }
   ~> exec { 'fix_galera_config_errors_episode_I':
