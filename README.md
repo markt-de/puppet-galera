@@ -210,9 +210,9 @@ This is used because after returning success, the service is still not quite rea
 
 ## Limitations
 
-This module was created to work in tandem with the puppetlabs-mysql module, rather than replacing it. As the stages in the mysql module are quite strictly laid out in the mysql::server class, this module places its own resources in the gaps between them.
+This module was created to work in tandem with the puppetlabs-mysql module, rather than replacing it. As the stages in the mysql module are quite strictly laid out in the `mysql::server` class, this module places its own resources in the gaps between them.
 
-Of note is an exec that will start the mysql service with the parameter --wsrep_address=gcomm:// which will start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple nc command and should not be considered terribly reliable.
+Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple `nc` command and should not be considered terribly reliable.
 
 Furthermore the bootstrap functionality may be considered harmful. A better approach is currently being discussed and will be included in a future release ([GH-116](https://github.com/fraenki/puppet-galera/issues/116)).
 
