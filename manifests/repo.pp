@@ -61,7 +61,7 @@ class galera::repo(
       if ($vendor_type == 'osp5') {
         fail('OSP5 is only supported on RHEL platforms.')
       }
-      apt::source { "${module_name} ${vendor_type} repository":
+      apt::source { "${module_name}_${vendor_type}":
         location => $apt_location,
         release  => $apt_release,
         repos    => $apt_repos,
@@ -75,7 +75,7 @@ class galera::repo(
       }
     }
     'RedHat': {
-      yumrepo { "${module_name} ${vendor_type} repository":
+      yumrepo { "${module_name}_${vendor_type}":
         descr    => $yum_descr,
         baseurl  => $yum_baseurl,
         gpgkey   => $yum_gpgkey,
@@ -85,7 +85,7 @@ class galera::repo(
 
       if $epel_needed {
         # Needed for socat package
-        yumrepo { "${module_name} epel repository":
+        yumrepo { "${module_name}_epel":
           mirrorlist     => "https://mirrors.fedoraproject.org/metalink?repo=epel-${facts['os']['release']['major']}&arch=${facts['os']['architecture']}",
           baseurl        => 'absent',
           failovermethod => 'priority',
