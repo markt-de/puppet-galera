@@ -56,13 +56,13 @@
       ]
     },
     {
-      "operatingsystem": "Scientific"
+      "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "7"
       ]
     },
     {
-      "operatingsystem": "OracleLinux"
+      "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
         "7"
       ]
