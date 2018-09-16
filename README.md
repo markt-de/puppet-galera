@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/fraenki/puppet-galera.png?branch=master)](https://travis-ci.org/fraenki/puppet-galera)
 
-NOTE: Do NOT use the "master" branch, it may break at any time. If you really need to, use one of the stable branches instead.
+NOTE: The "master" branch contains the development version, which may break anything at any time. Consider using one of the stable branches instead.
 
 #### Table of Contents
 
@@ -128,7 +128,7 @@ Or if you just want to switch to using a local mirror:
 * `create_root_user`:
 * `create_status_user`:
 * `deb_sysmaint_password`:
-* `default_options`:
+* `default_options`: Internal parameter, *do NOT change!* Use `$override_options` to customize MySQL options.
 * `galera_master`:
 * `galera_package_ensure`:
 * `galera_package_name`:

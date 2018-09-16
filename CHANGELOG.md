@@ -3,13 +3,15 @@
 ## 1.0.0 (unreleased)
 * WARNING: Contains incompatible/breaking changes, please use with caution!
 * Fix bootstrap_command on CentOS/RHEL 7
-* Drop params.pp, move defaults to hiera module data
+* Drop params.pp, move defaults to hiera module data (provides compatibility layer for non-hiera envs)
 * Drop support for EOL operating systems: CentOS 5, Debian 7, Ubuntu 12.04
 * Drop support for EOL databases: MariaDB 5.5 (except on Ubuntu 14.04)
 * Drop support for Puppet 3, require Puppet 4.10+
+* Change names of APT/YUM repos, be sure to purge unmanaged repositories
 * Change $sst_method: Drop support for "xtrabackup-v2", use "xtrabackup" instead
 * Change $bind_address, $galera_servers, $local_ip: Default to $networking::ip fact
 * Change $root_password and $status_password: Drop insecure default values
+* Change default value of $galera_package_ensure to "absent" to avoid package conflicts in Percona 5.7
 * Rename all $galera::repo::* parameters
 
 ## 0.7.2

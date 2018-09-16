@@ -1,5 +1,6 @@
 ---
-galera::bind_address: "%{networking.ip}"
+# NOTE: bind to ALL addresses to ensure this module can connect to localhost
+galera::bind_address: '::'
 galera::configure_firewall: true
 galera::configure_repo: true
 galera::create_root_my_cnf: true
@@ -7,23 +8,23 @@ galera::create_status_user: true
 galera::deb_sysmaint_password: 'sysmaint'
 galera::default_options:
   mysqld:
-    bind-address: "%{lookup('galera::bind_address')}"
-    wsrep_node_address: "%{lookup('galera::local_ip')}"
-    wsrep_provider: "%{lookup('galera::libgalera_location')}"
+    bind-address: "<%= $bind_address %>"
+    wsrep_node_address: "<%= $local_ip %>"
+    wsrep_provider: "<%= $params['libgalera_location'] %>"
     wsrep_slave_threads: 8
-    wsrep_sst_method: "%{lookup('galera::wsrep_sst_method')}"
-    wsrep_sst_auth: "\"root:%{lookup('galera::wsrep_sst_auth')}\""
+    wsrep_sst_method: "<%= $wsrep_sst_method %>"
+    wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
     binlog_format: 'ROW'
     default_storage_engine: 'InnoDB'
     innodb_locks_unsafe_for_binlog: 1
     innodb_autoinc_lock_mode: 2
     query_cache_size: 0
     query_cache_type: 0
-    wsrep_node_incoming_address: "%{lookup('galera::local_ip')}"
-    wsrep_sst_receive_address: "%{lookup('galera::local_ip')}"
+    wsrep_node_incoming_address: "<%= $local_ip %>"
+    wsrep_sst_receive_address: "<%= $local_ip %>"
     wsrep_on: 'ON'
 galera::galera_master: "%{fqdn}"
-galera::galera_package_ensure: 'installed'
+galera::galera_package_ensure: 'absent'
 galera::galera_servers:
   - "%{networking.ip}"
 galera::grep_binary: '/bin/grep'
@@ -36,47 +37,50 @@ galera::mysql_restart: false
 galera::override_options: {}
 galera::package_ensure: 'installed'
 galera::purge_conf_dir: false
-galera::repo::apt_codership_include_src: false
-galera::repo::apt_codership_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
-galera::repo::apt_codership_key_server: 'keyserver.ubuntu.com'
-galera::repo::apt_codership_location: "http://releases.galeracluster.com/mysql-wsrep-%{lookup('galera::vendor_version')}/%{os_name_lc}"
-galera::repo::apt_codership_release: "%{os.distro.codename}"
-galera::repo::apt_codership_repos: 'main'
-galera::repo::apt_mariadb_include_src: false
-galera::repo::apt_mariadb_key: '6DC53DD92B7A8C298D5E54F950371E2B8950D2F2'
-galera::repo::apt_mariadb_key_server: 'keyserver.ubuntu.com'
-galera::repo::apt_mariadb_location: "http://mirror.rackspace.com/mariadb/repo/%{lookup('galera::vendor_version')}/ubuntu"
-galera::repo::apt_mariadb_release: "%{os.distro.codename}"
-galera::repo::apt_mariadb_repos: 'main'
-galera::repo::apt_percona_include_src: false
-galera::repo::apt_percona_key: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
-galera::repo::apt_percona_key_server: 'keyserver.ubuntu.com'
-galera::repo::apt_percona_location: 'http://repo.percona.com/apt/'
-galera::repo::apt_percona_release: "%{os.distro.codename}"
-galera::repo::apt_percona_repos: 'main'
+galera::repo::codership_apt_include_src: false
+galera::repo::codership_apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+galera::repo::codership_apt_key_server: 'keyserver.ubuntu.com'
+galera::repo::codership_apt_location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
+galera::repo::codership_apt_release: "%{os.distro.codename}"
+galera::repo::codership_apt_repos: 'main'
+galera::repo::mariadb_apt_include_src: false
+galera::repo::mariadb_apt_key: '6DC53DD92B7A8C298D5E54F950371E2B8950D2F2'
+galera::repo::mariadb_apt_key_server: 'keyserver.ubuntu.com'
+galera::repo::mariadb_apt_location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/ubuntu"
+galera::repo::mariadb_apt_release: "%{os.distro.codename}"
+galera::repo::mariadb_apt_repos: 'main'
+galera::repo::percona_apt_include_src: false
+galera::repo::percona_apt_key: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
+galera::repo::percona_apt_key_server: 'keyserver.ubuntu.com'
+galera::repo::percona_apt_location: 'http://repo.percona.com/apt/'
+galera::repo::percona_apt_release: "%{os.distro.codename}"
+galera::repo::percona_apt_repos: 'main'
 galera::repo::epel_needed: true
-galera::repo::repo_vendor: "%{lookup('galera::vendor_type')}"
-galera::repo::yum_codership_baseurl: "http://releases.galeracluster.com/mysql-wsrep-%{lookup('galera::vendor_version')}/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
-galera::repo::yum_codership_descr: "CentOS %{os.release.major} - Codership"
-galera::repo::yum_codership_enabled: 1
-galera::repo::yum_codership_gpgcheck: 1
-galera::repo::yum_codership_gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
-galera::repo::yum_mariadb_baseurl: "http://yum.mariadb.org/%{lookup('galera::vendor_version')}/%{os_name_lc}%{os.release.major}-amd64"
-galera::repo::yum_mariadb_descr: 'MariaDB Yum Repo'
-galera::repo::yum_mariadb_enabled: 1
-galera::repo::yum_mariadb_gpgcheck: 1
-galera::repo::yum_mariadb_gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
-galera::repo::yum_percona_baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"
-galera::repo::yum_percona_descr: "CentOS %{os.release.major} - Percona"
-galera::repo::yum_percona_enabled: 1
-galera::repo::yum_percona_gpgcheck: 1
-galera::repo::yum_percona_gpgkey: 'http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona'
+galera::repo::codership_yum_baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
+galera::repo::codership_yum_descr: "CentOS %{os.release.major} - Codership"
+galera::repo::codership_yum_enabled: 1
+galera::repo::codership_yum_gpgcheck: 1
+galera::repo::codership_yum_gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
+galera::repo::mariadb_yum_baseurl: "http://yum.mariadb.org/<%= $vendor_version_real %>/%{os_name_lc}%{os.release.major}-amd64"
+galera::repo::mariadb_yum_descr: 'MariaDB Yum Repo'
+galera::repo::mariadb_yum_enabled: 1
+galera::repo::mariadb_yum_gpgcheck: 1
+galera::repo::mariadb_yum_gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
+galera::repo::percona_yum_baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"
+galera::repo::percona_yum_descr: "CentOS %{os.release.major} - Percona"
+galera::repo::percona_yum_enabled: 1
+galera::repo::percona_yum_gpgcheck: 1
+galera::repo::percona_yum_gpgkey: 'http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona'
 galera::rundir: '/var/run/mysqld'
 galera::service_enabled: true
 galera::sst::rsync::additional_packages:
   - 'rsync'
 galera::sst::xtrabackup::additional_packages:
   - 'percona-xtrabackup'
+galera::sst::xtrabackup::codership::57::additional_packages:
+  - 'percona-xtrabackup-24'
+galera::sst::xtrabackup::percona::57::additional_packages:
+  - 'percona-xtrabackup-24'
 galera::status_allow: '%'
 galera::status_available_when_donor: 0
 galera::status_available_when_readonly: -1
@@ -89,16 +93,13 @@ galera::status_user: 'clustercheck'
 galera::validate::action: 'select count(1);'
 galera::validate::catch: 'ERROR'
 galera::validate::delay: 3
-galera::validate::host: "%{lookup('galera::status_host')}"
 galera::validate::inv_catch: undef
-galera::validate::password: "%{lookup('galera::status_password')}"
 galera::validate::retries: 20
-galera::validate::user: "%{lookup('galera::status_user')}"
 galera::validate_connection: true
 galera::vendor_type: 'percona'
 galera::wsrep_group_comm_port: 4567
 galera::wsrep_inc_state_transfer_port: 4568
-galera::wsrep_sst_auth: "root:%{lookup('galera::root_password')}"
+galera::wsrep_sst_auth: "root:<%= $root_password %>"
 galera::wsrep_sst_method: 'rsync'
 galera::wsrep_state_transfer_port: 4444
 

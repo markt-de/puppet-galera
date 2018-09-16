@@ -1,5 +1,4 @@
 ---
-
 galera::codership::55::client_package_name: 'mysql-wsrep-client-5.5'
 galera::codership::55::galera_package_name: 'galera-3'
 galera::codership::55::mysql_package_name: 'mysql-wsrep-5.5'
@@ -11,14 +10,14 @@ galera::codership::57::galera_package_name: 'galera-3'
 galera::codership::57::mysql_package_name: 'mysql-wsrep-5.7'
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
 galera::codership::libgalera_location: '/usr/lib/galera/libgalera_smm.so'
-galera::codership::service_name: 'mysql'
+galera::codership::mysql_service_name: 'mysql'
 
 galera::mariadb::55::client_package_name: 'mariadb-client-5.5'
 galera::mariadb::55::galera_package_name: 'galera'
 galera::mariadb::55::mysql_package_name: 'mariadb-galera-server-5.5'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib/galera/libgalera_smm.so'
-galera::mariadb::service_name: 'mysql'
+galera::mariadb::mysql_service_name: 'mysql'
 
 galera::percona::55::client_package_name: 'percona-xtradb-cluster-client-5.5'
 galera::percona::55::galera_package_name: 'percona-xtradb-cluster-galera-2.x'
@@ -31,4 +30,4 @@ galera::percona::57::galera_package_name: 'percona-xtradb-cluster-galera-3.x'
 galera::percona::57::mysql_package_name: 'percona-xtradb-cluster-server-5.7'
 galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::libgalera_location: '/usr/lib/libgalera_smm.so'
-galera::percona::service_name: 'mysql'
+galera::percona::mysql_service_name: 'mysql'

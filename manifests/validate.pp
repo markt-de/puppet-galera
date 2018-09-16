@@ -45,10 +45,10 @@ class galera::validate(
   String $action,
   String $catch,
   Integer $delay,
-  String $host,
-  String $password,
+  String $host = $galera::status_host,
+  String $password = $galera::status_password,
   Integer $retries,
-  String $user,
+  String $user = $galera::status_user,
   Optional[String] $inv_catch,
 ) {
   include galera::status

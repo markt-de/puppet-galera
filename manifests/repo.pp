@@ -6,86 +6,95 @@
 class galera::repo(
   # parameters that need to be evaluated early
   String $vendor_type = $galera::vendor_type,
-  String $vendor_version = $galera::vendor_version,
-  String $vendor_version_internal = regsubst($vendor_version, '\.', '', 'G'),
+  Optional[String] $vendor_version = undef,
+  Optional[Array] $additional_packages = undef,
   # APT
-  Boolean $apt_repo_include_src = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::apt_${vendor_type}_include_src"),
-    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_include_src"),
-  },
-  String $apt_key = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::apt_${vendor_type}_key"),
-    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key"),
-  },
-  String $apt_key_server  = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::apt_${vendor_type}_key_server"),
-    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_key_server"),
-  },
-  String $apt_location = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::apt_${vendor_type}_location"),
-    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_location"),
-  },
-  String $apt_release = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::apt_${vendor_type}_release"),
-    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_release"),
-  },
-  String $apt_repos = lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::apt_${vendor_type}_repos"),
-    default => lookup("${module_name}::repo::apt_${vendor_type}_${vendor_version_internal}_repos"),
-  },
+  Optional[Boolean] $apt_include_src = undef,
+  Optional[String] $apt_key = undef,
+  Optional[String] $apt_key_server = undef,
+  Optional[String] $apt_location = undef,
+  Optional[String] $apt_release = undef,
+  Optional[String] $apt_repos = undef,
   # YUM
   Boolean $epel_needed,
-  String $yum_baseurl = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::yum_${vendor_type}_baseurl"),
-    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_baseurl"),
-  },
-  String $yum_descr = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::yum_${vendor_type}_descr"),
-    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_descr"),
-  },
-  Integer $yum_enabled = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::yum_${vendor_type}_enabled"),
-    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_enabled"),
-  },
-  Integer $yum_gpgcheck = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::yum_${vendor_type}_gpgcheck"),
-    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgcheck"),
-  },
-  String $yum_gpgkey = lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::yum_${vendor_type}_gpgkey"),
-    default => lookup("${module_name}::repo::yum_${vendor_type}_${vendor_version_internal}_gpgkey"),
-  },
+  Optional[String] $yum_baseurl = undef,
+  Optional[String] $yum_descr = undef,
+  Optional[Integer] $yum_enabled = undef,
+  Optional[Integer] $yum_gpgcheck = undef,
+  Optional[String] $yum_gpgkey = undef,
 ) {
+  # Fetch appropiate default values from module data, depending on the values
+  # of $vendor_type and $vendor_version.
+  # XXX: Originally this was supposed to take place when evaluating the class
+  # parameters. Now this is basically an ugly compatibility layer to support
+  # overriding parameters in non-hiera configurations (where solely relying
+  # on lookup() simply does not work). Should be refactored when a better
+  # solution is available.
+  if !$vendor_version {
+    $vendor_version_real = lookup("${module_name}::${vendor_type}::default_version")
+  } else { $vendor_version_real = $vendor_version }
+  $vendor_version_internal = regsubst($vendor_version_real, '\.', '', 'G')
+
+  # The following compatibility layer (part 2) is only required for parameters
+  # that may vary depending on the values of $vendor_version and $vendor_type.
+  $params = {
+   apt_include_src => $apt_include_src,
+   apt_key => $apt_key,
+   apt_key_server => $apt_key_server,
+   apt_location => $apt_location,
+   apt_release => $apt_release,
+   apt_repos => $apt_repos,
+   yum_baseurl => $yum_baseurl,
+   yum_descr => $yum_descr,
+   yum_enabled => $yum_enabled,
+   yum_gpgcheck => $yum_gpgcheck,
+   yum_gpgkey => $yum_gpgkey,
+  }.reduce({}) |$memo, $x| {
+    # If a value was specified as class parameter, then use it. Otherwise use
+    # lookup() to find a value in Hiera (or to fallback to default values from
+    # module data).
+    if !$x[1] {
+      $_v = lookup("${name}::${vendor_type}_${vendor_version_internal}_${$x[0]}", {default_value => undef}) ? {
+        undef => lookup("${name}::${vendor_type}_${$x[0]}"),
+        default => lookup("${name}::${vendor_type}_${vendor_version_internal}_${$x[0]}"),
+      }
+    } else {
+      $_v = $x[1]
+    }
+    $memo + {$x[0] => $_v}
+  }
+
   case $facts['os']['family'] {
     'Debian': {
       if ($vendor_type == 'osp5') {
         fail('OSP5 is only supported on RHEL platforms.')
       }
       apt::source { "${module_name}_${vendor_type}":
-        location => $apt_location,
-        release  => $apt_release,
-        repos    => $apt_repos,
+        location => inline_epp($params['apt_location']),
+        release  => $params['apt_release'],
+        repos    => $params['apt_repos'],
         key      => {
-          'id'     => $apt_key,
-          'server' => $apt_server,
+          'id'     => $params['apt_key'],
+          'server' => $params['apt_server'],
         },
         include  => {
-          'src' => $apt_include_src,
+          'src' => $params['apt_include_src'],
         },
       }
     }
     'RedHat': {
       yumrepo { "${module_name}_${vendor_type}":
-        descr    => $yum_descr,
-        baseurl  => $yum_baseurl,
-        gpgkey   => $yum_gpgkey,
-        enabled  => $yum_enabled,
-        gpgcheck => $yum_gpgcheck,
+        descr    => $params['yum_descr'],
+        baseurl  => inline_epp($params['yum_baseurl']),
+        gpgkey   => $params['yum_gpgkey'],
+        enabled  => $params['yum_enabled'],
+        gpgcheck => $params['yum_gpgcheck'],
       }
 
       if $epel_needed {
         # Needed for socat package
         yumrepo { "${module_name}_epel":
+          # FIXME: replace hardcoded values, specify includepkgs parameter
           mirrorlist     => "https://mirrors.fedoraproject.org/metalink?repo=epel-${facts['os']['release']['major']}&arch=${facts['os']['architecture']}",
           baseurl        => 'absent',
           failovermethod => 'priority',
@@ -98,12 +107,21 @@ class galera::repo(
       if $vendor_type == 'mariadb' {
         include galera::mariadb
       }
-      elsif $vendor_type == 'percona' {
-        package {'Percona-Server-shared-compat':}
-      }
     }
     default: {
       fail("Operating system ${facts['os']['family']} is not currently supported")
     }
+  }
+
+  # Fetch additional packages that may be required for this vendor/version.
+  if !$additional_packages {
+    $additional_packages_real = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
+      undef => lookup("${module_name}::${vendor_type}::additional_packages", {default_value => undef}),
+      default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}),
+    }
+  } else { $additional_packages_real = $additional_packages}
+
+  if $additional_packages_real {
+    ensure_packages($additional_packages_real)
   }
 }
