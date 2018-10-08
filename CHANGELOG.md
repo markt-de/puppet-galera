@@ -1,18 +1,35 @@
 # Changelog
 
 ## 1.0.0 (unreleased)
-* WARNING: Contains incompatible/breaking changes, please use with caution!
-* Fix bootstrap_command on CentOS/RHEL 7
-* Drop params.pp, move defaults to hiera module data (provides compatibility layer for non-hiera envs)
-* Drop support for EOL operating systems: CentOS 5, Debian 7, Ubuntu 12.04
-* Drop support for EOL databases: MariaDB 5.5 (except on Ubuntu 14.04)
-* Drop support for Puppet 3, require Puppet 4.10+
-* Change names of APT/YUM repos, be sure to purge unmanaged repositories
-* Change $sst_method: Drop support for "xtrabackup-v2", use "xtrabackup" instead
-* Change $bind_address, $galera_servers, $local_ip: Default to $networking::ip fact
-* Change $root_password and $status_password: Drop insecure default values
-* Change default value of $galera_package_ensure to "absent" to avoid package conflicts in Percona 5.7
-* Rename all $galera::repo::* parameters
+
+### Summary
+This release contains extensive refactoring and as a result multiple incompatible changes. It also drops support for EOL Puppet releases. Please try first in a test environment to avoid serious breakage.
+
+### Added
+* Add Hiera 5 module data, this will make it easy to add support for new versions/vendors
+* Add support for current versions of Percona XtraDB, Codership Galera Cluster and MariaDB
+* Add documentation for all parameters (README)
+
+### Changed
+* Drop params.pp, move defaults to hiera module data (and provide a compatibility layer for non-hiera envs)
+* Change default values of `$vendor_version` (use most recent version, depending on OS)
+* Rename all `$galera::repo` parameters
+* Change names of APT/YUM repos (it's recommended to purge unmanaged repositories, otherwise old repos must be removed manually)
+* Change `$sst_method`: Drop support for `xtrabackup-v2` option, `xtrabackup` must be used instead
+* Change `$bind_address`: Default to `::`
+* Change `$galera_servers` and `$local_ip`: Default to `$facts['networking']['ip']`
+* Change `$root_password` and `$status_password`: Drop insecure default values, instead the user is expected to provide values
+* Change default value of `$galera_package_ensure` to `absent` to avoid package conflicts in Percona 5.7
+
+### Removed
+- Drop support for EOL operating systems: CentOS 5, Debian 7, Ubuntu 12.04
+- Drop support for EOL databases: MariaDB 5.5 (except on Ubuntu 14.04)
+- Drop support for Puppet 3 and other EOL releases, require Puppet 4.10+
+
+### Fixed
+* Fix bootstrap_command in multiple scenarios
+* Fix package names and service names
+* Style fixes
 
 ## 0.7.2
 * Enhancement: Use dport parameter for puppetlabs-firewall (#59)
