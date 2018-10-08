@@ -1,9 +1,9 @@
 # Changelog
 
-## 1.0.0 (unreleased)
+## 1.0.0
 
 ### Summary
-This release contains extensive refactoring and as a result multiple incompatible changes. It also drops support for EOL Puppet releases. Please try first in a test environment to avoid serious breakage.
+This is the first release after extensive code refactoring and introduces multiple incompatible changes. It also drops support for EOL Puppet releases. Please try first in a test environment to avoid serious breakage. The 0.7 release series is considered obsolete now.
 
 ### Added
 * Add Hiera 5 module data, this will make it easy to add support for new versions/vendors
