@@ -132,7 +132,7 @@ Or if you just want to switch to using a local mirror:
 * `galera_master`: Specifies the node that will bootstrap the cluster if all nodes go down. Valid options: a string. Default: `$fqdn`
 * `galera_package_ensure`: Specifies the ensure state for the galera package. Note that some vendors do not allow installation of the wsrep-enabled MySQL/MariaDB and galera (arbitrator) on the same server. Valid options: all values supported by the package type. Default: `absent`
 * `galera_package_name`: Specifies the name of the galera wsrep package to install. Valid options: a string. Default: A vendor-, version- and OS-specific value.
-* `galera_servers`: Specifies a list of IP addresses of the nodes in the galera cluster. Valid options: an array. Default: `[$networking.ip]`
+* `galera_servers`: Specifies a list of IP addresses of the nodes in the galera cluster. Valid options: an array. Default: `[${facts['networking']['ip']}]`
 * `local_ip`: Specifies the IP address of this node to use for comms. Valid options: a string. Default: `$networking.ip`
 * `manage_additional_packages`: Specifies wether additional packages should be installed that may be required for SST and other features. Valid options: `true` and `false`. Default: `true`
 * `manage_package_nmap`: Specifies wether the package nmap should be installed. It is required for proper operation of this module. Valid options: `true` and `false`. Default: `true`
