@@ -1,7 +1,6 @@
 # Class galera::mariadb
 #
-# Sets some specific resources when using the mariadb distribution of
-# mysql-galera
+# Sets some specific resources when using the MariaDB distribution of galera.
 #
 class galera::mariadb {
   if versioncmp($facts['os']['release']['major'], '7') >=0 {

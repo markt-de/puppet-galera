@@ -1,10 +1,6 @@
 # == Class: galera::firewall
 #
-# === Parameters
-#
-# [*source*]
-#   (optional) The firewall source addresses to unblock
-#   Defaults to undef
+# Open firewall ports used by galera using puppetlabs-firewall.
 #
 class galera::firewall (
   Optional[String] $source = undef,
