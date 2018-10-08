@@ -49,7 +49,20 @@ Basic usage requires only the FQDN of the master node, a list of IP addresses of
         status_password => 'pa$$w0rd',
     }
 
-A number of simple options are available:
+This will install the default galera vendor and version. However, in a production environment you should definitely specify the vendor and version to avoid accidential updates:
+
+    class { 'galera':
+        vendor_type     => 'percona',
+        vendor_version  => '5.7',
+        ...
+
+On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password:
+
+    class { 'galera':
+        deb_sysmaint_password => 'secretpassword',
+        ...
+
+Furthermore, a number of simple options are available:
 
     class { 'galera':
         galera_servers  => ['10.0.99.101', '10.0.99.102'],
@@ -62,7 +75,7 @@ A number of simple options are available:
 
         # This will be used to populate my.cnf values that
         # control where wsrep binds, advertises, and listens
-        local_ip => $::ipaddress_eth0,
+        local_ip => $facts['networking']['ip'],
 
         # This will be set when the cluster is bootstrapped
         root_password => 'myrootpassword',
