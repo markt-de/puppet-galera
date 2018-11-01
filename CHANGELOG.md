@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1
+
+### Added
+* Add missing default params for MariaDB 10.1 and 10.3 on Debian (#122)
+
+### Fixed
+* Fix variables in `clustercheck.epp` (#121)
+* Remove default value of $galera_servers to avoid migration issues (#124)
+* Small style fixes
+
 ## 1.0.0
 
 ### Summary
