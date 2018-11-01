@@ -5,11 +5,8 @@
 class galera(
   # parameters that need to be evaluated early
   Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
-  Optional[String] $vendor_version = undef,
   # required parameters
   String $bind_address,
-  Optional[String] $bootstrap_command = undef,
-  Optional[String] $client_package_name = undef,
   Boolean $configure_firewall,
   Boolean $configure_repo,
   Boolean $create_root_my_cnf,
@@ -18,16 +15,13 @@ class galera(
   Hash $default_options,
   String $galera_master,
   String $galera_package_ensure,
-  Optional[String] $galera_package_name = undef,
   String $grep_binary,
-  Optional[String] $libgalera_location = undef,
   String $local_ip,
   Boolean $manage_additional_packages,
   Boolean $manage_package_nmap,
   String $mysql_binary,
   Integer $mysql_port,
   Boolean $mysql_restart,
-  Optional[String] $mysql_service_name = undef,
   Hash $override_options,
   String $package_ensure,
   Boolean $purge_conf_dir,
@@ -50,12 +44,19 @@ class galera(
   Enum['mysqldump', 'rsync', 'skip', 'xtrabackup'] $wsrep_sst_method,
   Integer $wsrep_state_transfer_port,
   # optional parameters
+  # (some of them are actually required, see notes)
   Optional[Array] $additional_packages = undef,
+  Optional[String] $bootstrap_command = undef,
+  Optional[String] $client_package_name = undef,
   Optional[String] $create_root_user = undef,
-  Optional[String] $mysql_package_name = undef,
+  Optional[String] $galera_package_name = undef,
   Optional[Array] $galera_servers = undef,
+  Optional[String] $libgalera_location = undef,
+  Optional[String] $mysql_package_name = undef,
+  Optional[String] $mysql_service_name = undef,
   Optional[String] $status_log_on_failure = undef,
   Optional[String] $status_log_on_success = undef,
+  Optional[String] $vendor_version = undef,
 ) {
   # Fetch appropiate default values from module data, depending on the values
   # of $vendor_type and $vendor_version.

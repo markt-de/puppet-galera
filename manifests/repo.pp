@@ -4,8 +4,10 @@
 # can be installed
 #
 class galera::repo(
-  # parameters that need to be evaluated early
+  # required parameters
   String $vendor_type = $galera::vendor_type,
+  Boolean $epel_needed,
+  # optional parameters
   Optional[String] $vendor_version = undef,
   Optional[Array] $additional_packages = undef,
   # APT
@@ -16,7 +18,6 @@ class galera::repo(
   Optional[String] $apt_release = undef,
   Optional[String] $apt_repos = undef,
   # YUM
-  Boolean $epel_needed,
   Optional[String] $yum_baseurl = undef,
   Optional[String] $yum_descr = undef,
   Optional[Integer] $yum_enabled = undef,
@@ -38,17 +39,17 @@ class galera::repo(
   # The following compatibility layer (part 2) is only required for parameters
   # that may vary depending on the values of $vendor_version and $vendor_type.
   $params = {
-   apt_include_src => $apt_include_src,
-   apt_key => $apt_key,
-   apt_key_server => $apt_key_server,
-   apt_location => $apt_location,
-   apt_release => $apt_release,
-   apt_repos => $apt_repos,
-   yum_baseurl => $yum_baseurl,
-   yum_descr => $yum_descr,
-   yum_enabled => $yum_enabled,
-   yum_gpgcheck => $yum_gpgcheck,
-   yum_gpgkey => $yum_gpgkey,
+    apt_include_src => $apt_include_src,
+    apt_key => $apt_key,
+    apt_key_server => $apt_key_server,
+    apt_location => $apt_location,
+    apt_release => $apt_release,
+    apt_repos => $apt_repos,
+    yum_baseurl => $yum_baseurl,
+    yum_descr => $yum_descr,
+    yum_enabled => $yum_enabled,
+    yum_gpgcheck => $yum_gpgcheck,
+    yum_gpgkey => $yum_gpgkey,
   }.reduce({}) |$memo, $x| {
     # If a value was specified as class parameter, then use it. Otherwise use
     # lookup() to find a value in Hiera (or to fallback to default values from
