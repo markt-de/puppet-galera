@@ -7,7 +7,7 @@
 
 ### Fixed
 * Fix variables in `clustercheck.epp` (#121)
-* Remove default value of $galera_servers to avoid migration issues (#124)
+* Remove default value of `$galera_servers` to avoid migration issues (#124)
 * Small style fixes
 
 ## 1.0.0
