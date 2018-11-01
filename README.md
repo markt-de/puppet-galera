@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/fraenki/puppet-galera.png?branch=master)](https://travis-ci.org/fraenki/puppet-galera)
 
-NOTE: The "master" branch contains the development version, which may break anything at any time. Consider using one of the stable branches instead.
+NOTE: The "master" branch on GitHub contains the development version, which may break anything at any time. Consider using one of the stable branches instead.
 
 #### Table of Contents
 
