@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+### Fixed
+* Fix crash on Puppet 5.5.7 (#123)
+* Bump puppetlabs-mysql requirement to 6.0.0 (#125)
+
 ## 1.0.1
 
 ### Added
