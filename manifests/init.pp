@@ -170,7 +170,7 @@ class galera(
   }
 
   # Finally merge options from all 3 sources.
-  $options = mysql::deepmerge($_default_options, $_wsrep_cluster_address, $_override_options)
+  $options = $_default_options.deep_merge($_wsrep_cluster_address.deep_merge($override_options))
 
   if ($create_root_user =~ String) {
     $create_root_user_real = $create_root_user
