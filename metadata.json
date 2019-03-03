@@ -79,6 +79,6 @@
   "source": "https://github.com/fraenki/puppet-galera",
   "summary": "Install/configure MySQL with Galera",
   "tags": ["mysql", "percona", "mariadb", "galera", "database", "codership", "cluster", "wsrep", "xtradb"],
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
 
