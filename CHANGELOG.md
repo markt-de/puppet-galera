@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.3
+This is a maintenance release.
+
+### Added
+* Add support for MariaDB 10.2 for Debian family (#126)
+* Add support for puppetlabs-mysql 8.x, puppetlabs-stdlib 6.x
+
+### Changed
+* Drop support for Puppet 4.x
+
+### Fixed
+* Fix default galera package for MariaDB (#127)
+* Fix compatibility issue with puppetlabs-mysql 8.0.0 (#128)
+
 ## 1.0.2
 
 ### Fixed
