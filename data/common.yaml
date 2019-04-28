@@ -42,9 +42,9 @@ galera::repo::codership_apt_location: "http://releases.galeracluster.com/mysql-w
 galera::repo::codership_apt_release: "%{os.distro.codename}"
 galera::repo::codership_apt_repos: 'main'
 galera::repo::mariadb_apt_include_src: false
-galera::repo::mariadb_apt_key: '6DC53DD92B7A8C298D5E54F950371E2B8950D2F2'
+galera::repo::mariadb_apt_key: '177F4010FE56CA3336300305F1656F24C74CD1D8'
 galera::repo::mariadb_apt_key_server: 'keyserver.ubuntu.com'
-galera::repo::mariadb_apt_location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/ubuntu"
+galera::repo::mariadb_apt_location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/%{os_name_lc}"
 galera::repo::mariadb_apt_release: "%{os.distro.codename}"
 galera::repo::mariadb_apt_repos: 'main'
 galera::repo::percona_apt_include_src: false
