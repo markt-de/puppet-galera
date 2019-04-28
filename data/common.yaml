@@ -68,7 +68,7 @@ galera::repo::percona_yum_baseurl: "http://repo.percona.com/release/%{os.release
 galera::repo::percona_yum_descr: "CentOS %{os.release.major} - Percona"
 galera::repo::percona_yum_enabled: 1
 galera::repo::percona_yum_gpgcheck: 1
-galera::repo::percona_yum_gpgkey: 'http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona'
+galera::repo::percona_yum_gpgkey: 'https://www.percona.com/downloads/RPM-GPG-KEY-percona https://repo.percona.com/yum/PERCONA-PACKAGING-KEY'
 galera::rundir: '/var/run/mysqld'
 galera::service_enabled: true
 galera::sst::rsync::additional_packages:
