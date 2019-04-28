@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.4
+This is a maintenance release.
+
+### Added
+* Add new RPM GPG key for Percona (#131)
+
+### Fixed
+* Fix MariaDB repo handling (#134)
+* Fix scope and handling of deb_sysmaint_password (#136)
+
 ## 1.0.3
 This is a maintenance release.
 
