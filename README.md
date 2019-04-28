@@ -177,7 +177,7 @@ Or if you just want to switch to using a local mirror:
 * `wsrep_group_comm_port`: Specifies the port to use for galera clustering. Valid options: an integer. Default: `4567`
 * `wsrep_inc_state_transfer_port`: Specifies the port to use for galera incremental state transfer. Valid options: an integer. Default: `4568`
 * `wsrep_sst_auth`: Specifies the authentication information to use for SST. Valid options: a string. Default: `root:<%= $root_password %>`
-* `wsrep_sst_method`: Specifies the method to use for state snapshot transfer between nodes. Valid options: mysqldump, rsync, skip, xtrabackup. Default: `rsync`
+* `wsrep_sst_method`: Specifies the method to use for state snapshot transfer between nodes. Valid options: mysqldump, rsync, skip, xtrabackup, xtrabackup-v2 (Percona). Default: `rsync`
 * `wsrep_state_transfer_port`: Specifies the port to use for galera state transfer. Valid options: an integer. Default: `4444`
 
 #### Class: `galera::firewall`

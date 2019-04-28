@@ -41,7 +41,7 @@ class galera(
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,
   String $wsrep_sst_auth,
-  Enum['mysqldump', 'rsync', 'skip', 'xtrabackup'] $wsrep_sst_method,
+  Enum['mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2'] $wsrep_sst_method,
   Integer $wsrep_state_transfer_port,
   # optional parameters
   # (some of them are actually required, see notes)
@@ -70,10 +70,14 @@ class galera(
   } else { $vendor_version_real = $vendor_version }
   $vendor_version_internal = regsubst($vendor_version_real, '\.', '', 'G')
 
+  # Percona supports 'xtrabackup-v2', but this value cannot be used in our automatic
+  # lookups, so we have to use a temporary value.
+  $wsrep_sst_method_internal = regsubst($wsrep_sst_method, '-', '_', 'G')
+
   if !$additional_packages {
-    $additional_packages_real = lookup("${module_name}::sst::${wsrep_sst_method}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
-      undef => lookup("${module_name}::sst::${wsrep_sst_method}::additional_packages", {default_value => undef}),
-      default => lookup("${module_name}::sst::${wsrep_sst_method}::${vendor_type}::${vendor_version_internal}::additional_packages")
+    $additional_packages_real = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
+      undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::additional_packages", {default_value => undef}),
+      default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages")
     }
   } else { $additional_packages_real = $additional_packages }
 
