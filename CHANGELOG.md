@@ -5,6 +5,7 @@ This is a maintenance release.
 
 ### Added
 * Add new RPM GPG key for Percona (#131)
+* Resurrect "xtrabackup-v2" SST method for Percona (#137)
 
 ### Fixed
 * Fix MariaDB repo handling (#134)
