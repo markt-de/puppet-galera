@@ -1,0 +1,2 @@
+---
+galera::repo::mariadb_yum_baseurl: "http://yum.mariadb.org/<%= $vendor_version_real %>/rhel%{os.release.major}-amd64"
