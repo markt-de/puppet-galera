@@ -24,12 +24,10 @@ describe 'galera' do
   end
 
   shared_examples_for 'galera' do
-    it { should contain_class('galera::params') }
 
     context 'with default parameters' do
       it { should contain_class('galera::repo') }
       it { should contain_class('galera::firewall') }
-      it { should contain_class('galera::params') }
 
       it { should contain_class('mysql::server').with(
         :package_name => os_params[:p_mysql_package_name],
@@ -68,6 +66,12 @@ describe 'galera' do
     context 'when using xtrabackup-v2' do
       before { params.merge!( :wsrep_sst_method => 'xtrabackup-v2' ) }
       it { should contain_package('percona-xtrabackup').with(:ensure => 'installed') }
+    end
+
+    context 'when using mariabackup' do
+      before { params.merge!( :vendor_type => 'mariadb', :wsrep_sst_method => 'mariabackup' ) }
+      it { should contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('installed') }
+      it { should contain_package('socat').with_ensure('installed') }
     end
 
     context 'when managing root .my.cnf' do
@@ -151,7 +155,7 @@ describe 'galera' do
     end
   end
 
-  on_supported_os.each do |os,facts|
+  on_supported_os(:facterversion => '3.6').each do |os,facts|
     context "on #{os}" do
       let (:facts) do
         facts.merge({ })
@@ -175,6 +179,7 @@ describe 'galera' do
             :c_libgalera_location  => '/usr/lib64/galera-3/libgalera_smm.so',
             :c_additional_packages => 'rsync',
             :mysql_service_name    => 'mysql',
+            :m_mariadb_backup_package_name => 'MariaDB-backup',
           }
         elsif facts[:osfamily] == 'Debian'
           { :p_mysql_package_name  => 'percona-xtradb-cluster-server-5.5',
@@ -193,6 +198,7 @@ describe 'galera' do
             :c_libgalera_location  => '/usr/lib/libgalera_smm.so',
             :c_additional_packages => 'rsync',
             :mysql_service_name    => 'mysql',
+            :m_mariadb_backup_package_name => 'mariadb-backup',
           }
         end
       end
