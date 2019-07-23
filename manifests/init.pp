@@ -41,7 +41,7 @@ class galera(
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,
   String $wsrep_sst_auth,
-  Enum['mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2'] $wsrep_sst_method,
+  Enum['mariabackup', 'mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2'] $wsrep_sst_method,
   Integer $wsrep_state_transfer_port,
   # optional parameters
   # (some of them are actually required, see notes)

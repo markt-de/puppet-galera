@@ -27,6 +27,18 @@ galera::mariadb::103::mysql_package_name: 'mariadb-server-10.3'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib/galera/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mysql'
+galera::sst::mariabackup::mariadb::101::additional_packages:
+  - 'mariadb-backup-10.1'
+  - 'socat'
+galera::sst::mariabackup::mariadb::102::additional_packages:
+  - 'mariadb-backup-10.2'
+  - 'socat'
+galera::sst::mariabackup::mariadb::103::additional_packages:
+  - 'mariadb-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::104::additional_packages:
+  - 'mariadb-backup'
+  - 'socat'
 
 galera::percona::55::client_package_name: 'percona-xtradb-cluster-client-5.5'
 galera::percona::55::galera_package_name: 'percona-xtradb-cluster-galera-2.x'
