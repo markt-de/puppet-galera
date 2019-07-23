@@ -24,7 +24,7 @@ galera::default_options:
     wsrep_sst_receive_address: "<%= $local_ip %>"
     wsrep_on: 'ON'
 galera::galera_master: "%{fqdn}"
-galera::galera_package_ensure: 'absent'
+galera::galera_package_ensure: 'present'
 galera::grep_binary: '/bin/grep'
 galera::local_ip: "%{networking.ip}"
 galera::manage_additional_packages: true

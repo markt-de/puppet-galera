@@ -1,5 +1,10 @@
 # Changelog
 
+## UNRELEASED
+
+### Changes
+* Change `$galera_package_ensure` default from `absent` to `present`
+
 ## 1.0.4
 This is a maintenance release.
 
