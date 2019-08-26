@@ -2,8 +2,16 @@
 
 ## UNRELEASED
 
+## 1.0.5
+
 ### Changes
 * Change `$galera_package_ensure` default from `absent` to `present`
+* Allow `mariabackup` in `$wsrep_sst_method`
+* Add `MariaDB-backup` and `socat` to `$additional_packages` for MariaDB
+
+### Fixes
+* Fix RHEL MariaDB YUM repo URL (#139)
+* Fix README typos and errors (#140)
 
 ## 1.0.4
 This is a maintenance release.
