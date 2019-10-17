@@ -76,7 +76,7 @@ class galera::repo(
         repos    => $params['apt_repos'],
         key      => {
           'id'     => $params['apt_key'],
-          'server' => $params['apt_server'],
+          'server' => $params['apt_key_server'],
         },
         include  => {
           'src' => $params['apt_include_src'],
