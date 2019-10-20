@@ -1,18 +1,31 @@
 # Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## UNRELEASED
 
-### Fixes
+## 1.0.6
+
+### Changed
+* Allow puppetlabs/stdlib 7
+* Allow puppetlabs/mysql 10
+* Allow puppetlabs/firewall 2
+* Drop support for Ubuntu 14.04
+* Add support for RHEL/CentOS 8
+
+### Fixed
 * Fix `$apt_key_server` parameter for APT repositories (#143)
 
 ## 1.0.5
 
-### Changes
+### Changed
 * Change `$galera_package_ensure` default from `absent` to `present`
 * Allow `mariabackup` in `$wsrep_sst_method`
 * Add `MariaDB-backup` and `socat` to `$additional_packages` for MariaDB
 
-### Fixes
+### Fixed
 * Fix RHEL MariaDB YUM repo URL (#139)
 * Fix README typos and errors (#140)
 
