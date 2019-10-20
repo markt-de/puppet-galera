@@ -3,3 +3,5 @@ Gemfile.lock
 spec/fixtures
 log
 .vagrant
+
+.idea/
