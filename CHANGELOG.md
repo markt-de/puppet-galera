@@ -2,6 +2,9 @@
 
 ## UNRELEASED
 
+### Fixes
+* Fix `$apt_key_server` parameter for APT repositories (#143)
+
 ## 1.0.5
 
 ### Changes
