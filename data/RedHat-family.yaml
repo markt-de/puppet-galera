@@ -26,7 +26,7 @@ galera::mariadb::103::galera_package_name: 'galera'
 galera::mariadb::103::mysql_package_name: 'MariaDB-server'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib64/galera/libgalera_smm.so'
-galera::mariadb::mysql_service_name: 'mysql'
+galera::mariadb::mysql_service_name: 'mariadb'
 galera::sst::mariabackup::mariadb::101::additional_packages:
   - 'MariaDB-backup'
   - 'socat'
