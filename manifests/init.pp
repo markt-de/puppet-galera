@@ -118,6 +118,13 @@ class galera(
   if ($facts['os']['family'] == 'Debian') {
     include galera::debian
   }
+  # as well as EL7 with MariaDB
+  # Puppetlabs/mysql forces to use /var/run/mariadb and /var/log/mariadb but they don't exist
+  # so mariadb service won't start. This is amended with galera::mariadb
+  if $vendor_type == 'mariadb' and $facts['os']['family'] == 'RedHat' {
+    include galera::mariadb
+    Class['galera::mariadb'] -> Class['mysql::server::installdb']
+  }
 
   if $status_check {
     include galera::status
