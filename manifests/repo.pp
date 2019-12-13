@@ -104,10 +104,6 @@ class galera::repo(
           gpgkey         => "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${facts['os']['release']['major']}"
         }
       }
-
-      if $vendor_type == 'mariadb' {
-        include galera::mariadb
-      }
     }
     default: {
       fail("Operating system ${facts['os']['family']} is not currently supported")
