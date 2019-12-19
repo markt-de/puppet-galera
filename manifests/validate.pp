@@ -17,7 +17,9 @@ class galera::validate(
   Integer $delay,
   Integer $retries,
   Optional[String] $inv_catch,
-  Optional[String] $host = $galera::status_host,
+  Optional[String] $host     = undef,
+  Optional[String] $user     = undef,
+  Optional[String] $password = undef,
 ) {
 
   if $galera::root_password =~ String {
