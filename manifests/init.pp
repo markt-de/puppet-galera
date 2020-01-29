@@ -201,14 +201,21 @@ class galera(
     # Check if we can already login with the given password
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
+    exec { "check if mysql is ready":
+        command => "/usr/bin/mysql --user=root --password=${root_password} -e 'select count(1);'",
+        tries => 10,
+        try_sleep => 3,
+        subscribe => Service['mysqld'],
+        require => Service['mysqld'],
+        refreshonly => true,
+        before  => [Class['mysql::server::root_password']],
+    } ->
+
     exec { "create ${::root_home}/.my.cnf":
       command => "/bin/echo -e \"${my_cnf}\" > ${::root_home}/.my.cnf",
       onlyif  => [
-        "${mysql_binary} --user=root --password=${root_password} -e 'select count(1);'",
-        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | ${grep_binary} -c \"password='${root_password}'\"` -eq 0",
+        "/usr/bin/test `/bin/cat ${::root_home}/.my.cnf | /bin/grep -c \"password='${root_password}'\"` -eq 0",
         ],
-      require => Service['mysqld'],
-      before  => [Class['mysql::server::root_password']],
     }
   }
 

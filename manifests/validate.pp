@@ -20,14 +20,14 @@ class galera::validate(
   include galera::status
 
   if $catch {
-    $truecatch = $catch
+    $truecatch = "-v ${catch}"
   } elsif $inv_catch {
-    $truecatch = " -v ${inv_catch}"
+    $truecatch = "${inv_catch}"
   } else {
     fail('No catch method specified in galera validation script')
   }
 
-  $cmd = "mysql --host=${host} --user=${user} --password=${password} -e '${action}'"
+  $cmd = "mysql --host=${host} --user=${user} --password=${password} -e '${action}' | grep -q ${truecatch}"
   exec { 'validate_connection':
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     provider    => shell,
