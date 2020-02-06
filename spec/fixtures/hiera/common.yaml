@@ -1,0 +1,8 @@
+---
+
+galera::root_password: mypassword
+galera::galera_servers:
+  - '10.0.99.101'
+  - '10.0.99.102'
+
+galera::galera_master: localhost

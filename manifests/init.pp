@@ -197,7 +197,7 @@ class galera(
     }
   }
 
-  if (($create_root_my_cnf == true) and ($root_password =~ String)) {
+  if ($create_root_my_cnf == true) {
     # Check if we can already login with the given password
     $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
@@ -249,7 +249,7 @@ class galera(
     before => Class['mysql::server::install'],
   }
 
-  if ($fqdn == $galera_master) {
+  if ($::fqdn == $galera_master) {
     # If there are no other servers up and we are the master, the cluster
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
