@@ -72,10 +72,6 @@
 #   Specifies wether additional packages should be installed that may be
 #   required for SST and other features. Default: `true`
 #
-# @param manage_package_nmap
-#   Specifies wether the package nmap should be installed. It is required
-#   for proper operation of this module. Default: `true`
-#
 # @param mysql_package_name
 #   Specifies the name of the server package to install.
 #   Default: A vendor-, version- and OS-specific value.
@@ -203,7 +199,6 @@ class galera(
   String $galera_package_ensure,
   String $local_ip,
   Boolean $manage_additional_packages,
-  Boolean $manage_package_nmap,
   Integer $mysql_port,
   Boolean $mysql_restart,
   Hash $override_options,
@@ -439,7 +434,8 @@ class galera(
     # needs to be bootstrapped. This happens before the service is managed
     $server_list = join($galera_servers, ' ')
 
-    if $manage_package_nmap {
+    if $manage_additional_packages {
+      # nmap is required for proper operation of this module.
       package { 'nmap':
         ensure => $package_ensure,
         before => Exec['bootstrap_galera_cluster']
@@ -456,7 +452,7 @@ class galera(
       require  => Class['mysql::server::installdb'],
       before   => Service['mysqld'],
       provider => shell,
-      path     => '/usr/bin:/bin:/usr/sbin:/sbin'
+      path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin'
     }
 
   }

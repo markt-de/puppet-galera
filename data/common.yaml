@@ -27,7 +27,6 @@ galera::galera_master: "%{fqdn}"
 galera::galera_package_ensure: 'present'
 galera::local_ip: "%{networking.ip}"
 galera::manage_additional_packages: true
-galera::manage_package_nmap: true
 galera::mysql_port: 3306
 galera::mysql_restart: false
 galera::override_options: {}
