@@ -1,7 +1,40 @@
-# Class galera::repo
+# @summary Configures the repositories from which galera packages can be installed.
 #
-# Installs the appropriate repositories from which galera packages
-# can be installed
+# @param apt_key
+#  Specifies the GPG key ID of the APT repository. Valid options: a string.
+#
+# @param apt_key_server
+#  Specifies the server from which the GPG key should be retrieved. Valid options: a string.
+#
+# @param apt_location
+#  Specifies the APT repository URL. Valid options: a string.
+#
+# @param apt_release
+#  Specifies a distribution of the APT repository. Valid options: a string. Default: `$facts['os']['distro']['codename']`.
+#
+# @param apt_include_src
+#  Specifies whether to include source repo. Valid options: `true` and `false`. Default: `false`.
+#
+# @param apt_repos
+#  Specifies the component of the APT repository that contains galera packages. Valid options: a string. Default: `main`.
+#
+# @param epel_needed
+#  Specifies whether to configure the Epel repository on YUM systems. Valid options: `true` and `false`. Default: `true`.
+#
+# @param yum_baseurl
+#  Specifies the YUM repository URL. Valid options: a string.
+#
+# @param yum_descr
+#  Specifies the YUM repository description. Valid options: a string.
+#
+# @param yum_enabled
+#  Specifies whether to enable the YUM repository. Valid options: `true` and `false`. Default: `true`.
+#
+# @param yum_gpgcheck
+#  Specifies whether to verify packages using the specified GPG key. Valid options: `true` and `false`. Default: `true`.
+#
+# @param yum_gpgkey
+#  Specifies the GPG key ID of the YUM repository. Valid options: a string.
 #
 class galera::repo(
   # required parameters

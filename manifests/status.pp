@@ -1,8 +1,5 @@
-# == Class: galera::status
-#
-# Configures a user and script that will check the status
-# of the galera cluster.
-#
+# @summary Configures a user and script that will check the status of the galera cluster.
+# @api private
 class galera::status (
 ){
   $available_when_donor = $galera::status_available_when_donor

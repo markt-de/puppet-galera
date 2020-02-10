@@ -1,7 +1,5 @@
-# == Class: galera::debian
-#
-# Fixes Debian specific compatibility issues
-#
+# @summary Adds workarounds to solve issues specific to Debian-based systems.
+# @api private
 class galera::debian {
   if ($facts['os']['family'] != 'Debian') {
     warn('the galera::debian class has been included on a non-debian host')

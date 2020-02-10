@@ -1,7 +1,5 @@
-# Class galera::mariadb
-#
-# Sets some specific resources when using the MariaDB distribution of galera.
-#
+# @summary Adds workarounds to solve issues when using the MariaDB distribution of galera.
+# @api private
 class galera::mariadb {
   if versioncmp($facts['os']['release']['major'], '7') >=0 {
     file { '/var/log/mariadb':

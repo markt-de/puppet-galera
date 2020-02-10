@@ -1,6 +1,7 @@
-# == Class: galera::firewall
+# @summary Open firewall ports used by galera using puppetlabs-firewall.
 #
-# Open firewall ports used by galera using puppetlabs-firewall.
+# @param source
+#  Specifies the firewall source addresses to unblock. Valid options: a string. Default: `undef`
 #
 class galera::firewall (
   Optional[String] $source = undef,

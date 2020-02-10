@@ -7,6 +7,12 @@ require 'puppet_blacksmith/rake_tasks' if Bundler.rubygems.find_name('puppet-bla
 require 'github_changelog_generator/task' if Bundler.rubygems.find_name('github_changelog_generator').any?
 require 'puppet-strings/tasks' if Bundler.rubygems.find_name('puppet-strings').any?
 
+desc 'Generate REFERENCE.md'
+task :reference, [:debug, :backtrace] do |t, args|
+  patterns = ''
+  Rake::Task['strings:generate:reference'].invoke(patterns, args[:debug], args[:backtrace])
+end
+
 def changelog_user
   return unless Rake.application.top_level_tasks.include? "changelog"
   returnVal = nil || JSON.load(File.read('metadata.json'))['author']

@@ -1,16 +1,20 @@
-# == Class galera::validate
+# @summary Validate that the cluster can accept connections at the point where
+#   the `mysql::server` resource is marked as complete.
+#   This is used because after returning success, the service is still not quite ready.
 #
-# This class will ensure that the mysql cluster
-# can accept connections at the point where the
-# mysql::server resource is marked as complete.
+# @api private
 #
-# This is used because after returning success,
-# the service is still not quite ready.
+# @param action
+#  Specifies the MySQL/MariaDB command to run. Valid options: a string. Default: `select count(1);`
+# @param catch
+#  Specifies a string that if present indicates failure. Valid options: a string. Default: `ERROR`
+# @param delay
+#  Specifies the seconds to sleep between attempts. Valid options: an integer: Default: `3`
+# @param inv_catch
+#  Specifies a string that if not present indicates failure. Valid options: a string. Default: `undef`
+# @param retries
+#  Specifies the number of times to retry connection. Valid options: an integer. Default: `20`
 #
-# We can validate connection either with
-#   1) root password if given or
-#   2) status password if status_check is true
-# 
 class galera::validate(
   String $action,
   String $catch,

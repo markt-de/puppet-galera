@@ -1,6 +1,207 @@
-# == Class galera
+# @summary Installs MySQL/MariaDB with galera cluster plugin
 #
-# Installs MySQL/MariaDB with galera
+# @param additional_packages
+#   Specifies a list of additional packages that may be required for SST and
+#   other features. Valid options: an array. Default: A vendor-, version- and
+#   OS-specific value.
+#
+# @param bind_address
+#   Specifies the IP address to bind MySQL/MariaDB to. The module expects the
+#   server to listen on localhost for proper operation. Valid options: a string.
+#   Default: `::`
+#
+# @param bootstrap_command
+#   Specifies a command used to bootstrap the galera cluster. Valid options:
+#   a string. Default: A vendor-, version- and OS-specific bootstrap command.
+#
+# @param client_package_name
+#   Specifies the name of the MySQL/MariaDB client package to install. Valid
+#   options: a string. Default: A vendor-, version- and OS-specific value.
+#
+# @param configure_firewall
+#   Specifies wether to open firewall ports used by galera using
+#    puppetlabs-firewall. Valid options: `true` and `false`. Default: `true`
+#
+# @param configure_repo
+#   Specifies wether to configure additional repositories that are requird for
+#   installing galera. Valid options: `true` and `false`. Default: `true`
+#
+# @param create_root_my_cnf
+#   A flag to indicate if we should manage the root .my.cnf. Set this to false
+#   if you wish to manage your root .my.cnf file elsewhere. Valid options:
+#   `true` and `false`. Default: `true`
+#
+# @param create_root_user
+#   A flag to indicate if we should manage the root user. Set this to false if
+#   you wish to manage your root user elsewhere. If this is set to undef, we
+#   will use true if galera_master == $::fqdn. Valid options: a string or
+#   undef. Default: `undef`
+#
+# @param create_status_user
+#   A flag to indicate if we should manage the status user. Set this to false
+#   if you wish to manage your status user elsewhere. Valid options: `true`
+#    and `false`. Default: `true`
+#
+# @param deb_sysmaint_password
+#   Specifies the password to set on Debian/Ubuntu for the sysmaint user used
+#   during updates. Valid options: a string. Default: `sysmaint`
+#
+# @param default_options
+#   Internal parameter, *do NOT change!* Use `$override_options` to customize
+#   MySQL options.
+#
+# @param galera_master
+#   Specifies the node that will bootstrap the cluster if all nodes go down.
+#   Valid options: a string. Default: `$fqdn`
+#
+# @param galera_package_ensure
+#   Specifies the ensure state for the galera package. Note that some vendors
+#   do not allow installation of the wsrep-enabled MySQL/MariaDB and galera
+#   (arbitrator) on the same server. Valid options: all values supported by
+#   the package type. Default: `absent`
+#
+# @param galera_package_name
+#   Specifies the name of the galera wsrep package to install. Valid options:
+#   a string. Default: A vendor-, version- and OS-specific value.
+#
+# @param galera_servers
+#   Specifies a list of IP addresses of the nodes in the galera cluster.
+#   Valid options: an array. Default: `[${facts['networking']['ip']}]`
+#
+# @param local_ip
+#   Specifies the IP address of this node to use for communications.
+#   Valid options: a string. Default: `$networking.ip`
+#
+# @param manage_additional_packages
+#   Specifies wether additional packages should be installed that may be
+#   required for SST and other features. Valid options: `true` and `false`.
+#   Default: `true`
+#
+# @param manage_package_nmap
+#   Specifies wether the package nmap should be installed. It is required
+#   for proper operation of this module. Valid options: `true` and `false`.
+#   Default: `true`
+#
+# @param mysql_package_name
+#   Specifies the name of the server package to install. Valid options:
+#   a string. Default: A vendor-, version- and OS-specific value.
+#
+# @param mysql_port
+#   Specifies the port to use for MySQL/MariaDB. Valid options: a string.
+#   Default: `3306`
+#
+# @param mysql_restart
+#   Specifies the option to pass through to `mysql::server::restart`. This can
+#   cause issues during bootstrapping if switched on. Valid options: `true`
+#   and `false`. Default: `false`
+#
+# @param mysql_service_name
+#   Specifies the option to pass through to `mysql::server`. Valid options:
+#   a string. Default: A vendor-, version- and OS-specific value.
+#
+# @param override_options
+#   Specifies options to pass to `mysql::server` class. See the puppetlabs-mysql
+#   documentation for more information. Valid options: a hash. Default: `{}`
+#
+# @param package_ensure
+#   Specifies the ensure state for packages. Valid options: all values supported
+#   by the package type. Default: `installed`
+#
+# @param purge_conf_dir
+#   Specifies the option to pass through to `mysql::server`.
+#   Valid options: `true` and `false`. Default: `true`
+#
+# @param root_password
+#   Specifies the MySQL/MariaDB root password. Valid options: a string.
+#
+# @param rundir
+#   Specifies the rundir for the MySQL/MariaDB service.
+#   Valid options: a string. Default: `/var/run/mysqld`
+#
+# @param service_enabled
+#   Specifies wether the MySQL/MariaDB service should be enabled.
+#   Valid options: `true` and `false`. Default: `true`
+#
+# @param status_allow
+#   Specifies the subnet or host(s) (in MySQL/MariaDB syntax) to allow status
+#   checks from. Valid options: a string. Default: `%`
+#
+# @param status_available_when_donor
+#   Specifies wether the node will remain in the cluster when it enters donor
+#   mode. Valid options: `0` (remove), `1` (remain). Default: `0`
+#
+# @param status_available_when_readonly
+#   When set to 0, clustercheck will return a "503 Service Unavailable" if the
+#   node is in the read_only state, as defined by the `read_only` MySQL/MariaDB
+#   variable. Values other than 0 have no effect. Valid options: an integer.
+#   Default: `-1`
+#
+# @param status_check
+#   Specifies wether to configure a user and script that will check the status
+#   of the galera cluster. Valid options: `true` and `false`. Default: `true`
+#
+# @param status_host
+#   Specifies the cluster to add the cluster check user to.
+#   Valid options: a string. Default: `localhost`
+#
+# @param status_log_on_failure
+#   Specifies which fields xinetd will log on failure.
+#   Valid options: a string. Default: `undef`
+#
+# @param status_log_on_success
+#   Specifies which fields xinetd will log on success.
+#   Valid options: a string. Default: `''`
+#
+# @param status_log_on_success_operator
+#   Specifies which operator xinetd uses to output logs on success.
+#   Valid options: a string. Default: `=`
+#
+# @param status_password
+#   Specifies the password of the status check user. Valid options: a string.
+#
+# @param status_port
+#   Specifies the port for cluster check service.
+#   Valid options: an integer. Default: `9200`
+#
+# @param status_user
+#   Specifies the name of the user to use for status checks.
+#   Valid options: a string: Default: `clustercheck`
+#
+# @param validate_connection
+#   Specifies wether the module should ensure that the cluster can accept
+#   connections at the point where the `mysql::server` resource is marked
+#   as complete. This is used because after returning success, the service
+#   is still not quite ready. Valid options: `true` and `false`. Default: `true`
+#
+# @param vendor_type
+#   Specifies the galera vendor (or flavour) to use.
+#   Valid options: codership, mariadb, percona. Default: `percona`
+#
+# @param vendor_version
+#   Specifies the galera version to use. To avoid accidential updates,
+#   set this to the required version. Valid options: a string.
+#   Default: A vendor- and OS-specific value. (Usually the most recent version.)
+#
+# @param wsrep_group_comm_port
+#   Specifies the port to use for galera clustering.
+#   Valid options: an integer. Default: `4567`
+#
+# @param wsrep_inc_state_transfer_port
+#   Specifies the port to use for galera incremental state transfer.
+#   Valid options: an integer. Default: `4568`
+#
+# @param wsrep_sst_auth
+#   Specifies the authentication information to use for SST.
+#   Valid options: a string. Default: `root:<%= $root_password %>`
+#
+# @param wsrep_sst_method
+#   Specifies the method to use for state snapshot transfer between nodes.
+#   Valid options: mysqldump, rsync, skip, xtrabackup, xtrabackup-v2 (Percona).
+#   Default: `rsync`
+#
+# @param wsrep_state_transfer_port
+#   Specifies the port to use for galera state transfer.
+#   Valid options: an integer. Default: `4444`
 #
 class galera(
   # parameters that need to be evaluated early
