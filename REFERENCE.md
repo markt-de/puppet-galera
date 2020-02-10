@@ -165,13 +165,6 @@ Data type: `Boolean`
 Specifies wether additional packages should be installed that may be
 required for SST and other features. Default: `true`
 
-##### `manage_package_nmap`
-
-Data type: `Boolean`
-
-Specifies wether the package nmap should be installed. It is required
-for proper operation of this module. Default: `true`
-
 ##### `mysql_package_name`
 
 Data type: `Optional[String]`
@@ -380,18 +373,6 @@ Data type: `Integer`
 
 Specifies the port to use for galera state transfer.
 Default: `4444`
-
-##### `grep_binary`
-
-Data type: `String`
-
-
-
-##### `mysql_binary`
-
-Data type: `String`
-
-
 
 ##### `libgalera_location`
 
