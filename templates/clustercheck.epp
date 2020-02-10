@@ -29,10 +29,10 @@ if [ -e "/var/tmp/clustercheck.disabled" ]; then
     exit 1
 fi
 
-MYSQL_USERNAME="<%= $::galera::status::status_user %>"
-MYSQL_PASSWORD="<%= $::galera::status::status_password %>"
-MYSQL_HOST="<%= $::galera::status::status_host %>"
-AVAILABLE_WHEN_DONOR="<%= $::galera::status::available_when_donor %>"
+MYSQL_USERNAME="<%= $::galera::status_user %>"
+MYSQL_PASSWORD="<%= $::galera::status_password %>"
+MYSQL_HOST="<%= $::galera::status_host %>"
+AVAILABLE_WHEN_DONOR="<%= $::galera::available_when_donor %>"
 ERR_FILE="${4:-/dev/null}"
 AVAILABLE_WHEN_READONLY="${AVAILABLE_WHEN_READONLY:-<%= $::galera::status::available_when_readonly %>}"
 DEFAULTS_EXTRA_FILE=${6:-/etc/my.cnf}
