@@ -62,7 +62,7 @@
       ]
     },
     {
-      "operatingsystem": "FreeBSD",
+      "operatingsystem": "FreeBSD"
     }
   ],
   "requirements": [
