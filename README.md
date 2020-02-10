@@ -9,7 +9,8 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
 1. [Overview](#overview)
 2. [Requirements](#requirements)
 3. [Usage](#usage)
-    - [Beginning with galera](#beginning-with-galera)
+    - [Basic usage](#basic-usage)
+    - [More complex example](#more-complex-example)
     - [Custom repository configuration](#custom-repository-configuration)
 4. [Reference](#reference)
 5. [Limitations](#limitations)
@@ -29,7 +30,7 @@ It will try to recover from failures by bootstrapping on a node designated as th
 
 ## Usage
 
-### Beginning with galera
+### Basic usage
 
 Basic usage requires only the FQDN of the master node, a list of IP addresses of other nodes and two passwords:
 
@@ -59,7 +60,9 @@ class { 'galera':
   ...
 ```
 
-Furthermore, a number of simple options are available:
+### More complex example
+
+Furthermore, a number of simple options are available to customize the cluster configuration according to your needs:
 
 ```puppet
 class { 'galera':
@@ -94,7 +97,7 @@ class { 'galera':
 }
 ```
 
-A catch-all parameter can be used to populate my.cnf in the same way as the puppetlabs-mysql module:
+A catch-all parameter `$override_options` can be used to populate my.cnf and overwrite default values in the same way as the puppetlabs-mysql module:
 
 ```puppet
 class { 'galera':
