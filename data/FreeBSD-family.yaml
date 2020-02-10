@@ -1,6 +1,6 @@
 ---
-galera::grep_binary: '/usr/bin/grep'
-galera::mysql_binary: '/usr/local/bin/mysql'
+galera::configure_firewall: false
+galera::configure_repo: false
 
 galera::codership::57::client_package_name: 'mysql57-client'
 galera::codership::57::galera_package_name: 'galera'
