@@ -32,7 +32,7 @@ fi
 MYSQL_USERNAME="<%= $::galera::status_user %>"
 MYSQL_PASSWORD="<%= $::galera::status_password %>"
 MYSQL_HOST="<%= $::galera::status_host %>"
-AVAILABLE_WHEN_DONOR="<%= $::galera::available_when_donor %>"
+AVAILABLE_WHEN_DONOR="<%= $::galera::status_available_when_donor %>"
 ERR_FILE="${4:-/dev/null}"
 AVAILABLE_WHEN_READONLY="${AVAILABLE_WHEN_READONLY:-<%= $::galera::status::available_when_readonly %>}"
 DEFAULTS_EXTRA_FILE=${6:-/etc/my.cnf}
