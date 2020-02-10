@@ -5,8 +5,8 @@
 #
 class galera::repo(
   # required parameters
-  String $vendor_type = $galera::vendor_type,
   Boolean $epel_needed,
+  String $vendor_type = $galera::vendor_type,
   # optional parameters
   Optional[String] $vendor_version = undef,
   Optional[Array] $additional_packages = undef,

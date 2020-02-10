@@ -1,0 +1,10 @@
+---
+
+spec/spec_helper.rb:
+  hiera_config: spec/fixtures/hiera.yaml
+  coverage_report: true
+
+spec/default_facts.yml:
+  extra_facts:
+    root_home: /root
+    fqdn: localhost

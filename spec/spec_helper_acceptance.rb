@@ -3,7 +3,7 @@ require 'beaker/puppet_install_helper'
 
 run_puppet_install_helper
 
-UNSUPPORTED_PLATFORMS = [ 'Windows', 'Solaris', 'AIX' ]
+UNSUPPORTED_PLATFORMS = ['Windows', 'Solaris', 'AIX'].freeze
 
 RSpec.configure do |c|
   proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -18,14 +18,14 @@ RSpec.configure do |c|
     hosts.each do |host|
       # Install the module being tested
       on host, "rm -rf /etc/puppet/modules/#{modname}"
-      puppet_module_install(:source => proj_root, :module_name => modname)
+      puppet_module_install(source: proj_root, module_name: modname)
       # Install module dependancies
       deps.each do |mod|
         on host, puppet('module', 'install', mod['name'])
       end
 
       # Print install modules
-      on host, puppet('module','list'), { :acceptable_exit_codes => 0 }
+      on host, puppet('module', 'list'), acceptable_exit_codes: 0
     end
   end
 end
