@@ -35,8 +35,7 @@ The following parameters are available in the `galera` class.
 Data type: `Optional[Array]`
 
 Specifies a list of additional packages that may be required for SST and
-other features. Valid options: an array. Default: A vendor-, version- and
-OS-specific value.
+other features. Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
@@ -45,15 +44,14 @@ Default value: `undef`
 Data type: `String`
 
 Specifies the IP address to bind MySQL/MariaDB to. The module expects the
-server to listen on localhost for proper operation. Valid options: a string.
-Default: `::`
+server to listen on localhost for proper operation. Default: `::`
 
 ##### `bootstrap_command`
 
 Data type: `Optional[String]`
 
-Specifies a command used to bootstrap the galera cluster. Valid options:
-a string. Default: A vendor-, version- and OS-specific bootstrap command.
+Specifies a command used to bootstrap the galera cluster.
+Default: A vendor-, version- and OS-specific bootstrap command.
 
 Default value: `undef`
 
@@ -61,8 +59,8 @@ Default value: `undef`
 
 Data type: `Optional[String]`
 
-Specifies the name of the MySQL/MariaDB client package to install. Valid
-options: a string. Default: A vendor-, version- and OS-specific value.
+Specifies the name of the MySQL/MariaDB client package to install.
+Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
@@ -71,22 +69,21 @@ Default value: `undef`
 Data type: `Boolean`
 
 Specifies wether to open firewall ports used by galera using
- puppetlabs-firewall. Valid options: `true` and `false`. Default: `true`
+puppetlabs-firewall. Default: `true`
 
 ##### `configure_repo`
 
 Data type: `Boolean`
 
 Specifies wether to configure additional repositories that are requird for
-installing galera. Valid options: `true` and `false`. Default: `true`
+installing galera. Default: `true`
 
 ##### `create_root_my_cnf`
 
 Data type: `Boolean`
 
 A flag to indicate if we should manage the root .my.cnf. Set this to false
-if you wish to manage your root .my.cnf file elsewhere. Valid options:
-`true` and `false`. Default: `true`
+if you wish to manage your root .my.cnf file elsewhere. Default: `true`
 
 ##### `create_root_user`
 
@@ -95,7 +92,7 @@ Data type: `Optional[String]`
 A flag to indicate if we should manage the root user. Set this to false if
 you wish to manage your root user elsewhere. If this is set to undef, we
 will use true if galera_master == $::fqdn. Valid options: a string or
-undef. Default: `undef`
+undef.
 
 Default value: `undef`
 
@@ -104,15 +101,14 @@ Default value: `undef`
 Data type: `Boolean`
 
 A flag to indicate if we should manage the status user. Set this to false
-if you wish to manage your status user elsewhere. Valid options: `true`
- and `false`. Default: `true`
+if you wish to manage your status user elsewhere. Default: `true`
 
 ##### `deb_sysmaint_password`
 
 Data type: `String`
 
 Specifies the password to set on Debian/Ubuntu for the sysmaint user used
-during updates. Valid options: a string. Default: `sysmaint`
+during updates. Default: `sysmaint`
 
 ##### `default_options`
 
@@ -126,7 +122,7 @@ MySQL options.
 Data type: `String`
 
 Specifies the node that will bootstrap the cluster if all nodes go down.
-Valid options: a string. Default: `$fqdn`
+Default: `$fqdn`
 
 ##### `galera_package_ensure`
 
@@ -141,8 +137,8 @@ the package type. Default: `absent`
 
 Data type: `Optional[String]`
 
-Specifies the name of the galera wsrep package to install. Valid options:
-a string. Default: A vendor-, version- and OS-specific value.
+Specifies the name of the galera wsrep package to install.
+Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
@@ -151,7 +147,7 @@ Default value: `undef`
 Data type: `Optional[Array]`
 
 Specifies a list of IP addresses of the nodes in the galera cluster.
-Valid options: an array. Default: `[${facts['networking']['ip']}]`
+Default: `[${facts['networking']['ip']}]`
 
 Default value: `undef`
 
@@ -160,30 +156,28 @@ Default value: `undef`
 Data type: `String`
 
 Specifies the IP address of this node to use for communications.
-Valid options: a string. Default: `$networking.ip`
+Default: `$networking.ip`
 
 ##### `manage_additional_packages`
 
 Data type: `Boolean`
 
 Specifies wether additional packages should be installed that may be
-required for SST and other features. Valid options: `true` and `false`.
-Default: `true`
+required for SST and other features. Default: `true`
 
 ##### `manage_package_nmap`
 
 Data type: `Boolean`
 
 Specifies wether the package nmap should be installed. It is required
-for proper operation of this module. Valid options: `true` and `false`.
-Default: `true`
+for proper operation of this module. Default: `true`
 
 ##### `mysql_package_name`
 
 Data type: `Optional[String]`
 
-Specifies the name of the server package to install. Valid options:
-a string. Default: A vendor-, version- and OS-specific value.
+Specifies the name of the server package to install.
+Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
@@ -191,23 +185,21 @@ Default value: `undef`
 
 Data type: `Integer`
 
-Specifies the port to use for MySQL/MariaDB. Valid options: a string.
-Default: `3306`
+Specifies the port to use for MySQL/MariaDB. Default: `3306`
 
 ##### `mysql_restart`
 
 Data type: `Boolean`
 
 Specifies the option to pass through to `mysql::server::restart`. This can
-cause issues during bootstrapping if switched on. Valid options: `true`
-and `false`. Default: `false`
+cause issues during bootstrapping if switched on. Default: `false`
 
 ##### `mysql_service_name`
 
 Data type: `Optional[String]`
 
-Specifies the option to pass through to `mysql::server`. Valid options:
-a string. Default: A vendor-, version- and OS-specific value.
+Specifies the option to pass through to `mysql::server`.
+Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
@@ -216,7 +208,7 @@ Default value: `undef`
 Data type: `Hash`
 
 Specifies options to pass to `mysql::server` class. See the puppetlabs-mysql
-documentation for more information. Valid options: a hash. Default: `{}`
+documentation for more information. Default: `{}`
 
 ##### `package_ensure`
 
@@ -229,35 +221,34 @@ by the package type. Default: `installed`
 
 Data type: `Boolean`
 
-Specifies the option to pass through to `mysql::server`.
-Valid options: `true` and `false`. Default: `true`
+Specifies the option to pass through to `mysql::server`. Default: `true`
 
 ##### `root_password`
 
 Data type: `String`
 
-Specifies the MySQL/MariaDB root password. Valid options: a string.
+Specifies the MySQL/MariaDB root password.
 
 ##### `rundir`
 
 Data type: `String`
 
 Specifies the rundir for the MySQL/MariaDB service.
-Valid options: a string. Default: `/var/run/mysqld`
+Default: `/var/run/mysqld`
 
 ##### `service_enabled`
 
 Data type: `Boolean`
 
 Specifies wether the MySQL/MariaDB service should be enabled.
-Valid options: `true` and `false`. Default: `true`
+Default: `true`
 
 ##### `status_allow`
 
 Data type: `String`
 
 Specifies the subnet or host(s) (in MySQL/MariaDB syntax) to allow status
-checks from. Valid options: a string. Default: `%`
+checks from. Default: `%`
 
 ##### `status_available_when_donor`
 
@@ -272,29 +263,26 @@ Data type: `Integer`
 
 When set to 0, clustercheck will return a "503 Service Unavailable" if the
 node is in the read_only state, as defined by the `read_only` MySQL/MariaDB
-variable. Values other than 0 have no effect. Valid options: an integer.
-Default: `-1`
+variable. Values other than 0 have no effect. Default: `-1`
 
 ##### `status_check`
 
 Data type: `Boolean`
 
 Specifies wether to configure a user and script that will check the status
-of the galera cluster. Valid options: `true` and `false`. Default: `true`
+of the galera cluster. Default: `true`
 
 ##### `status_host`
 
 Data type: `String`
 
-Specifies the cluster to add the cluster check user to.
-Valid options: a string. Default: `localhost`
+Specifies the cluster to add the cluster check user to. Default: `localhost`
 
 ##### `status_log_on_failure`
 
 Data type: `Optional[String]`
 
-Specifies which fields xinetd will log on failure.
-Valid options: a string. Default: `undef`
+Specifies which fields xinetd will log on failure. Default: `undef`
 
 Default value: `undef`
 
@@ -302,8 +290,7 @@ Default value: `undef`
 
 Data type: `Optional[String]`
 
-Specifies which fields xinetd will log on success.
-Valid options: a string. Default: `''`
+Specifies which fields xinetd will log on success. Default: `''`
 
 Default value: `undef`
 
@@ -312,27 +299,26 @@ Default value: `undef`
 Data type: `String`
 
 Specifies which operator xinetd uses to output logs on success.
-Valid options: a string. Default: `=`
+Default: `=`
 
 ##### `status_password`
 
 Data type: `String`
 
-Specifies the password of the status check user. Valid options: a string.
+Specifies the password of the status check user.
 
 ##### `status_port`
 
 Data type: `Integer`
 
-Specifies the port for cluster check service.
-Valid options: an integer. Default: `9200`
+Specifies the port for cluster check service. Default: `9200`
 
 ##### `status_user`
 
 Data type: `String`
 
 Specifies the name of the user to use for status checks.
-Valid options: a string: Default: `clustercheck`
+Default: `clustercheck`
 
 ##### `validate_connection`
 
@@ -341,7 +327,7 @@ Data type: `Boolean`
 Specifies wether the module should ensure that the cluster can accept
 connections at the point where the `mysql::server` resource is marked
 as complete. This is used because after returning success, the service
-is still not quite ready. Valid options: `true` and `false`. Default: `true`
+is still not quite ready. Default: `true`
 
 ##### `vendor_type`
 
@@ -355,7 +341,7 @@ Valid options: codership, mariadb, percona. Default: `percona`
 Data type: `Optional[String]`
 
 Specifies the galera version to use. To avoid accidential updates,
-set this to the required version. Valid options: a string.
+set this to the required version.
 Default: A vendor- and OS-specific value. (Usually the most recent version.)
 
 Default value: `undef`
@@ -364,22 +350,21 @@ Default value: `undef`
 
 Data type: `Integer`
 
-Specifies the port to use for galera clustering.
-Valid options: an integer. Default: `4567`
+Specifies the port to use for galera clustering. Default: `4567`
 
 ##### `wsrep_inc_state_transfer_port`
 
 Data type: `Integer`
 
 Specifies the port to use for galera incremental state transfer.
-Valid options: an integer. Default: `4568`
+Default: `4568`
 
 ##### `wsrep_sst_auth`
 
 Data type: `String`
 
 Specifies the authentication information to use for SST.
-Valid options: a string. Default: `root:<%= $root_password %>`
+Default: `root:<%= $root_password %>`
 
 ##### `wsrep_sst_method`
 
@@ -394,7 +379,7 @@ Default: `rsync`
 Data type: `Integer`
 
 Specifies the port to use for galera state transfer.
-Valid options: an integer. Default: `4444`
+Default: `4444`
 
 ##### `grep_binary`
 
