@@ -111,23 +111,6 @@ class { 'galera':
 }
 ```
 
-### FreeBSD support
-
-This module (and all its dependencies) provide support for the FreeBSD operating system. However, from all vendors Codership seems to provide the best support for Galera clusters on FreeBSD. The following configuration is known to work:
-
-```puppet
-class { 'galera':
-  configure_firewall => false,
-  configure_repo     => false,
-  galera_servers     => ['10.0.99.101', '10.0.99.102'],
-  galera_master      => 'node1.example.com',
-  root_password      => 'pa$$w0rd',
-  status_password    => 'pa$$w0rd',
-  vendor_type        => 'codership',
-  vendor_version     => '5.7',
-}
-```
-
 ### Custom repository configuration
 
 Disable repo management if you are managing your own repos and mirrors:
@@ -152,6 +135,23 @@ class { 'galera::repo':
 class { 'galera::repo':
   apt_location => "http://repo.example.com/apt/${facts['os']['distro']['codename']}/",
   ...
+```
+
+### FreeBSD support
+
+This module (and all its dependencies) provide support for the FreeBSD operating system. However, from all vendors Codership seems to provide the best support for Galera clusters on FreeBSD. The following configuration is known to work:
+
+```puppet
+class { 'galera':
+  configure_firewall => false,
+  configure_repo     => false,
+  galera_servers     => ['10.0.99.101', '10.0.99.102'],
+  galera_master      => 'node1.example.com',
+  root_password      => 'pa$$w0rd',
+  status_password    => 'pa$$w0rd',
+  vendor_type        => 'codership',
+  vendor_version     => '5.7',
+}
 ```
 
 ## Reference
