@@ -21,27 +21,22 @@ class galera::validate(
   Integer $delay,
   Integer $retries,
   Optional[String] $inv_catch,
-  Optional[String] $host     = undef,
-  Optional[String] $user     = undef,
-  Optional[String] $password = undef,
 ) {
 
-  if $galera::root_password =~ String {
+  if $galera::status_check {
+    include galera::status
+    $validate_host     = $galera::status_host
+    $validate_user     = $galera::status_user
+    $validate_password = $galera::status_password
+    $validate_require  = Class['galera::status']
+  } elsif $galera::root_password =~ String {
     $validate_host     = 'localhost'
     $validate_user     = 'root'
     $validate_password = $galera::root_password
     $validate_require  = Class['mysql::server::root_password']
   }
-  elsif $galera::status_check {
-    include galera::status
-
-    $validate_host     = $galera::status_host
-    $validate_user     = $galera::status_user
-    $validate_password = $galera::status_password
-    $validate_require  = Class['galera::status']
-  }
   else {
-    fail('Cannot validate connection without root_password or status_check')
+    fail('Cannot validate connection without $root_password or $status_check')
   }
 
   if $catch {
@@ -54,7 +49,7 @@ class galera::validate(
 
   $cmd = "mysql --host=${validate_host} --user=${validate_user} --password=${validate_password} -e '${action}'"
   exec { 'validate_connection':
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    path        => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
     provider    => shell,
     command     => $cmd,
     tries       => $retries,
