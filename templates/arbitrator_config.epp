@@ -12,7 +12,8 @@ garb_enable="NO"
 garb_galera_nodes="<%= $_nodes %>"
 garb_galera_group="<%= $galera::cluster_name %>"
 garb_galera_options="<%= $galera::arbitrator_options %>"
-<%   if ($galera::arbitrator_logfile) { -%>
+<%   if defined('$galera::arbitrator_logfile') { -%>
+garb_log_file="<%= $galera::arbitrator_logfile %>"
 <%   } -%>
 <% } else { -%>
 <%#  # Linux -%>
@@ -22,7 +23,7 @@ garb_galera_options="<%= $galera::arbitrator_options %>"
 GALERA_NODES="<%= $_nodes %>"
 GALERA_GROUP="<%= $galera::cluster_name %>"
 GALERA_OPTIONS="<%= $galera::arbitrator_options %>"
-<%   if ($galera::arbitrator_logfile) { -%>
+<%   if defined('$galera::arbitrator_logfile') { -%>
 LOG_FILE="<%= $galera::arbitrator_logfile %>"
 <%   } -%>
 <% } -%>
