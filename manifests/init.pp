@@ -4,6 +4,39 @@
 #   Specifies a list of additional packages that may be required for SST and
 #   other features. Default: A vendor-, version- and OS-specific value.
 #
+# @param arbitrator
+#   Specifies wether this node should run Galera Arbitrator instead of a
+#   MySQL/MariaDB server.
+#
+# @param arbitrator_config_file
+#   Specifies the configuration file for the Arbitrator service.
+#   Default: A vendor-, version- and OS-specific value.
+#
+# @param arbitrator_log_file
+#   Specifies the optional log file for the Arbitrator service.
+#   By default it logs to syslog.
+#
+# @param arbitrator_options
+#   Specifies configuration options for the Arbitrator service.
+#
+# @param arbitrator_package_ensure
+#   Specifies the ensure state for the Arbitrator package.
+#   Valid options: all values supported by the package type.
+#   Default: `present`
+#
+# @param arbitrator_package_name
+#   Specifies the name of the Arbitrator package to install.
+#   Default: A vendor-, version- and OS-specific value.
+#
+# @param arbitrator_service_enabled
+#   Specifies wether the Arbitrator service should be enabled.
+#   Expects that `$arbitrator` is also set to `true`.
+#   Default: `true`
+#
+# @param arbitrator_service_name
+#   Specifies the name of the Arbitrator service.
+#   Default: A vendor-, version- and OS-specific value.
+#
 # @param bind_address
 #   Specifies the IP address to bind MySQL/MariaDB to. The module expects the
 #   server to listen on localhost for proper operation. Default: `::`
@@ -15,6 +48,11 @@
 # @param client_package_name
 #   Specifies the name of the MySQL/MariaDB client package to install.
 #   Default: A vendor-, version- and OS-specific value.
+#
+# @param cluster_name
+#   Specifies the name of the cluster and should be identical on all nodes.
+#   This must be set for the module to work properly (although galera does
+#   not require this value.)
 #
 # @param configure_firewall
 #   Specifies wether to open firewall ports used by galera using
@@ -188,7 +226,16 @@ class galera(
   # parameters that need to be evaluated early
   Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
   # required parameters
+  Boolean $arbitrator,
+  String $arbitrator_config_file,
+  String $arbitrator_options,
+  String $arbitrator_package_ensure,
+  String $arbitrator_package_name,
+  Boolean $arbitrator_service_enabled,
+  String $arbitrator_service_name,
+  String $arbitrator_template,
   String $bind_address,
+  String $cluster_name,
   Boolean $configure_firewall,
   Boolean $configure_repo,
   Boolean $create_root_my_cnf,
@@ -225,6 +272,7 @@ class galera(
   # optional parameters
   # (some of them are actually required, see notes)
   Optional[Array] $additional_packages = undef,
+  Optional[String] $arbitrator_log_file = undef,
   Optional[String] $bootstrap_command = undef,
   Optional[String] $client_package_name = undef,
   Optional[String] $create_root_user = undef,
@@ -263,6 +311,9 @@ class galera(
   # The following compatibility layer (part 2) is only required for parameters
   # that may vary depending on the values of $vendor_version and $vendor_type.
   $params = {
+    arbitrator_config_file => $arbitrator_config_file,
+    arbitrator_package_name => $arbitrator_package_name,
+    arbitrator_service_name => $arbitrator_service_name,
     bootstrap_command => $bootstrap_command,
     client_package_name => $client_package_name,
     galera_package_name => $galera_package_name,
@@ -282,34 +333,6 @@ class galera(
       $_v = $x[1]
     }
     $memo + {$x[0] => $_v}
-  }
-
-  if $configure_repo {
-    include galera::repo
-    Class['::galera::repo'] -> Class['mysql::server']
-  }
-
-  if $configure_firewall {
-    include galera::firewall
-  }
-
-  # Include workarounds for Debian
-  if ($facts['os']['family'] == 'Debian') {
-    include galera::debian
-  }
-
-  # Include workarounds for RedHat
-  if ($facts['os']['family'] == 'RedHat') {
-    include galera::redhat
-    Class['galera::redhat'] -> Class['mysql::server::installdb']
-  }
-
-  if $status_check {
-    include galera::status
-  }
-
-  if $validate_connection {
-    include galera::validate
   }
 
   $node_list = join($galera_servers, ',')
@@ -365,94 +388,132 @@ class galera(
     $create_root_user_real = $create_root_user
   } else {
     if ($galera_master == $::fqdn) {
-      # manage root user on the galera master
+      # Manage root user on the galera master
       $create_root_user_real = true
     } else {
-      # skip manage root user on nodes that are not the galera master since
+      # Skip manage root user on nodes that are not the galera master since
       # they should get a database with the root user already configured when
       # they sync from the master
       $create_root_user_real = false
     }
   }
 
-  if ($create_root_my_cnf == true) {
-    # Check if we can already login with the given password
-    $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
+  if $configure_repo {
+    include galera::repo
+    Class['::galera::repo'] -> Class['mysql::server']
+  }
 
-    exec { "create ${::root_home}/.my.cnf":
-      path    => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
-      command => "echo -e \"${my_cnf}\" > ${::root_home}/.my.cnf",
-      onlyif  => [
-        "mysql --user=root --password=${root_password} -e 'select count(1);'",
-        "test `cat ${::root_home}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
-        ],
-      require => Service['mysqld'],
-      before  => [Class['mysql::server::root_password']],
+  if $configure_firewall {
+    include galera::firewall
+  }
+
+  # Include workarounds for Debian-based systems
+  if ($facts['os']['family'] == 'Debian') {
+    include galera::debian
+  }
+
+  # Include workarounds for RedHat-based systems
+  if ($facts['os']['family'] == 'RedHat') {
+    include galera::redhat
+    Class['galera::redhat'] -> Class['mysql::server::installdb']
+  }
+
+  # Configure a MySQL/MariaDB cluster node or an Arbitrator?
+  if $arbitrator {
+    class { 'galera::arbitrator':
+      config_file  => $params['arbitrator_config_file'],
+      package_name => $params['arbitrator_package_name'],
+      service_name => $params['arbitrator_service_name'],
     }
-  }
+  } else {
 
-  class { '::mysql::server':
-    package_name       => $params['mysql_package_name'],
-    override_options   => $options,
-    root_password      => $root_password,
-    create_root_my_cnf => $create_root_my_cnf,
-    create_root_user   => $create_root_user_real,
-    service_enabled    => $service_enabled,
-    purge_conf_dir     => $purge_conf_dir,
-    service_name       => $params['mysql_service_name'],
-    restart            => $mysql_restart,
-  }
+    if $status_check {
+      include galera::status
+    }
 
-  file { $rundir:
-    ensure  => directory,
-    owner   => 'mysql',
-    group   => 'mysql',
-    require => Class['mysql::server::install'],
-    before  => Class['mysql::server::installdb']
-  }
+    if $validate_connection {
+      include galera::validate
+    }
 
-  if ($manage_additional_packages and $additional_packages_real) {
-    ensure_resource(package, $additional_packages_real,
-    {
-      ensure  => $package_ensure,
-      before  => Class['mysql::server::install'],
-    })
-  }
+    if ($create_root_my_cnf == true) {
+      # Check if we can already login with the given password
+      $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
-  Package<| title == 'mysql_client' |> {
-    name => $params['client_package_name']
-  }
-
-  package {[ $galera::params['galera_package_name'] ] :
-    ensure => $galera_package_ensure,
-    before => Class['mysql::server::install'],
-  }
-
-  if ($::fqdn == $galera_master) {
-    # If there are no other servers up and we are the master, the cluster
-    # needs to be bootstrapped. This happens before the service is managed
-    $server_list = join($galera_servers, ' ')
-
-    if $manage_additional_packages {
-      # nmap is required for proper operation of this module.
-      package { 'nmap':
-        ensure => $package_ensure,
-        before => Exec['bootstrap_galera_cluster']
+      exec { "create ${::root_home}/.my.cnf":
+        path    => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
+        command => "echo -e \"${my_cnf}\" > ${::root_home}/.my.cnf",
+        onlyif  => [
+          "mysql --user=root --password=${root_password} -e 'select count(1);'",
+          "test `cat ${::root_home}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
+          ],
+        require => Service['mysqld'],
+        before  => [Class['mysql::server::root_password']],
       }
     }
 
-    # NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
-    #       See http://galeracluster.com/documentation-webpages/startingcluster.html.
-    # NOTE: MariaDB >=10.1 on systemd systems should use galera_new_cluster.
-    #       See https://mariadb.com/kb/en/library/getting-started-with-mariadb-galera-cluster/.
-    exec { 'bootstrap_galera_cluster':
-      command  => $params['bootstrap_command'],
-      unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
-      require  => Class['mysql::server::installdb'],
-      before   => Service['mysqld'],
-      provider => shell,
-      path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin'
+    class { '::mysql::server':
+      package_name       => $params['mysql_package_name'],
+      override_options   => $options,
+      root_password      => $root_password,
+      create_root_my_cnf => $create_root_my_cnf,
+      create_root_user   => $create_root_user_real,
+      service_enabled    => $service_enabled,
+      purge_conf_dir     => $purge_conf_dir,
+      service_name       => $params['mysql_service_name'],
+      restart            => $mysql_restart,
     }
 
+    file { $rundir:
+      ensure  => directory,
+      owner   => 'mysql',
+      group   => 'mysql',
+      require => Class['mysql::server::install'],
+      before  => Class['mysql::server::installdb']
+    }
+
+    if ($manage_additional_packages and $additional_packages_real) {
+      ensure_resource(package, $additional_packages_real,
+      {
+        ensure  => $package_ensure,
+        before  => Class['mysql::server::install'],
+      })
+    }
+
+    Package<| title == 'mysql_client' |> {
+      name => $params['client_package_name']
+    }
+
+    package {[ $galera::params['galera_package_name'] ] :
+      ensure => $galera_package_ensure,
+      before => Class['mysql::server::install'],
+    }
+
+    if ($::fqdn == $galera_master) {
+      # If there are no other servers up and we are the master, the cluster
+      # needs to be bootstrapped. This happens before the service is managed
+      $server_list = join($galera_servers, ' ')
+
+      if $manage_additional_packages {
+        # nmap is required for proper operation of this module.
+        package { 'nmap':
+          ensure => $package_ensure,
+          before => Exec['bootstrap_galera_cluster']
+        }
+      }
+
+      # NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
+      #       See http://galeracluster.com/documentation-webpages/startingcluster.html.
+      # NOTE: MariaDB >=10.1 on systemd systems should use galera_new_cluster.
+      #       See https://mariadb.com/kb/en/library/getting-started-with-mariadb-galera-cluster/.
+      exec { 'bootstrap_galera_cluster':
+        command  => $params['bootstrap_command'],
+        unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
+        require  => Class['mysql::server::installdb'],
+        before   => Service['mysqld'],
+        provider => shell,
+        path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin'
+      }
+
+    }
   }
 }

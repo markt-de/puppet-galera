@@ -13,6 +13,7 @@ _Public Classes_
 
 _Private Classes_
 
+* `galera::arbitrator`: Installs and configures the Arbitrator service.
 * `galera::debian`: Adds workarounds to solve issues specific to Debian-based systems.
 * `galera::redhat`: Adds workarounds to solve issues specific to RedHat-based systems.
 * `galera::status`: Configures a user and script that will check the status of the galera cluster.
@@ -39,6 +40,65 @@ other features. Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
+##### `arbitrator`
+
+Data type: `Boolean`
+
+Specifies wether this node should run Galera Arbitrator instead of a
+MySQL/MariaDB server.
+
+##### `arbitrator_config_file`
+
+Data type: `String`
+
+Specifies the configuration file for the Arbitrator service.
+Default: A vendor-, version- and OS-specific value.
+
+##### `arbitrator_log_file`
+
+Data type: `Optional[String]`
+
+Specifies the optional log file for the Arbitrator service.
+By default it logs to syslog.
+
+Default value: `undef`
+
+##### `arbitrator_options`
+
+Data type: `String`
+
+Specifies configuration options for the Arbitrator service.
+
+##### `arbitrator_package_ensure`
+
+Data type: `String`
+
+Specifies the ensure state for the Arbitrator package.
+Valid options: all values supported by the package type.
+Default: `present`
+
+##### `arbitrator_package_name`
+
+Data type: `String`
+
+Specifies the name of the Arbitrator package to install.
+Default: A vendor-, version- and OS-specific value.
+
+##### `arbitrator_service_enabled`
+
+Data type: `Boolean`
+
+Specifies wether the Arbitrator service should be enabled.
+Expects that `$arbitrator` is also set to `true`.
+Default: `true`
+
+##### `arbitrator_service_name`
+
+Data type: `String`
+
+Specifies the name of the Arbitrator service.
+Default: A vendor-, version- and OS-specific value.
+
 ##### `bind_address`
 
 Data type: `String`
@@ -63,6 +123,14 @@ Specifies the name of the MySQL/MariaDB client package to install.
 Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
+
+##### `cluster_name`
+
+Data type: `String`
+
+Specifies the name of the cluster and should be identical on all nodes.
+This must be set for the module to work properly (although galera does
+not require this value.)
 
 ##### `configure_firewall`
 
@@ -373,6 +441,12 @@ Data type: `Integer`
 
 Specifies the port to use for galera state transfer.
 Default: `4444`
+
+##### `arbitrator_template`
+
+Data type: `String`
+
+
 
 ##### `libgalera_location`
 

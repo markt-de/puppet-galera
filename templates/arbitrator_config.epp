@@ -1,0 +1,28 @@
+# This file is managed by Puppet. DO NOT EDIT.
+<% if ($facts['os']['family'] == 'FreeBSD') { -%>
+<%#  # FreeBSD -%>
+<%   if ($galera::arbitrator_service_enabled) { -%>
+garb_enable="YES"
+<%   } else { -%>
+garb_enable="NO"
+<%   } -%>
+<%#  # The FreeBSD port of garb expects a space-separated list. -%>
+<%   $_temp = $galera::galera_servers.map |$node| { "${node}" } -%>
+<%   $_nodes = join($_temp, ' ') -%>
+garb_galera_nodes="<%= $_nodes %>"
+garb_galera_group="<%= $galera::cluster_name %>"
+garb_galera_options="<%= $galera::arbitrator_options %>"
+<%   if ($galera::arbitrator_logfile) { -%>
+<%   } -%>
+<% } else { -%>
+<%#  # Linux -%>
+<%#  # The Linux service of garb expects a comma-separated list. -%>
+<%   $_temp = $galera::galera_servers.map |$node| { "${node}:${galera::wsrep_group_comm_port}" } -%>
+<%   $_nodes =  join($_temp, ',') -%>
+GALERA_NODES="<%= $_nodes %>"
+GALERA_GROUP="<%= $galera::cluster_name %>"
+GALERA_OPTIONS="<%= $galera::arbitrator_options %>"
+<%   if ($galera::arbitrator_logfile) { -%>
+LOG_FILE="<%= $galera::arbitrator_logfile %>"
+<%   } -%>
+<% } -%>
