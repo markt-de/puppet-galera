@@ -293,13 +293,12 @@ class galera(
     include galera::firewall
   }
 
-  # Debian machines need some help
+  # Include workarounds for Debian
   if ($facts['os']['family'] == 'Debian') {
     include galera::debian
   }
-  # as well as EL7 with MariaDB
-  # Puppetlabs/mysql forces to use /var/run/mariadb and /var/log/mariadb but they don't exist
-  # so mariadb service won't start. This is amended with galera::mariadb
+
+  # Include workarounds for EL7 with MariaDB
   if $vendor_type == 'mariadb' and $facts['os']['family'] == 'RedHat' {
     include galera::mariadb
     Class['galera::mariadb'] -> Class['mysql::server::installdb']

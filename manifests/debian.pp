@@ -1,10 +1,6 @@
 # @summary Adds workarounds to solve issues specific to Debian-based systems.
 # @api private
 class galera::debian {
-  if ($facts['os']['family'] != 'Debian') {
-    warn('the galera::debian class has been included on a non-debian host')
-  }
-
   # puppetlabs-mysql now places config before installing the package, which causes issues
   # if the service is started as part of package installs, as it is on debians. Resolve this
   # by putting a default my.cnf in place before installing the package, then putting the
