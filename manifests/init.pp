@@ -227,12 +227,9 @@ class galera(
   Enum['codership', 'mariadb', 'percona'] $vendor_type,
   # required parameters
   Boolean $arbitrator,
-  String $arbitrator_config_file,
   String $arbitrator_options,
   String $arbitrator_package_ensure,
-  String $arbitrator_package_name,
   Boolean $arbitrator_service_enabled,
-  String $arbitrator_service_name,
   String $arbitrator_template,
   String $bind_address,
   String $cluster_name,
@@ -272,7 +269,10 @@ class galera(
   # optional parameters
   # (some of them are actually required, see notes)
   Optional[Array] $additional_packages = undef,
+  Optional[String] $arbitrator_config_file = undef,
   Optional[String] $arbitrator_log_file = undef,
+  Optional[String] $arbitrator_package_name = undef,
+  Optional[String] $arbitrator_service_name = undef,
   Optional[String] $bootstrap_command = undef,
   Optional[String] $client_package_name = undef,
   Optional[String] $create_root_user = undef,
