@@ -3,6 +3,10 @@ require 'spec_helper'
 describe 'galera' do
   let :params do
     {
+      arbitrator_config_file: '/etc/default/garb',
+      arbitrator_package_name: 'galera-arbitrator',
+      arbitrator_service_name: 'garb',
+      cluster_name: 'testcluster',
       galera_servers: ['10.2.2.1'],
       galera_master: 'control1',
       local_ip: '10.2.2.1',

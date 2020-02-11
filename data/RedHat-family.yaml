@@ -1,4 +1,7 @@
 ---
+galera::arbitrator_config_file: '/etc/sysconfig/garb'
+galera::arbitrator_service_name: 'garb'
+
 galera::codership::55::client_package_name: 'mysql-wsrep-client-5.5'
 galera::codership::55::galera_package_name: 'galera-3'
 galera::codership::55::mysql_package_name: 'mysql-wsrep-5.5'

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'galera::debian' do
   let :pre_condition do
     "class { 'galera':
+       cluster_name => 'testcluster',
        galera_master => 'control1',
        status_password => 'nonempty'
     }"

@@ -2,6 +2,8 @@
 galera::arbitrator: true
 galera::arbitrator_options: 'gcs.fc_limit=256; gcs.fc_factor=0.99; gcs.fc_master_slave=YES; evs.keepalive_period=PT1S; evs.suspect_timeout=PT1M; evs.inactive_timeout=PT2M; evs.install_timeout=PT2M; evs.delayed_keep_period=PT2M; gcs.sync_donor=YES; gmcast.peer_timeout=PT10S; gmcast.time_wait=PT15S; pc.wait_prim_timeout=PT1M; pc.announce_timeout=PT10S'
 galera::arbitrator_package_ensure: 'present'
+# NOTE: should be set for every operating system and vendor
+galera::arbitrator_package_name: 'galera-arbitrator'
 galera::arbitrator_service_enabled: true
 galera::arbitrator_template: 'galera/arbitrator_config.epp'
 # NOTE: bind to ALL addresses to ensure this module can connect to localhost
