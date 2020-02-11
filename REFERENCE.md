@@ -392,7 +392,7 @@ is still not quite ready. Default: `true`
 
 ##### `vendor_type`
 
-Data type: `Enum['codership', 'mariadb', 'osp5', 'percona']`
+Data type: `Enum['codership', 'mariadb', 'percona']`
 
 Specifies the galera vendor (or flavour) to use.
 Valid options: codership, mariadb, percona. Default: `percona`

@@ -100,9 +100,6 @@ class galera::repo(
 
   case $facts['os']['family'] {
     'Debian': {
-      if ($vendor_type == 'osp5') {
-        fail('OSP5 is only supported on RHEL platforms.')
-      }
       apt::source { "${module_name}_${vendor_type}":
         location => inline_epp($params['apt_location']),
         release  => $params['apt_release'],

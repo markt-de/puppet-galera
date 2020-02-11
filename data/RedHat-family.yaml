@@ -39,13 +39,6 @@ galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib64/galera/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mariadb'
 
-galera::osp::5::client_package_name: 'mariadb'
-galera::osp::5::galera_package_name: 'galera'
-galera::osp::5::mysql_package_name: 'mariadb-galera-server'
-galera::osp::bootstrap_command: 'touch /var/log/mysqld.log ; chown mysql:mysql /var/log/mysqld.log ; systemctl start mysqld'
-galera::osp::libgalera_location: '/usr/lib64/galera/libgalera_smm.so'
-galera::osp::mysql_service_name: 'mariadb'
-
 galera::percona::55::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-2'
 galera::percona::55::client_package_name: 'Percona-XtraDB-Cluster-client-55'
 galera::percona::55::galera_package_name: 'Percona-XtraDB-Cluster-galera-2'

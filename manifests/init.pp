@@ -224,7 +224,7 @@
 #
 class galera(
   # parameters that need to be evaluated early
-  Enum['codership', 'mariadb', 'osp5', 'percona'] $vendor_type,
+  Enum['codership', 'mariadb', 'percona'] $vendor_type,
   # required parameters
   Boolean $arbitrator,
   String $arbitrator_config_file,

@@ -109,4 +109,3 @@ galera::wsrep_state_transfer_port: 4444
 galera::codership::default_version: '5.7'
 galera::percona::default_version: '5.7'
 galera::mariadb::default_version: '10.3'
-galera::osp::default_version: '5'
