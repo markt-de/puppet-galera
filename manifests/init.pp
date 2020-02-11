@@ -298,10 +298,10 @@ class galera(
     include galera::debian
   }
 
-  # Include workarounds for EL7 with MariaDB
+  # Include workarounds for RedHat
   if $vendor_type == 'mariadb' and $facts['os']['family'] == 'RedHat' {
-    include galera::mariadb
-    Class['galera::mariadb'] -> Class['mysql::server::installdb']
+    include galera::redhat
+    Class['galera::redhat'] -> Class['mysql::server::installdb']
   }
 
   if $status_check {
