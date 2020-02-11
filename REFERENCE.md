@@ -14,7 +14,7 @@ _Public Classes_
 _Private Classes_
 
 * `galera::debian`: Adds workarounds to solve issues specific to Debian-based systems.
-* `galera::mariadb`: Adds workarounds to solve issues when using the MariaDB distribution of galera.
+* `galera::redhat`: Adds workarounds to solve issues specific to RedHat-based systems.
 * `galera::status`: Configures a user and script that will check the status of the galera cluster.
 * `galera::validate`: Validate that the cluster can accept connections at the point where
 the `mysql::server` resource is marked as complete.
