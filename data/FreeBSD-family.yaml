@@ -28,11 +28,11 @@ galera::mariadb::bootstrap_command: '/usr/local/bin/mysqld_safe --defaults-extra
 galera::mariadb::libgalera_location: '/usr/local/lib/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mysql-server'
 
-galera::sst::xtrabackup::additional_packages:
-  - 'xtrabackup'
-galera::sst::xtrabackup::codership::57::additional_packages:
-  - 'xtrabackup'
 galera::sst::mariabackup::mariadb::103::additional_packages:
   - 'socat'
 galera::sst::mariabackup::mariadb::104::additional_packages:
   - 'socat'
+galera::sst::xtrabackup::additional_packages:
+  - 'xtrabackup'
+galera::sst::xtrabackup::codership::57::additional_packages:
+  - 'xtrabackup'

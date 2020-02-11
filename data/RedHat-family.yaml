@@ -38,18 +38,6 @@ galera::mariadb::arbitrator_service_name: 'garb'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib64/galera/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mariadb'
-galera::sst::mariabackup::mariadb::101::additional_packages:
-  - 'MariaDB-backup'
-  - 'socat'
-galera::sst::mariabackup::mariadb::102::additional_packages:
-  - 'MariaDB-backup'
-  - 'socat'
-galera::sst::mariabackup::mariadb::103::additional_packages:
-  - 'MariaDB-backup'
-  - 'socat'
-galera::sst::mariabackup::mariadb::104::additional_packages:
-  - 'MariaDB-backup'
-  - 'socat'
 
 galera::osp::5::client_package_name: 'mariadb'
 galera::osp::5::galera_package_name: 'galera'
@@ -80,3 +68,16 @@ galera::percona::arbitrator_service_name: 'garb'
 galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::libgalera_location: '/usr/lib64/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
+
+galera::sst::mariabackup::mariadb::101::additional_packages:
+  - 'MariaDB-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::102::additional_packages:
+  - 'MariaDB-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::103::additional_packages:
+  - 'MariaDB-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::104::additional_packages:
+  - 'MariaDB-backup'
+  - 'socat'
