@@ -299,7 +299,7 @@ class galera(
   }
 
   # Include workarounds for RedHat
-  if $vendor_type == 'mariadb' and $facts['os']['family'] == 'RedHat' {
+  if ($facts['os']['family'] == 'RedHat') {
     include galera::redhat
     Class['galera::redhat'] -> Class['mysql::server::installdb']
   }
