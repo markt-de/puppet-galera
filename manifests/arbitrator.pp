@@ -20,6 +20,7 @@ class galera::arbitrator(
   }
 
   service { $service_name:
+    ensure    => 'running',
     enable    => $galera::arbitrator_service_enabled,
     subscribe => [
         Package[$package_name],
