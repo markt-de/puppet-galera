@@ -415,7 +415,9 @@ class galera(
   # Include workarounds for RedHat-based systems
   if ($facts['os']['family'] == 'RedHat') {
     include galera::redhat
-    Class['galera::redhat'] -> Class['mysql::server::installdb']
+    unless $galera::arbitrator {
+      Class['galera::redhat'] -> Class['mysql::server::installdb']
+    }
   }
 
   # Configure a MySQL/MariaDB cluster node or an Arbitrator?
