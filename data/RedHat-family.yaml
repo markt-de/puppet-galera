@@ -18,7 +18,7 @@ galera::codership::libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysqld'
 galera::codership::want_repos:
   - 'codership'
-  - 'codership_galera'
+  - 'codership_lib'
 
 galera::mariadb::100::client_package_name: 'MariaDB-client'
 galera::mariadb::100::galera_package_name: 'galera'
@@ -80,7 +80,7 @@ galera::repo::codership::yum:
   enabled: 1
   gpgcheck: 1
   gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
-galera::repo::codership_galera::yum:
+galera::repo::codership_lib::yum:
   baseurl: "http://releases.galeracluster.com/galera-3/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Codership Galera"
   enabled: 1
