@@ -2,22 +2,23 @@
 galera::codership::55::client_package_name: 'mysql-wsrep-client-5.5'
 galera::codership::55::galera_package_name: 'galera-3'
 galera::codership::55::mysql_package_name: 'mysql-wsrep-5.5'
-galera::codership::56::arbitrator_package_name: 'galera-arbitrator-3'
+galera::codership::56::arbitrator_package_name: 'galera'
 galera::codership::56::client_package_name: 'mysql-wsrep-client-5.6'
 galera::codership::56::galera_package_name: 'galera-3'
 galera::codership::56::mysql_package_name: 'mysql-wsrep-5.6'
-galera::codership::57::arbitrator_package_name: 'galera-arbitrator-3'
+galera::codership::57::arbitrator_package_name: 'galera'
 galera::codership::57::client_package_name: 'mysql-wsrep-client-5.7'
 galera::codership::57::galera_package_name: 'galera-3'
 galera::codership::57::mysql_package_name: 'mysql-wsrep-5.7'
 galera::codership::arbitrator_config_file: '/etc/sysconfig/garb'
-galera::codership::arbitrator_package_name: 'galera-arbitrator-3'
+galera::codership::arbitrator_package_name: 'galera'
 galera::codership::arbitrator_service_name: 'garb'
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
 galera::codership::libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysqld'
 galera::codership::want_repos:
   - 'codership'
+  - 'codership_galera'
 
 galera::mariadb::100::client_package_name: 'MariaDB-client'
 galera::mariadb::100::galera_package_name: 'galera'
@@ -76,6 +77,12 @@ galera::repo::epel_needed: true
 galera::repo::codership::yum:
   baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Codership"
+  enabled: 1
+  gpgcheck: 1
+  gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
+galera::repo::codership_galera::yum:
+  baseurl: "http://releases.galeracluster.com/galera-3/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
+  descr: "CentOS %{os.release.major} - Codership Galera"
   enabled: 1
   gpgcheck: 1
   gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'

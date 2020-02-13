@@ -16,6 +16,9 @@ galera::codership::arbitrator_service_name: 'garb'
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
 galera::codership::libgalera_location: '/usr/lib/galera/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysql'
+galera::codership::want_repos:
+  - 'codership'
+  - 'codership_galera'
 
 galera::mariadb::55::client_package_name: 'mariadb-client-5.5'
 galera::mariadb::55::galera_package_name: 'galera'
@@ -39,6 +42,8 @@ galera::mariadb::arbitrator_service_name: 'garb'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib/galera/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mysql'
+galera::mariadb::want_repos:
+  - 'mariadb'
 
 galera::percona::55::client_package_name: 'percona-xtradb-cluster-client-5.5'
 galera::percona::55::galera_package_name: 'percona-xtradb-cluster-galera-2.x'
@@ -58,12 +63,21 @@ galera::percona::arbitrator_service_name: 'garbd'
 galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::libgalera_location: '/usr/lib/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
+galera::percona::want_repos:
+  - 'percona'
 
 galera::repo::codership::apt:
   apt_include_src: false
   apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
   apt_key_server: 'keyserver.ubuntu.com'
   apt_location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
+  apt_release: "%{os.distro.codename}"
+  apt_repos: 'main'
+galera::repo::codership_galera::apt:
+  apt_include_src: false
+  apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+  apt_key_server: 'keyserver.ubuntu.com'
+  apt_location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
   apt_release: "%{os.distro.codename}"
   apt_repos: 'main'
 galera::repo::mariadb::apt:
