@@ -406,7 +406,9 @@ class galera(
 
   if $configure_repo {
     include galera::repo
-    Class['::galera::repo'] -> Class['mysql::server']
+    unless $galera::arbitrator {
+      Class['::galera::repo'] -> Class['mysql::server']
+    }
   }
 
   if $configure_firewall {
