@@ -16,6 +16,8 @@ galera::codership::arbitrator_service_name: 'garb'
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
 galera::codership::libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysqld'
+galera::codership::want_repos:
+  - 'codership'
 
 galera::mariadb::100::client_package_name: 'MariaDB-client'
 galera::mariadb::100::galera_package_name: 'galera'
@@ -42,6 +44,8 @@ galera::mariadb::arbitrator_service_name: 'garb'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib64/galera/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mariadb'
+galera::mariadb::want_repos:
+  - 'mariadb'
 
 galera::percona::55::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-2'
 galera::percona::55::client_package_name: 'Percona-XtraDB-Cluster-client-55'
@@ -65,6 +69,8 @@ galera::percona::arbitrator_service_name: 'garb'
 galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::libgalera_location: '/usr/lib64/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
+galera::percona::want_repos:
+  - 'percona'
 
 galera::repo::epel_needed: true
 galera::repo::codership::yum:
@@ -98,3 +104,5 @@ galera::sst::mariabackup::mariadb::103::additional_packages:
 galera::sst::mariabackup::mariadb::104::additional_packages:
   - 'MariaDB-backup'
   - 'socat'
+galera::sst::xtrabackup::want_repos:
+  - 'percona'
