@@ -59,6 +59,28 @@ galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::libgalera_location: '/usr/lib/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
 
+galera::repo::codership::apt:
+  apt_include_src: false
+  apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+  apt_key_server: 'keyserver.ubuntu.com'
+  apt_location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
+  apt_release: "%{os.distro.codename}"
+  apt_repos: 'main'
+galera::repo::mariadb::apt:
+  include_src: false
+  key: '177F4010FE56CA3336300305F1656F24C74CD1D8'
+  key_server: 'keyserver.ubuntu.com'
+  location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/%{os_name_lc}"
+  release: "%{os.distro.codename}"
+  repos: 'main'
+galera::repo::percona::apt:
+  include_src: false
+  key: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
+  key_server: 'keyserver.ubuntu.com'
+  location: 'http://repo.percona.com/apt/'
+  release: "%{os.distro.codename}"
+  repos: 'main'
+
 galera::sst::mariabackup::mariadb::101::additional_packages:
   - 'mariadb-backup-10.1'
   - 'socat'

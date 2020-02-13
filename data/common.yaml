@@ -37,40 +37,7 @@ galera::mysql_restart: false
 galera::override_options: {}
 galera::package_ensure: 'installed'
 galera::purge_conf_dir: false
-galera::repo::codership_apt_include_src: false
-galera::repo::codership_apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
-galera::repo::codership_apt_key_server: 'keyserver.ubuntu.com'
-galera::repo::codership_apt_location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
-galera::repo::codership_apt_release: "%{os.distro.codename}"
-galera::repo::codership_apt_repos: 'main'
-galera::repo::mariadb_apt_include_src: false
-galera::repo::mariadb_apt_key: '177F4010FE56CA3336300305F1656F24C74CD1D8'
-galera::repo::mariadb_apt_key_server: 'keyserver.ubuntu.com'
-galera::repo::mariadb_apt_location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/%{os_name_lc}"
-galera::repo::mariadb_apt_release: "%{os.distro.codename}"
-galera::repo::mariadb_apt_repos: 'main'
-galera::repo::percona_apt_include_src: false
-galera::repo::percona_apt_key: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
-galera::repo::percona_apt_key_server: 'keyserver.ubuntu.com'
-galera::repo::percona_apt_location: 'http://repo.percona.com/apt/'
-galera::repo::percona_apt_release: "%{os.distro.codename}"
-galera::repo::percona_apt_repos: 'main'
-galera::repo::epel_needed: true
-galera::repo::codership_yum_baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
-galera::repo::codership_yum_descr: "CentOS %{os.release.major} - Codership"
-galera::repo::codership_yum_enabled: 1
-galera::repo::codership_yum_gpgcheck: 1
-galera::repo::codership_yum_gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
-galera::repo::mariadb_yum_baseurl: "http://yum.mariadb.org/<%= $vendor_version_real %>/%{os_name_lc}%{os.release.major}-amd64"
-galera::repo::mariadb_yum_descr: 'MariaDB Yum Repo'
-galera::repo::mariadb_yum_enabled: 1
-galera::repo::mariadb_yum_gpgcheck: 1
-galera::repo::mariadb_yum_gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
-galera::repo::percona_yum_baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"
-galera::repo::percona_yum_descr: "CentOS %{os.release.major} - Percona"
-galera::repo::percona_yum_enabled: 1
-galera::repo::percona_yum_gpgcheck: 1
-galera::repo::percona_yum_gpgkey: 'https://www.percona.com/downloads/RPM-GPG-KEY-percona https://repo.percona.com/yum/PERCONA-PACKAGING-KEY'
+galera::repo::epel_needed: false
 galera::rundir: '/var/run/mysqld'
 galera::service_enabled: true
 galera::sst::rsync::additional_packages:

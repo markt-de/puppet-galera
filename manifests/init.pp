@@ -129,6 +129,11 @@
 #   Specifies options to pass to `mysql::server` class. See the puppetlabs-mysql
 #   documentation for more information. Default: `{}`
 #
+# @param override_repos
+#   Usually the required YUM/APT repositories are automatically selected,
+#   depending on the values of `$vendor_type` and `$vendor_version`. This
+#   parameter will override this to provide a custom selection of repositories.
+#
 # @param package_ensure
 #   Specifies the ensure state for packages. Valid options: all values supported
 #   by the package type. Default: `installed`
@@ -281,6 +286,7 @@ class galera(
   Optional[String] $libgalera_location = undef,
   Optional[String] $mysql_package_name = undef,
   Optional[String] $mysql_service_name = undef,
+  Optional[Array] $override_repos = undef,
   Optional[String] $status_log_on_failure = undef,
   Optional[String] $status_log_on_success = undef,
   Optional[String] $vendor_version = undef,

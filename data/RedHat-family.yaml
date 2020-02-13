@@ -66,6 +66,26 @@ galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::libgalera_location: '/usr/lib64/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
 
+galera::repo::epel_needed: true
+galera::repo::codership::yum:
+  baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
+  descr: "CentOS %{os.release.major} - Codership"
+  enabled: 1
+  gpgcheck: 1
+  gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
+galera::repo::mariadb::yum:
+  baseurl: "http://yum.mariadb.org/<%= $vendor_version_real %>/%{os_name_lc}%{os.release.major}-amd64"
+  descr: 'MariaDB Yum Repo'
+  enabled: 1
+  gpgcheck: 1
+  gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
+galera::repo::percona::yum:
+  baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"
+  descr: "CentOS %{os.release.major} - Percona"
+  enabled: 1
+  gpgcheck: 1
+  gpgkey: 'https://www.percona.com/downloads/RPM-GPG-KEY-percona https://repo.percona.com/yum/PERCONA-PACKAGING-KEY'
+
 galera::sst::mariabackup::mariadb::101::additional_packages:
   - 'MariaDB-backup'
   - 'socat'

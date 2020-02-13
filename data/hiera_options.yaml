@@ -4,6 +4,10 @@ lookup_options:
   "^galera::.*::.*package_name":
     merge:
       strategy: first
+  # Do not merge repository lists.
+  "^galera::.*want_repos":
+    merge:
+      strategy: first
   "^galera::.*":
     merge:
       strategy: deep

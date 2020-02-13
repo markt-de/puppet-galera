@@ -1,131 +1,73 @@
-# @summary Configures the repositories from which galera packages can be installed.
-#
-# @param apt_key
-#  Specifies the GPG key ID of the APT repository. Valid options: a string.
-#
-# @param apt_key_server
-#  Specifies the server from which the GPG key should be retrieved. Valid options: a string.
-#
-# @param apt_location
-#  Specifies the APT repository URL. Valid options: a string.
-#
-# @param apt_release
-#  Specifies a distribution of the APT repository. Valid options: a string. Default: `$facts['os']['distro']['codename']`.
-#
-# @param apt_include_src
-#  Specifies whether to include source repo. Valid options: `true` and `false`. Default: `false`.
-#
-# @param apt_repos
-#  Specifies the component of the APT repository that contains galera packages. Valid options: a string. Default: `main`.
-#
-# @param epel_needed
-#  Specifies whether to configure the Epel repository on YUM systems. Valid options: `true` and `false`. Default: `true`.
-#
-# @param yum_baseurl
-#  Specifies the YUM repository URL. Valid options: a string.
-#
-# @param yum_descr
-#  Specifies the YUM repository description. Valid options: a string.
-#
-# @param yum_enabled
-#  Specifies whether to enable the YUM repository. Valid options: `true` and `false`. Default: `true`.
-#
-# @param yum_gpgcheck
-#  Specifies whether to verify packages using the specified GPG key. Valid options: `true` and `false`. Default: `true`.
-#
-# @param yum_gpgkey
-#  Specifies the GPG key ID of the YUM repository. Valid options: a string.
+# @summary Evaluates which repositories should be enabled depending on $vendor_type and $vendor_version.
+# @api private
 #
 class galera::repo(
   # required parameters
   Boolean $epel_needed,
-  String $vendor_type = $galera::vendor_type,
   # optional parameters
-  Optional[String] $vendor_version = undef,
   Optional[Array] $additional_packages = undef,
-  # APT
-  Optional[Boolean] $apt_include_src = undef,
-  Optional[String] $apt_key = undef,
-  Optional[String] $apt_key_server = undef,
-  Optional[String] $apt_location = undef,
-  Optional[String] $apt_release = undef,
-  Optional[String] $apt_repos = undef,
-  # YUM
-  Optional[String] $yum_baseurl = undef,
-  Optional[String] $yum_descr = undef,
-  Optional[Integer] $yum_enabled = undef,
-  Optional[Integer] $yum_gpgcheck = undef,
-  Optional[String] $yum_gpgkey = undef,
 ) {
-  # Fetch appropiate default values from module data, depending on the values
-  # of $vendor_type and $vendor_version.
-  # XXX: Originally this was supposed to take place when evaluating the class
-  # parameters. Now this is basically an ugly compatibility layer to support
-  # overriding parameters in non-hiera configurations (where solely relying
-  # on lookup() simply does not work). Should be refactored when a better
-  # solution is available.
-  if !$vendor_version {
-    $vendor_version_real = lookup("${module_name}::${vendor_type}::default_version")
-  } else { $vendor_version_real = $vendor_version }
+  # Adjust $vendor_version for use with lookup()
+  if !$galera::vendor_version {
+    $vendor_version_real = lookup("${module_name}::${galera::vendor_type}::default_version")
+  } else { $vendor_version_real = $galera::vendor_version }
   $vendor_version_internal = regsubst($vendor_version_real, '\.', '', 'G')
 
-  # The following compatibility layer (part 2) is only required for parameters
-  # that may vary depending on the values of $vendor_version and $vendor_type.
-  $params = {
-    apt_include_src => $apt_include_src,
-    apt_key => $apt_key,
-    apt_key_server => $apt_key_server,
-    apt_location => $apt_location,
-    apt_release => $apt_release,
-    apt_repos => $apt_repos,
-    yum_baseurl => $yum_baseurl,
-    yum_descr => $yum_descr,
-    yum_enabled => $yum_enabled,
-    yum_gpgcheck => $yum_gpgcheck,
-    yum_gpgkey => $yum_gpgkey,
-  }.reduce({}) |$memo, $x| {
-    # If a value was specified as class parameter, then use it. Otherwise use
-    # lookup() to find a value in Hiera (or to fallback to default values from
-    # module data).
-    if !$x[1] {
-      $_v = lookup("${name}::${vendor_type}_${vendor_version_internal}_${$x[0]}", {default_value => undef}) ? {
-        undef => lookup("${name}::${vendor_type}_${$x[0]}"),
-        default => lookup("${name}::${vendor_type}_${vendor_version_internal}_${$x[0]}"),
-      }
-    } else {
-      $_v = $x[1]
+  # Adjust $wsrep_sst_method for use with lookup()
+  $wsrep_sst_method_internal = regsubst($galera::wsrep_sst_method, '-', '_', 'G')
+
+  # Get the value of $want_repos from all possible sources:
+  #   galera::sst::SSTMETHOD::VENDOR::VERSION::want_repos
+  #   galera::sst::SSTMETHOD::want_repos
+  #   galera::VENDOR::VERSION::want_repos
+  #   galera::VENDOR::want_repos
+  if (!defined('$galera::override_repos') or empty($galera::override_repos)) {
+    # Lookup required repos for the selected vendor.
+    $_vendor_tmp = lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::want_repos", {default_value => undef}) ? {
+      undef => lookup("${module_name}::${galera::vendor_type}::want_repos", {default_value => []}),
+      default => lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::want_repos")
     }
-    $memo + {$x[0] => $_v}
+    # Ensure that we got an Array, silently drop everything else.
+    if ($_vendor_tmp =~ Array) {
+      $repos_vendor = $_vendor_tmp
+    } else {
+      $repos_vendor = []
+    }
+
+    # Lookup required repos for the selected SST method.
+    if ($galera::arbitrator) {
+      # Skip lookup, because Arbitrator does not use SST.
+      $_sst_tmp = []
+    } else {
+      $_sst_tmp = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${galera::vendor_type}::${vendor_version_internal}::want_repos", {default_value => undef}) ? {
+        undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::want_repos", {default_value => []}),
+        default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${galera::vendor_type}::${vendor_version_internal}::want_repos")
+      }
+    }
+    # Ensure that we got an Array, silently drop everything else.
+    if ($_sst_tmp =~ Array) {
+      $repos_sst = $_sst_tmp
+    } else {
+      $repos_sst = []
+    }
+
+    # Merge repos from both sources and make them unique.
+    $repos = ($repos_vendor + $repos_sst).unique
+  } else {
+    # Always prefer user-specified repos.
+    $repos = $galera::override_repos
+  }
+
+  # Finally setup repositories
+  $repos.each |$repo| {
+    galera::repo::config { $repo: }
   }
 
   case $facts['os']['family'] {
-    'Debian': {
-      apt::source { "${module_name}_${vendor_type}":
-        location => inline_epp($params['apt_location']),
-        release  => $params['apt_release'],
-        repos    => $params['apt_repos'],
-        key      => {
-          'id'     => $params['apt_key'],
-          'server' => $params['apt_key_server'],
-        },
-        include  => {
-          'src' => $params['apt_include_src'],
-        },
-      }
-    }
     'RedHat': {
-      yumrepo { "${module_name}_${vendor_type}":
-        descr    => $params['yum_descr'],
-        baseurl  => inline_epp($params['yum_baseurl']),
-        gpgkey   => $params['yum_gpgkey'],
-        enabled  => $params['yum_enabled'],
-        gpgcheck => $params['yum_gpgcheck'],
-      }
-
       if $epel_needed {
         # Needed for socat package
         yumrepo { "${module_name}_epel":
-          # FIXME: replace hardcoded values, specify includepkgs parameter
           mirrorlist     => "https://mirrors.fedoraproject.org/metalink?repo=epel-${facts['os']['release']['major']}&arch=${facts['os']['architecture']}",
           baseurl        => 'absent',
           failovermethod => 'priority',
@@ -135,16 +77,14 @@ class galera::repo(
         }
       }
     }
-    default: {
-      fail("Operating system ${facts['os']['family']} is not currently supported")
-    }
+    default: { }
   }
 
   # Fetch additional packages that may be required for this vendor/version.
   if !$additional_packages {
-    $additional_packages_real = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
-      undef => lookup("${module_name}::${vendor_type}::additional_packages", {default_value => undef}),
-      default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}),
+    $additional_packages_real = lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
+      undef => lookup("${module_name}::${galera::vendor_type}::additional_packages", {default_value => undef}),
+      default => lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}),
     }
   } else { $additional_packages_real = $additional_packages}
 
