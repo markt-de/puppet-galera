@@ -405,6 +405,14 @@ class galera(
   }
 
   if $configure_repo {
+    # Advise the user that codership and percona do not have a EL 8 repos
+    if ($facts['os']['family'] == 'RedHat') {
+      if ($facts['os']['release']['major'] == '8') {
+        if ($vendor_type == 'codership') or ($vendor_type == 'percona') {
+          fail("${vendor_type} does not currently support operating system ${facts['os']['family']} ${facts['os']['release']['major']}, mariadb is the only vendor_type supported on this OS")
+        }
+      }
+    }
     include galera::repo
     unless $galera::arbitrator {
       Class['::galera::repo'] -> Class['mysql::server']
