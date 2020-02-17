@@ -13,6 +13,7 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
     - [More complex example](#more-complex-example)
     - [Custom repository configuration](#custom-repository-configuration)
     - [FreeBSD support](#freebsd-support)
+    - [EPP supported for many options](#epp-supported-for-many-options)
 4. [Reference](#reference)
 5. [Limitations](#limitations)
 6. [Development](#development)
@@ -113,6 +114,10 @@ class { 'galera':
 
 ### Custom repository configuration
 
+This module automatically determines which APT/YUM repositories need to be configured. This depends on your choices for `$vendor_type`, `$vendor_version` and `$wsrep_sst_method`. Each of these choices may enabled additional repositories.
+
+For example, if setting `$vendor_type=codership` and `$wsrep_sst_method=xtrabackup`, the module will enable the Codership repository to install the Galera server and the Percona repository to install the XtraBackup tool. This works because every vendor/version and SST method may specify the internal `$want_repos` parameter, which is essentially a list of repositories.
+
 Disable repo management if you are managing your own repos and mirrors:
 
 ```puppet
@@ -122,18 +127,18 @@ class { 'galera':
 }
 ```
 
-Or if you just want to switch to using a local mirror:
+Or if you just want to switch to using a local mirror, simply change the repo URL for the chosen `$vendor_type`. For Codership you would add something like this to Hiera:
 
     # RHEL-based systems
 ```puppet
-class { 'galera::repo':
-  yum_baseurl => "http://repo.example.com/release/${facts['os']['release']['major']}/RPMS/${facts['os']['architecture']}/",
-  ...
+galera::repo::codership::yum:
+  baseurl: "http://repo.example.com/RPMS/%{facts.os.release.major}/RPMS/%{facts.os.architecture}/"
+  baseurl: "http://repo.example.com/RPMS/<%= $vendor_version_real %>/%{facts.os.release.major}/%{facts.os.architecture}/"
 ```
     # Debian-based systems
 ```puppet
-class { 'galera::repo':
-  apt_location => "http://repo.example.com/apt/${facts['os']['distro']['codename']}/",
+galera::repo::codership::apt:
+  apt_location => "http://repo.example.com/apt/%{facts.os.distro.codename}/",
   ...
 ```
 
@@ -152,6 +157,27 @@ class { 'galera':
   vendor_type        => 'codership',
   vendor_version     => '5.7',
 }
+```
+
+### EPP supported for many options
+
+This module supports inline EPP for many of its options and parameters. This way class parameters and internal variables can be used when specifying options. Currently this is enabled for `$override_options`, `$wsrep_sst_auth` and all repository options.
+
+    # server/wsrep options
+```puppet
+galera::override_options:
+  mysqld:
+    wsrep_sst_method: "<%= $wsrep_sst_method %>"
+    wsrep_provider: "<%= $params['libgalera_location'] %>"
+
+galera::wsrep_sst_auth: "root:<%= $root_password %>"
+```
+
+    # repo configuration
+```puppet
+galera::repo::codership::yum:
+  baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
+  ...
 ```
 
 ## Reference
