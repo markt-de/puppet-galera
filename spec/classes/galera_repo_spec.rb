@@ -1,143 +1,108 @@
 require 'spec_helper'
 
-describe 'galera::repo' do # rubocop:disable RSpec/EmptyExampleGroup
+describe 'galera' do
   let :params do
     {
-      repo_vendor: 'percona',
-      epel_needed: true,
-
-      apt_percona_repo_location: 'http://repo.percona.com/apt/',
-      apt_percona_repo_release: 'precise',
-      apt_percona_repo_repos: 'main',
-      apt_percona_repo_key: '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
-      apt_percona_repo_key_server: 'keyserver.ubuntu.com',
-      apt_percona_repo_include_src: false,
-
-      apt_mariadb_repo_location: 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
-      apt_mariadb_repo_release: 'precise',
-      apt_mariadb_repo_repos: 'main',
-      apt_mariadb_repo_key: '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
-      apt_mariadb_repo_key_server: 'keyserver.ubuntu.com',
-      apt_mariadb_repo_include_src: false,
-
-      apt_codership_repo_location: 'http://releases.galeracluster.com/ubuntu',
-      apt_codership_repo_release: 'precise',
-      apt_codership_repo_repos: 'main',
-      apt_codership_repo_key: '44B7345738EBDE52594DAD80D669017EBC19DDBA',
-      apt_codership_repo_key_server: 'keyserver.ubuntu.com',
-      apt_codership_repo_include_src: false,
-
-      yum_percona_descr: 'CentOS 6 - Percona',
-      yum_percona_baseurl: 'http://repo.percona.com/centos/os/6/x86_64/',
-      yum_percona_gpgkey: 'http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona',
-      yum_percona_enabled: 1,
-      yum_percona_gpgcheck: 1,
-
-      yum_mariadb_descr: 'MariaDB Yum Repo',
-      yum_mariadb_enabled: 1,
-      yum_mariadb_gpgcheck: 1,
-      yum_mariadb_gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
-
-      yum_codership_descr: 'CentOS 6 - Codership',
-      yum_codership_baseurl: 'http://releases.galeracluster.com/centos/6/x86_64/',
-      yum_codership_gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com',
-      yum_codership_enabled: 1,
-      yum_codership_gpgcheck: 1,
+      configure_repo: true,
+      cluster_name: 'test',
+      status_password: 'test',
     }
   end
 
-  let :pre_condition do
-    "class { 'galera':
-      configure_repo => false,
-      status_password => 'nonblank'
-    } "
+  shared_examples_for 'repo on RedHat-family' do
+    context 'for codership' do
+      before(:each) do
+        params.merge!(vendor_type: 'codership', vendor_version: '5.7')
+      end
+      it { is_expected.to contain_yumrepo('galera_codership').with(enabled: 1) }
+    end
+
+    context 'for codership with wsrep_sst_method=xtrabackup' do
+      before(:each) do
+        params.merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
+      end
+      it { is_expected.to contain_yumrepo('galera_codership').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
+    end
+
+    context 'for mariadb' do
+      before(:each) do
+        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3')
+      end
+      it { is_expected.to contain_yumrepo('galera_mariadb').with(enabled: 1) }
+    end
+
+    context 'for mariadb with wsrep_sst_method=xtrabackup-v2' do
+      before(:each) do
+        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
+      end
+      it { is_expected.to contain_yumrepo('galera_mariadb').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
+    end
+
+    context 'for percona' do
+      before(:each) do
+        params.merge!(vendor_type: 'percona', vendor_version: '5.7')
+      end
+      it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
+    end
+
+    context 'with configure_repo=false' do
+      before(:each) do
+        params.merge!(configure_repo: false)
+      end
+      it { is_expected.not_to contain_yumrepo('galera_codership') }
+      it { is_expected.not_to contain_yumrepo('galera_mariadb') }
+      it { is_expected.not_to contain_yumrepo('galera_percona') }
+    end
   end
 
-  shared_examples_for 'galera::repo on RedHat' do
-    # FIXME
-    # context 'installing percona on redhat' do
-    #   before { params.merge!( :repo_vendor => 'percona' ) }
-    #   it { should contain_yumrepo('percona').with(
-    #     :descr      => params[:yum_percona_descr],
-    #     :enabled    => params[:yum_percona_enabled],
-    #     :gpgcheck   => params[:yum_percona_gpgcheck],
-    #     :gpgkey     => params[:yum_percona_gpgkey]
-    #   ) }
-    # end
+  shared_examples_for 'repo on Debian-family' do
+    context 'for codership' do
+      before(:each) do
+        params.merge!(vendor_type: 'codership', vendor_version: '5.7')
+      end
+      it { is_expected.to contain_apt__source('galera_codership').with(repos: 'main') }
+    end
 
-    # FIXME
-    # context 'installing mariadb on redhat' do
-    #   before { params.merge!( :repo_vendor => 'mariadb' ) }
-    #   it { should contain_yumrepo('mariadb').with(
-    #     :descr      => params[:yum_mariadb_descr],
-    #     :enabled    => params[:yum_mariadb_enabled],
-    #     :gpgcheck   => params[:yum_mariadb_gpgcheck],
-    #     :gpgkey     => params[:yum_mariadb_gpgkey]
-    #   ) }
-    # end
+    context 'for codership with wsrep_sst_method=xtrabackup' do
+      before(:each) do
+        params.merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
+      end
+      it { is_expected.to contain_apt__source('galera_codership').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
+    end
 
-    # FIXME
-    # context 'installing codership on redhat' do
-    #   before { params.merge!( :repo_vendor => 'codership' ) }
-    #   it { should contain_yumrepo('codership').with(
-    #     :descr      => params[:yum_codership_descr],
-    #     :enabled    => params[:yum_codership_enabled],
-    #     :gpgcheck   => params[:yum_codership_gpgcheck],
-    #     :gpgkey     => params[:yum_codership_gpgkey]
-    #   ) }
-    # end
-  end
+    context 'for mariadb' do
+      before(:each) do
+        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3')
+      end
+      it { is_expected.to contain_apt__source('galera_mariadb').with(repos: 'main') }
+    end
 
-  shared_examples_for 'galera::repo on Ubuntu' do
-    # FIXME
-    # context 'installing percona on debian' do
-    #   before { params.merge!( :repo_vendor => 'percona' ) }
-    #   it { should contain_apt__source('galera_percona_repo').with(
-    #       :location => params[:apt_percona_repo_location],
-    #       :release  => params[:apt_percona_repo_release],
-    #       :repos    => params[:apt_percona_repo_repos],
-    #       :key      => {
-    #           "id"     => params[:apt_percona_repo_key],
-    #           "server" => params[:apt_percona_repo_key_server]
-    #       },
-    #       :include  => {
-    #           "src" => params[:apt_percona_repo_include_src]
-    #       }
-    #   ) }
-    # end
+    context 'for mariadb with wsrep_sst_method=xtrabackup-v2' do
+      before(:each) do
+        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
+      end
+      it { is_expected.to contain_apt__source('galera_mariadb').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
+    end
 
-    # FIXME
-    # context 'installing mariadb on debian' do
-    #   before { params.merge!( :repo_vendor => 'mariadb' ) }
-    #   it { should contain_apt__source('galera_mariadb_repo').with(
-    #       :location => params[:apt_mariadb_repo_location],
-    #       :release  => params[:apt_mariadb_repo_release],
-    #       :repos    => params[:apt_mariadb_repo_repos],
-    #       :key      => {
-    #           "id"     => params[:apt_mariadb_repo_key],
-    #           "server" => params[:apt_mariadb_repo_key_server]
-    #       },
-    #       :include  => {
-    #           "src" => params[:apt_mariadb_repo_include_src]
-    #       }
-    #   ) }
-    # end
+    context 'for percona' do
+      before(:each) do
+        params.merge!(vendor_type: 'percona', vendor_version: '5.7')
+      end
+      it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
+    end
 
-    # context 'installing codership on debian' do
-    #   before { params.merge!( :repo_vendor => 'codership' ) }
-    #   it { should contain_apt__source('galera_codership_repo').with(
-    #       :location => params[:apt_codership_repo_location],
-    #       :release  => params[:apt_codership_repo_release],
-    #       :repos    => params[:apt_codership_repo_repos],
-    #       :key      => {
-    #           "id"     => params[:apt_codership_repo_key],
-    #           "server" => params[:apt_codership_repo_key_server]
-    #       },
-    #       :include  => {
-    #           "src" => params[:apt_codership_repo_include_src]
-    #       }
-    #   ) }
-    # end
+    context 'with configure_repo=false' do
+      before(:each) do
+        params.merge!(configure_repo: false)
+      end
+      it { is_expected.not_to contain_apt__source('galera_codership') }
+      it { is_expected.not_to contain_apt__source('galera_mariadb') }
+      it { is_expected.not_to contain_apt__source('galera_percona') }
+    end
   end
 
   on_supported_os.each do |os, facts|
@@ -148,11 +113,9 @@ describe 'galera::repo' do # rubocop:disable RSpec/EmptyExampleGroup
 
       case facts[:osfamily]
       when 'RedHat'
-        it_configures 'galera::repo on RedHat'
+        it_configures 'repo on RedHat-family'
       when 'Debian'
-        if facts[:operatingsystem] == 'Ubuntu'
-          it_configures 'galera::repo on Ubuntu'
-        end
+        it_configures 'repo on Debian-family'
       end
     end
   end
