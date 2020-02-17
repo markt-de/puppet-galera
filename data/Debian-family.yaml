@@ -84,7 +84,7 @@ galera::repo::mariadb::apt:
   include_src: false
   key: '177F4010FE56CA3336300305F1656F24C74CD1D8'
   key_server: 'keyserver.ubuntu.com'
-  location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/%{os_name_lc}"
+  location: "http://mirror.rackspace.com/mariadb/repo/%{lookup('galera::vendor_version')}/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
 galera::repo::percona::apt:

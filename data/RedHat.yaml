@@ -1,3 +1,5 @@
 ---
 galera::repo::mariadb::yum:
   baseurl: "http://yum.mariadb.org/<%= $vendor_version_real %>/%{os_name_lc}%{os.release.major}-amd64"
+galera::repo::percona::yum:
+  baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"

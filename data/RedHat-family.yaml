@@ -94,7 +94,7 @@ galera::repo::mariadb::yum:
   gpgcheck: 1
   gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
 galera::repo::percona::yum:
-  baseurl: "http://repo.percona.com/release/%{os.release.major}/RPMS/%{os.architecture}/"
+  baseurl: "http://repo.percona.com/release/centos/%{os.release.major}/RPMS/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Percona"
   enabled: 1
   gpgcheck: 1
