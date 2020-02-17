@@ -54,7 +54,7 @@ class { 'galera':
   ...
 ```
 
-Most likely you will also want the SST method of choice:
+Most likely you will also want to configure the SST method of choice:
 
 ```puppet
 class { 'galera':
@@ -83,6 +83,7 @@ class { 'galera':
 
   # Default is 'percona'
   vendor_type     => 'codership',
+  vendor_version  => '5.7',
 
   # This will be used to populate my.cnf values that
   # control where wsrep binds, advertises, and listens
@@ -93,6 +94,9 @@ class { 'galera':
 
   # Disable this if you don't want firewall rules to be set
   configure_firewall => true,
+
+  # Configure the SST method
+  wsrep_sst_method => 'xtrabackup',
 
   # These options are only used for the firewall -
   # to change the my.cnf settings, use the override options
