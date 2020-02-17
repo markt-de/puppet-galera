@@ -57,9 +57,6 @@ describe 'galera' do
     end
 
     context 'with epel_needed=true (default)' do
-#     before(:each) do
-#       params.merge!(epel_needed: true)
-#     end
       it { is_expected.to contain_class('epel') }
     end
 

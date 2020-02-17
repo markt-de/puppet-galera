@@ -67,30 +67,38 @@ galera::percona::want_repos:
   - 'percona'
 
 galera::repo::codership::apt:
-  include_src: false
-  key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
-  key_server: 'keyserver.ubuntu.com'
+  include:
+    src: false
+  key:
+    id: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+    server: 'keyserver.ubuntu.com'
   location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
 galera::repo::codership_lib::apt:
-  include_src: false
-  key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
-  key_server: 'keyserver.ubuntu.com'
+  include:
+    src: false
+  key:
+    id: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+    server: 'keyserver.ubuntu.com'
   location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
 galera::repo::mariadb::apt:
-  include_src: false
-  key: '177F4010FE56CA3336300305F1656F24C74CD1D8'
-  key_server: 'keyserver.ubuntu.com'
+  include:
+    src: false
+  key:
+    id: '177F4010FE56CA3336300305F1656F24C74CD1D8'
+    server: 'keyserver.ubuntu.com'
   location: "http://mirror.rackspace.com/mariadb/repo/%{lookup('galera::vendor_version')}/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
 galera::repo::percona::apt:
-  include_src: false
-  key: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
-  key_server: 'keyserver.ubuntu.com'
+  include:
+    src: false
+  key:
+    id: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
+    server: 'keyserver.ubuntu.com'
   location: 'http://repo.percona.com/apt/'
   release: "%{os.distro.codename}"
   repos: 'main'
