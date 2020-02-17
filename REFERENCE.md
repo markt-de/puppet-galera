@@ -9,17 +9,26 @@ _Public Classes_
 
 * [`galera`](#galera): Installs MySQL/MariaDB with galera cluster plugin
 * [`galera::firewall`](#galerafirewall): Open firewall ports used by galera using puppetlabs-firewall.
-* [`galera::repo`](#galerarepo): Configures the repositories from which galera packages can be installed.
 
 _Private Classes_
 
 * `galera::arbitrator`: Installs and configures the Arbitrator service.
 * `galera::debian`: Adds workarounds to solve issues specific to Debian-based systems.
 * `galera::redhat`: Adds workarounds to solve issues specific to RedHat-based systems.
+* `galera::repo`: Evaluates which repositories should be enabled depending on $vendor_type and $vendor_version.
 * `galera::status`: Configures a user and script that will check the status of the galera cluster.
 * `galera::validate`: Validate that the cluster can accept connections at the point where
 the `mysql::server` resource is marked as complete.
 This is used because after returning success, the service is still not quite ready.
+
+**Defined types**
+
+_Public Defined types_
+
+
+_Private Defined types_
+
+* `galera::repo::config`: Configures a APT or YUM repository.
 
 ## Classes
 
@@ -49,10 +58,12 @@ MySQL/MariaDB server.
 
 ##### `arbitrator_config_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Specifies the configuration file for the Arbitrator service.
 Default: A vendor-, version- and OS-specific value.
+
+Default value: `undef`
 
 ##### `arbitrator_log_file`
 
@@ -79,10 +90,12 @@ Default: `present`
 
 ##### `arbitrator_package_name`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Specifies the name of the Arbitrator package to install.
 Default: A vendor-, version- and OS-specific value.
+
+Default value: `undef`
 
 ##### `arbitrator_service_enabled`
 
@@ -94,10 +107,12 @@ Default: `true`
 
 ##### `arbitrator_service_name`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Specifies the name of the Arbitrator service.
 Default: A vendor-, version- and OS-specific value.
+
+Default value: `undef`
 
 ##### `bind_address`
 
@@ -185,6 +200,15 @@ Data type: `Hash`
 Internal parameter, *do NOT change!* Use `$override_options` to customize
 MySQL options.
 
+##### `epel_needed`
+
+Data type: `Boolean`
+
+Specifies wether or not the EPEL repository should be enabled on
+RedHat-based systems. This is required for certain vendors and SST methods
+to install packages such as socat.
+Default: `true`
+
 ##### `galera_master`
 
 Data type: `String`
@@ -270,6 +294,16 @@ Data type: `Hash`
 
 Specifies options to pass to `mysql::server` class. See the puppetlabs-mysql
 documentation for more information. Default: `{}`
+
+##### `override_repos`
+
+Data type: `Optional[Array]`
+
+Usually the required YUM/APT repositories are automatically selected,
+depending on the values of `$vendor_type` and `$vendor_version`. This
+parameter will override this to provide a custom selection of repositories.
+
+Default value: `undef`
 
 ##### `package_ensure`
 
@@ -472,129 +506,5 @@ Specifies the firewall source addresses to unblock. Valid options: a string. Def
 
 Default value: `undef`
 
-### galera::repo
-
-Configures the repositories from which galera packages can be installed.
-
-#### Parameters
-
-The following parameters are available in the `galera::repo` class.
-
-##### `apt_key`
-
-Data type: `Optional[String]`
-
-Specifies the GPG key ID of the APT repository. Valid options: a string.
-
-Default value: `undef`
-
-##### `apt_key_server`
-
-Data type: `Optional[String]`
-
-Specifies the server from which the GPG key should be retrieved. Valid options: a string.
-
-Default value: `undef`
-
-##### `apt_location`
-
-Data type: `Optional[String]`
-
-Specifies the APT repository URL. Valid options: a string.
-
-Default value: `undef`
-
-##### `apt_release`
-
-Data type: `Optional[String]`
-
-Specifies a distribution of the APT repository. Valid options: a string. Default: `$facts['os']['distro']['codename']`.
-
-Default value: `undef`
-
-##### `apt_include_src`
-
-Data type: `Optional[Boolean]`
-
-Specifies whether to include source repo. Valid options: `true` and `false`. Default: `false`.
-
-Default value: `undef`
-
-##### `apt_repos`
-
-Data type: `Optional[String]`
-
-Specifies the component of the APT repository that contains galera packages. Valid options: a string. Default: `main`.
-
-Default value: `undef`
-
-##### `epel_needed`
-
-Data type: `Boolean`
-
-Specifies whether to configure the Epel repository on YUM systems. Valid options: `true` and `false`. Default: `true`.
-
-##### `yum_baseurl`
-
-Data type: `Optional[String]`
-
-Specifies the YUM repository URL. Valid options: a string.
-
-Default value: `undef`
-
-##### `yum_descr`
-
-Data type: `Optional[String]`
-
-Specifies the YUM repository description. Valid options: a string.
-
-Default value: `undef`
-
-##### `yum_enabled`
-
-Data type: `Optional[Integer]`
-
-Specifies whether to enable the YUM repository. Valid options: `true` and `false`. Default: `true`.
-
-Default value: `undef`
-
-##### `yum_gpgcheck`
-
-Data type: `Optional[Integer]`
-
-Specifies whether to verify packages using the specified GPG key. Valid options: `true` and `false`. Default: `true`.
-
-Default value: `undef`
-
-##### `yum_gpgkey`
-
-Data type: `Optional[String]`
-
-Specifies the GPG key ID of the YUM repository. Valid options: a string.
-
-Default value: `undef`
-
-##### `vendor_type`
-
-Data type: `String`
-
-
-
-Default value: $galera::vendor_type
-
-##### `vendor_version`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### `additional_packages`
-
-Data type: `Optional[Array]`
-
-
-
-Default value: `undef`
+## Defined types
 

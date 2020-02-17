@@ -2,9 +2,6 @@
 # @api private
 #
 class galera::repo(
-  # required parameters
-  Boolean $epel_needed,
-  # optional parameters
   Optional[Array] $additional_packages = undef,
 ) {
   # Adjust $vendor_version for use with lookup()
@@ -63,21 +60,8 @@ class galera::repo(
     galera::repo::config { $repo: }
   }
 
-  case $facts['os']['family'] {
-    'RedHat': {
-      if $epel_needed {
-        # Needed for socat package
-        yumrepo { "${module_name}_epel":
-          mirrorlist     => "https://mirrors.fedoraproject.org/metalink?repo=epel-${facts['os']['release']['major']}&arch=${facts['os']['architecture']}",
-          baseurl        => 'absent',
-          failovermethod => 'priority',
-          enabled        => '1',
-          gpgcheck       => '1',
-          gpgkey         => "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-${facts['os']['release']['major']}"
-        }
-      }
-    }
-    default: { }
+  if ($facts['os']['family'] == 'RedHat') and $galera::epel_needed {
+    require 'epel'
   }
 
   # Fetch additional packages that may be required for this vendor/version.

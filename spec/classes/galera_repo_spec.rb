@@ -55,6 +55,20 @@ describe 'galera' do
       it { is_expected.not_to contain_yumrepo('galera_mariadb') }
       it { is_expected.not_to contain_yumrepo('galera_percona') }
     end
+
+    context 'with epel_needed=true (default)' do
+#     before(:each) do
+#       params.merge!(epel_needed: true)
+#     end
+      it { is_expected.to contain_class('epel') }
+    end
+
+    context 'with epel_needed=false' do
+      before(:each) do
+        params.merge!(epel_needed: false)
+      end
+      it { is_expected.not_to contain_class('epel') }
+    end
   end
 
   shared_examples_for 'repo on Debian-family' do
@@ -102,6 +116,13 @@ describe 'galera' do
       it { is_expected.not_to contain_apt__source('galera_codership') }
       it { is_expected.not_to contain_apt__source('galera_mariadb') }
       it { is_expected.not_to contain_apt__source('galera_percona') }
+    end
+
+    context 'with epel_needed=true should do nothing' do
+      before(:each) do
+        params.merge!(epel_needed: true)
+      end
+      it { is_expected.not_to contain_class('epel') }
     end
   end
 

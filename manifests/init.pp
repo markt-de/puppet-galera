@@ -84,6 +84,12 @@
 #   Internal parameter, *do NOT change!* Use `$override_options` to customize
 #   MySQL options.
 #
+# @param epel_needed
+#   Specifies wether or not the EPEL repository should be enabled on
+#   RedHat-based systems. This is required for certain vendors and SST methods
+#   to install packages such as socat.
+#   Default: `true`
+#
 # @param galera_master
 #   Specifies the node that will bootstrap the cluster if all nodes go down.
 #   Default: `$fqdn`
@@ -244,6 +250,7 @@ class galera(
   Boolean $create_status_user,
   String $deb_sysmaint_password,
   Hash $default_options,
+  Boolean $epel_needed,
   String $galera_master,
   String $galera_package_ensure,
   String $local_ip,

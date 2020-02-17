@@ -74,7 +74,8 @@ galera::percona::mysql_service_name: 'mysql'
 galera::percona::want_repos:
   - 'percona'
 
-galera::repo::epel_needed: true
+galera::epel_needed: true
+
 galera::repo::codership::yum:
   baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Codership"

@@ -28,6 +28,7 @@ galera::default_options:
     wsrep_node_incoming_address: "<%= $local_ip %>"
     wsrep_sst_receive_address: "<%= $local_ip %>"
     wsrep_on: 'ON'
+galera::epel_needed: false
 galera::galera_master: "%{fqdn}"
 galera::galera_package_ensure: 'present'
 galera::local_ip: "%{networking.ip}"
@@ -37,7 +38,6 @@ galera::mysql_restart: false
 galera::override_options: {}
 galera::package_ensure: 'installed'
 galera::purge_conf_dir: false
-galera::repo::epel_needed: false
 galera::rundir: '/var/run/mysqld'
 galera::service_enabled: true
 galera::sst::rsync::additional_packages:
