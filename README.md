@@ -54,6 +54,14 @@ class { 'galera':
   ...
 ```
 
+Most likely you will also want the SST method of choice:
+
+```puppet
+class { 'galera':
+  wsrep_sst_method => 'xtrabackup',
+  ...
+```
+
 On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password:
 
 ```puppet
