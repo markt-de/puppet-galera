@@ -12,19 +12,21 @@ class galera::arbitrator(
     ensure => $galera::arbitrator_package_ensure,
   })
 
-  file { $config_file:
+  file { 'arbitrator-config-file':
     ensure  => 'present',
+    path    => $config_file,
     mode    => '0600',
     content => epp($galera::arbitrator_template),
     require => [Package[$package_name]],
   }
 
-  service { $service_name:
+  service { 'arbitrator-service':
     ensure    => 'running',
+    name      => $service_name,
     enable    => $galera::arbitrator_service_enabled,
     subscribe => [
         Package[$package_name],
-        File[$config_file]
+        File['arbitrator-config-file']
       ]
   }
 }

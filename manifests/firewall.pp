@@ -12,8 +12,12 @@ class galera::firewall (
     $galera::wsrep_state_transfer_port,
     $galera::wsrep_inc_state_transfer_port]
 
+  if (!$galera::arbitrator) {
+    $_before = [Anchor['mysql::server::start']]
+  } else { $_before = [] }
+
   firewall { '4567 galera accept tcp':
-    before => Anchor['mysql::server::start'],
+    before => $_before,
     proto  => 'tcp',
     dport  => $galera_ports,
     action => 'accept',
