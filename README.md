@@ -166,6 +166,8 @@ Of note is an `exec` that will start the mysql service with parameters which wil
 
 Furthermore the bootstrap functionality may be considered harmful. A better approach is currently being discussed and will be included in a future release ([GH-116](https://github.com/fraenki/puppet-galera/issues/116)).
 
+RedHat family 8 users please note that that currently codership and percona do not have el8 repos so mariadb is the only supported vendor_type for el8.
+
 ## Development
 
 ### Contributing
