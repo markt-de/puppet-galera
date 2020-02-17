@@ -67,19 +67,19 @@ galera::percona::want_repos:
   - 'percona'
 
 galera::repo::codership::apt:
-  apt_include_src: false
-  apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
-  apt_key_server: 'keyserver.ubuntu.com'
-  apt_location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
-  apt_release: "%{os.distro.codename}"
-  apt_repos: 'main'
+  include_src: false
+  key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+  key_server: 'keyserver.ubuntu.com'
+  location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
+  release: "%{os.distro.codename}"
+  repos: 'main'
 galera::repo::codership_lib::apt:
-  apt_include_src: false
-  apt_key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
-  apt_key_server: 'keyserver.ubuntu.com'
-  apt_location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
-  apt_release: "%{os.distro.codename}"
-  apt_repos: 'main'
+  include_src: false
+  key: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+  key_server: 'keyserver.ubuntu.com'
+  location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
+  release: "%{os.distro.codename}"
+  repos: 'main'
 galera::repo::mariadb::apt:
   include_src: false
   key: '177F4010FE56CA3336300305F1656F24C74CD1D8'
