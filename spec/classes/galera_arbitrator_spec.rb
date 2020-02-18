@@ -31,7 +31,7 @@ describe 'galera' do
         it { is_expected.not_to contain_class('mysql::server') }
         it { is_expected.to contain_package('galera-arbitrator') }
 
-        it { is_expected.to contain_service('arbitrator-service').with_enable(false) }
+        it { is_expected.to contain_service('arbitrator-service').with_enable(true) }
 
         describe 'with parameter: arbitrator_service_enabled=false' do
           let(:params) { { arbitrator_service_enabled: false } }
