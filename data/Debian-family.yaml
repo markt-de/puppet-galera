@@ -1,4 +1,6 @@
 ---
+# NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
+#       See http://galeracluster.com/documentation-webpages/startingcluster.html.
 galera::codership::55::client_package_name: 'mysql-wsrep-client-5.5'
 galera::codership::55::galera_package_name: 'galera-3'
 galera::codership::55::mysql_package_name: 'mysql-wsrep-5.5'
@@ -20,6 +22,8 @@ galera::codership::want_repos:
   - 'codership'
   - 'codership_lib'
 
+# NOTE: MariaDB >=10.1 on systemd systems should use galera_new_cluster.
+#       See https://mariadb.com/kb/en/library/getting-started-with-mariadb-galera-cluster/.
 galera::mariadb::55::client_package_name: 'mariadb-client-5.5'
 galera::mariadb::55::galera_package_name: 'galera'
 galera::mariadb::55::mysql_package_name: 'mariadb-galera-server-5.5'

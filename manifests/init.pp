@@ -457,6 +457,31 @@ class galera(
     }
   }
 
+  # Evaluate dependencies before performing package installation
+  if $arbitrator {
+    $_packages_before = [Class['galera::arbitrator']]
+  } else {
+    if ($::fqdn == $galera_master) {
+      $_packages_before = [
+        Class['mysql::server::install'],
+        Exec['bootstrap_galera_cluster']
+      ]
+    } else {
+      $_packages_before = [
+        Class['mysql::server::install']
+      ]
+    }
+  }
+
+  # Install additional packages
+  if ($manage_additional_packages and $additional_packages_real) {
+    ensure_resource(package, $additional_packages_real,
+    {
+      ensure  => $package_ensure,
+      before  => $_packages_before,
+    })
+  }
+
   # Configure a MySQL/MariaDB cluster node or an Arbitrator?
   if $arbitrator {
     class { 'galera::arbitrator':
@@ -510,25 +535,6 @@ class galera(
       before  => Class['mysql::server::installdb']
     }
 
-    # Evaluate dependencies before performing package installation
-    if $arbitrator {
-      $_packages_before = [Class['galera::arbitrator']]
-    } else {
-      $_packages_before = [
-        Class['mysql::server::install'],
-        Exec['bootstrap_galera_cluster']
-      ]
-    }
-
-    # Install additional packages
-    if ($manage_additional_packages and $additional_packages_real) {
-      ensure_resource(package, $additional_packages_real,
-      {
-        ensure  => $package_ensure,
-        before  => $_packages_before,
-      })
-    }
-
     # Overrule puppetlabs/mysql default value
     Package<| title == 'mysql_client' |> {
       name => $params['client_package_name']
@@ -543,20 +549,8 @@ class galera(
     if ($::fqdn == $galera_master) {
       # If there are no other servers up and we are the master, the cluster
       # needs to be bootstrapped. This happens before the service is managed
-      $server_list = join($galera_servers, ' ')
+      $server_list = join($_nodes_tmp, ' ')
 
-      if $manage_additional_packages {
-        # nmap is required for proper operation of this module.
-        package { 'nmap':
-          ensure => $package_ensure,
-          before => Exec['bootstrap_galera_cluster']
-        }
-      }
-
-      # NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
-      #       See http://galeracluster.com/documentation-webpages/startingcluster.html.
-      # NOTE: MariaDB >=10.1 on systemd systems should use galera_new_cluster.
-      #       See https://mariadb.com/kb/en/library/getting-started-with-mariadb-galera-cluster/.
       exec { 'bootstrap_galera_cluster':
         command  => $params['bootstrap_command'],
         unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
@@ -565,7 +559,6 @@ class galera(
         provider => shell,
         path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin'
       }
-
     }
   }
 }
