@@ -60,6 +60,9 @@ describe 'galera' do
           gid: 'clustercheck',
         )
       }
+
+      it { is_expected.to contain_file('mysql-config-file').with_content(%r{wsrep_cluster_address = gcomm://10.2.2.1:4567/}) }
+      it { is_expected.to contain_file('mysql-config-file').with_content(%r{wsrep_cluster_name = testcluster}) }
     end
 
     context 'when installing mariadb' do

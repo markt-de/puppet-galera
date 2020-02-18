@@ -10,6 +10,7 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
 2. [Requirements](#requirements)
 3. [Usage](#usage)
     - [Basic usage](#basic-usage)
+    - [WSREP provider options](#wsrep-provider-options)
     - [More complex example](#more-complex-example)
     - [Custom repository configuration](#custom-repository-configuration)
     - [FreeBSD support](#freebsd-support)
@@ -46,20 +47,12 @@ class { 'galera':
 }
 ```
 
-This will install the default galera vendor and version. However, in a production environment you should definitely specify the vendor and version to avoid accidential updates:
+This will install the default galera vendor and version. However, in a production environment you should definitely set vendor and version to the desired value, because the default values might change:
 
 ```puppet
 class { 'galera':
   vendor_type    => 'percona',
   vendor_version => '5.7',
-  ...
-```
-
-Most likely you will also want to configure the SST method of choice:
-
-```puppet
-class { 'galera':
-  wsrep_sst_method => 'xtrabackup',
   ...
 ```
 
@@ -70,6 +63,23 @@ class { 'galera':
   deb_sysmaint_password => 'secretpassword',
   ...
 ```
+
+### WSREP provider options
+
+Note that the module will automatically add the required Galera/WSREP provider options to the server configuration.
+Currently the following parameters are automatically added: `wsrep_cluster_address`, `wsrep_cluster_name`, `wsrep_node_address`, `wsrep_node_incoming_address`, `wsrep_on`, `wsrep_provider`, `wsrep_slave_threads`, `wsrep_sst_method`, `wsrep_sst_auth`, `wsrep_sst_receive_address`.
+
+Some of these values are used directly from their respective class parameter. For example, to change the SST method:
+
+```puppet
+class { 'galera':
+  wsrep_sst_method => 'xtrabackup',
+  ...
+```
+
+Other values like `wsrep_cluster_address` and `wsrep_sst_auth` are generated from several class parameters. Please have a look at the parameter reference and the module's `data` directory for further details.
+
+Of course, all Galera/WSREP provider options can be overridden by using the `$override_options` parameter (see below for an example).
 
 ### More complex example
 

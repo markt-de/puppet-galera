@@ -348,7 +348,10 @@ class galera(
     $memo + {$x[0] => $_v}
   }
 
-  $node_list = join($galera_servers, ',')
+  # Add the wsrep_cluster_address option to the server configuration.
+  # It requires some preprocessing...
+  $_nodes_tmp = $galera_servers.map |$node| { "${node}:${wsrep_group_comm_port}" }
+  $node_list = join($_nodes_tmp, ',')
   $_wsrep_cluster_address = {
     'mysqld' => {
       'wsrep_cluster_address' => "gcomm://${node_list}/"

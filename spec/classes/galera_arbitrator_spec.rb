@@ -30,8 +30,14 @@ describe 'galera' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_class('mysql::server') }
         it { is_expected.to contain_package('galera-arbitrator') }
+
         it { is_expected.to contain_service('arbitrator-service') }
-        it { is_expected.to contain_file('arbitrator-config-file') }
+        describe service('arbitrator-service') do
+          it { is_expected.to be_enabled }
+        end
+
+        it { is_expected.to contain_file('arbitrator-config-file').with_content(%r{GALERA_GROUP="testcluster"}) }
+        it { is_expected.to contain_file('arbitrator-config-file').with_content(%r{GALERA_NODES="10.2.2.1:4567"}) }
       end
     end
   end
