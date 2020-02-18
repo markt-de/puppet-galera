@@ -34,7 +34,7 @@ describe 'galera' do
         it { is_expected.to contain_service('arbitrator-service').with_enable(true) }
 
         describe 'with parameter: arbitrator_service_enabled=false' do
-          let(:params) { { arbitrator_service_enabled: false } }
+          let(:params) { default_params.merge!(arbitrator_service_enabled: false) }
 
           it { is_expected.to contain_service('arbitrator-service').with_enable(false) }
         end
