@@ -38,6 +38,7 @@ Basic usage requires only the FQDN of the master node, a list of IP addresses of
 
 ```puppet
 class { 'galera':
+  cluster_name    => 'mycluster',
   galera_servers  => ['10.0.99.101', '10.0.99.102'],
   galera_master   => 'node1.example.com',
   root_password   => 'pa$$w0rd',
@@ -76,6 +77,7 @@ Furthermore, a number of simple options are available to customize the cluster c
 
 ```puppet
 class { 'galera':
+  cluster_name    => 'mycluster',
   galera_servers  => ['10.0.99.101', '10.0.99.102'],
   galera_master   => 'node1.example.com',
   root_password   => 'pa$$w0rd',

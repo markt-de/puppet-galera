@@ -4,7 +4,7 @@ describe 'galera' do
   let :params do
     {
       configure_repo: true,
-      cluster_name: 'test',
+      cluster_name: 'testcluster',
       status_password: 'test',
     }
   end
