@@ -74,6 +74,14 @@ galera::wsrep_sst_auth: "root:<%= $root_password %>"
 galera::wsrep_sst_method: 'rsync'
 galera::wsrep_state_transfer_port: 4444
 
+# nmap is required for proper operation of this module.
+galera::codership::additional_packages:
+  - 'nmap'
+galera::percona::additional_packages:
+  - 'nmap'
+galera::mariadb::additional_packages:
+  - 'nmap'
+
 # point default values to latest release
 # (provided that it's available on the supported operating systems)
 galera::codership::default_version: '5.7'

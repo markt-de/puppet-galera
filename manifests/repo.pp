@@ -1,9 +1,7 @@
 # @summary Evaluates which repositories should be enabled depending on $vendor_type and $vendor_version.
 # @api private
 #
-class galera::repo(
-  Optional[Array] $additional_packages = undef,
-) {
+class galera::repo {
   # Adjust $vendor_version for use with lookup()
   if !$galera::vendor_version {
     $vendor_version_real = lookup("${module_name}::${galera::vendor_type}::default_version")
@@ -62,17 +60,5 @@ class galera::repo(
 
   if ($facts['os']['family'] == 'RedHat') and $galera::epel_needed {
     require 'epel'
-  }
-
-  # Fetch additional packages that may be required for this vendor/version.
-  if !$additional_packages {
-    $additional_packages_real = lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
-      undef => lookup("${module_name}::${galera::vendor_type}::additional_packages", {default_value => undef}),
-      default => lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}),
-    }
-  } else { $additional_packages_real = $additional_packages}
-
-  if $additional_packages_real {
-    ensure_packages($additional_packages_real)
   }
 }

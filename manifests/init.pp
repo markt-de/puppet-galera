@@ -2,7 +2,10 @@
 #
 # @param additional_packages
 #   Specifies a list of additional packages that may be required for SST and
-#   other features. Default: A vendor-, version- and OS-specific value.
+#   other features. The module automatically discovers all additional packages
+#   that are required for the selected vendor/sst, but this parameter can be
+#   used to overwrite the discovered package list.
+#   Default: A vendor-, version- and OS-specific value.
 #
 # @param arbitrator
 #   Specifies wether this node should run Galera Arbitrator instead of a
@@ -59,7 +62,7 @@
 #   puppetlabs-firewall. Default: `true`
 #
 # @param configure_repo
-#   Specifies wether to configure additional repositories that are requird for
+#   Specifies wether to configure additional repositories that are required for
 #   installing galera. Default: `true`
 #
 # @param create_root_my_cnf
@@ -314,11 +317,27 @@ class galera(
   # lookups, so we have to use a temporary value.
   $wsrep_sst_method_internal = regsubst($wsrep_sst_method, '-', '_', 'G')
 
+  # Lookup additional packages from all possible sources:
+  #   galera::sst::SSTMETHOD::VENDOR::VERSION::additional_packages
+  #   galera::sst::SSTMETHOD::additional_packages
+  #   galera::VENDOR::VERSION::additional_packages
+  #   galera::VENDOR::additional_packages
+  # A user-specified value takes precedence over automatic lookup results.
   if !$additional_packages {
-    $additional_packages_real = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
-      undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::additional_packages", {default_value => undef}),
-      default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages")
+    # Lookup packages for the selected vendor.
+    $_packages_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
+      undef => lookup("${module_name}::${vendor_type}::additional_packages", {default_value => []}),
+      default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => []}),
     }
+    # Lookup packages for the selected SST method.
+    if !$arbitrator {
+      $_packages_sst = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
+        undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::additional_packages", {default_value => []}),
+        default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => []})
+      }
+    } else { $_packages_sst = [] }
+    # Merge packages from both sources and make them unique.
+    $additional_packages_real = ($_packages_sst + $_packages_vendor).unique
   } else { $additional_packages_real = $additional_packages }
 
   # The following compatibility layer (part 2) is only required for parameters
@@ -491,21 +510,34 @@ class galera(
       before  => Class['mysql::server::installdb']
     }
 
+    # Evaluate dependencies before performing package installation
+    if $arbitrator {
+      $_packages_before = [Class['galera::arbitrator']]
+    } else {
+      $_packages_before = [
+        Class['mysql::server::install'],
+        Exec['bootstrap_galera_cluster']
+      ]
+    }
+
+    # Install additional packages
     if ($manage_additional_packages and $additional_packages_real) {
       ensure_resource(package, $additional_packages_real,
       {
         ensure  => $package_ensure,
-        before  => Class['mysql::server::install'],
+        before  => $_packages_before,
       })
     }
 
+    # Overrule puppetlabs/mysql default value
     Package<| title == 'mysql_client' |> {
       name => $params['client_package_name']
     }
 
+    # Install galera provider
     package {[ $galera::params['galera_package_name'] ] :
       ensure => $galera_package_ensure,
-      before => Class['mysql::server::install'],
+      before => $_packages_before,
     }
 
     if ($::fqdn == $galera_master) {
