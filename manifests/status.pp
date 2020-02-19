@@ -8,6 +8,7 @@ class galera::status (
 
   if $galera::create_status_user {
     if $galera::status_allow != 'localhost' {
+      # Create status user for the specified host
       mysql_user { "${galera::status_user}@${galera::status_allow}":
         ensure        => 'present',
         password_hash => mysql_password($galera::status_password),
@@ -22,10 +23,11 @@ class galera::status (
         before     => Anchor['mysql::server::end']
       }
       if $galera::create_root_my_cnf {
-        File["${::root_home}/.my.cnf"] -> Mysql_user["${galera::status_user}@${galera::status_allow}"]
+        Exec['create .my.cnf for user root'] -> Mysql_user["${galera::status_user}@${galera::status_allow}"]
       }
     }
 
+    # Create status user for localhost (required by this module)
     mysql_user { "${galera::status_user}@localhost":
       ensure        => 'present',
       password_hash => mysql_password($galera::status_password),
@@ -38,6 +40,9 @@ class galera::status (
       table      => '*.*',
       user       => "${galera::status_user}@localhost",
       before     => Anchor['mysql::server::end']
+    }
+    if $galera::create_root_my_cnf {
+      Exec['create .my.cnf for user root'] -> Mysql_user["${galera::status_user}@localhost"]
     }
   }
 

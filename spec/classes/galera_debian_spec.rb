@@ -31,7 +31,6 @@ describe 'galera::debian' do
         is_expected.to contain_mysql_user('debian-sys-maint@localhost').with(
           ensure: 'present',
           provider: 'mysql',
-          require: 'File[/root/.my.cnf]',
         )
       }
 
@@ -71,7 +70,6 @@ describe 'galera::debian' do
         is_expected.not_to contain_mysql_user('debian-sys-maint@localhost').with(
           ensure: 'present',
           provider: 'mysql',
-          require: 'File[/root/.my.cnf]',
         )
       }
 

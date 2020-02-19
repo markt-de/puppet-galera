@@ -94,13 +94,13 @@ describe 'galera' do
     context 'when managing root .my.cnf' do
       before(:each) { params.merge!(create_root_my_cnf: true) }
       it { is_expected.to contain_class('mysql::server').with(create_root_my_cnf: true) }
-      it { is_expected.to contain_exec('create /root/.my.cnf') }
+      it { is_expected.to contain_exec('create .my.cnf for user root') }
     end
 
     context 'when not managing root .my.cnf' do
       before(:each) { params.merge!(create_root_my_cnf: false) }
       it { is_expected.to contain_class('mysql::server').with(create_root_my_cnf: false) }
-      it { is_expected.not_to contain_exec('create /root/.my.cnf') }
+      it { is_expected.not_to contain_exec('create .my.cnf for user root') }
     end
 
     # FIXME
