@@ -45,7 +45,10 @@ The following parameters are available in the `galera` class.
 Data type: `Optional[Array]`
 
 Specifies a list of additional packages that may be required for SST and
-other features. Default: A vendor-, version- and OS-specific value.
+other features. The module automatically discovers all additional packages
+that are required for the selected vendor/sst, but this parameter can be
+used to overwrite the discovered package list.
+Default: A vendor-, version- and OS-specific value.
 
 Default value: `undef`
 
@@ -158,7 +161,7 @@ puppetlabs-firewall. Default: `true`
 
 Data type: `Boolean`
 
-Specifies wether to configure additional repositories that are requird for
+Specifies wether to configure additional repositories that are required for
 installing galera. Default: `true`
 
 ##### `create_root_my_cnf`

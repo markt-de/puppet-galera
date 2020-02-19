@@ -29,6 +29,7 @@ describe 'galera' do
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_class('mysql::server') }
+        it { is_expected.to contain_class('galera::arbitrator') }
         it { is_expected.to contain_package('galera-arbitrator') }
 
         it { is_expected.to contain_service('arbitrator-service').with_enable(true) }
