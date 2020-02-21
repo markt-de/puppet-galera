@@ -38,7 +38,7 @@ galera::manage_additional_packages: true
 galera::mysql_port: 3306
 galera::mysql_restart: false
 galera::override_options: {}
-galera::package_ensure: 'installed'
+galera::package_ensure: 'present'
 galera::purge_conf_dir: false
 galera::rundir: '/var/run/mysqld'
 galera::service_enabled: true
@@ -75,6 +75,8 @@ galera::wsrep_sst_method: 'rsync'
 galera::wsrep_state_transfer_port: 4444
 
 # nmap is required for proper operation of this module.
+# NOTE: Remember to also add 'nmap' when overwriting the package list for a
+# specific version or operating system.
 galera::codership::additional_packages:
   - 'nmap'
 galera::percona::additional_packages:

@@ -4,7 +4,8 @@ lookup_options:
   "^galera::.*package_name":
     merge:
       strategy: first
-  "^galera::.*additional_packages":
+  # SST packages are version specific and should not be merged.
+  "^galera::sst::.*additional_packages":
     merge:
       strategy: first
   # Do not merge repository lists.

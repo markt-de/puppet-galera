@@ -64,6 +64,7 @@ galera::percona::56::galera_package_name: 'Percona-XtraDB-Cluster-galera-3'
 galera::percona::56::mysql_package_name: 'Percona-XtraDB-Cluster-server-56'
 galera::percona::57::additional_packages:
   - 'Percona-XtraDB-Cluster-shared-compat-57'
+  - 'nmap'
 galera::percona::57::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-57'
 galera::percona::57::bootstrap_command: 'systemctl start mysql@bootstrap.service'
 galera::percona::57::client_package_name: 'Percona-XtraDB-Cluster-client-57'

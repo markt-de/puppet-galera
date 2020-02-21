@@ -71,9 +71,8 @@
 #
 # @param create_root_user
 #   A flag to indicate if we should manage the root user. Set this to false if
-#   you wish to manage your root user elsewhere. If this is set to undef, we
-#   will use true if galera_master == $::fqdn. Valid options: a string or
-#   undef.
+#   you wish to manage your root user elsewhere. If this is set to `undef`, the
+#   module will use `true` if this node is `$galera_master`. Default: `undef`
 #
 # @param create_status_user
 #   A flag to indicate if we should manage the status user. Set this to false
@@ -290,7 +289,7 @@ class galera(
   Optional[String] $arbitrator_service_name = undef,
   Optional[String] $bootstrap_command = undef,
   Optional[String] $client_package_name = undef,
-  Optional[String] $create_root_user = undef,
+  Optional[Boolean] $create_root_user = undef,
   Optional[String] $galera_package_name = undef,
   Optional[Array] $galera_servers = undef,
   Optional[String] $libgalera_location = undef,
@@ -415,22 +414,24 @@ class galera(
     }
     $memo + {$x[0] => $_values}
   }
-
   # Finally merge options from all 3 sources.
   $options = $_default_options.deep_merge($_wsrep_cluster_address.deep_merge($override_options))
 
-  if ($create_root_user =~ String) {
-    $create_root_user_real = $create_root_user
-  } else {
-    if ($galera_master == $::fqdn) {
-      # Manage root user on the galera master
+  # Manage MySQL/MariaDB root user.
+  if ($create_root_user =~ Undef) {
+    # Automatically determine if we should manage the root user.
+    if ($::fqdn == $galera_master) {
+      # Manage root user only on the galera master.
       $create_root_user_real = true
     } else {
       # Skip manage root user on nodes that are not the galera master since
       # they should get a database with the root user already configured when
-      # they sync from the master
+      # they sync from the master.
       $create_root_user_real = false
     }
+  } else {
+    # Use user-specified or default value.
+    $create_root_user_real = $create_root_user
   }
 
   if $configure_repo {
@@ -516,15 +517,16 @@ class galera(
     }
 
     class { '::mysql::server':
-      package_name       => $params['mysql_package_name'],
-      override_options   => $options,
-      root_password      => $root_password,
       create_root_my_cnf => $create_root_my_cnf,
       create_root_user   => $create_root_user_real,
-      service_enabled    => $service_enabled,
+      override_options   => $options,
+      package_ensure     => $package_ensure,
+      package_name       => $params['mysql_package_name'],
       purge_conf_dir     => $purge_conf_dir,
-      service_name       => $params['mysql_service_name'],
       restart            => $mysql_restart,
+      root_password      => $root_password,
+      service_enabled    => $service_enabled,
+      service_name       => $params['mysql_service_name'],
     }
 
     file { $rundir:
