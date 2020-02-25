@@ -30,8 +30,12 @@ describe 'galera' do
 
   shared_examples_for 'galera' do
     context 'with default parameters (percona)' do
-      it { is_expected.to contain_class('galera::repo') }
       it { is_expected.to contain_class('galera::firewall') }
+      it { is_expected.to contain_class('galera::repo') }
+      it { is_expected.to contain_class('galera::status') }
+      it { is_expected.to contain_class('galera::validate') }
+
+      it { is_expected.to contain_firewall('4567 galera accept tcp') }
 
       it {
         is_expected.to contain_class('mysql::server').with(
@@ -62,9 +66,22 @@ describe 'galera' do
           gid: 'clustercheck',
         )
       }
+      it { is_expected.to contain_file('/usr/local/bin/clustercheck').with_content(%r{HTTP/1.1 200 OK}) }
 
       it { is_expected.to contain_file('mysql-config-file').with_content(%r{wsrep_cluster_address = gcomm://10.2.2.1:4567/}) }
       it { is_expected.to contain_file('mysql-config-file').with_content(%r{wsrep_cluster_name = testcluster}) }
+      it { is_expected.to contain_file('/var/run/mysqld').with(ensure: 'directory') }
+    end
+
+    # FIXME
+    # context 'when node is the master' do
+    #   before(:each) { params.merge!(galera_master: facts[:fqdn]) }
+    #   it { is_expected.to contain_exec('bootstrap_galera_cluster') }
+    # end
+
+    context 'when node is not the master' do
+      before(:each) { params.merge!(galera_master: "not_#{facts[:fqdn]}") }
+      it { is_expected.not_to contain_exec('bootstrap_galera_cluster') }
     end
 
     context 'when installing mariadb' do
@@ -111,13 +128,13 @@ describe 'galera' do
       it { is_expected.not_to contain_exec('create .my.cnf for user root') }
     end
 
-# FIXME: create_root_user is always false for mysql::server
-#   context 'when create_root_user=undef (default) and the master' do
-#     before(:each) { params.merge!(galera_master: facts[:fqdn]) }
-#     it { is_expected.to contain_class('galera').with(create_root_user: nil) }
-#     it { is_expected.to contain_class('mysql::server').with(create_root_user: true) }
-#     it { is_expected.to contain_mysql_user('root@localhost') }
-#   end
+    # FIXME: create_root_user is always false for mysql::server
+    # context 'when create_root_user=undef (default) and the master' do
+    #   before(:each) { params.merge!(galera_master: facts[:fqdn]) }
+    #   it { is_expected.to contain_class('galera').with(create_root_user: nil) }
+    #   it { is_expected.to contain_class('mysql::server').with(create_root_user: true) }
+    #   it { is_expected.to contain_mysql_user('root@localhost') }
+    # end
 
     context 'when create_root_user=undef (default) and not the master' do
       before(:each) { params.merge!(galera_master: "not_#{facts[:fqdn]}") }
@@ -137,13 +154,48 @@ describe 'galera' do
       it { is_expected.not_to contain_mysql_user('root@localhost') }
     end
 
+    context 'when create_status_user=true (default)' do
+      it { is_expected.to contain_mysql_user('clustercheck@localhost') }
+      it { is_expected.to contain_mysql_user('clustercheck@%') }
+      it { is_expected.to contain_mysql_grant('clustercheck@localhost/*.*') }
+      it { is_expected.to contain_mysql_grant('clustercheck@%/*.*') }
+    end
+
+    context 'when create_status_user=false' do
+      before(:each) { params.merge!(create_status_user: false) }
+      it { is_expected.not_to contain_mysql_user('clustercheck@localhost') }
+      it { is_expected.not_to contain_mysql_user('clustercheck@%') }
+      it { is_expected.not_to contain_mysql_grant('clustercheck@localhost/*.*') }
+      it { is_expected.not_to contain_mysql_grant('clustercheck@%/*.*') }
+    end
+
+    context 'when status_allow=example' do
+      before(:each) { params.merge!(status_allow: 'example') }
+      it { is_expected.to contain_mysql_user('clustercheck@localhost') }
+      it { is_expected.to contain_mysql_user('clustercheck@example') }
+      it { is_expected.not_to contain_mysql_user('clustercheck@%') }
+      it { is_expected.to contain_mysql_grant('clustercheck@localhost/*.*') }
+      it { is_expected.to contain_mysql_grant('clustercheck@example/*.*') }
+    end
+
+    context 'when validate_connection=true (default)' do
+      it { is_expected.to contain_class('galera::validate') }
+      it { is_expected.to contain_exec('validate_connection') }
+    end
+
+    context 'when validate_connection=false' do
+      before(:each) { params.merge!(validate_connection: false) }
+      it { is_expected.not_to contain_class('galera::validate') }
+      it { is_expected.not_to contain_exec('validate_connection') }
+    end
+
     context 'when installing codership' do
       before(:each) { params.merge!(vendor_type: 'codership') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_name: os_params[:c_mysql_package_name],
           root_password: params[:root_password],
-          service_name: os_params[:c_mysql_service_name]
+          service_name: os_params[:c_mysql_service_name],
         )
       }
       it { is_expected.to contain_class('mysql::server') }
@@ -169,7 +221,7 @@ describe 'galera' do
     end
 
     context 'when package_ensure=present (default)' do
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(:ensure => 'present') }
+      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'present') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_ensure: 'present',
@@ -180,13 +232,19 @@ describe 'galera' do
 
     context 'when package_ensure=latest' do
       before(:each) { params.merge!(package_ensure: 'latest') }
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(:ensure => 'present') }
+      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'present') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_ensure: 'latest',
           package_name: os_params[:p_mysql_package_name],
         )
       }
+    end
+
+    context 'when configure_firewall=false' do
+      before(:each) { params.merge!(configure_firewall: false) }
+      it { is_expected.not_to contain_class('galera::firewall') }
+      it { is_expected.not_to contain_firewall('4567 galera accept tcp') }
     end
 
     context 'when specifying logging options' do

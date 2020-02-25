@@ -14,14 +14,21 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'codership', vendor_version: '5.7')
       end
+      it { is_expected.to contain_galera__repo__config('codership') }
+      it { is_expected.to contain_galera__repo__config('codership_lib') }
       it { is_expected.to contain_yumrepo('galera_codership').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_codership_lib').with(enabled: 1) }
     end
 
     context 'for codership with wsrep_sst_method=xtrabackup' do
       before(:each) do
         params.merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
       end
+      it { is_expected.to contain_galera__repo__config('codership') }
+      it { is_expected.to contain_galera__repo__config('codership_lib') }
+      it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_yumrepo('galera_codership').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_codership_lib').with(enabled: 1) }
       it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
     end
 
@@ -29,6 +36,7 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'mariadb', vendor_version: '10.3')
       end
+      it { is_expected.to contain_galera__repo__config('mariadb') }
       it { is_expected.to contain_yumrepo('galera_mariadb').with(enabled: 1) }
     end
 
@@ -36,6 +44,8 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
       end
+      it { is_expected.to contain_galera__repo__config('mariadb') }
+      it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_yumrepo('galera_mariadb').with(enabled: 1) }
       it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
     end
@@ -44,6 +54,7 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'percona', vendor_version: '5.7')
       end
+      it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
     end
 
@@ -51,7 +62,12 @@ describe 'galera' do
       before(:each) do
         params.merge!(configure_repo: false)
       end
+      it { is_expected.not_to contain_galera__repo__config('codership') }
+      it { is_expected.not_to contain_galera__repo__config('codership_lib') }
+      it { is_expected.not_to contain_galera__repo__config('mariadb') }
+      it { is_expected.not_to contain_galera__repo__config('percona') }
       it { is_expected.not_to contain_yumrepo('galera_codership') }
+      it { is_expected.not_to contain_yumrepo('galera_codership_lib') }
       it { is_expected.not_to contain_yumrepo('galera_mariadb') }
       it { is_expected.not_to contain_yumrepo('galera_percona') }
     end
@@ -73,14 +89,21 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'codership', vendor_version: '5.7')
       end
+      it { is_expected.to contain_galera__repo__config('codership') }
+      it { is_expected.to contain_galera__repo__config('codership_lib') }
       it { is_expected.to contain_apt__source('galera_codership').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_codership_lib').with(repos: 'main') }
     end
 
     context 'for codership with wsrep_sst_method=xtrabackup' do
       before(:each) do
         params.merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
       end
+      it { is_expected.to contain_galera__repo__config('codership') }
+      it { is_expected.to contain_galera__repo__config('codership_lib') }
+      it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_apt__source('galera_codership').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_codership_lib').with(repos: 'main') }
       it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
     end
 
@@ -95,6 +118,8 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
       end
+      it { is_expected.to contain_galera__repo__config('mariadb') }
+      it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_apt__source('galera_mariadb').with(repos: 'main') }
       it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
     end
@@ -103,6 +128,7 @@ describe 'galera' do
       before(:each) do
         params.merge!(vendor_type: 'percona', vendor_version: '5.7')
       end
+      it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
     end
 
@@ -110,7 +136,12 @@ describe 'galera' do
       before(:each) do
         params.merge!(configure_repo: false)
       end
+      it { is_expected.not_to contain_galera__repo__config('codership') }
+      it { is_expected.not_to contain_galera__repo__config('codership_lib') }
+      it { is_expected.not_to contain_galera__repo__config('mariadb') }
+      it { is_expected.not_to contain_galera__repo__config('percona') }
       it { is_expected.not_to contain_apt__source('galera_codership') }
+      it { is_expected.not_to contain_apt__source('galera_codership_lib') }
       it { is_expected.not_to contain_apt__source('galera_mariadb') }
       it { is_expected.not_to contain_apt__source('galera_percona') }
     end

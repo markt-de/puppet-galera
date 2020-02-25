@@ -11,6 +11,7 @@ describe 'galera::debian' do
 
   shared_examples_for 'galera on Debian' do
     context 'with default parameters' do
+      it { is_expected.to contain_file('/etc/mysql/puppet_debfix.cnf').with_content(%r{[mysqld]}) }
       it {
         is_expected.to contain_exec('clean_up_ubuntu').with(
           command: 'service mysql stop',
@@ -19,6 +20,8 @@ describe 'galera::debian' do
           subscribe: 'Package[mysql-server]',
         )
       }
+      it { is_expected.to contain_exec('fix_galera_config_errors_episode_I').with(refreshonly: true) }
+      it { is_expected.to contain_exec('fix_galera_config_errors_episode_II').with(refreshonly: true) }
     end
 
     context 'when this node is the master' do
