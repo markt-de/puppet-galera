@@ -31,6 +31,7 @@ describe 'galera' do
   shared_examples_for 'galera on RedHat' do
     context 'when installing percona' do
       it { is_expected.to contain_class('galera::redhat') }
+      it { is_expected.to contain_package(os_params[:p_additional_packages]).with(ensure: 'present') }
     end
 
     context 'when installing mariadb' do
@@ -45,6 +46,12 @@ describe 'galera' do
     context "on #{os}" do # rubocop:disable RSpec/EmptyExampleGroup
       let(:facts) do
         facts.merge({})
+      end
+
+      let(:os_params) do
+        {
+          p_additional_packages: 'Percona-XtraDB-Cluster-shared-compat-57',
+        }
       end
 
       case facts[:osfamily]

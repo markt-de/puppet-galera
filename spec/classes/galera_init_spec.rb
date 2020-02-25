@@ -73,11 +73,10 @@ describe 'galera' do
       it { is_expected.to contain_file('/var/run/mysqld').with(ensure: 'directory') }
     end
 
-    # FIXME
-    # context 'when node is the master' do
-    #   before(:each) { params.merge!(galera_master: facts[:fqdn]) }
-    #   it { is_expected.to contain_exec('bootstrap_galera_cluster') }
-    # end
+    context 'when node is the master' do
+      before(:each) { params.merge!(galera_master: facts[:fqdn]) }
+      it { is_expected.to contain_exec('bootstrap_galera_cluster') }
+    end
 
     context 'when node is not the master' do
       before(:each) { params.merge!(galera_master: "not_#{facts[:fqdn]}") }
@@ -128,13 +127,12 @@ describe 'galera' do
       it { is_expected.not_to contain_exec('create .my.cnf for user root') }
     end
 
-    # FIXME: create_root_user is always false for mysql::server
-    # context 'when create_root_user=undef (default) and the master' do
-    #   before(:each) { params.merge!(galera_master: facts[:fqdn]) }
-    #   it { is_expected.to contain_class('galera').with(create_root_user: nil) }
-    #   it { is_expected.to contain_class('mysql::server').with(create_root_user: true) }
-    #   it { is_expected.to contain_mysql_user('root@localhost') }
-    # end
+    context 'when create_root_user=undef (default) and the master' do
+      before(:each) { params.merge!(galera_master: facts[:fqdn]) }
+      it { is_expected.to contain_class('galera').with(create_root_user: nil) }
+      it { is_expected.to contain_class('mysql::server').with(create_root_user: true) }
+      it { is_expected.to contain_mysql_user('root@localhost') }
+    end
 
     context 'when create_root_user=undef (default) and not the master' do
       before(:each) { params.merge!(galera_master: "not_#{facts[:fqdn]}") }
