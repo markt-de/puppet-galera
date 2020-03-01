@@ -46,7 +46,7 @@ describe 'galera' do
       }
 
       it { is_expected.to contain_package(os_params[:nmap_package_name]).with(ensure: 'present') }
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
       it { is_expected.to contain_package(os_params[:p_additional_packages]).with(ensure: 'present') }
 
       it { is_expected.to contain_class('mysql::server') }
@@ -205,7 +205,8 @@ describe 'galera' do
     context 'when specifying package names' do
       before(:each) do
         params.merge!(mysql_package_name: 'mysql-package-test',
-                      galera_package_name: 'galera-package-test')
+                      galera_package_name: 'galera-package-test',
+                      galera_package_ensure: 'present')
       end
       it {
         is_expected.to contain_class('mysql::server').with(
@@ -219,7 +220,7 @@ describe 'galera' do
     end
 
     context 'when package_ensure=present (default)' do
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_ensure: 'present',
@@ -230,13 +231,18 @@ describe 'galera' do
 
     context 'when package_ensure=latest' do
       before(:each) { params.merge!(package_ensure: 'latest') }
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_ensure: 'latest',
           package_name: os_params[:p_mysql_package_name],
         )
       }
+    end
+
+    context 'when galera_package_ensure=latest' do
+      before(:each) { params.merge!(galera_package_ensure: 'latest') }
+      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'latest') }
     end
 
     context 'when configure_firewall=false' do
