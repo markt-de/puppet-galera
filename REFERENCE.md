@@ -173,12 +173,11 @@ if you wish to manage your root .my.cnf file elsewhere. Default: `true`
 
 ##### `create_root_user`
 
-Data type: `Optional[String]`
+Data type: `Optional[Boolean]`
 
 A flag to indicate if we should manage the root user. Set this to false if
-you wish to manage your root user elsewhere. If this is set to undef, we
-will use true if galera_master == $::fqdn. Valid options: a string or
-undef.
+you wish to manage your root user elsewhere. If this is set to `undef`, the
+module will use `true` if this node is `$galera_master`. Default: `undef`
 
 Default value: `undef`
 
@@ -221,12 +220,14 @@ Default: `$fqdn`
 
 ##### `galera_package_ensure`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Specifies the ensure state for the galera package. Note that some vendors
 do not allow installation of the wsrep-enabled MySQL/MariaDB and galera
 (arbitrator) on the same server. Valid options: all values supported by
 the package type. Default: `absent`
+
+Default value: `undef`
 
 ##### `galera_package_name`
 

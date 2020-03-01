@@ -2,7 +2,7 @@
   "name": "fraenki-galera",
   "version": "1.0.6",
   "author": "Frank Wall",
-  "summary": "Install/configure MySQL with Galera",
+  "summary": "Setup a Galera cluster on MySQL/MariaDB/XtraDB with Arbitrator support",
   "license": "BSD-2-Clause",
   "source": "https://github.com/fraenki/puppet-galera",
   "project_page": "https://github.com/fraenki/puppet-galera",
@@ -75,7 +75,7 @@
       "version_requirement": ">= 5.5.8 < 7.0.0"
     }
   ],
-  "description": "Install/configure MySQL with Galera/XtraDB cluster support",
+  "description": "Setup a Galera cluster on MySQL/MariaDB/XtraDB with Arbitrator support",
   "tags": [
     "mysql",
     "percona",
@@ -85,9 +85,11 @@
     "codership",
     "cluster",
     "wsrep",
-    "xtradb"
+    "xtradb",
+    "arbitrator",
+    "garbd"
   ],
-  "pdk-version": "1.16.0",
-  "template-url": "pdk-default#1.16.0",
-  "template-ref": "tags/1.16.0-0-gaf44904"
+  "pdk-version": "1.17.0",
+  "template-url": "pdk-default#1.17.0",
+  "template-ref": "tags/1.17.0-0-gd3a4319"
 }

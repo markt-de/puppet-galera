@@ -22,7 +22,7 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
 
 ## Overview
 
-This module will massage puppetlabs-mysql into creating a MySQL or MariaDB galera cluster.
+This module will massage puppetlabs-mysql into creating a Galera cluster on MySQL, MariaDB or XtraDB. It also supports setting up an Arbitrator node.
 
 It will try to recover from failures by bootstrapping on a node designated as the master if no other nodes appear to be running mysql, but if the cluster goes down and the master is permanently taken out, another node will need to be specified as the 'master' that can bootstrap the cluster.
 
