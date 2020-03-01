@@ -254,7 +254,6 @@ class galera(
   Hash $default_options,
   Boolean $epel_needed,
   String $galera_master,
-  String $galera_package_ensure,
   String $local_ip,
   Boolean $manage_additional_packages,
   Integer $mysql_port,
@@ -290,6 +289,7 @@ class galera(
   Optional[String] $bootstrap_command = undef,
   Optional[String] $client_package_name = undef,
   Optional[Boolean] $create_root_user = undef,
+  Optional[String] $galera_package_ensure = undef,
   Optional[String] $galera_package_name = undef,
   Optional[Array] $galera_servers = undef,
   Optional[String] $libgalera_location = undef,
@@ -347,6 +347,7 @@ class galera(
     arbitrator_service_name => $arbitrator_service_name,
     bootstrap_command => $bootstrap_command,
     client_package_name => $client_package_name,
+    galera_package_ensure => $galera_package_ensure,
     galera_package_name => $galera_package_name,
     libgalera_location => $libgalera_location,
     mysql_package_name => $mysql_package_name,
@@ -376,11 +377,19 @@ class galera(
     }
   }
 
+  # Lookup vendor specific options for MySQL/MariaDB.
+  $_defaults_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", {default_value => undef}) ? {
+    undef => lookup("${module_name}::${vendor_type}::default_options", {default_value => {}}),
+    default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", {default_value => {}}),
+  }
+  # Now merge the vendor specific options with the global default values.
+  $_default_tmp = deep_merge($default_options, $_defaults_vendor)
+
   # XXX: The following is sort-of a compatibility layer. It passes all options
   # to the inline_epp() function. This way it is possible to use the values of
   # module parameters in MySQL/MariaDB options by specifying them in epp syntax.
   $wsrep_sst_auth_real = inline_epp($wsrep_sst_auth)
-  $_default_options = $default_options.reduce({}) |$memo, $x| {
+  $_default_options = $_default_tmp.reduce({}) |$memo, $x| {
     # A nested hash contains the configuration options.
     if ($x[1] =~ Hash) {
       $_values = $x[1].reduce({}) |$m,$y| {
@@ -544,7 +553,7 @@ class galera(
 
     # Install galera provider
     package {[ $galera::params['galera_package_name'] ] :
-      ensure => $galera_package_ensure,
+      ensure => $params['galera_package_ensure'],
       before => $_packages_before,
     }
 
