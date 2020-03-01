@@ -16,6 +16,10 @@ galera::codership::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::codership::arbitrator_package_name: 'galera'
 galera::codership::arbitrator_service_name: 'garbd'
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
+galera::codership::default_options:
+  mysqld:
+    log-error: '/var/log/mysqld.log'
+    pid-file: '/var/run/mysqld/mysqld.pid'
 galera::codership::libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysqld'
 galera::codership::want_repos:
@@ -74,6 +78,10 @@ galera::percona::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::percona::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::arbitrator_service_name: 'garb'
 galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
+galera::percona::default_options:
+  mysqld:
+    log-error: '/var/log/mysqld.log'
+    pid-file: '/var/run/mysqld/mysqld.pid'
 galera::percona::libgalera_location: '/usr/lib64/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
 galera::percona::want_repos:
