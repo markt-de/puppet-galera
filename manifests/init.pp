@@ -462,9 +462,6 @@ class galera(
   # Include workarounds for RedHat-based systems
   if ($facts['os']['family'] == 'RedHat') {
     include galera::redhat
-    unless $galera::arbitrator {
-      Class['galera::redhat'] -> Class['mysql::server::installdb']
-    }
   }
 
   # Evaluate dependencies before performing package installation

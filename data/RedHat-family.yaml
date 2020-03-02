@@ -20,6 +20,8 @@ galera::codership::default_options:
   mysqld:
     log-error: '/var/log/mysqld.log'
     pid-file: '/var/run/mysqld/mysqld.pid'
+  mysqld_safe:
+    log-error: '/var/log/mysqld.log'
 galera::codership::libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysqld'
 galera::codership::want_repos:
@@ -60,28 +62,32 @@ galera::mariadb::want_repos:
 galera::percona::55::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-2'
 galera::percona::55::client_package_name: 'Percona-XtraDB-Cluster-client-55'
 galera::percona::55::galera_package_name: 'Percona-XtraDB-Cluster-galera-2'
-galera::percona::55::mysql_package_name: 'Percona-XtraDB-Cluster-server-55'
+# Using the meta package avoids conflicts with other versions during installation.
+galera::percona::55::mysql_package_name: 'Percona-XtraDB-Cluster-55'
 galera::percona::56::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::56::bootstrap_command: 'systemctl start mysql@bootstrap.service'
 galera::percona::56::client_package_name: 'Percona-XtraDB-Cluster-client-56'
 galera::percona::56::galera_package_name: 'Percona-XtraDB-Cluster-galera-3'
-galera::percona::56::mysql_package_name: 'Percona-XtraDB-Cluster-server-56'
+# Using the meta package avoids conflicts with other versions during installation.
+galera::percona::56::mysql_package_name: 'Percona-XtraDB-Cluster-56'
 galera::percona::57::additional_packages:
-  - 'Percona-XtraDB-Cluster-shared-compat-57'
   - 'nmap'
 galera::percona::57::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-57'
 galera::percona::57::bootstrap_command: 'systemctl start mysql@bootstrap.service'
 galera::percona::57::client_package_name: 'Percona-XtraDB-Cluster-client-57'
 galera::percona::57::galera_package_name: 'Percona-XtraDB-Cluster-galera-3'
-galera::percona::57::mysql_package_name: 'Percona-XtraDB-Cluster-server-57'
+# Using the meta package avoids conflicts with other versions during installation.
+galera::percona::57::mysql_package_name: 'Percona-XtraDB-Cluster-57'
 galera::percona::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::percona::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::arbitrator_service_name: 'garb'
-galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
+galera::percona::bootstrap_command: 'systemctl start mysql@bootstrap.service'
 galera::percona::default_options:
   mysqld:
     log-error: '/var/log/mysqld.log'
     pid-file: '/var/run/mysqld/mysqld.pid'
+  mysqld_safe:
+    log-error: '/var/log/mysqld.log'
 galera::percona::libgalera_location: '/usr/lib64/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
 galera::percona::want_repos:
@@ -113,6 +119,10 @@ galera::repo::percona::yum:
   enabled: 1
   gpgcheck: 1
   gpgkey: 'https://www.percona.com/downloads/RPM-GPG-KEY-percona https://repo.percona.com/yum/PERCONA-PACKAGING-KEY'
+  # Avoid conflicts by excluding Percona Server packages.
+  # Both XtraDB and Percona Server provide the same MySQL dependencies,
+  # which could break the installation.
+  exclude: '*Percona-Server*'
 
 galera::sst::mariabackup::mariadb::101::additional_packages:
   - 'MariaDB-backup'
