@@ -32,6 +32,7 @@ describe 'galera' do
     context 'when installing percona' do
       it { is_expected.to contain_class('galera::redhat') }
       it { is_expected.to contain_package(os_params[:p_additional_packages]).with(ensure: 'present') }
+      it { is_expected.to contain_service('mysql@bootstrap') }
     end
 
     context 'when installing mariadb' do
