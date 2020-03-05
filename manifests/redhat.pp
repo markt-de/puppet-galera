@@ -33,8 +33,8 @@ class galera::redhat {
         # a clean shutdown and with no other node online, this node should be
         # able to startup as primary node.
         service { 'mysql@bootstrap':
-          ensure  => 'stopped',
-          before  => Service['mysqld'],
+          ensure => 'stopped',
+          before => Service['mysqld'],
         }
         Exec<| title == 'bootstrap_galera_cluster' |> -> Service['mysql@bootstrap']
       }
