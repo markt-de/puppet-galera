@@ -292,7 +292,7 @@ describe 'galera' do
             p_client_package_name: 'Percona-XtraDB-Cluster-client-57',
             p_galera_package_name: 'Percona-XtraDB-Cluster-galera-3',
             p_libgalera_location: '/usr/lib64/libgalera_smm.so',
-            p_mysql_package_name: 'Percona-XtraDB-Cluster-server-57',
+            p_mysql_package_name: 'Percona-XtraDB-Cluster-57',
             p_mysql_service_name: 'mysql',
             p_xtrabackup_package: 'percona-xtrabackup-24',
             nmap_package_name: 'nmap' }

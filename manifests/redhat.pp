@@ -20,7 +20,7 @@ class galera::redhat {
         }
       }
     } elsif $galera::vendor_type == 'percona' {
-      if (versioncmp($galera::vendor_version, '5.6') >= 0) {
+      if (versioncmp($galera::vendor_version_real, '5.6') >= 0) {
         # Perona installs two independent systemd services:
         #   mysql - for normal operation
         #   mysql@bootstrap - for bootstrapping a new cluster
@@ -34,9 +34,9 @@ class galera::redhat {
         # able to startup as primary node.
         service { 'mysql@bootstrap':
           ensure  => 'stopped',
-          require => Exec['bootstrap_galera_cluster'],
           before  => Service['mysqld'],
         }
+        Exec<| title == 'bootstrap_galera_cluster' |> -> Service['mysql@bootstrap']
       }
     }
   }

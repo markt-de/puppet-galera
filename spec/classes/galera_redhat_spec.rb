@@ -50,7 +50,7 @@ describe 'galera' do
 
       let(:os_params) do
         {
-          p_additional_packages: 'Percona-XtraDB-Cluster-shared-compat-57',
+          p_additional_packages: 'nmap',
         }
       end
 
