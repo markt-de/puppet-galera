@@ -53,7 +53,6 @@ describe 'galera' do
       before(:each) { params.merge!(galera_master: facts[:fqdn]) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{/etc/init.d/mysql bootstrap-pxc}) }
     end
-
   end
 
   on_supported_os.each do |os, facts|
