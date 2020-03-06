@@ -1,0 +1,6 @@
+---
+# No systemd on CentOS/RHEL 6
+galera::percona::55::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
+galera::percona::56::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
+galera::percona::57::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
+galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'

@@ -4,6 +4,15 @@ describe 'galera' do
   describe 'default parameters' do
     let(:pp) do
       <<-MANIFEST
+      # Workaround a known issue on CentOS 6, see https://tickets.puppetlabs.com/browse/MODULES-5653
+      if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') < 0) {
+        exec { 'create empty iptables configs':
+          path    => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
+          command => 'touch /etc/sysconfig/iptables; touch /etc/sysconfig/ip6tables',
+          before  => Class['firewall'],
+        }
+      }
+
       # Setup firewall package and service, otherwise adding firewall
       # rules will fail.
       class { 'firewall': }

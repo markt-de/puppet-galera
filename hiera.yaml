@@ -9,19 +9,22 @@ hierarchy:
   - name: 'Set important hiera options'
     path: "hiera_options.yaml"
 
-  - name: 'Full Version'
+  - name: 'Distribution Full Version'
     path: '%{facts.os.name}-%{facts.os.release.full}.yaml'
 
-  - name: 'Major Version'
+  - name: 'Distribution Major Version'
     path: '%{facts.os.name}-%{facts.os.release.major}.yaml'
 
   - name: 'Distribution Name'
     path: '%{facts.os.name}.yaml'
 
-  - name: 'Operating System Family'
+  - name: 'OS Family Major Version'
+    path: '%{facts.os.family}-%{facts.os.release.major}-family.yaml'
+
+  - name: 'OS Family'
     path: '%{facts.os.family}-family.yaml'
 
-  - name: 'Operating System Kernel'
+  - name: 'OS Kernel'
     path: '%{facts.kernel}.yaml'
 
   - name: 'common'
