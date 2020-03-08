@@ -2,11 +2,21 @@
 # @api private
 class galera::debian {
   if ($galera::arbitrator == false) {
-    # puppetlabs-mysql now places config before installing the package, which causes issues
-    # if the service is started as part of package installs, as it is on debians. Resolve this
-    # by putting a default my.cnf in place before installing the package, then putting the
-    # real config file back after installing the package but before starting the service for real
-    file { '/etc/mysql/puppet_debfix.cnf':
+    # puppetlabs-mysql now places config before installing the package, which
+    # causes issues if the service is started as part of package installs, as
+    # it is on Debian/Ubuntu. Resolve this by putting a default my.cnf in place
+    # before installing the package, then putting the real config file back
+    # after installing the package but before starting the service for real.
+    # Also use a temporary dbdir, because Galera will refuse to initialize if
+    # this directory is not empty.
+    file { '/var/lib/mysql-install-tmp':
+      ensure  => directory,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0777',
+      require => Class['mysql::server::config'],
+    }
+    ~> file { '/etc/mysql/puppet_debfix.cnf':
       ensure  => present,
       owner   => 'root',
       group   => 'root',
@@ -25,6 +35,11 @@ class galera::debian {
       require     => Class['mysql::server::install'],
       before      => Class['mysql::server::installdb'],
     }
+    ~> exec { 'fix_galera_config_errors_episode_III':
+      command     => 'rm -rf /var/lib/mysql-install-tmp',
+      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      refreshonly => true,
+    }
 
     # Debian policy will autostart the non galera mysql after
     # package install, so kill it if the package is
@@ -39,7 +54,6 @@ class galera::debian {
     }
 
     if ($::fqdn == $galera::galera_master) {
-
       # Debian sysmaint pw will be set on the master,
       # and needs to be consistent across the cluster.
       mysql_user { 'debian-sys-maint@localhost':

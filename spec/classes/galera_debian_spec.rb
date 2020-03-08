@@ -20,8 +20,10 @@ describe 'galera::debian' do
           subscribe: 'Package[mysql-server]',
         )
       }
+      it { is_expected.to contain_file('/var/lib/mysql-install-tmp') }
       it { is_expected.to contain_exec('fix_galera_config_errors_episode_I').with(refreshonly: true) }
       it { is_expected.to contain_exec('fix_galera_config_errors_episode_II').with(refreshonly: true) }
+      it { is_expected.to contain_exec('fix_galera_config_errors_episode_III').with(refreshonly: true) }
     end
 
     context 'when this node is the master' do

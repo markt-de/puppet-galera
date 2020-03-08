@@ -511,7 +511,7 @@ class galera(
       $my_cnf = "[client]\r\nuser=root\r\nhost=localhost\r\npassword='${root_password}'\r\n"
 
       exec { 'create .my.cnf for user root':
-        path    => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
+        path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
         command => "echo -e \"${my_cnf}\" > ${::root_home}/.my.cnf",
         onlyif  => [
           "mysql --user=root --password=${root_password} -e 'select count(1);'",
