@@ -51,7 +51,7 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Remove parameters `$grep_binary` and `$mysql_binary` (rely on properly configured paths instead)
 * Remove config for unsupported Ubuntu 14.04
 
-## 1.0.6
+## [1.0.6] - 2019-10-20
 
 ### Changed
 * Allow puppetlabs/stdlib 7
@@ -63,7 +63,7 @@ This is a new major release which aims to fix many long-standig limitations of t
 ### Fixed
 * Fix `$apt_key_server` parameter for APT repositories (#143)
 
-## 1.0.5
+## [1.0.5] - 2019-08-26
 
 ### Changed
 * Change `$galera_package_ensure` default from `absent` to `present`
@@ -74,7 +74,7 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Fix RHEL MariaDB YUM repo URL (#139)
 * Fix README typos and errors (#140)
 
-## 1.0.4
+## [1.0.4] - 2019-04-30
 This is a maintenance release.
 
 ### Added
@@ -85,7 +85,7 @@ This is a maintenance release.
 * Fix MariaDB repo handling (#134)
 * Fix scope and handling of deb_sysmaint_password (#136)
 
-## 1.0.3
+## [1.0.3] - 2019-03-03
 This is a maintenance release.
 
 ### Added
@@ -99,13 +99,13 @@ This is a maintenance release.
 * Fix default galera package for MariaDB (#127)
 * Fix compatibility issue with puppetlabs-mysql 8.0.0 (#128)
 
-## 1.0.2
+## [1.0.2] - 2018-11-05
 
 ### Fixed
 * Fix crash on Puppet 5.5.7 (#123)
 * Bump puppetlabs-mysql requirement to 6.0.0 (#125)
 
-## 1.0.1
+## [1.0.1] - 2018-11-05
 
 ### Added
 * Add missing default params for MariaDB 10.1 and 10.3 on Debian (#122)
@@ -115,7 +115,7 @@ This is a maintenance release.
 * Remove default value of `$galera_servers` to avoid migration issues (#124)
 * Small style fixes
 
-## 1.0.0
+## [1.0.0] - 2018-10-09
 
 ### Summary
 This is the first release after extensive code refactoring and introduces multiple incompatible changes. It also drops support for EOL Puppet releases. Please try first in a test environment to avoid serious breakage. The 0.7 release series is considered obsolete now.
@@ -146,7 +146,7 @@ This is the first release after extensive code refactoring and introduces multip
 * Fix package names and service names
 * Style fixes
 
-## 0.7.2
+## [0.7.2] - 2018-08-10
 * Enhancement: Use dport parameter for puppetlabs-firewall (#59)
 * Enhancement: Remove upper restriction on puppetlabs-apt (#98)
 * Enhancement: Add galera_package_parameter, so we can ensure version on galera package (#100)
@@ -158,10 +158,10 @@ This is the first release after extensive code refactoring and introduces multip
 * Bugfix: Fix mysql dependency cycle (#107)
 * License: Relicense under 2-Clause BSD license (#92)
 
-## 0.7.1
+## [0.7.1] - 2017-06-06
 * Feature: Add Percona XtraDB cluster 5.6 and 5.7 support on RedHat (experimental!)
 
-## 0.7.0
+## [0.7.0] - 2017-06-06
 * WARNING: First release in almost a year, please use with caution!
 * Feature: Support MySQL 5.6 and 5.7 with codership repo (#76, #86)
 * Feature: Allow Tinkering with mysqlchk Logging (#79)
@@ -177,22 +177,22 @@ This is the first release after extensive code refactoring and introduces multip
 * Bugfix: Fix mysqlchk entry in /etc/services on CentOS (#89)
 * Bugfix: Correct typo in package name (#91)
 
-## 0.6.0
+## [0.6.0]
 * Bump puppet-mysql requirement to 3.8.0
 * Recent dependency cycle fixes require the latest mysql module
 
-## 0.5.0
+## [0.5.0]
 * Update README
 
-## 0.4.0
+## [0.4.0]
 * Bugfix: Fixes for problems when running on RedHat
 
-## 0.3.0
+## [0.3.0]
 * Feature: Expose create_root_user flag
 
-## 0.2.0
+## [0.2.0]
 * Bugfix: Fix service title for debian
 
-## 0.1.0
+## [0.1.0]
 * Bugfix: Additional package as an ensure_resource
 
