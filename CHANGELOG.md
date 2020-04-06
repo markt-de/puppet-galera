@@ -13,7 +13,7 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Add support for the FreeBSD operating system (#115)
 * Add support for MariaDB 10.4 (#154)
 * Add initial support for RHEL/CentOS 8 (#154)
-* Add dependency stahnma/epel on RHEL/CentOS systems
+* Add dependency voxpupuli/epel on RHEL/CentOS systems
 
 ### Changed
 * Officially declare all classes private, except `galera` and `galera::firewall` (see REFERENCE)
@@ -22,12 +22,15 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Use the value of `wsrep_group_comm_port` wherever applicable in server and arbitrator config
 * Use `$mysql_port` to actually configure the server port
 * Automatically add WSREP provider options to server config (see README for details)
+* Refactor management of `$additional_packages`
 * Change merge strategy for parameters matching `*::additional_packages`
 * Move parameter `$galera::repo::epel_needed` to class `galera`
+* Refactor evaluation of `$galera_package_ensure` (#145)
 * Migrate to Puppet Strings (#149)
 * Convert to PDK (#114, #153)
 * Rename private class `galera::mariadb` to `galera::redhat`
 * Deprecate Puppet 5 (support will be dropped in one of the next releases)
+* Spec test coverage is now at 100%
 
 ### Fixed
 * Fix bootstrap of new XtraDB cluster (#118)
@@ -35,14 +38,18 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Fix package conflicts with vendor Percona (#145)
 * Fix SST method "xtrabackup" can only be used with vendor Percona (#119)
 * Fix acceptance tests and improve test coverage
-* Fix tests on Travis CI (#153)
+* Fix Travis CI (#153)
+* Fix tests on RHEL/CentOS 6
+* Fix acceptance tests on Ubuntu
 * Fix usage of `$status_check` in `galera::status` (#148)
+* Make APT config compatible with recent versions of puppetlabs/apt
 
 ### Removed
-* Remove $manage_package_nmap in favour of $manage_additional_packages
+* Remove `$manage_package_nmap`, functionality moved to `$manage_additional_packages`
 * Remove parameters from `galera::repos`, parameters should be set in main class instead
-* Remove hardcoded EPEL config (using stahnma/epel instead)
+* Remove hardcoded EPEL config (using voxpupuli/epel instead)
 * Remove parameters `$grep_binary` and `$mysql_binary` (rely on properly configured paths instead)
+* Remove config for unsupported Ubuntu 14.04
 
 ## 1.0.6
 
