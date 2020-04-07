@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.2.0 < 7.0.0"
+      "version_requirement": ">= 4.25.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/apt",
@@ -29,7 +29,7 @@
       "version_requirement": ">= 2.0.0 < 4.0.0"
     },
     {
-      "name": "voxpupuli/epel",
+      "name": "puppet/epel",
       "version_requirement": ">= 1.3.0 < 4.0.0"
     }
   ],
