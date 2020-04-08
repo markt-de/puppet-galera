@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## UNRELEASED 2.0.0
-This is a new major release which aims to fix many long-standig limitations of this module. It introduces several breaking changes and should be tested in non-producton environments. Starting with this version unit tests and acceptance tests are required for all new features.
+This is a new major release. It aims to fix many long-standing limitations, hence it introduces several breaking changes and should be tested in non-producton environments. Starting with this version unit tests and acceptance tests are required for all new features, this should stabilize the module in the long run.
 
 ### Added
 * Add mandatory parameter `$cluster_name` (sets `wsrep_cluster_name` in server config)
@@ -14,6 +14,7 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Add support for MariaDB 10.4 (#154)
 * Add initial support for RHEL/CentOS 8 (#154)
 * Add dependency voxpupuli/epel on RHEL/CentOS systems
+* Add acceptance test for Codership Galera
 
 ### Changed
 * Officially declare all classes private, except `galera` and `galera::firewall` (see REFERENCE)

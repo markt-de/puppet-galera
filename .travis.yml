@@ -124,6 +124,18 @@ jobs:
       services: docker
       stage: acceptance
     -
+      before_script:
+      - "bundle exec rake 'litmus:provision_list[travis_el7_codership]'"
+      - "bundle exec rake 'litmus:install_agent[puppet6]'"
+      - "bundle exec rake litmus:install_module"
+      bundler_args:
+      dist: trusty
+      env: PLATFORMS=travis_el7_puppet6_codership VENDOR_TYPE=codership
+      rvm: 2.5.3
+      script: ["bundle exec rake litmus:acceptance:parallel"]
+      services: docker
+      stage: acceptance
+    -
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
       stage: static
     -

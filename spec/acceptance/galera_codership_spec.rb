@@ -1,27 +1,15 @@
 require 'spec_helper_acceptance'
 
-if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
+if ENV['VENDOR_TYPE'] == 'codership'
 
   describe 'galera' do
-    describe 'default parameters' do
+    describe 'with vendor codership enabled' do
       let(:pp) do
         <<-MANIFEST
-        # Workaround a known issue on CentOS 6, see https://tickets.puppetlabs.com/browse/MODULES-5653
-        if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') < 0) {
-          exec { 'create empty iptables configs':
-            path    => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
-            command => 'touch /etc/sysconfig/iptables; touch /etc/sysconfig/ip6tables',
-            before  => Class['firewall'],
-          }
-        }
-
-        # Setup firewall package and service, otherwise adding firewall
-        # rules will fail.
-        class { 'firewall': }
-
         class { 'galera':
           cluster_name          => 'testcluster',
           deb_sysmaint_password => 'sysmaint',
+          configure_firewall    => false,
           galera_servers        => ['127.0.0.1'],
           galera_master         => $::fqdn,
           root_password         => 'root_password',
@@ -31,7 +19,7 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
               'bind_address' => '0.0.0.0',
             }
           },
-          vendor_type           => 'percona',
+          vendor_type           => 'codership',
           vendor_version        => '5.7'
         }
         MANIFEST
