@@ -121,7 +121,7 @@ jobs:
       - "bundle exec rake 'litmus:install_agent[puppet6]'"
       - "bundle exec rake litmus:install_module"
       bundler_args:
-      env: PLATFORMS=travis_el7_puppet6 VENDOR_TYPE=codership
+      env: PLATFORMS=travis_el7_puppet6_codership VENDOR_TYPE=codership
       rvm: 2.5.3
       script: ["bundle exec rake litmus:acceptance:parallel"]
       services: docker
