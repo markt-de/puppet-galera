@@ -347,8 +347,10 @@ class galera(
     arbitrator_service_name => $arbitrator_service_name,
     bootstrap_command => $bootstrap_command,
     client_package_name => $client_package_name,
+    config_file => undef,
     galera_package_ensure => $galera_package_ensure,
     galera_package_name => $galera_package_name,
+    includedir => undef,
     libgalera_location => $libgalera_location,
     mysql_package_name => $mysql_package_name,
     mysql_service_name => $mysql_service_name,
@@ -446,6 +448,9 @@ class galera(
   if $configure_repo {
     include galera::repo
     unless $galera::arbitrator {
+      if ($galera::params['galera_package_name']) {
+        Class['::galera::repo'] -> Package[$galera::params['galera_package_name']]
+      }
       Class['::galera::repo'] -> Class['mysql::server']
     }
   }
@@ -523,6 +528,7 @@ class galera(
     }
 
     class { '::mysql::server':
+      config_file        => $params['config_file'],
       create_root_my_cnf => $create_root_my_cnf,
       create_root_user   => $create_root_user_real,
       override_options   => $options,
@@ -549,7 +555,7 @@ class galera(
     }
 
     # Install galera provider
-    package {[ $galera::params['galera_package_name'] ] :
+    package {[$galera::params['galera_package_name']] :
       ensure => $params['galera_package_ensure'],
       before => $_packages_before,
     }

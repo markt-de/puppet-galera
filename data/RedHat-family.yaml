@@ -16,12 +16,14 @@ galera::codership::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::codership::arbitrator_package_name: 'galera'
 galera::codership::arbitrator_service_name: 'garbd'
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
+galera::codership::config_file: '/etc/my.cnf'
 galera::codership::default_options:
   mysqld:
     log-error: '/var/log/mysqld.log'
     pid-file: '/var/run/mysqld/mysqld.pid'
   mysqld_safe:
     log-error: '/var/log/mysqld.log'
+galera::codership::includedir: '/etc/my.cnf.d'
 galera::codership::libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysqld'
 galera::codership::want_repos:
@@ -54,6 +56,7 @@ galera::mariadb::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::mariadb::arbitrator_package_name: 'galera-4'
 galera::mariadb::arbitrator_service_name: 'garb'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
+galera::mariadb::config_file: '/etc/my.cnf.d/server.cnf'
 galera::mariadb::libgalera_location: '/usr/lib64/galera/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mariadb'
 galera::mariadb::want_repos:

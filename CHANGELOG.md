@@ -33,7 +33,8 @@ This is a new major release which aims to fix many long-standig limitations of t
 * Spec test coverage is now at 100%
 
 ### Fixed
-* Fix bootstrap of new XtraDB cluster (#118)
+* Fix bootstrap of new Percona XtraDB cluster (#118)
+* Fix bootstrap of new Codership Galera cluster
 * Fix default config on CentOS/RHEL 7 for non-MariaDB installations (#120)
 * Fix package conflicts with vendor Percona (#145)
 * Fix SST method "xtrabackup" can only be used with vendor Percona (#119)
