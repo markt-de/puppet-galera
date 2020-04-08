@@ -347,10 +347,8 @@ class galera(
     arbitrator_service_name => $arbitrator_service_name,
     bootstrap_command => $bootstrap_command,
     client_package_name => $client_package_name,
-    config_file => undef,
     galera_package_ensure => $galera_package_ensure,
     galera_package_name => $galera_package_name,
-    includedir => undef,
     libgalera_location => $libgalera_location,
     mysql_package_name => $mysql_package_name,
     mysql_service_name => $mysql_service_name,
@@ -365,6 +363,20 @@ class galera(
       }
     } else {
       $_v = $x[1]
+    }
+    $memo + {$x[0] => $_v}
+  }
+
+  # Lookup *optional* parameters that may vary depending on the values of
+  # $vendor_version and $vendor_type. These parameters will later be passed
+  # to the mysql::server class.
+  $optional_params = {
+    config_file => undef,
+    includedir => undef,
+  }.reduce({}) |$memo, $x| {
+    $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", {default_value => undef}) ? {
+      undef => lookup("${module_name}::${vendor_type}::${$x[0]}", {default_value => undef}),
+      default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}"),
     }
     $memo + {$x[0] => $_v}
   }
@@ -528,7 +540,6 @@ class galera(
     }
 
     class { '::mysql::server':
-      config_file        => $params['config_file'],
       create_root_my_cnf => $create_root_my_cnf,
       create_root_user   => $create_root_user_real,
       override_options   => $options,
@@ -539,6 +550,7 @@ class galera(
       root_password      => $root_password,
       service_enabled    => $service_enabled,
       service_name       => $params['mysql_service_name'],
+      *                  => $optional_params,
     }
 
     file { $rundir:
