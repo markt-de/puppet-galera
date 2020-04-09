@@ -7,7 +7,7 @@ vagrant:
   images: ['centos/7', 'generic/ubuntu1804']
 travis_deb:
   provisioner: docker
-  images: ['waffleimage/debian8', 'waffleimage/debian9', 'waffleimage/debian10']
+  images: ['litmusimage/debian:8', 'litmusimage/debian:9', 'litmusimage/debian:10']
 travis_ub:
   provisioner: docker
   images: ['litmusimage/ubuntu:16.04', 'litmusimage/ubuntu:18.04']
