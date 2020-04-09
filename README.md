@@ -218,7 +218,6 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 | **Codership Galera** |  |  |  |  |
 | 5.6 / 5.7 | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: | :green_circle: :green_circle: |
 | **MariaDB Galera Cluster** |  |  |  |  |
-| 10.3 / 10.4 | :green_circle: / :green_circle: | :green_circle: / :green_circle: | :green_circle: | :green_circle: |
 | 10.3 / 10.4 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: |
 
 The table only includes the **two most recent** versions.
