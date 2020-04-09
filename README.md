@@ -214,7 +214,7 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 |  | RedHat | Debian | Ubuntu | FreeBSD |
 | :---     |  :---: |  :---: |  :---: |  :---: |
 | **Percona XtraDB Cluster** | 7 / 8 | 9 / 10 | 18.04 | 12.x |
-| 5.6 / 5.7 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
+| 5.6 / 5.7 | :green_circle: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
 | **Codership Galera** |  |  |  |  |
 | 5.6 / 5.7 | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: | :green_circle: :green_circle: |
 | **MariaDB Galera Cluster** |  |  |  |  |
