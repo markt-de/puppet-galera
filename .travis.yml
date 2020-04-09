@@ -149,7 +149,7 @@ jobs:
       stage: acceptance
     -
       before_script:
-      - "bundle exec rake 'litmus:provision_list[travis_el7_codership]'"
+      - "bundle exec rake 'litmus:provision_list[travis_el7]'"
       - "bundle exec rake 'litmus:install_agent[puppet6]'"
       - "bundle exec rake litmus:install_module"
       bundler_args:
