@@ -6,6 +6,11 @@ if ENV['VENDOR_TYPE'] == 'codership'
     describe 'with vendor codership enabled' do
       let(:pp) do
         <<-MANIFEST
+        # Codership's MySQL service fails to start if apparmor is not installed.
+        if ($facts['os']['name'] == 'Ubuntu') {
+          ensure_packages('apparmor-utils')
+        }
+
         class { 'galera':
           cluster_name          => 'testcluster',
           deb_sysmaint_password => 'sysmaint',

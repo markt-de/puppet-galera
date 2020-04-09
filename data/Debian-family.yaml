@@ -73,7 +73,7 @@ galera::repo::codership::apt:
   include:
     src: false
   key:
-    id: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+    id: '44B7345738EBDE52594DAD80D669017EBC19DDBA'
     server: 'keyserver.ubuntu.com'
   location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
   release: "%{os.distro.codename}"
@@ -82,7 +82,7 @@ galera::repo::codership_lib::apt:
   include:
     src: false
   key:
-    id: '5916B1E27E0F8A2E313583661CEE4A03DD18FB9C'
+    id: '44B7345738EBDE52594DAD80D669017EBC19DDBA'
     server: 'keyserver.ubuntu.com'
   location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
   release: "%{os.distro.codename}"

@@ -40,6 +40,17 @@ class galera::debian {
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       refreshonly => true,
     }
+    ~> exec { 'fix_galera_config_errors_episode_IV':
+      # puppetlabs-mysql uses /var/lib/mysql as *datadir*, but the postinst
+      # script of codership package mysql-wsrep-server assumes that
+      # /var/lib/mysql is the *statedir* and creates the flag file inside the
+      # datadir.
+      # This causes the bootstrap/initialization to fail, so we have to remove
+      # this flag file first.
+      command     => 'rm -f /var/lib/mysql/debian-*.flag',
+      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      refreshonly => true,
+    }
 
     # Debian policy will autostart the non galera mysql after
     # package install, so kill it if the package is
