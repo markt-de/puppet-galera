@@ -2,7 +2,8 @@ require 'spec_helper_acceptance'
 
 if ENV['VENDOR_TYPE'] == 'codership'
 
-  describe 'galera' do
+  # Debian 10 is currently not supported by Codership.
+  describe 'galera', if: ((os[:family] == 'debian' && os[:release].to_i < 10) || (os[:family] != 'debian')) do
     describe 'with vendor codership enabled' do
       let(:pp) do
         <<-MANIFEST
