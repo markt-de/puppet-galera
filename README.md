@@ -15,9 +15,10 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
     - [Custom repository configuration](#custom-repository-configuration)
     - [FreeBSD support](#freebsd-support)
     - [EPP supported for many options](#epp-supported-for-many-options)
-4. [Reference](#reference)
-5. [Limitations](#limitations)
-6. [Development](#development)
+4. [OS Compatibility](#os-compatibility)
+5. [Reference](#reference)
+6. [Limitations](#limitations)
+7. [Development](#development)
     - [Contributing](#contributing)
 
 ## Overview
@@ -204,6 +205,25 @@ galera::repo::codership::yum:
   ...
 ```
 
+## OS Compatibility
+
+Note that not all versions of Percona XtraDB, Codership Galera and MariaDB are supported on all operating systems. Please consult the official documentation to find out if your operating system is supported.
+
+Below you will find an **incomplete** and possibly **outdated** list of known (in)compatiblities. Take it with a grain of salt.
+
+|  | RedHat | Debian | Ubuntu | FreeBSD |
+| :---     |  :---: |  :---: |  :---: |  :---: |
+| **Percona XtraDB Cluster** | 7 / 8 | 9 / 10 | 18.04 | 12.x |
+| 5.6 / 5.7 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
+| **Codership Galera** |  |  |  |  |
+| 5.6 / 5.7 | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: | :green_circle: :green_circle: |
+| **MariaDB Galera Cluster** |  |  |  |  |
+| 10.3 / 10.4 | :green_circle: / :green_circle: | :green_circle: / :green_circle: | :green_circle: | :green_circle: |
+| 10.3 / 10.4 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: |
+
+The table only includes the **two most recent** versions.
+Older and possibly outdated releases are not listed, although they may still be supported by their vendors.
+
 ## Reference
 
 Classes and parameters are documented in [REFERENCE.md](REFERENCE.md).
@@ -215,8 +235,6 @@ This module was created to work in tandem with the puppetlabs-mysql module, rath
 Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple `nc` command and should not be considered terribly reliable.
 
 Furthermore the bootstrap functionality may be considered harmful. A better approach is currently being discussed and will be included in a future release ([GH-116](https://github.com/fraenki/puppet-galera/issues/116)).
-
-RedHat family 8 users please note that that currently codership and percona do not have el8 repos so mariadb is the only supported vendor_type for el8.
 
 ## Development
 
