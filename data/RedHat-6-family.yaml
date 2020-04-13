@@ -1,5 +1,5 @@
 ---
-galera::codership::bootstrap_command: 'service mysql start --wsrep_cluster_address=gcomm://'
+galera::codership::bootstrap_command: 'service mysqld start --wsrep_cluster_address=gcomm://'
 galera::mariadb::bootstrap_command: 'service mysql start --wsrep_cluster_address=gcomm://'
 # No systemd on CentOS/RHEL 6
 galera::percona::55::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
