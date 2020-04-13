@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## UNRELEASED 2.0.0
+## [2.0.0] - 2020-04-14
 This is a new major release. It aims to fix many long-standing limitations, hence it introduces several breaking changes and should be tested in non-producton environments. Starting with this release unit tests and acceptance tests are required for all new features, this should further stabilize the module.
 
 ### Added
@@ -182,22 +182,45 @@ This is the first release after extensive code refactoring and introduces multip
 * Bugfix: Fix mysqlchk entry in /etc/services on CentOS (#89)
 * Bugfix: Correct typo in package name (#91)
 
-## [0.6.0]
+## 0.6.0
 * Bump puppet-mysql requirement to 3.8.0
 * Recent dependency cycle fixes require the latest mysql module
 
-## [0.5.0]
+## 0.5.0
 * Update README
 
-## [0.4.0]
+## 0.4.0
 * Bugfix: Fixes for problems when running on RedHat
 
-## [0.3.0]
+## 0.3.0
 * Feature: Expose create_root_user flag
 
-## [0.2.0]
+## 0.2.0
 * Bugfix: Fix service title for debian
 
-## [0.1.0]
+## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
+[Unreleased]: https://github.com/fraenki/puppet-galera/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/fraenki/puppet-galera/compare/1.0.6...2.0.0
+[1.0.6]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.6
+[1.0.5]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.5
+[1.0.4]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.4
+[1.0.3]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.3
+[1.0.2]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.2
+[1.0.1]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.1
+[1.0.0]: https://github.com/fraenki/puppet-galera/compare/0.7.2...1.0.0
+[0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
+[0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
+[0.7.0]: https://github.com/fraenki/puppet-galera/compare/0.0.6...0.7.0
+[#154]: https://github.com/fraenki/puppet-galera/pull/154
+[#153]: https://github.com/fraenki/puppet-galera/pull/153
+[#149]: https://github.com/fraenki/puppet-galera/pull/149
+[#148]: https://github.com/fraenki/puppet-galera/pull/148
+[#145]: https://github.com/fraenki/puppet-galera/pull/145
+[#120]: https://github.com/fraenki/puppet-galera/pull/120
+[#119]: https://github.com/fraenki/puppet-galera/pull/119
+[#118]: https://github.com/fraenki/puppet-galera/pull/118
+[#115]: https://github.com/fraenki/puppet-galera/pull/115
+[#114]: https://github.com/fraenki/puppet-galera/pull/114
+[#112]: https://github.com/fraenki/puppet-galera/pull/112
