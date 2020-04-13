@@ -24,16 +24,13 @@ class galera::validate(
 ) {
 
   if $galera::status_check {
-    include galera::status
     $validate_host     = $galera::status_host
     $validate_user     = $galera::status_user
     $validate_password = $galera::status_password
-    $validate_require  = Class['galera::status']
   } elsif $galera::root_password =~ String {
     $validate_host     = 'localhost'
     $validate_user     = 'root'
     $validate_password = $galera::root_password
-    $validate_require  = Class['mysql::server::root_password']
   }
   else {
     fail('Cannot validate connection without $root_password or $status_check')
@@ -56,9 +53,8 @@ class galera::validate(
     try_sleep   => $delay,
     subscribe   => Service['mysqld'],
     refreshonly => true,
-    before      => Anchor['mysql::server::end'],
-    require     => $validate_require,
   }
 
+  # Ensure that the cluster was bootstrapped, then notify to trigger a validation.
   Exec<| title == 'bootstrap_galera_cluster' |> ~> Exec['validate_connection']
 }

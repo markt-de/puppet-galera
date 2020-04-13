@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## UNRELEASED 2.0.0
-This is a new major release. It aims to fix many long-standing limitations, hence it introduces several breaking changes and should be tested in non-producton environments. Starting with this version unit tests and acceptance tests are required for all new features, this should stabilize the module in the long run.
+This is a new major release. It aims to fix many long-standing limitations, hence it introduces several breaking changes and should be tested in non-producton environments. Starting with this release unit tests and acceptance tests are required for all new features, this should further stabilize the module.
 
 ### Added
 * Add mandatory parameter `$cluster_name` (sets `wsrep_cluster_name` in server config)
@@ -32,6 +32,7 @@ This is a new major release. It aims to fix many long-standing limitations, henc
 * Rename private class `galera::mariadb` to `galera::redhat`
 * Deprecate Puppet 5 (support will be dropped in one of the next releases)
 * Spec test coverage is now at 100%
+* Refine resource relationships in `galera::status` and `galera::validate`
 
 ### Fixed
 * Fix bootstrap of new Percona XtraDB cluster (#118)

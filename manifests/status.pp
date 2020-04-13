@@ -12,7 +12,6 @@ class galera::status (
       mysql_user { "${galera::status_user}@${galera::status_allow}":
         ensure        => 'present',
         password_hash => mysql_password($galera::status_password),
-        require       => [Service['mysqld']]
       }
       -> mysql_grant { "${galera::status_user}@${galera::status_allow}/*.*":
         ensure     => 'present',
@@ -20,10 +19,6 @@ class galera::status (
         privileges => [ 'USAGE' ],
         table      => '*.*',
         user       => "${galera::status_user}@${galera::status_allow}",
-        before     => Anchor['mysql::server::end']
-      }
-      if $galera::create_root_my_cnf {
-        Exec['create .my.cnf for user root'] -> Mysql_user["${galera::status_user}@${galera::status_allow}"]
       }
     }
 
@@ -31,7 +26,6 @@ class galera::status (
     mysql_user { "${galera::status_user}@localhost":
       ensure        => 'present',
       password_hash => mysql_password($galera::status_password),
-      require       => [Service['mysqld']]
     }
     -> mysql_grant { "${galera::status_user}@localhost/*.*":
       ensure     => 'present',
@@ -39,10 +33,6 @@ class galera::status (
       privileges => [ 'USAGE' ],
       table      => '*.*',
       user       => "${galera::status_user}@localhost",
-      before     => Anchor['mysql::server::end']
-    }
-    if $galera::create_root_my_cnf {
-      Exec['create .my.cnf for user root'] -> Mysql_user["${galera::status_user}@localhost"]
     }
   }
 
@@ -64,7 +54,6 @@ class galera::status (
     owner   => 'clustercheck',
     group   => 'clustercheck',
     mode    => '0500',
-    before  => Anchor['mysql::server::end'],
   }
 
   xinetd::service { 'mysqlchk':
@@ -78,8 +67,17 @@ class galera::status (
     log_on_failure          => $galera::status_log_on_failure,
     require                 => [
       File['/usr/local/bin/clustercheck'],
-      User['clustercheck'],
-      Class['mysql::server::install']],
-    before                  => Anchor['mysql::server::end'],
+      User['clustercheck']],
   }
+
+  # Postpone the xinetd stuff. This is necessary in order to avoid package
+  # conflicts. On some platforms xinetd depends on MySQL libs. If installed
+  # too early it will install the wrong MySQL libs. This may cause the
+  # installation of the Galera packages to fail.
+  # This has been first observed on Debian 9 with Codership Galera 5.7 where
+  # the package installation just ended with a conflict instead of replacing
+  # the wrong MySQL libs. The root cause is likely a packaging bug in the
+  # Codership distribution, since this issue could not be reproduced for
+  # Percona.
+  Exec<| title == 'bootstrap_galera_cluster' |> -> Class['::xinetd']
 }

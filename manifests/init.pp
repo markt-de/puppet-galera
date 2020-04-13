@@ -516,11 +516,18 @@ class galera(
   } else {
 
     if $status_check {
+      # This is expected to be executed when mysql::server has finished
+      # and the cluster was successfully bootstrapped. However it should
+      # be run prior to galera::validate because it sets up the users that
+      # are needed during validation.
       include galera::status
     }
 
     if $validate_connection {
       include galera::validate
+      # Ensure that MySQL server setup is complete, otherwise the service
+      # might not be running and validation would fail.
+      Class['mysql::server'] -> Class['galera::validate']
     }
 
     if ($create_root_my_cnf == true) {
@@ -535,10 +542,11 @@ class galera(
           "test `cat ${::root_home}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
           ],
         require => Service['mysqld'],
-        before  => [Class['mysql::server::root_password']],
+        before  => [Class['mysql::server::root_password'],Class['galera::status']],
       }
     }
 
+    # Setup MySQL server with custom parameters.
     class { '::mysql::server':
       create_root_my_cnf => $create_root_my_cnf,
       create_root_user   => $create_root_user_real,
