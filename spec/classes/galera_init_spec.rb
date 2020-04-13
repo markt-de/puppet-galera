@@ -275,6 +275,11 @@ describe 'galera' do
 
       let(:os_params) do
         if facts[:osfamily] == 'RedHat'
+          m_mysql_service_name = if Puppet::Util::Package.versioncmp(facts[:operatingsystemmajrelease], '7') >= 0
+                                   'mariadb'
+                                 else
+                                   'mysql'
+                                 end
           { c_additional_packages: 'rsync',
             c_client_package_name: 'mysql-wsrep-client-5.7',
             c_galera_package_name: 'galera-3',
@@ -287,7 +292,7 @@ describe 'galera' do
             m_libgalera_location: '/usr/lib64/galera/libgalera_smm.so',
             m_mariadb_backup_package_name: 'MariaDB-backup',
             m_mysql_package_name: 'MariaDB-server',
-            m_mysql_service_name: 'mariadb',
+            m_mysql_service_name: m_mysql_service_name,
             p_additional_packages: 'rsync',
             p_client_package_name: 'Percona-XtraDB-Cluster-client-57',
             p_galera_package_name: 'Percona-XtraDB-Cluster-galera-3',

@@ -9,44 +9,44 @@ This is a new major release. It aims to fix many long-standing limitations, henc
 
 ### Added
 * Add mandatory parameter `$cluster_name` (sets `wsrep_cluster_name` in server config)
-* Add support for Galera Arbitrator (#112)
-* Add support for the FreeBSD operating system (#115)
-* Add support for MariaDB 10.4 (#154)
-* Add initial support for RHEL/CentOS 8 (#154)
+* Add support for Galera Arbitrator ([#112])
+* Add support for the FreeBSD operating system ([#115])
+* Add support for MariaDB 10.4 ([#154])
+* Add initial support for RHEL/CentOS 8 ([#154])
 * Add dependency voxpupuli/epel on RHEL/CentOS systems
 * Add acceptance test for Codership Galera and MariaDB
 
 ### Changed
 * Officially declare all classes private, except `galera` and `galera::firewall` (see REFERENCE)
 * Breaking changes in all private classes, now everything is controlled from the `galera` class
-* Extensive refactoring of repository management (see README for new examples, #119, #112)
+* Extensive refactoring of repository management (see README for new examples, [#119], [#112])
 * Use the value of `wsrep_group_comm_port` wherever applicable in server and arbitrator config
 * Use `$mysql_port` to actually configure the server port
 * Automatically add WSREP provider options to server config (see README for details)
 * Refactor management of `$additional_packages`
 * Change merge strategy for parameters matching `*::additional_packages`
 * Move parameter `$galera::repo::epel_needed` to class `galera`
-* Refactor evaluation of `$galera_package_ensure` (#145)
-* Migrate to Puppet Strings (#149)
-* Convert to PDK (#114, #153)
+* Refactor evaluation of `$galera_package_ensure` ([#145])
+* Migrate to Puppet Strings ([#149])
+* Convert to PDK ([#114], [#153])
 * Rename private class `galera::mariadb` to `galera::redhat`
 * Deprecate Puppet 5 (support will be dropped in one of the next releases)
 * Spec test coverage is now at 100%
 * Refine resource relationships in `galera::status` and `galera::validate`
 
 ### Fixed
-* Fix bootstrap of new Percona XtraDB cluster (#118)
+* Fix bootstrap of new Percona XtraDB cluster ([#118])
 * Fix bootstrap of new Codership Galera cluster
-* Fix default config on CentOS/RHEL 7 for non-MariaDB installations (#120)
-* Fix package conflicts with vendor Percona (#145)
-* Fix SST method "xtrabackup" can only be used with vendor Percona (#119)
+* Fix default config on CentOS/RHEL 7 for non-MariaDB installations ([#120])
+* Fix package conflicts with vendor Percona ([#145])
+* Fix SST method "xtrabackup" can only be used with vendor Percona ([#119])
 * Fix MariaDB on CentOS/RHEL 6
 * Fix APT config on Debian 8
 * Fix acceptance tests and improve test coverage
-* Fix Travis CI (#153)
+* Fix Travis CI ([#153])
 * Fix tests on RHEL/CentOS 6
 * Fix acceptance tests on Ubuntu
-* Fix usage of `$status_check` in `galera::status` (#148)
+* Fix usage of `$status_check` in `galera::status` ([#148])
 * Make APT config compatible with recent versions of puppetlabs/apt
 
 ### Removed
