@@ -15,7 +15,7 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
     - [Custom repository configuration](#custom-repository-configuration)
     - [FreeBSD support](#freebsd-support)
     - [EPP supported for many options](#epp-supported-for-many-options)
-4. [OS Compatibility](#os-compatibility)
+4. [OS and Cluster Compatibility](#os-and-cluster-compatibility)
 5. [Reference](#reference)
 6. [Limitations](#limitations)
 7. [Development](#development)
@@ -205,7 +205,7 @@ galera::repo::codership::yum:
   ...
 ```
 
-## OS Compatibility
+## OS and Cluster Compatibility
 
 Note that not all versions of Percona XtraDB, Codership Galera and MariaDB are supported on all operating systems. Please consult the official documentation to find out if your operating system is supported.
 

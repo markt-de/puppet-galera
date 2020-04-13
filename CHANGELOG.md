@@ -14,7 +14,7 @@ This is a new major release. It aims to fix many long-standing limitations, henc
 * Add support for MariaDB 10.4 (#154)
 * Add initial support for RHEL/CentOS 8 (#154)
 * Add dependency voxpupuli/epel on RHEL/CentOS systems
-* Add acceptance test for Codership Galera
+* Add acceptance test for Codership Galera and MariaDB
 
 ### Changed
 * Officially declare all classes private, except `galera` and `galera::firewall` (see REFERENCE)
@@ -40,6 +40,8 @@ This is a new major release. It aims to fix many long-standing limitations, henc
 * Fix default config on CentOS/RHEL 7 for non-MariaDB installations (#120)
 * Fix package conflicts with vendor Percona (#145)
 * Fix SST method "xtrabackup" can only be used with vendor Percona (#119)
+* Fix MariaDB on CentOS/RHEL 6
+* Fix APT config on Debian 8
 * Fix acceptance tests and improve test coverage
 * Fix Travis CI (#153)
 * Fix tests on RHEL/CentOS 6

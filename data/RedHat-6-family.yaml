@@ -1,6 +1,10 @@
 ---
 galera::codership::bootstrap_command: 'service mysqld start --wsrep_cluster_address=gcomm://'
 galera::mariadb::bootstrap_command: 'service mysql start --wsrep_cluster_address=gcomm://'
+# mariadb package by default has !includedir set in my.cnf to /etc/my.cnf.d,
+# try to avoid specyfing the same dir twice.
+galera::mariadb::includedir: '/etc/mariadb.cnf.d'
+galera::mariadb::mysql_service_name: 'mysql'
 # No systemd on CentOS/RHEL 6
 galera::percona::55::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::56::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
