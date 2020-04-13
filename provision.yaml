@@ -16,4 +16,6 @@ travis_el6:
   images: ['litmusimage/centos:6']
 travis_el7:
   provisioner: docker_exp
-  images: ['litmusimage/centos:7']
+  # XXX: Codership Galera fails to bootstrap when using litmusimage (systemd error).
+  # see https://github.com/docker/for-linux/issues/835
+  images: ['waffleimage/centos7']
