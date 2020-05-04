@@ -56,7 +56,7 @@ Default value: `undef`
 
 Data type: `Boolean`
 
-Specifies wether this node should run Galera Arbitrator instead of a
+Specifies whether this node should run Galera Arbitrator instead of a
 MySQL/MariaDB server.
 
 ##### `arbitrator_config_file`
@@ -104,7 +104,7 @@ Default value: `undef`
 
 Data type: `Boolean`
 
-Specifies wether the Arbitrator service should be enabled.
+Specifies whether the Arbitrator service should be enabled.
 Expects that `$arbitrator` is also set to `true`.
 Default: `true`
 
@@ -154,14 +154,14 @@ not require this value.)
 
 Data type: `Boolean`
 
-Specifies wether to open firewall ports used by galera using
+Specifies whether to open firewall ports used by galera using
 puppetlabs-firewall. Default: `true`
 
 ##### `configure_repo`
 
 Data type: `Boolean`
 
-Specifies wether to configure additional repositories that are required for
+Specifies whether to configure additional repositories that are required for
 installing galera. Default: `true`
 
 ##### `create_root_my_cnf`
@@ -206,7 +206,7 @@ MySQL options.
 
 Data type: `Boolean`
 
-Specifies wether or not the EPEL repository should be enabled on
+Specifies whether or not the EPEL repository should be enabled on
 RedHat-based systems. This is required for certain vendors and SST methods
 to install packages such as socat.
 Default: `true`
@@ -258,7 +258,7 @@ Default: `$networking.ip`
 
 Data type: `Boolean`
 
-Specifies wether additional packages should be installed that may be
+Specifies whether additional packages should be installed that may be
 required for SST and other features. Default: `true`
 
 ##### `mysql_package_name`
@@ -339,7 +339,7 @@ Default: `/var/run/mysqld`
 
 Data type: `Boolean`
 
-Specifies wether the MySQL/MariaDB service should be enabled.
+Specifies whether the MySQL/MariaDB service should be enabled.
 Default: `true`
 
 ##### `status_allow`
@@ -353,7 +353,7 @@ checks from. Default: `%`
 
 Data type: `Integer`
 
-Specifies wether the node will remain in the cluster when it enters donor
+Specifies whether the node will remain in the cluster when it enters donor
 mode. Valid options: `0` (remove), `1` (remain). Default: `0`
 
 ##### `status_available_when_readonly`
@@ -368,7 +368,7 @@ variable. Values other than 0 have no effect. Default: `-1`
 
 Data type: `Boolean`
 
-Specifies wether to configure a user and script that will check the status
+Specifies whether to configure a user and script that will check the status
 of the galera cluster. Default: `true`
 
 ##### `status_host`
@@ -423,7 +423,7 @@ Default: `clustercheck`
 
 Data type: `Boolean`
 
-Specifies wether the module should ensure that the cluster can accept
+Specifies whether the module should ensure that the cluster can accept
 connections at the point where the `mysql::server` resource is marked
 as complete. This is used because after returning success, the service
 is still not quite ready. Default: `true`

@@ -8,7 +8,7 @@
 #   Default: A vendor-, version- and OS-specific value.
 #
 # @param arbitrator
-#   Specifies wether this node should run Galera Arbitrator instead of a
+#   Specifies whether this node should run Galera Arbitrator instead of a
 #   MySQL/MariaDB server.
 #
 # @param arbitrator_config_file
@@ -32,7 +32,7 @@
 #   Default: A vendor-, version- and OS-specific value.
 #
 # @param arbitrator_service_enabled
-#   Specifies wether the Arbitrator service should be enabled.
+#   Specifies whether the Arbitrator service should be enabled.
 #   Expects that `$arbitrator` is also set to `true`.
 #   Default: `true`
 #
@@ -58,11 +58,11 @@
 #   not require this value.)
 #
 # @param configure_firewall
-#   Specifies wether to open firewall ports used by galera using
+#   Specifies whether to open firewall ports used by galera using
 #   puppetlabs-firewall. Default: `true`
 #
 # @param configure_repo
-#   Specifies wether to configure additional repositories that are required for
+#   Specifies whether to configure additional repositories that are required for
 #   installing galera. Default: `true`
 #
 # @param create_root_my_cnf
@@ -87,7 +87,7 @@
 #   MySQL options.
 #
 # @param epel_needed
-#   Specifies wether or not the EPEL repository should be enabled on
+#   Specifies whether or not the EPEL repository should be enabled on
 #   RedHat-based systems. This is required for certain vendors and SST methods
 #   to install packages such as socat.
 #   Default: `true`
@@ -115,7 +115,7 @@
 #   Default: `$networking.ip`
 #
 # @param manage_additional_packages
-#   Specifies wether additional packages should be installed that may be
+#   Specifies whether additional packages should be installed that may be
 #   required for SST and other features. Default: `true`
 #
 # @param mysql_package_name
@@ -157,7 +157,7 @@
 #   Default: `/var/run/mysqld`
 #
 # @param service_enabled
-#   Specifies wether the MySQL/MariaDB service should be enabled.
+#   Specifies whether the MySQL/MariaDB service should be enabled.
 #   Default: `true`
 #
 # @param status_allow
@@ -165,7 +165,7 @@
 #   checks from. Default: `%`
 #
 # @param status_available_when_donor
-#   Specifies wether the node will remain in the cluster when it enters donor
+#   Specifies whether the node will remain in the cluster when it enters donor
 #   mode. Valid options: `0` (remove), `1` (remain). Default: `0`
 #
 # @param status_available_when_readonly
@@ -174,7 +174,7 @@
 #   variable. Values other than 0 have no effect. Default: `-1`
 #
 # @param status_check
-#   Specifies wether to configure a user and script that will check the status
+#   Specifies whether to configure a user and script that will check the status
 #   of the galera cluster. Default: `true`
 #
 # @param status_host
@@ -201,7 +201,7 @@
 #   Default: `clustercheck`
 #
 # @param validate_connection
-#   Specifies wether the module should ensure that the cluster can accept
+#   Specifies whether the module should ensure that the cluster can accept
 #   connections at the point where the `mysql::server` resource is marked
 #   as complete. This is used because after returning success, the service
 #   is still not quite ready. Default: `true`
