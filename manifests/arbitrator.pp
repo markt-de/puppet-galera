@@ -7,7 +7,7 @@ class galera::arbitrator(
   String $package_name,
   String $service_name,
 ) {
-  ensure_resource(package, [$package_name],
+  ensure_packages([$package_name],
   {
     ensure => $galera::arbitrator_package_ensure,
   })

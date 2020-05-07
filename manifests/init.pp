@@ -499,7 +499,7 @@ class galera(
 
   # Install additional packages
   if ($manage_additional_packages and $additional_packages_real) {
-    ensure_resource(package, $additional_packages_real,
+    ensure_packages($additional_packages_real,
     {
       ensure  => $package_ensure,
       before  => $_packages_before,
