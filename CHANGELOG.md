@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2020-05-07
+This is a maintenance release.
+
+### Changed
+* Fix duplicate declaration errors by replacing `ensure_resource()` with `ensure_packages()` ([#158])
+* Re-enable the content-check for validating the server connection ([#152])
+
 ## [2.0.0] - 2020-04-14
 This is a new major release. It aims to fix many long-standing limitations, hence it introduces several breaking changes and should be tested in non-producton environments. Starting with this release unit tests and acceptance tests are required for all new features, this should further stabilize the module.
 
@@ -201,7 +208,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/fraenki/puppet-galera/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/fraenki/puppet-galera/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/fraenki/puppet-galera/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/fraenki/puppet-galera/compare/1.0.6...2.0.0
 [1.0.6]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.6
 [1.0.5]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.5
@@ -213,8 +221,10 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/fraenki/puppet-galera/compare/0.0.6...0.7.0
+[#158]: https://github.com/fraenki/puppet-galera/pull/158
 [#154]: https://github.com/fraenki/puppet-galera/pull/154
 [#153]: https://github.com/fraenki/puppet-galera/pull/153
+[#152]: https://github.com/fraenki/puppet-galera/pull/152
 [#149]: https://github.com/fraenki/puppet-galera/pull/149
 [#148]: https://github.com/fraenki/puppet-galera/pull/148
 [#145]: https://github.com/fraenki/puppet-galera/pull/145

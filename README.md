@@ -154,16 +154,17 @@ class { 'galera':
 
 Or if you just want to switch to using a local mirror, simply change the repo URL for the chosen `$vendor_type`. For Codership you would add something like this to Hiera:
 
-    # RHEL-based systems
 ```puppet
+# RHEL-based systems
 galera::repo::codership::yum:
   baseurl: "http://repo.example.com/RPMS/%{facts.os.release.major}/RPMS/%{facts.os.architecture}/"
   baseurl: "http://repo.example.com/RPMS/<%= $vendor_version_real %>/%{facts.os.release.major}/%{facts.os.architecture}/"
 ```
-    # Debian-based systems
+
 ```puppet
+# Debian-based systems
 galera::repo::codership::apt:
-  apt_location => "http://repo.example.com/apt/%{facts.os.distro.codename}/",
+  apt_location: "http://repo.example.com/apt/%{facts.os.distro.codename}/"
   ...
 ```
 
