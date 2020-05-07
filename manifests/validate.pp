@@ -37,14 +37,14 @@ class galera::validate(
   }
 
   if $catch {
-    $truecatch = $catch
+    $truecatch = " -v ${catch}"
   } elsif $inv_catch {
-    $truecatch = " -v ${inv_catch}"
+    $truecatch = $inv_catch
   } else {
     fail('No catch method specified in galera validation script')
   }
 
-  $cmd = "mysql --host=${validate_host} --user=${validate_user} --password=${validate_password} -e '${action}'"
+  $cmd = "mysql --host=${validate_host} --user=${validate_user} --password=${validate_password} -e '${action}' | grep -q ${truecatch}"
   exec { 'validate_connection':
     path        => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
     provider    => shell,
