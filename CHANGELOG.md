@@ -212,11 +212,11 @@ This is the first release after extensive code refactoring and introduces multip
 [2.1.0]: https://github.com/fraenki/puppet-galera/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/fraenki/puppet-galera/compare/1.0.6...2.0.0
 [1.0.6]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.6
-[1.0.5]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.5
-[1.0.4]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.4
-[1.0.3]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.3
-[1.0.2]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.2
-[1.0.1]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.1
+[1.0.5]: https://github.com/fraenki/puppet-galera/compare/1.0.4...1.0.5
+[1.0.4]: https://github.com/fraenki/puppet-galera/compare/1.0.3...1.0.4
+[1.0.3]: https://github.com/fraenki/puppet-galera/compare/1.0.2...1.0.3
+[1.0.2]: https://github.com/fraenki/puppet-galera/compare/1.0.1...1.0.2
+[1.0.1]: https://github.com/fraenki/puppet-galera/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/fraenki/puppet-galera/compare/0.7.2...1.0.0
 [0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
