@@ -1,6 +1,8 @@
 # puppet-galera
 
 [![Build Status](https://travis-ci.org/fraenki/puppet-galera.png?branch=master)](https://travis-ci.org/fraenki/puppet-galera)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/fraenki/galera.svg)](https://forge.puppetlabs.com/fraenki/galera)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/fraenki/galera.svg)](https://forge.puppetlabs.com/fraenki/galera)
 
 NOTE: The "master" branch on GitHub contains the development version, which may break anything at any time. Consider using one of the stable branches instead.
 
