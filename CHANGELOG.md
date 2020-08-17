@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.2.0] - 2020-08-17
 
 ### Fixed
+* Fix nmap call to use ipaddress instead with ip:port ([#162])
 * Fix path to Bash in `clustercheck` script on FreeBSD
 
 ## [2.1.0] - 2020-05-07
@@ -226,6 +227,7 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/fraenki/puppet-galera/compare/0.0.6...0.7.0
+[#162]: https://github.com/fraenki/puppet-galera/pull/162
 [#158]: https://github.com/fraenki/puppet-galera/pull/158
 [#154]: https://github.com/fraenki/puppet-galera/pull/154
 [#153]: https://github.com/fraenki/puppet-galera/pull/153
