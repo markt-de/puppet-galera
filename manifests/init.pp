@@ -583,7 +583,7 @@ class galera(
     if ($::fqdn == $galera_master) {
       # If there are no other servers up and we are the master, the cluster
       # needs to be bootstrapped. This happens before the service is managed
-      $server_list = join($_nodes_tmp, ' ')
+      $server_list = join($galera_servers, ' ')
 
       exec { 'bootstrap_galera_cluster':
         command  => $params['bootstrap_command'],
