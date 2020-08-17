@@ -214,7 +214,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/fraenki/puppet-galera/compare/2.1.0...HEAD
+[Unreleased]: https://github.com/fraenki/puppet-galera/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/fraenki/puppet-galera/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/fraenki/puppet-galera/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/fraenki/puppet-galera/compare/1.0.6...2.0.0
 [1.0.6]: https://github.com/fraenki/puppet-galera/compare/1.0.5...1.0.6
