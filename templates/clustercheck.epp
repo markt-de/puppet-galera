@@ -1,4 +1,8 @@
+<% if ($facts['os']['family'] == 'FreeBSD') { -%>
+#!/usr/local/bin/bash
+<%   } else { -%>
 #!/bin/bash
+<%   } -%>
 #
 # Script to make a proxy (ie HAProxy) capable of monitoring Percona XtraDB Cluster nodes properly
 #
