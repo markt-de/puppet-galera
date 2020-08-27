@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.2.0] - 2020-08-17
 
 ### Fixed
-* Fix nmap call to use ipaddress instead with ip:port ([#162])
+* Fix nmap call to use IP address instead of ip:port ([#162])
 * Fix path to Bash in `clustercheck` script on FreeBSD
 
 ## [2.1.0] - 2020-05-07
