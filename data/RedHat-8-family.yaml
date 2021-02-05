@@ -1,0 +1,7 @@
+---
+# https://github.com/fraenki/puppet-galera/issues/167
+# Prevent yum/dnf attempting to use the mariabd-server package from the
+# AppStream repo because dnf gives preference to modular packages.
+galera::repo::mariadb::yum:
+  priority: 1
+  module_hotfixes: 1
