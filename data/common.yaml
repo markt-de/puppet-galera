@@ -86,7 +86,7 @@ galera::mariadb::additional_packages:
 galera::codership::default_version: '5.7'
 galera::codership::galera_package_ensure: 'present'
 galera::percona::default_version: '5.7'
-# Percona does not allow installaton of wsrep-enabled server and wsrep provider.
+# Percona does not allow installation of wsrep-enabled server and wsrep provider.
 galera::percona::galera_package_ensure: 'absent'
 galera::mariadb::default_version: '10.3'
 galera::mariadb::galera_package_ensure: 'present'
