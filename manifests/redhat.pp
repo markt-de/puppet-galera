@@ -34,7 +34,7 @@ class galera::redhat {
         # able to startup as primary node.
         service { 'mysql@bootstrap':
           ensure => 'stopped',
-          before => Service['mysqld'],
+          before => Service[$galera::mysql_service_name],
         }
         Exec<| title == 'bootstrap_galera_cluster' |> -> Service['mysql@bootstrap']
       }

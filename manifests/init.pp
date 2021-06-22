@@ -541,7 +541,7 @@ class galera(
           "mysql --user=root --password=${root_password} -e 'select count(1);'",
           "test `cat ${::root_home}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
           ],
-        require => Service['mysqld'],
+        require => Service[$mysql_service_name],
         before  => [Class['mysql::server::root_password'],Class['galera::status']],
       }
     }
@@ -589,7 +589,7 @@ class galera(
         command  => $params['bootstrap_command'],
         unless   => "nmap -Pn -p ${wsrep_group_comm_port} ${server_list} | grep -q '${wsrep_group_comm_port}/tcp open'",
         require  => Class['mysql::server::installdb'],
-        before   => Service['mysqld'],
+        before   => Service[$mysql_service_name],
         provider => shell,
         path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin'
       }
