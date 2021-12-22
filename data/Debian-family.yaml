@@ -40,8 +40,12 @@ galera::mariadb::104::arbitrator_package_name: 'galera-arbitrator-4'
 galera::mariadb::104::client_package_name: 'mariadb-client-10.4'
 galera::mariadb::104::galera_package_name: 'galera-4'
 galera::mariadb::104::mysql_package_name: 'mariadb-server-10.4'
+galera::mariadb::105::arbirator_package_name: 'galera-arbitrator-4'
+galera::mariadb::105::client_package_name: 'mariadb-client-10.5'
+galera::mariadb::105::galera_package_name: 'galera-4'
+galera::mariadb::105::mysql_package_name: 'mariadb-server-10.5'
 galera::mariadb::arbitrator_config_file: '/etc/default/garb'
-galera::mariadb::arbitrator_package_name: 'galera-arbitrator-3'
+galera::mariadb::arbitrator_package_name: 'galera-arbitrator-4'
 galera::mariadb::arbitrator_service_name: 'garb'
 galera::mariadb::bootstrap_command: '/usr/bin/galera_new_cluster'
 galera::mariadb::libgalera_location: '/usr/lib/galera/libgalera_smm.so'
@@ -116,6 +120,9 @@ galera::sst::mariabackup::mariadb::103::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::mariabackup::mariadb::104::additional_packages:
+  - 'mariadb-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::105::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::xtrabackup::want_repos:
