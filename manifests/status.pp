@@ -36,12 +36,12 @@ class galera::status (
     }
   }
 
-  group { 'clustercheck':
+  group { $galera::status_user:
     ensure => present,
     system => true,
   }
 
-  user { 'clustercheck':
+  user { $galera::status_group:
     shell  => '/bin/false',
     home   => '/var/empty',
     gid    => 'clustercheck',
@@ -51,8 +51,8 @@ class galera::status (
 
   file { '/usr/local/bin/clustercheck':
     content => epp('galera/clustercheck.epp'),
-    owner   => 'clustercheck',
-    group   => 'clustercheck',
+    owner   => $galera::status_user,
+    group   => $galera::status_group,
     mode    => '0500',
   }
 
