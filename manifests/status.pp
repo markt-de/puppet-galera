@@ -72,7 +72,7 @@ class galera::status (
     log_on_failure_operator => $galera::status_log_on_failure_operator,
     require                 => [
       File['/usr/local/bin/clustercheck'],
-      User['clustercheck']
+      User[$galera::status_user]
     ],
     before                  => Anchor['mysql::server::end'],
   }
