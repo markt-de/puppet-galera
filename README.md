@@ -236,7 +236,7 @@ This module was created to work in tandem with the puppetlabs-mysql module, rath
 
 Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple `nc` command and should not be considered terribly reliable.
 
-Furthermore the bootstrap functionality may be considered harmful. A better approach is currently being discussed and will be included in a future release ([GH-116](https://github.com/fraenki/puppet-galera/issues/116)).
+Furthermore the bootstrap functionality may be considered harmful for existing clusters. For extra safety, the bootstrap command may be set to something like `/bin/false` (see [GH-116](https://github.com/fraenki/puppet-galera/issues/116) for more information).
 
 ## Development
 
