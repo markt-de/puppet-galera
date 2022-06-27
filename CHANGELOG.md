@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])
+* Fix creation of /root/.my.cnf when `$status_check=false` ([#171])
 
 ## [2.2.0] - 2020-08-17
 
@@ -233,6 +234,7 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/fraenki/puppet-galera/compare/0.0.6...0.7.0
+[#171]: https://github.com/fraenki/puppet-galera/pull/171
 [#166]: https://github.com/fraenki/puppet-galera/pull/166
 [#162]: https://github.com/fraenki/puppet-galera/pull/162
 [#158]: https://github.com/fraenki/puppet-galera/pull/158

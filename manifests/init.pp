@@ -521,6 +521,15 @@ class galera(
       # be run prior to galera::validate because it sets up the users that
       # are needed during validation.
       include galera::status
+
+      $_root_my_cnf_before = [
+        Class['mysql::server::root_password'],
+        Class['galera::status']
+      ]
+    } else {
+      $_root_my_cnf_before = [
+        Class['mysql::server::root_password']
+      ]
     }
 
     if $validate_connection {
@@ -542,7 +551,7 @@ class galera(
           "test `cat ${::root_home}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
           ],
         require => Service[$mysql_service_name],
-        before  => [Class['mysql::server::root_password'],Class['galera::status']],
+        before  => $_root_my_cnf_before,
       }
     }
 
