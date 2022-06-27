@@ -1,6 +1,4 @@
 ---
-# NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
-#       See http://galeracluster.com/documentation-webpages/startingcluster.html.
 galera::codership::55::client_package_name: 'mysql-wsrep-client-5.5'
 galera::codership::55::galera_package_name: 'galera-3'
 galera::codership::55::mysql_package_name: 'mysql-wsrep-5.5'
@@ -12,9 +10,15 @@ galera::codership::57::arbitrator_package_name: 'galera'
 galera::codership::57::client_package_name: 'mysql-wsrep-client-5.7'
 galera::codership::57::galera_package_name: 'galera-3'
 galera::codership::57::mysql_package_name: 'mysql-wsrep-5.7'
+galera::codership::80::arbitrator_package_name: 'galera-4'
+galera::codership::80::client_package_name: 'mysql-wsrep-client'
+galera::codership::80::galera_package_name: 'galera-4'
+galera::codership::80::mysql_package_name: 'mysql-wsrep-8.0'
 galera::codership::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::codership::arbitrator_package_name: 'galera'
 galera::codership::arbitrator_service_name: 'garbd'
+# NOTE: Galera >=5.7 on systemd systems should use mysqld_bootstrap.
+#       See http://galeracluster.com/documentation-webpages/startingcluster.html.
 galera::codership::bootstrap_command: '/usr/bin/mysqld_bootstrap'
 galera::codership::config_file: '/etc/my.cnf'
 galera::codership::default_options:

@@ -47,10 +47,16 @@ galera::sst::xtrabackup::additional_packages:
   - 'percona-xtrabackup'
 galera::sst::xtrabackup::codership::57::additional_packages:
   - 'percona-xtrabackup-24'
+galera::sst::xtrabackup::codership::80::additional_packages:
+  - 'percona-xtrabackup-80'
 galera::sst::xtrabackup::percona::57::additional_packages:
   - 'percona-xtrabackup-24'
+galera::sst::xtrabackup::percona::80::additional_packages:
+  - 'percona-xtrabackup-80'
 galera::sst::xtrabackup_v2::percona::57::additional_packages:
   - 'percona-xtrabackup-24'
+galera::sst::xtrabackup_v2::percona::80::additional_packages:
+  - 'percona-xtrabackup-80'
 galera::status_allow: '%'
 galera::status_available_when_donor: 0
 galera::status_available_when_readonly: -1

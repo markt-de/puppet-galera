@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+* Add initial support for Codership on MySQL 8.0 ([#159])
+
 ### Changed
 * Update PDK to 2.5.0
 * Bump module dependencies, Puppet and update OS support
@@ -242,6 +245,7 @@ This is the first release after extensive code refactoring and introduces multip
 [#171]: https://github.com/fraenki/puppet-galera/pull/171
 [#166]: https://github.com/fraenki/puppet-galera/pull/166
 [#162]: https://github.com/fraenki/puppet-galera/pull/162
+[#159]: https://github.com/fraenki/puppet-galera/pull/159
 [#158]: https://github.com/fraenki/puppet-galera/pull/158
 [#154]: https://github.com/fraenki/puppet-galera/pull/154
 [#153]: https://github.com/fraenki/puppet-galera/pull/153
