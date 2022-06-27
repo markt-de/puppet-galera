@@ -112,13 +112,22 @@ galera::percona::want_repos:
 galera::epel_needed: true
 
 galera::repo::codership::yum:
-  baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
+  # NOTE: "redhat" in the URL is hardcoded on-purpose to cover all
+  #       RHEL rebuilds (CentOS, Rocky, Alma)
+  baseurl: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/redhat/%{os.release.major}/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Codership"
   enabled: 1
   gpgcheck: 1
   gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
 galera::repo::codership_lib::yum:
-  baseurl: "http://releases.galeracluster.com/galera-3/%{os_name_lc}/%{os.release.major}/%{os.architecture}/"
+  baseurl: "http://releases.galeracluster.com/galera-3/redhat/%{os.release.major}/%{os.architecture}/"
+  descr: "CentOS %{os.release.major} - Codership Galera"
+  enabled: 1
+  gpgcheck: 1
+  gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
+galera::repo::codership_lib::80::yum:
+  # Adjust URL to use Galera 4 for MySQL 8.0.
+  baseurl: "http://releases.galeracluster.com/galera-4/redhat/%{os.release.major}/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Codership Galera"
   enabled: 1
   gpgcheck: 1
