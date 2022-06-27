@@ -19,8 +19,6 @@ galera::default_options:
     innodb_autoinc_lock_mode: 2
     innodb_locks_unsafe_for_binlog: 1
     port: "<%= $mysql_port %>"
-    query_cache_size: 0
-    query_cache_type: 0
     wsrep_cluster_name: "<%= $cluster_name %>"
     wsrep_node_address: "<%= $local_ip %>"
     wsrep_node_incoming_address: "<%= $local_ip %>"

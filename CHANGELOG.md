@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fix broken /root/.my.cnf ([#166])
 * Fix creation of /root/.my.cnf when `$status_check=false` ([#171])
 
+### Removed
+* Remove query_cache_size and query_cache_type from default options ([#155])
+
 ## [2.2.0] - 2020-08-17
 
 ### Fixed
