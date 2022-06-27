@@ -85,6 +85,15 @@ galera::percona::57::client_package_name: 'Percona-XtraDB-Cluster-client-57'
 galera::percona::57::galera_package_name: 'Percona-XtraDB-Cluster-galera-3'
 # Using the meta package avoids conflicts with other versions during installation.
 galera::percona::57::mysql_package_name: 'Percona-XtraDB-Cluster-57'
+galera::percona::80::additional_packages:
+  - 'nmap'
+galera::percona::80::arbitrator_package_name: 'percona-xtradb-cluster-garbd'
+galera::percona::80::bootstrap_command: 'systemctl start mysql@bootstrap.service'
+galera::percona::80::client_package_name: 'percona-xtradb-cluster-client'
+# In XtraDB Cluster 8.0 there is no "galera" package anymore.
+galera::percona::80::galera_package_name: 'percona-xtradb-cluster'
+# Using the meta package avoids conflicts with other versions during installation.
+galera::percona::80::mysql_package_name: 'percona-xtradb-cluster-full'
 galera::percona::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::percona::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::arbitrator_service_name: 'garb'
@@ -121,7 +130,7 @@ galera::repo::mariadb::yum:
   gpgcheck: 1
   gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
 galera::repo::percona::yum:
-  baseurl: "http://repo.percona.com/release/centos/%{os.release.major}/RPMS/%{os.architecture}/"
+  baseurl: "http://repo.percona.com/pxc-<%= $vendor_version_real %>/yum/release/%{os.release.major}/RPMS/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Percona"
   enabled: 1
   gpgcheck: 1

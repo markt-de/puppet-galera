@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 * Add initial support for Codership on MySQL 8.0 ([#159])
+* Add initial support for Percona XtraDB Cluster 8.0 ([#155])
 
 ### Changed
 * Update PDK to 2.5.0
 * Bump module dependencies, Puppet and update OS support
 * Add puppetlabs/yumrepo_core as new module dependency
+* Switch Percona to new YUM/APT repository layout
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])
