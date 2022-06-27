@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
+* Add support for MariaDB 10.5 ([#173])
 * Add initial support for Codership on MySQL 8.0 ([#159])
 * Add initial support for Percona XtraDB Cluster 8.0 ([#155])
 
 ### Changed
+* Use parameter for service name wherever possible ([#170])
 * Update PDK to 2.5.0
 * Bump module dependencies, Puppet and update OS support
 * Add puppetlabs/yumrepo_core as new module dependency
@@ -18,10 +20,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])
+* Fix MariaDB repo conflict on EL8 ([#168])
 * Fix creation of /root/.my.cnf when `$status_check=false` ([#171])
+* Fix most puppet-lint offenses
+* Fix unit tests
 
 ### Removed
 * Remove query_cache_size and query_cache_type from default options ([#155])
+* Remove outdated examples
 
 ## [2.2.0] - 2020-08-17
 
@@ -247,7 +253,10 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/fraenki/puppet-galera/compare/0.0.6...0.7.0
+[#173]: https://github.com/fraenki/puppet-galera/pull/173
 [#171]: https://github.com/fraenki/puppet-galera/pull/171
+[#170]: https://github.com/fraenki/puppet-galera/pull/170
+[#168]: https://github.com/fraenki/puppet-galera/pull/168
 [#166]: https://github.com/fraenki/puppet-galera/pull/166
 [#162]: https://github.com/fraenki/puppet-galera/pull/162
 [#159]: https://github.com/fraenki/puppet-galera/pull/159
