@@ -1,7 +1,7 @@
 ---
 galera::arbitrator: false
 galera::arbitrator_options: 'gcs.fc_limit=256; gcs.fc_factor=0.99; gcs.fc_master_slave=YES; evs.keepalive_period=PT1S; evs.suspect_timeout=PT1M; evs.inactive_timeout=PT2M; evs.install_timeout=PT2M; evs.delayed_keep_period=PT2M; gcs.sync_donor=YES; gmcast.peer_timeout=PT10S; gmcast.time_wait=PT15S; pc.wait_prim_timeout=PT1M; pc.announce_timeout=PT10S'
-galera::arbitrator_package_ensure: 'present'
+galera::arbitrator_package_ensure: 'installed'
 galera::arbitrator_service_enabled: true
 galera::arbitrator_template: 'galera/arbitrator_config.epp'
 # NOTE: bind to ALL addresses to ensure this module can connect to localhost
@@ -37,7 +37,7 @@ galera::manage_additional_packages: true
 galera::mysql_port: 3306
 galera::mysql_restart: false
 galera::override_options: {}
-galera::package_ensure: 'present'
+galera::package_ensure: 'installed'
 galera::purge_conf_dir: false
 galera::rundir: '/var/run/mysqld'
 galera::service_enabled: true
@@ -84,9 +84,9 @@ galera::mariadb::additional_packages:
   - 'nmap'
 
 galera::codership::default_version: '5.7'
-galera::codership::galera_package_ensure: 'present'
+galera::codership::galera_package_ensure: 'installed'
 galera::percona::default_version: '5.7'
 # Percona does not allow installation of wsrep-enabled server and wsrep provider.
 galera::percona::galera_package_ensure: 'absent'
 galera::mariadb::default_version: '10.3'
-galera::mariadb::galera_package_ensure: 'present'
+galera::mariadb::galera_package_ensure: 'installed'

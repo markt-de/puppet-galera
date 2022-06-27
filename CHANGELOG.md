@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 * Update PDK to 2.5.0
 * Bump module dependencies, Puppet and update OS support
+* Add puppetlabs/yumrepo_core as new module dependency
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])

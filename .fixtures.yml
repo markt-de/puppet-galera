@@ -1,14 +1,12 @@
 fixtures:
   repositories:
-    "apt": "git://github.com/puppetlabs/puppetlabs-apt.git"
-    "epel": "git://github.com/voxpupuli/puppet-module-epel.git"
+    "apt": "https://github.com/puppetlabs/puppetlabs-apt.git"
+    "epel": "https://github.com/voxpupuli/puppet-module-epel.git"
     "facts": "https://github.com/puppetlabs/puppetlabs-facts.git"
-    "firewall": "git://github.com/puppetlabs/puppetlabs-firewall.git"
-    "mysql": "git://github.com/puppetlabs/puppetlabs-mysql.git"
+    "firewall": "https://github.com/puppetlabs/puppetlabs-firewall.git"
+    "mysql": "https://github.com/puppetlabs/puppetlabs-mysql.git"
     "provision": "https://github.com/puppetlabs/provision.git"
     "puppet_agent": "https://github.com/puppetlabs/puppetlabs-puppet_agent.git"
-    "stdlib": "git://github.com/puppetlabs/puppetlabs-stdlib.git"
-    "xinetd": "git://github.com/puppetlabs/puppetlabs-xinetd.git"
-    yumrepo_core:
-      repo: "https://github.com/puppetlabs/puppetlabs-yumrepo_core"
-      puppet_version: ">= 6.0.0"
+    "stdlib": "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    "xinetd": "https://github.com/puppetlabs/puppetlabs-xinetd.git"
+    "yumrepo_core": "https://github.com/puppetlabs/puppetlabs-yumrepo_core.git"

@@ -45,9 +45,9 @@ describe 'galera' do
         )
       }
 
-      it { is_expected.to contain_package(os_params[:nmap_package_name]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:nmap_package_name]).with(ensure: 'installed') }
       it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
-      it { is_expected.to contain_package(os_params[:p_additional_packages]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:p_additional_packages]).with(ensure: 'installed') }
 
       it { is_expected.to contain_class('mysql::server') }
 
@@ -94,25 +94,25 @@ describe 'galera' do
       }
       it { is_expected.to contain_class('mysql::server') }
 
-      it { is_expected.to contain_package(os_params[:nmap_package_name]).with(ensure: 'present') }
-      it { is_expected.to contain_package(os_params[:m_galera_package_name]).with(ensure: 'present') }
-      it { is_expected.to contain_package(os_params[:m_additional_packages]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:nmap_package_name]).with(ensure: 'installed') }
+      it { is_expected.to contain_package(os_params[:m_galera_package_name]).with(ensure: 'installed') }
+      it { is_expected.to contain_package(os_params[:m_additional_packages]).with(ensure: 'installed') }
     end
 
     context 'when using xtrabackup' do
       before(:each) { params.merge!(wsrep_sst_method: 'xtrabackup') }
-      it { is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed') }
     end
 
     context 'when using xtrabackup-v2' do
       before(:each) { params.merge!(wsrep_sst_method: 'xtrabackup-v2') }
-      it { is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed') }
     end
 
     context 'when using mariabackup' do
       before(:each) { params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'mariabackup') }
-      it { is_expected.to contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('present') }
-      it { is_expected.to contain_package('socat').with_ensure('present') }
+      it { is_expected.to contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('installed') }
+      it { is_expected.to contain_package('socat').with_ensure('installed') }
     end
 
     context 'when managing root .my.cnf' do
@@ -198,15 +198,15 @@ describe 'galera' do
       }
       it { is_expected.to contain_class('mysql::server') }
 
-      it { is_expected.to contain_package(os_params[:c_galera_package_name]).with(ensure: 'present') }
-      it { is_expected.to contain_package(os_params[:c_additional_packages]).with(ensure: 'present') }
+      it { is_expected.to contain_package(os_params[:c_galera_package_name]).with(ensure: 'installed') }
+      it { is_expected.to contain_package(os_params[:c_additional_packages]).with(ensure: 'installed') }
     end
 
     context 'when specifying package names' do
       before(:each) do
         params.merge!(mysql_package_name: 'mysql-package-test',
                       galera_package_name: 'galera-package-test',
-                      galera_package_ensure: 'present')
+                      galera_package_ensure: 'installed')
       end
       it {
         is_expected.to contain_class('mysql::server').with(
@@ -216,14 +216,14 @@ describe 'galera' do
         )
       }
 
-      it { is_expected.to contain_package('galera-package-test').with(ensure: 'present') }
+      it { is_expected.to contain_package('galera-package-test').with(ensure: 'installed') }
     end
 
-    context 'when package_ensure=present (default)' do
+    context 'when package_ensure=installed (default)' do
       it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
       it {
         is_expected.to contain_class('mysql::server').with(
-          package_ensure: 'present',
+          package_ensure: 'installed',
           package_name: os_params[:p_mysql_package_name],
         )
       }
