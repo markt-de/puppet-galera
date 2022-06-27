@@ -51,6 +51,10 @@ class galera::status (
       system => true,
       before => File['/usr/local/bin/clustercheck'],
     }
+  } else {
+    user { $galera::status_user:
+      before => File['/usr/local/bin/clustercheck'],
+    }
   }
 
   file { '/usr/local/bin/clustercheck':
@@ -75,7 +79,8 @@ class galera::status (
     log_on_failure          => $galera::status_log_on_failure,
     log_on_failure_operator => $galera::status_log_on_failure_operator,
     require                 => [
-      File['/usr/local/bin/clustercheck']
+      File['/usr/local/bin/clustercheck'],
+      User[$galera::status_user]
     ],
     before                  => Anchor['mysql::server::end'],
   }
