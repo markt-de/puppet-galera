@@ -102,7 +102,7 @@ class galera::debian {
         mode    => '0600',
         content => epp('galera/debian.cnf.epp'),
         require => Exec['clean_up_ubuntu'],
-        before  => Service['mysqld'],
+        before  => Service[$galera::mysql_service_name],
       }
     }
 
