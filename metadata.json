@@ -89,7 +89,7 @@
     "arbitrator",
     "garbd"
   ],
-  "pdk-version": "1.18.0",
-  "template-url": "pdk-default#1.18.0",
-  "template-ref": "tags/1.18.0-0-g095317c"
+  "pdk-version": "2.5.0",
+  "template-url": "pdk-default#2.5.0",
+  "template-ref": "tags/2.5.0-0-g369d483"
 }
