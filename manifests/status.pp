@@ -36,17 +36,21 @@ class galera::status (
     }
   }
 
-  group { $galera::status_user:
-    ensure => present,
-    system => true,
+  if ($galera::status_group != 'nobody') {
+    group { $galera::status_group:
+      ensure => present,
+      system => true,
+    }
   }
 
-  user { $galera::status_group:
-    shell  => '/bin/false',
-    home   => '/var/empty',
-    gid    => 'clustercheck',
-    system => true,
-    before => File['/usr/local/bin/clustercheck'],
+  if ($galera::status_user != 'nobody') {
+    user { $galera::status_user:
+      shell  => '/bin/false',
+      home   => '/var/empty',
+      gid    => 'clustercheck',
+      system => true,
+      before => File['/usr/local/bin/clustercheck'],
+    }
   }
 
   file { '/usr/local/bin/clustercheck':
