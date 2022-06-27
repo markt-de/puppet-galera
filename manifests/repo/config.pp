@@ -29,8 +29,8 @@ define galera::repo::config (
   #   galera::repo::REPONAME::VENDOR::VERSION::TYPE
   #   galera::repo::REPONAME::TYPE
   # The most specific configuration wins.
-  $_config_tmp = lookup("${module_name}::repo::${repo}::${galera::vendor_type}::${vendor_version_internal}::${type}", {default_value => undef}) ? {
-    undef => lookup("${module_name}::repo::${repo}::${type}", {default_value => undef}),
+  $_config_tmp = lookup("${module_name}::repo::${repo}::${galera::vendor_type}::${vendor_version_internal}::${type}", { default_value => undef }) ? {
+    undef => lookup("${module_name}::repo::${repo}::${type}", { default_value => undef }),
     default => lookup("${module_name}::repo::${repo}::${galera::vendor_type}::${vendor_version_internal}::${type}")
   }
   if !($_config_tmp =~ Hash) {
@@ -54,7 +54,7 @@ define galera::repo::config (
     } else {
       $_values = $x[1]
     }
-    $memo + {$x[0] => $_values}
+    $memo + { $x[0] => $_values }
   }
 
   # Finally configure the os-specific repository.
@@ -69,6 +69,6 @@ define galera::repo::config (
         * => $config,
       }
     }
-    default: { }
+    default: {}
   }
 }

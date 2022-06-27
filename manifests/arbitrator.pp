@@ -1,19 +1,15 @@
 # @summary Installs and configures the Arbitrator service.
 # @api private
-class galera::arbitrator(
+class galera::arbitrator (
   # NOTE: These parameters are evaluated in the main galera class and
   #       MUST ONLY be set using the parameters of the main class.
   String $config_file,
   String $package_name,
   String $service_name,
 ) {
-  ensure_packages([$package_name],
-  {
-    ensure => $galera::arbitrator_package_ensure,
-  })
+  ensure_packages([$package_name], { ensure => $galera::arbitrator_package_ensure })
 
   file { 'arbitrator-config-file':
-    ensure  => 'present',
     path    => $config_file,
     mode    => '0600',
     content => epp($galera::arbitrator_template),
@@ -25,8 +21,8 @@ class galera::arbitrator(
     name      => $service_name,
     enable    => $galera::arbitrator_service_enabled,
     subscribe => [
-        Package[$package_name],
-        File['arbitrator-config-file']
-      ]
+      Package[$package_name],
+      File['arbitrator-config-file'],
+    ],
   }
 }

@@ -1,7 +1,7 @@
 # @summary Configures a user and script that will check the status of the galera cluster.
 # @api private
 class galera::status (
-){
+) {
   if ! $galera::status_password {
     fail('galera::status_password unset. Please specify a password for the clustercheck MySQL user.')
   }
@@ -15,8 +15,8 @@ class galera::status (
       }
       -> mysql_grant { "${galera::status_user}@${galera::status_allow}/*.*":
         ensure     => 'present',
-        options    => [ 'GRANT' ],
-        privileges => [ 'USAGE' ],
+        options    => ['GRANT'],
+        privileges => ['USAGE'],
         table      => '*.*',
         user       => "${galera::status_user}@${galera::status_allow}",
       }
@@ -29,8 +29,8 @@ class galera::status (
     }
     -> mysql_grant { "${galera::status_user}@localhost/*.*":
       ensure     => 'present',
-      options    => [ 'GRANT' ],
-      privileges => [ 'USAGE' ],
+      options    => ['GRANT'],
+      privileges => ['USAGE'],
       table      => '*.*',
       user       => "${galera::status_user}@localhost",
     }
@@ -67,7 +67,8 @@ class galera::status (
     log_on_failure          => $galera::status_log_on_failure,
     require                 => [
       File['/usr/local/bin/clustercheck'],
-      User['clustercheck']],
+      User['clustercheck']
+    ],
   }
 
   # Postpone the xinetd stuff. This is necessary in order to avoid package
@@ -79,5 +80,5 @@ class galera::status (
   # the wrong MySQL libs. The root cause is likely a packaging bug in the
   # Codership distribution, since this issue could not be reproduced for
   # Percona.
-  Exec<| title == 'bootstrap_galera_cluster' |> -> Class['::xinetd']
+  Exec<| title == 'bootstrap_galera_cluster' |> -> Class['xinetd']
 }

@@ -18,8 +18,8 @@ class galera::repo {
   #   galera::VENDOR::want_repos
   if (!defined('$galera::override_repos') or empty($galera::override_repos)) {
     # Lookup required repos for the selected vendor.
-    $_vendor_tmp = lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::want_repos", {default_value => undef}) ? {
-      undef => lookup("${module_name}::${galera::vendor_type}::want_repos", {default_value => []}),
+    $_vendor_tmp = lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::want_repos", { default_value => undef }) ? {
+      undef => lookup("${module_name}::${galera::vendor_type}::want_repos", { default_value => [] }),
       default => lookup("${module_name}::${galera::vendor_type}::${vendor_version_internal}::want_repos")
     }
     # Ensure that we got an Array, silently drop everything else.
@@ -34,8 +34,8 @@ class galera::repo {
       # Skip lookup, because Arbitrator does not use SST.
       $_sst_tmp = []
     } else {
-      $_sst_tmp = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${galera::vendor_type}::${vendor_version_internal}::want_repos", {default_value => undef}) ? {
-        undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::want_repos", {default_value => []}),
+      $_sst_tmp = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${galera::vendor_type}::${vendor_version_internal}::want_repos", { default_value => undef }) ? {
+        undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::want_repos", { default_value => [] }),
         default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${galera::vendor_type}::${vendor_version_internal}::want_repos")
       }
     }

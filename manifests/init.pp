@@ -40,6 +40,9 @@
 #   Specifies the name of the Arbitrator service.
 #   Default: A vendor-, version- and OS-specific value.
 #
+# @param arbitrator_template
+#   Specifies the template to use when creating `$arbitrator_config_file`.
+#
 # @param bind_address
 #   Specifies the IP address to bind MySQL/MariaDB to. The module expects the
 #   server to listen on localhost for proper operation. Default: `::`
@@ -109,6 +112,9 @@
 # @param galera_servers
 #   Specifies a list of IP addresses of the nodes in the galera cluster.
 #   Default: `[${facts['networking']['ip']}]`
+#
+# @param libgalera_location
+#   Specifies the location of the WSREP libraries.
 #
 # @param local_ip
 #   Specifies the IP address of this node to use for communications.
@@ -235,7 +241,7 @@
 #   Specifies the port to use for galera state transfer.
 #   Default: `4444`
 #
-class galera(
+class galera (
   # parameters that need to be evaluated early
   Enum['codership', 'mariadb', 'percona'] $vendor_type,
   # required parameters
@@ -324,15 +330,15 @@ class galera(
   # A user-specified value takes precedence over automatic lookup results.
   if !$additional_packages {
     # Lookup packages for the selected vendor.
-    $_packages_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
-      undef => lookup("${module_name}::${vendor_type}::additional_packages", {default_value => []}),
-      default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => []}),
+    $_packages_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", { default_value => undef }) ? {
+      undef => lookup("${module_name}::${vendor_type}::additional_packages", { default_value => [] }),
+      default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::additional_packages", { default_value => [] }),
     }
     # Lookup packages for the selected SST method.
     if !$arbitrator {
-      $_packages_sst = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => undef}) ? {
-        undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::additional_packages", {default_value => []}),
-        default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", {default_value => []})
+      $_packages_sst = lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", { default_value => undef }) ? {
+        undef => lookup("${module_name}::sst::${wsrep_sst_method_internal}::additional_packages", { default_value => [] }),
+        default => lookup("${module_name}::sst::${wsrep_sst_method_internal}::${vendor_type}::${vendor_version_internal}::additional_packages", { default_value => [] })
       }
     } else { $_packages_sst = [] }
     # Merge packages from both sources and make them unique.
@@ -357,14 +363,14 @@ class galera(
     # lookup() to find a value in Hiera (or to fallback to default values from
     # module data).
     if !$x[1] {
-      $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", {default_value => undef}) ? {
+      $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", { default_value => undef }) ? {
         undef => lookup("${module_name}::${vendor_type}::${$x[0]}"),
         default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}"),
       }
     } else {
       $_v = $x[1]
     }
-    $memo + {$x[0] => $_v}
+    $memo + { $x[0] => $_v }
   }
 
   # Lookup *optional* parameters that may vary depending on the values of
@@ -374,11 +380,11 @@ class galera(
     config_file => undef,
     includedir => undef,
   }.reduce({}) |$memo, $x| {
-    $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", {default_value => undef}) ? {
-      undef => lookup("${module_name}::${vendor_type}::${$x[0]}", {default_value => undef}),
+    $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", { default_value => undef }) ? {
+      undef => lookup("${module_name}::${vendor_type}::${$x[0]}", { default_value => undef }),
       default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}"),
     }
-    $memo + {$x[0] => $_v}
+    $memo + { $x[0] => $_v }
   }
 
   # Add the wsrep_cluster_address option to the server configuration.
@@ -387,14 +393,14 @@ class galera(
   $node_list = join($_nodes_tmp, ',')
   $_wsrep_cluster_address = {
     'mysqld' => {
-      'wsrep_cluster_address' => "gcomm://${node_list}/"
-    }
+      'wsrep_cluster_address' => "gcomm://${node_list}/",
+    },
   }
 
   # Lookup vendor specific options for MySQL/MariaDB.
-  $_defaults_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", {default_value => undef}) ? {
-    undef => lookup("${module_name}::${vendor_type}::default_options", {default_value => {}}),
-    default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", {default_value => {}}),
+  $_defaults_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", { default_value => undef }) ? {
+    undef => lookup("${module_name}::${vendor_type}::default_options", { default_value => {} }),
+    default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", { default_value => {} }),
   }
   # Now merge the vendor specific options with the global default values.
   $_default_tmp = deep_merge($default_options, $_defaults_vendor)
@@ -413,12 +419,12 @@ class galera(
         } else {
           $_v = $y[1]
         }
-        $m + {$y[0] => $_v}
+        $m + { $y[0] => $_v }
       }
     } else {
       $_values = $x[1]
     }
-    $memo + {$x[0] => $_values}
+    $memo + { $x[0] => $_values }
   }
   $_override_options = $override_options.reduce({}) |$memo, $x| {
     # A nested hash contains the configuration options.
@@ -430,12 +436,12 @@ class galera(
         } else {
           $_v = $y[1]
         }
-        $m + {$y[0] => $_v}
+        $m + { $y[0] => $_v }
       }
     } else {
       $_values = $x[1]
     }
-    $memo + {$x[0] => $_values}
+    $memo + { $x[0] => $_values }
   }
   # Finally merge options from all 3 sources.
   $options = $_default_options.deep_merge($_wsrep_cluster_address.deep_merge($override_options))
@@ -443,7 +449,7 @@ class galera(
   # Manage MySQL/MariaDB root user.
   if ($create_root_user =~ Undef) {
     # Automatically determine if we should manage the root user.
-    if ($::fqdn == $galera_master) {
+    if ($facts['networking']['fqdn'] == $galera_master) {
       # Manage root user only on the galera master.
       $create_root_user_real = true
     } else {
@@ -461,9 +467,9 @@ class galera(
     include galera::repo
     unless $galera::arbitrator {
       if ($galera::params['galera_package_name']) {
-        Class['::galera::repo'] -> Package[$galera::params['galera_package_name']]
+        Class['galera::repo'] -> Package[$galera::params['galera_package_name']]
       }
-      Class['::galera::repo'] -> Class['mysql::server']
+      Class['galera::repo'] -> Class['mysql::server']
     }
   }
 
@@ -485,7 +491,7 @@ class galera(
   if $arbitrator {
     $_packages_before = [Class['galera::arbitrator']]
   } else {
-    if ($::fqdn == $galera_master) {
+    if ($facts['networking']['fqdn'] == $galera_master) {
       $_packages_before = [
         Class['mysql::server::install'],
         Exec['bootstrap_galera_cluster']
@@ -500,9 +506,9 @@ class galera(
   # Install additional packages
   if ($manage_additional_packages and $additional_packages_real) {
     ensure_packages($additional_packages_real,
-    {
-      ensure  => $package_ensure,
-      before  => $_packages_before,
+      {
+        ensure => $package_ensure,
+        before => $_packages_before,
     })
   }
 
@@ -514,7 +520,6 @@ class galera(
       service_name => $params['arbitrator_service_name'],
     }
   } else {
-
     if $status_check {
       # This is expected to be executed when mysql::server has finished
       # and the cluster was successfully bootstrapped. However it should
@@ -545,18 +550,18 @@ class galera(
 
       exec { 'create .my.cnf for user root':
         path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
-        command => "echo \"${my_cnf}\" > ${::root_home}/.my.cnf",
+        command => "echo \"${my_cnf}\" > ${facts['root_home']}/.my.cnf",
         onlyif  => [
           "mysql --user=root --password=${root_password} -e 'select count(1);'",
-          "test `cat ${::root_home}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
-          ],
+          "test `cat ${facts['root_home']}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
+        ],
         require => Service[$mysql_service_name],
         before  => $_root_my_cnf_before,
       }
     }
 
     # Setup MySQL server with custom parameters.
-    class { '::mysql::server':
+    class { 'mysql::server':
       create_root_my_cnf => $create_root_my_cnf,
       create_root_user   => $create_root_user_real,
       override_options   => $options,
@@ -575,7 +580,7 @@ class galera(
       owner   => 'mysql',
       group   => 'mysql',
       require => Class['mysql::server::install'],
-      before  => Class['mysql::server::installdb']
+      before  => Class['mysql::server::installdb'],
     }
 
     # Overrule puppetlabs/mysql default value
@@ -584,12 +589,12 @@ class galera(
     }
 
     # Install galera provider
-    package {[$galera::params['galera_package_name']] :
+    package { [$galera::params['galera_package_name']]:
       ensure => $params['galera_package_ensure'],
       before => $_packages_before,
     }
 
-    if ($::fqdn == $galera_master) {
+    if ($facts['networking']['fqdn'] == $galera_master) {
       # If there are no other servers up and we are the master, the cluster
       # needs to be bootstrapped. This happens before the service is managed
       $server_list = join($galera_servers, ' ')
@@ -600,7 +605,7 @@ class galera(
         require  => Class['mysql::server::installdb'],
         before   => Service[$mysql_service_name],
         provider => shell,
-        path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin'
+        path     => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
       }
     }
   }

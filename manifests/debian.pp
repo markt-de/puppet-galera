@@ -17,7 +17,6 @@ class galera::debian {
       require => Class['mysql::server::config'],
     }
     ~> file { '/etc/mysql/puppet_debfix.cnf':
-      ensure  => present,
       owner   => 'root',
       group   => 'root',
       content => epp('galera/debian_default_my_cnf.epp'),
@@ -64,7 +63,7 @@ class galera::debian {
       require     => Class['mysql::server::install'],
     }
 
-    if ($::fqdn == $galera::galera_master) {
+    if ($facts['networking']['fqdn'] == $galera::galera_master) {
       # Debian sysmaint pw will be set on the master,
       # and needs to be consistent across the cluster.
       mysql_user { 'debian-sys-maint@localhost':
@@ -85,7 +84,6 @@ class galera::debian {
       }
 
       file { '/etc/mysql/debian.cnf':
-        ensure  => present,
         owner   => 'root',
         group   => 'root',
         mode    => '0600',
@@ -96,7 +94,6 @@ class galera::debian {
       # Ensure this file is changed only after stopping the service or
       # said service stop operation will fail
       file { '/etc/mysql/debian.cnf':
-        ensure  => present,
         owner   => 'root',
         group   => 'root',
         mode    => '0600',

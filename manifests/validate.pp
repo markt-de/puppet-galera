@@ -15,14 +15,13 @@
 # @param retries
 #  Specifies the number of times to retry connection. Valid options: an integer. Default: `20`
 #
-class galera::validate(
+class galera::validate (
   String $action,
   String $catch,
   Integer $delay,
   Integer $retries,
   Optional[String] $inv_catch,
 ) {
-
   if $galera::status_check {
     $validate_host     = $galera::status_host
     $validate_user     = $galera::status_user
