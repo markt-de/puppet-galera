@@ -55,7 +55,7 @@ This will install the default galera vendor and version. However, in a productio
 ```puppet
 class { 'galera':
   vendor_type    => 'percona',
-  vendor_version => '5.7',
+  vendor_version => '8.0',
   ...
 ```
 
@@ -98,7 +98,7 @@ class { 'galera':
 
   # Default is 'percona'
   vendor_type     => 'codership',
-  vendor_version  => '5.7',
+  vendor_version  => '8.0',
 
   # This will be used to populate my.cnf values that
   # control where wsrep binds, advertises, and listens
@@ -111,7 +111,7 @@ class { 'galera':
   configure_firewall => true,
 
   # Configure the SST method
-  wsrep_sst_method => 'xtrabackup',
+  wsrep_sst_method => 'xtrabackup-v2',
 
   # These options are only used for the firewall -
   # to change the my.cnf settings, use the override options
