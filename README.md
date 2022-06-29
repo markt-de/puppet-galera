@@ -33,7 +33,7 @@ It will try to recover from failures by bootstrapping on a node designated as th
 
 * Puppet 6 or higher
 * [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql) and other soft dependencies
-* A [supported version](#os-and-cluster-compatibility) of MySQL, MariaDB or XtraDB Cluster
+* A [supported version](#os-and-cluster-compatibility) of Codership Galera (MySQL), MariaDB or Percona XtraDB Cluster
 
 ## Usage
 
@@ -51,7 +51,7 @@ class { 'galera':
 }
 ```
 
-This will install the default galera vendor and version. However, in a production environment you should definitely set vendor and version to the desired value, because the default values might change:
+This will install the default packages and version. However, in a production environment you should definitely set the vendor and version variables to the desired value, because the default values might change:
 
 ```puppet
 class { 'galera':
@@ -60,7 +60,7 @@ class { 'galera':
   ...
 ```
 
-On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password:
+On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password when using these platforms:
 
 ```puppet
 class { 'galera':
@@ -219,7 +219,7 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 | :---     |  :---: |  :---: |  :---: |  :---: |
 | **Percona XtraDB Cluster** | 7 / 8 | 10 / 11 | 20.04 / 22.04 | 13.x |
 | 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: |
-| **Codership Galera** |  |  |  |  |
+| **Codership Galera (MySQL)** |  |  |  |  |
 | 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :no_entry_sign: |
 | **MariaDB Galera Cluster** |  |  |  |  |
 | 10.4 / 10.5 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :no_entry_sign: **/** :no_entry_sign: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: |
