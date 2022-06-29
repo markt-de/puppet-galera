@@ -93,7 +93,7 @@ galera::percona::80::arbitrator_package_name: 'percona-xtradb-cluster-garbd'
 galera::percona::80::bootstrap_command: 'systemctl start mysql@bootstrap.service'
 galera::percona::80::client_package_name: 'percona-xtradb-cluster-client'
 # In XtraDB Cluster 8.0 there is no "galera" package anymore.
-galera::percona::80::galera_package_name: 'percona-xtradb-cluster'
+galera::percona::80::galera_package_name: 'percona-xtradb-cluster-galera'
 # Using the meta package avoids conflicts with other versions during installation.
 galera::percona::80::mysql_package_name: 'percona-xtradb-cluster-full'
 galera::percona::arbitrator_config_file: '/etc/sysconfig/garb'
