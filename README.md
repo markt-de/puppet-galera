@@ -31,8 +31,9 @@ It will try to recover from failures by bootstrapping on a node designated as th
 
 ## Requirements
 
-* Puppet 5 or higher
-* puppetlabs-mysql
+* Puppet 6 or higher
+* [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql) and other soft dependencies
+* A [supported version](#os-and-cluster-compatibility) of MySQL, MariaDB or XtraDB Cluster
 
 ## Usage
 
