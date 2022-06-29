@@ -216,12 +216,12 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 
 |  | RedHat | Debian | Ubuntu | FreeBSD |
 | :---     |  :---: |  :---: |  :---: |  :---: |
-| **Percona XtraDB Cluster** | 7 / 8 | 9 / 10 | 18.04 | 12.x |
-| 5.6 / 5.7 | :green_circle: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
+| **Percona XtraDB Cluster** | 7 / 8 | 10 / 11 | 20.04 / 22.04 | 13.x |
+| 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: |
 | **Codership Galera** |  |  |  |  |
-| 5.6 / 5.7 | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: | :green_circle: :green_circle: |
+| 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :no_entry_sign: |
 | **MariaDB Galera Cluster** |  |  |  |  |
-| 10.3 / 10.4 / 10.5 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: |
+| 10.3 / 10.4 / 10.5 | :green_circle: :green_circle: :green_circle: **/** :green_circle: :green_circle: :green_circle: | :green_circle: :green_circle: :no_entry_sign: **/** :no_entry_sign: :no_entry_sign: :green_circle: | :green_circle: :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: :green_circle: |
 
 The table only includes the **two most recent** versions.
 Older and possibly outdated releases are not listed, although they may still be supported by their vendors.
