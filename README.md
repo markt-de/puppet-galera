@@ -238,6 +238,8 @@ Of note is an `exec` that will start the mysql service with parameters which wil
 
 Furthermore the bootstrap functionality may be considered harmful for existing clusters. For extra safety, the bootstrap command may be set to something like `/bin/false` (see [GH-116](https://github.com/fraenki/puppet-galera/issues/116) for more information).
 
+It should also be noted that it is not possible to unset default configuration variables (see [GH-174](https://github.com/fraenki/puppet-galera/issues/174)). This is true for this modules' own variables, but also for pre-defined variables that are set by the puppetlabs/mysql module.
+
 ## Development
 
 ### Contributing
