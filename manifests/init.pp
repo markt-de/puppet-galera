@@ -358,7 +358,7 @@ class galera (
     libgalera_location => $libgalera_location,
     mysql_package_name => $mysql_package_name,
     mysql_service_name => $mysql_service_name,
-  }.reduce({}) |$memo, $x| {
+  }.reduce( {}) |$memo, $x| {
     # If a value was specified as class parameter, then use it. Otherwise use
     # lookup() to find a value in Hiera (or to fallback to default values from
     # module data).
@@ -379,7 +379,7 @@ class galera (
   $optional_params = {
     config_file => undef,
     includedir => undef,
-  }.reduce({}) |$memo, $x| {
+  }.reduce( {}) |$memo, $x| {
     $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", { default_value => undef }) ? {
       undef => lookup("${module_name}::${vendor_type}::${$x[0]}", { default_value => undef }),
       default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}"),
@@ -409,10 +409,10 @@ class galera (
   # to the inline_epp() function. This way it is possible to use the values of
   # module parameters in MySQL/MariaDB options by specifying them in epp syntax.
   $wsrep_sst_auth_real = inline_epp($wsrep_sst_auth)
-  $_default_options = $_default_tmp.reduce({}) |$memo, $x| {
+  $_default_options = $_default_tmp.reduce( {}) |$memo, $x| {
     # A nested hash contains the configuration options.
     if ($x[1] =~ Hash) {
-      $_values = $x[1].reduce({}) |$m,$y| {
+      $_values = $x[1].reduce( {}) |$m,$y| {
         # epp expects a string, so skip all other types.
         if ($y[1] =~ String) {
           $_v = inline_epp($y[1])
@@ -426,10 +426,10 @@ class galera (
     }
     $memo + { $x[0] => $_values }
   }
-  $_override_options = $override_options.reduce({}) |$memo, $x| {
+  $_override_options = $override_options.reduce( {}) |$memo, $x| {
     # A nested hash contains the configuration options.
     if ($x[1] =~ Hash) {
-      $_values = $x[1].reduce({}) |$m,$y| {
+      $_values = $x[1].reduce( {}) |$m,$y| {
         # epp expects a string, so skip all other types.
         if ($y[1] =~ String) {
           $_v = inline_epp($y[1])
