@@ -22,6 +22,26 @@ describe 'galera' do
         }
       end
 
+      let(:garb_config_content) do
+        case facts[:os]['family']
+        when 'FreeBSD'
+          <<~CONFIG
+            # This file is managed by Puppet. DO NOT EDIT.
+            garb_enable="YES"
+            garb_galera_nodes="10.2.2.1"
+            garb_galera_group="testcluster"
+            garb_galera_options="gcs.fc_limit=256; gcs.fc_factor=0.99; gcs.fc_master_slave=YES; evs.keepalive_period=PT1S; evs.suspect_timeout=PT1M; evs.inactive_timeout=PT2M; evs.install_timeout=PT2M; evs.delayed_keep_period=PT2M; gcs.sync_donor=YES; gmcast.peer_timeout=PT10S; gmcast.time_wait=PT15S; pc.wait_prim_timeout=PT1M; pc.announce_timeout=PT10S"
+          CONFIG
+        else
+          <<~CONFIG
+            # This file is managed by Puppet. DO NOT EDIT.
+            GALERA_NODES="10.2.2.1:4567"
+            GALERA_GROUP="testcluster"
+            GALERA_OPTIONS="gcs.fc_limit=256; gcs.fc_factor=0.99; gcs.fc_master_slave=YES; evs.keepalive_period=PT1S; evs.suspect_timeout=PT1M; evs.inactive_timeout=PT2M; evs.install_timeout=PT2M; evs.delayed_keep_period=PT2M; gcs.sync_donor=YES; gmcast.peer_timeout=PT10S; gmcast.time_wait=PT15S; pc.wait_prim_timeout=PT1M; pc.announce_timeout=PT10S"
+          CONFIG
+        end
+      end
+
       context 'with arbitrator enabled' do
         let(:params) do
           default_params
@@ -40,8 +60,7 @@ describe 'galera' do
           it { is_expected.to contain_service('arbitrator-service').with_enable(false) }
         end
 
-        it { is_expected.to contain_file('arbitrator-config-file').with_content(%r{GALERA_GROUP="testcluster"}) }
-        it { is_expected.to contain_file('arbitrator-config-file').with_content(%r{GALERA_NODES="10.2.2.1:4567"}) }
+        it { is_expected.to contain_file('arbitrator-config-file').with_content(garb_config_content) }
       end
     end
   end

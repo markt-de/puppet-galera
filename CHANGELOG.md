@@ -8,13 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 * Add support for MariaDB 10.5 ([#173])
-* Add initial support for Codership on MySQL 8.0 ([#159])
-* Add initial support for Percona XtraDB Cluster 8.0 ([#155])
+* Add support for Codership on MySQL 8.0 ([#159])
+* Add support for Percona XtraDB Cluster 8.0 ([#155])
 
 ### Changed
 * Use parameter for service name wherever possible ([#170])
 * Update PDK to 2.5.0
-* Bump module dependencies, Puppet and update OS support
+* Bump module dependencies and supported Puppet versions
+* Update list of supported operation systems and versions
 * Add puppetlabs/yumrepo_core as new module dependency
 * Switch Percona to new YUM/APT repository layout
 
@@ -27,7 +28,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 * Remove query_cache_size and query_cache_type from default options ([#155])
+* Remove innodb_locks_unsafe_for_binlog from default options ([#159])
 * Remove outdated examples
+* Drop official support for Debian 9, Ubuntu 18.04, CentOS 6 and FreeBSD 12.x (they may still work)
 
 ## [2.2.0] - 2020-08-17
 
