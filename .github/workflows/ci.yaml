@@ -36,11 +36,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['el7']
-        puppet_version: [7]
-        #puppet_version: [6, 7]
-        vendor_type: ['percona']
-        #vendor_type: ['codership', 'mariadb', 'percona']
+        os: ['el7', 'el8', 'ub2004', 'deb11']
+        puppet_version: [6, 7]
+        vendor_type: ['codership', 'mariadb', 'percona']
 
     name: Acceptance / ${{ matrix.os }} / ${{ matrix.vendor_type }} / Puppet ${{ matrix.puppet_version }}
     runs-on: ubuntu-20.04
@@ -61,7 +59,7 @@ jobs:
         env:
           VENDOR_TYPE: ${{ matrix.vendor_type }}
         run: |
-          bundle exec rake 'litmus:provision_list[travis_${{ matrix.os }}]'
+          bundle exec rake 'litmus:provision_list[gha_${{ matrix.os }}]'
           bundle exec rake 'litmus:install_agent[puppet${{ matrix.puppet_version }}]'
           bundle exec rake litmus:install_module
           bundle exec rake litmus:acceptance:parallel

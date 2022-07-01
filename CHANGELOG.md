@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Update list of supported operation systems and versions
 * Add puppetlabs/yumrepo_core as new module dependency
 * Switch Percona to new YUM/APT repository layout
+* Migrate tests to GitHub Actions
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])

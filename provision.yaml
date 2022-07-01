@@ -4,18 +4,32 @@ default:
   images: ['waffleimage/centos7']
 vagrant:
   provisioner: vagrant
-  images: ['centos/7', 'generic/ubuntu1804']
-travis_deb:
+  images: ['centos/7', 'generic/ubuntu2004']
+
+deb_all:
   provisioner: docker
-  images: ['litmusimage/debian:8', 'litmusimage/debian:9', 'litmusimage/debian:10']
-travis_ub:
+  images: ['litmusimage/debian:10', 'litmusimage/debian:11']
+el_all:
   provisioner: docker
-  images: ['litmusimage/ubuntu:16.04', 'litmusimage/ubuntu:18.04']
-travis_el6:
-  provisioner: docker_exp
-  images: ['litmusimage/centos:6']
-travis_el7:
+  images: ['litmusimage/centos:7', 'litmusimage/centos:8']
+ub_all:
+  provisioner: docker
+  images: ['litmusimage/ubuntu:20.04', 'litmusimage/ubuntu:22.04']
+el7:
   provisioner: docker_exp
   # XXX: Codership Galera fails to bootstrap when using litmusimage (systemd error).
   # see https://github.com/docker/for-linux/issues/835
   images: ['waffleimage/centos7']
+
+gha_deb11:
+  provisioner: docker
+  images: ['litmusimage/debian:11']
+gha_el7:
+  provisioner: docker
+  images: ['litmusimage/centos:7']
+gha_el8:
+  provisioner: docker
+  images: ['litmusimage/centos:8']
+gha_ub2004:
+  provisioner: docker
+  images: ['litmusimage/ubuntu:20.04']
