@@ -14,11 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         puppet_version: [6, 7]
-    name: Test / Puppet ${{ matrix.puppet_version }}
+
+    name: Check / Puppet ${{ matrix.puppet_version }}
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Clone repository
+      - name: Checkout source
         uses: actions/checkout@v2
 
       - name: Run pdk validate
@@ -41,10 +42,18 @@ jobs:
 
     name: Acceptance / EL7 / Percona / Puppet ${{ matrix.puppet_version }}
     runs-on: ubuntu-20.04
+    needs:
+      - check
 
     steps:
-      - name: Clone repository
+      - name: Checkout source
         uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+          bundler-cache: true
 
       - name: Run Litmus
         env:
