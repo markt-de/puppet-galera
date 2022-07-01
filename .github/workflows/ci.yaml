@@ -6,7 +6,6 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-
   workflow_dispatch:
 
 jobs:
@@ -15,9 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         puppet_version: [6, 7]
-
-    name: Puppet ${{ matrix.puppet_version }}
-    runs-on: ubuntu-latest
+    name: Test / Puppet ${{ matrix.puppet_version }}
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Clone repository
@@ -32,3 +30,27 @@ jobs:
         uses: puppets-epic-show-theatre/action-pdk-test-unit@193987acba9977d1825fefbcbaf8d02d6af78106
         with:
           puppet-version: ${{ matrix.puppet_version }}
+
+  acceptance:
+    strategy:
+      fail-fast: false
+      matrix:
+        puppet_version: [7]
+        #puppet_version: [6, 7]
+        #vendor_type: ['codership', 'mariadb', 'percona']
+
+    name: Acceptance / EL7 / Percona / Puppet ${{ matrix.puppet_version }}
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Run Litmus
+        env:
+          VENDOR_TYPE: percona
+        run: |
+          bundle exec rake 'litmus:provision_list[travis_el7]'
+          bundle exec rake 'litmus:install_agent[puppet7]'
+          bundle exec rake litmus:install_module
+          bundle exec rake litmus:acceptance:parallel
