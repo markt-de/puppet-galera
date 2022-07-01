@@ -1,6 +1,6 @@
 # puppet-galera
 
-[![Build Status](https://travis-ci.org/fraenki/puppet-galera.png?branch=master)](https://travis-ci.org/fraenki/puppet-galera)
+[![Build Status](https://github.com/fraenki/puppet-galera/actions/workflows/ci.yaml/badge.svg)](https://github.com/fraenki/puppet-galera/actions/workflows/ci.yaml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/fraenki/galera.svg)](https://forge.puppetlabs.com/fraenki/galera)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/fraenki/galera.svg)](https://forge.puppetlabs.com/fraenki/galera)
 
