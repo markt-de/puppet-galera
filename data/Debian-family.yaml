@@ -78,6 +78,8 @@ galera::percona::libgalera_location: '/usr/lib/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
 galera::percona::want_repos:
   - 'percona'
+  # Percona-XtraDB-Cluster package depends on xtrabackup
+  - 'percona_tools'
 
 galera::repo::codership::apt:
   include:
@@ -122,7 +124,16 @@ galera::repo::percona::apt:
   key:
     id: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
     server: 'keyserver.ubuntu.com'
-  location: "http://repo.percona.com/pxc-<%= $vendor_version_real %>/apt/"
+  location: "http://repo.percona.com/pxc-<%= $vendor_version_internal %>/apt/"
+  release: "%{os.distro.codename}"
+  repos: 'main'
+galera::repo::percona_tools::apt:
+  include:
+    src: false
+  key:
+    id: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
+    server: 'keyserver.ubuntu.com'
+  location: "http://repo.percona.com/tools/apt/"
   release: "%{os.distro.codename}"
   repos: 'main'
 
@@ -140,5 +151,7 @@ galera::sst::mariabackup::mariadb::104::additional_packages:
   - 'socat'
 galera::sst::xtrabackup::want_repos:
   - 'percona'
+  - 'percona_tools'
 galera::sst::xtrabackup_v2::want_repos:
   - 'percona'
+  - 'percona_tools'

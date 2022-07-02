@@ -110,6 +110,8 @@ galera::percona::libgalera_location: '/usr/lib64/libgalera_smm.so'
 galera::percona::mysql_service_name: 'mysql'
 galera::percona::want_repos:
   - 'percona'
+  # Percona-XtraDB-Cluster package depends on xtrabackup
+  - 'percona_tools'
 
 galera::epel_needed: true
 
@@ -141,7 +143,7 @@ galera::repo::mariadb::yum:
   gpgcheck: 1
   gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
 galera::repo::percona::yum:
-  baseurl: "http://repo.percona.com/pxc-<%= $vendor_version_real %>/yum/release/%{os.release.major}/RPMS/%{os.architecture}/"
+  baseurl: "http://repo.percona.com/pxc-<%= $vendor_version_internal %>/yum/release/%{os.release.major}/RPMS/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Percona"
   enabled: 1
   gpgcheck: 1
@@ -150,6 +152,12 @@ galera::repo::percona::yum:
   # Both XtraDB and Percona Server provide the same MySQL dependencies,
   # which could break the installation.
   exclude: '*Percona-Server*'
+galera::repo::percona_tools::yum:
+  baseurl: "http://repo.percona.com/tools/yum/release/%{os.release.major}/RPMS/%{os.architecture}/"
+  descr: "CentOS %{os.release.major} - Percona Tools"
+  enabled: 1
+  gpgcheck: 1
+  gpgkey: 'https://www.percona.com/downloads/RPM-GPG-KEY-percona https://repo.percona.com/yum/PERCONA-PACKAGING-KEY'
 
 galera::sst::mariabackup::mariadb::101::additional_packages:
   - 'MariaDB-backup'
@@ -164,6 +172,6 @@ galera::sst::mariabackup::mariadb::104::additional_packages:
   - 'MariaDB-backup'
   - 'socat'
 galera::sst::xtrabackup::want_repos:
-  - 'percona'
+  - 'percona_tools'
 galera::sst::xtrabackup_v2::want_repos:
-  - 'percona'
+  - 'percona_tools'
