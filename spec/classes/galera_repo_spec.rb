@@ -26,10 +26,10 @@ describe 'galera' do
       end
       it { is_expected.to contain_galera__repo__config('codership') }
       it { is_expected.to contain_galera__repo__config('codership_lib') }
-      it { is_expected.to contain_galera__repo__config('percona') }
+      it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_yumrepo('galera_codership').with(enabled: 1) }
       it { is_expected.to contain_yumrepo('galera_codership_lib').with(enabled: 1) }
-      it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_percona_tools').with(enabled: 1) }
     end
 
     context 'for mariadb' do
@@ -45,9 +45,9 @@ describe 'galera' do
         params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
       end
       it { is_expected.to contain_galera__repo__config('mariadb') }
-      it { is_expected.to contain_galera__repo__config('percona') }
+      it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_yumrepo('galera_mariadb').with(enabled: 1) }
-      it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_percona_tools').with(enabled: 1) }
     end
 
     context 'for percona' do
@@ -55,7 +55,9 @@ describe 'galera' do
         params.merge!(vendor_type: 'percona', vendor_version: '5.7')
       end
       it { is_expected.to contain_galera__repo__config('percona') }
+      it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_yumrepo('galera_percona').with(enabled: 1) }
+      it { is_expected.to contain_yumrepo('galera_percona_tools').with(enabled: 1) }
     end
 
     context 'with configure_repo=false' do
@@ -66,10 +68,12 @@ describe 'galera' do
       it { is_expected.not_to contain_galera__repo__config('codership_lib') }
       it { is_expected.not_to contain_galera__repo__config('mariadb') }
       it { is_expected.not_to contain_galera__repo__config('percona') }
+      it { is_expected.not_to contain_galera__repo__config('percona_tools') }
       it { is_expected.not_to contain_yumrepo('galera_codership') }
       it { is_expected.not_to contain_yumrepo('galera_codership_lib') }
       it { is_expected.not_to contain_yumrepo('galera_mariadb') }
       it { is_expected.not_to contain_yumrepo('galera_percona') }
+      it { is_expected.not_to contain_yumrepo('galera_percona_tools') }
     end
 
     context 'with epel_needed=true (default)' do
@@ -101,10 +105,10 @@ describe 'galera' do
       end
       it { is_expected.to contain_galera__repo__config('codership') }
       it { is_expected.to contain_galera__repo__config('codership_lib') }
-      it { is_expected.to contain_galera__repo__config('percona') }
+      it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_apt__source('galera_codership').with(repos: 'main') }
       it { is_expected.to contain_apt__source('galera_codership_lib').with(repos: 'main') }
-      it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: 'main') }
     end
 
     context 'for mariadb' do
@@ -119,9 +123,9 @@ describe 'galera' do
         params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
       end
       it { is_expected.to contain_galera__repo__config('mariadb') }
-      it { is_expected.to contain_galera__repo__config('percona') }
+      it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_apt__source('galera_mariadb').with(repos: 'main') }
-      it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: 'main') }
     end
 
     context 'for percona' do
@@ -129,7 +133,9 @@ describe 'galera' do
         params.merge!(vendor_type: 'percona', vendor_version: '5.7')
       end
       it { is_expected.to contain_galera__repo__config('percona') }
+      it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: 'main') }
     end
 
     context 'with configure_repo=false' do
@@ -140,10 +146,12 @@ describe 'galera' do
       it { is_expected.not_to contain_galera__repo__config('codership_lib') }
       it { is_expected.not_to contain_galera__repo__config('mariadb') }
       it { is_expected.not_to contain_galera__repo__config('percona') }
+      it { is_expected.not_to contain_galera__repo__config('percona_tools') }
       it { is_expected.not_to contain_apt__source('galera_codership') }
       it { is_expected.not_to contain_apt__source('galera_codership_lib') }
       it { is_expected.not_to contain_apt__source('galera_mariadb') }
       it { is_expected.not_to contain_apt__source('galera_percona') }
+      it { is_expected.not_to contain_apt__source('galera_percona_tools') }
     end
 
     context 'with epel_needed=true should do nothing' do

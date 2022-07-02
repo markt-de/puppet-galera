@@ -150,8 +150,6 @@ galera::sst::mariabackup::mariadb::104::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::xtrabackup::want_repos:
-  - 'percona'
   - 'percona_tools'
 galera::sst::xtrabackup_v2::want_repos:
-  - 'percona'
   - 'percona_tools'
