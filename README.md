@@ -220,7 +220,7 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 | **Percona XtraDB Cluster** | 7 / 8 | 10 / 11 | 20.04 / 22.04 | 13.x |
 | 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: |
 | **Codership Galera (MySQL)** |  |  |  |  |
-| 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :no_entry_sign: |
+| 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :no_entry_sign: |
 | **MariaDB Galera Cluster** |  |  |  |  |
 | 10.4 / 10.5 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :no_entry_sign: **/** :no_entry_sign: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: |
 
