@@ -15,15 +15,28 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
           }
         }
 
+        # When trying to workaround the docker/systemd incompatibility in
+        # CentOS 7 by using an older build, the old systemd results in a new
+        # issue: `systemctl daemon-reload` does not work and hence the firewall
+        # service should be disabled during tests.
+        if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') < 0) {
+          $_configure_firewall = false
+        } else {
+          $_configure_firewall = true
+        }
+
         # Setup firewall package and service, otherwise adding firewall
         # rules will fail.
-        class { 'firewall': }
+        if $_configure_firewall == true {
+          class { 'firewall': }
+        }
 
         class { 'galera':
           cluster_name          => 'testcluster',
           deb_sysmaint_password => 'sysmaint',
           galera_servers        => ['127.0.0.1'],
           galera_master         => $::fqdn,
+          configure_firewall    => $_configure_firewall,
           root_password         => 'root_password',
           status_password       => 'status_password',
           override_options      => {

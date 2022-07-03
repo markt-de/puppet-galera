@@ -26,7 +26,11 @@ gha_deb11:
   images: ['litmusimage/debian:11']
 gha_el7:
   provisioner: docker
-  images: ['litmusimage/centos:7']
+  # Workaround for the docker/systemd incompatibility.
+  # see https://github.com/voxpupuli/puppet-zabbix/issues/645
+  # see https://github.com/moby/moby/issues/38749
+  images: ['centos:7.6.1810']
+  #images: ['litmusimage/centos:7']
 gha_el8:
   provisioner: docker
   images: ['litmusimage/centos:8']
