@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])
-* Fix MariaDB repo conflict on EL8 ([#168])
+* Fix MariaDB/Percona/Codership repo conflict on EL8 ([#168])
 * Fix creation of /root/.my.cnf when `$status_check=false` ([#171])
 * Fix most puppet-lint offenses
 * Fix unit tests
