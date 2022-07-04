@@ -1,11 +1,21 @@
 ---
+# Not supported on FreeBSD.
 galera::configure_firewall: false
 galera::configure_repo: false
+
+#
+# Codership - version-specific settings
+#
 
 galera::codership::57::client_package_name: 'mysql57-client'
 galera::codership::57::galera_package_name: 'galera'
 galera::codership::57::mysql_package_name: 'mysqlwsrep57-server'
 galera::codership::57::arbitrator_package_name: 'galera'
+
+#
+# Codership - default settings
+#
+
 galera::codership::arbitrator_config_file: '/etc/rc.conf.d/garb'
 galera::codership::arbitrator_package_name: 'galera'
 galera::codership::arbitrator_service_name: 'garb'
@@ -13,28 +23,44 @@ galera::codership::bootstrap_command: 'service mysql-server onebootstrap'
 galera::codership::libgalera_location: '/usr/local/lib/libgalera_smm.so'
 galera::codership::mysql_service_name: 'mysql-server'
 
+#
+# MariaDB - version-specific settings
+#
+
 galera::mariadb::103::arbitrator_package_name: 'galera'
 galera::mariadb::103::client_package_name: 'mariadb103-client'
 galera::mariadb::103::galera_package_name: 'galera'
 galera::mariadb::103::mysql_package_name: 'mariadb103-server'
+
 galera::mariadb::104::arbitrator_package_name: 'galera26'
 galera::mariadb::104::client_package_name: 'mariadb104-client'
 galera::mariadb::104::galera_package_name: 'galera26'
 galera::mariadb::104::mysql_package_name: 'mariadb104-server'
+
 galera::mariadb::105::arbitrator_package_name: 'galera26'
 galera::mariadb::105::client_package_name: 'mariadb105-client'
 galera::mariadb::105::galera_package_name: 'galera26'
 galera::mariadb::105::mysql_package_name: 'mariadb105-server'
+
 galera::mariadb::106::arbitrator_package_name: 'galera26'
 galera::mariadb::106::client_package_name: 'mariadb106-client'
 galera::mariadb::106::galera_package_name: 'galera26'
 galera::mariadb::106::mysql_package_name: 'mariadb106-server'
+
+#
+# MariaDB - default settings
+#
+
 galera::mariadb::arbitrator_config_file: '/etc/rc.conf.d/garb'
 galera::mariadb::arbitrator_package_name: 'galera'
 galera::mariadb::arbitrator_service_name: 'garb'
 galera::mariadb::bootstrap_command: '/usr/local/bin/mysqld_safe --defaults-extra-file=/usr/local/etc/my.cnf --wsrep-new-cluster'
 galera::mariadb::libgalera_location: '/usr/local/lib/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mysql-server'
+
+#
+# Percona - default settings
+#
 
 galera::percona::arbitrator_config_file: '/UNSUPPORTED-arbitrator_config_file'
 galera::percona::arbitrator_package_name: 'UNSUPPORTED-arbitrator_package_name'
@@ -45,6 +71,10 @@ galera::percona::galera_package_name: 'UNSUPPORTED-galera_package_name'
 galera::percona::libgalera_location: '/UNSUPPORTED-libgalera_location'
 galera::percona::mysql_package_name: 'UNSUPPORTED-mysql_package_name'
 galera::percona::mysql_service_name: 'UNSUPPORTED-mysql_service_name'
+
+#
+# SST settings
+#
 
 galera::sst::mariabackup::mariadb::103::additional_packages:
   - 'socat'

@@ -1,21 +1,35 @@
 ---
+galera::epel_needed: true
+
+#
+# Codership - version-specific settings
+#
+
 galera::codership::55::client_package_name: 'mysql-wsrep-client-5.5'
 galera::codership::55::galera_package_name: 'galera-3'
 galera::codership::55::mysql_package_name: 'mysql-wsrep-5.5'
+
 galera::codership::56::arbitrator_package_name: 'galera'
 galera::codership::56::client_package_name: 'mysql-wsrep-client-5.6'
 galera::codership::56::galera_package_name: 'galera-3'
 galera::codership::56::mysql_package_name: 'mysql-wsrep-5.6'
+
 galera::codership::57::arbitrator_package_name: 'galera-3'
 galera::codership::57::client_package_name: 'mysql-wsrep-client-5.7'
 galera::codership::57::galera_package_name: 'galera-3'
 galera::codership::57::mysql_package_name: 'mysql-wsrep-5.7'
+
 galera::codership::80::arbitrator_package_name: 'galera-4'
 galera::codership::80::arbitrator_service_name: 'garb'
 galera::codership::80::client_package_name: 'mysql-wsrep-client'
 galera::codership::80::galera_package_name: 'galera-4'
 galera::codership::80::libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so'
 galera::codership::80::mysql_package_name: 'mysql-wsrep-8.0'
+
+#
+# Codership - default settings
+#
+
 galera::codership::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::codership::arbitrator_package_name: 'galera'
 galera::codership::arbitrator_service_name: 'garbd'
@@ -36,38 +50,53 @@ galera::codership::want_repos:
   - 'codership'
   - 'codership_lib'
 
+#
+# MariaDB - version-specific settings
+#
+
 # NOTE: MariaDB >=10.1 on systemd systems should use galera_new_cluster.
 #       See https://mariadb.com/kb/en/library/getting-started-with-mariadb-galera-cluster/.
 galera::mariadb::100::client_package_name: 'MariaDB-client'
 galera::mariadb::100::galera_package_name: 'galera'
 galera::mariadb::100::mysql_package_name: 'MariaDB-Galera-server'
+
 galera::mariadb::101::arbitrator_package_name: 'galera'
 galera::mariadb::101::client_package_name: 'MariaDB-client'
 galera::mariadb::101::galera_package_name: 'galera'
 galera::mariadb::101::mysql_package_name: 'MariaDB-server'
+
 galera::mariadb::102::arbitrator_package_name: 'galera'
 galera::mariadb::102::client_package_name: 'MariaDB-client'
 galera::mariadb::102::galera_package_name: 'galera'
 galera::mariadb::102::mysql_package_name: 'MariaDB-server'
+
 galera::mariadb::103::arbitrator_package_name: 'galera'
 galera::mariadb::103::client_package_name: 'MariaDB-client'
 galera::mariadb::103::galera_package_name: 'galera'
 galera::mariadb::103::mysql_package_name: 'MariaDB-server'
+
 galera::mariadb::104::arbitrator_package_name: 'galera-4'
 galera::mariadb::104::client_package_name: 'MariaDB-client'
 galera::mariadb::104::galera_package_name: 'galera-4'
 galera::mariadb::104::libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so'
 galera::mariadb::104::mysql_package_name: 'MariaDB-server'
+
 galera::mariadb::105::arbitrator_package_name: 'galera-4'
 galera::mariadb::105::client_package_name: 'MariaDB-client'
 galera::mariadb::105::galera_package_name: 'galera-4'
 galera::mariadb::105::libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so'
 galera::mariadb::105::mysql_package_name: 'MariaDB-server'
+
 galera::mariadb::106::arbitrator_package_name: 'galera-4'
 galera::mariadb::106::client_package_name: 'MariaDB-client'
 galera::mariadb::106::galera_package_name: 'galera-4'
 galera::mariadb::106::libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so'
 galera::mariadb::106::mysql_package_name: 'MariaDB-server'
+
+#
+# MariaDB - default settings
+#
+
 galera::mariadb::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::mariadb::arbitrator_package_name: 'galera-4'
 galera::mariadb::arbitrator_service_name: 'garb'
@@ -78,17 +107,23 @@ galera::mariadb::mysql_service_name: 'mariadb'
 galera::mariadb::want_repos:
   - 'mariadb'
 
+#
+# Percona - version-specific settings
+#
+
 galera::percona::55::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-2'
 galera::percona::55::client_package_name: 'Percona-XtraDB-Cluster-client-55'
 galera::percona::55::galera_package_name: 'Percona-XtraDB-Cluster-galera-2'
 # Using the meta package avoids conflicts with other versions during installation.
 galera::percona::55::mysql_package_name: 'Percona-XtraDB-Cluster-55'
+
 galera::percona::56::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::56::bootstrap_command: 'systemctl start mysql@bootstrap.service'
 galera::percona::56::client_package_name: 'Percona-XtraDB-Cluster-client-56'
 galera::percona::56::galera_package_name: 'Percona-XtraDB-Cluster-galera-3'
 # Using the meta package avoids conflicts with other versions during installation.
 galera::percona::56::mysql_package_name: 'Percona-XtraDB-Cluster-56'
+
 galera::percona::57::additional_packages:
   - 'nmap'
 galera::percona::57::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-57'
@@ -97,6 +132,7 @@ galera::percona::57::client_package_name: 'Percona-XtraDB-Cluster-client-57'
 galera::percona::57::galera_package_name: 'Percona-XtraDB-Cluster-galera-3'
 # Using the meta package avoids conflicts with other versions during installation.
 galera::percona::57::mysql_package_name: 'Percona-XtraDB-Cluster-57'
+
 galera::percona::80::additional_packages:
   - 'nmap'
 galera::percona::80::arbitrator_package_name: 'percona-xtradb-cluster-garbd'
@@ -106,6 +142,11 @@ galera::percona::80::client_package_name: 'percona-xtradb-cluster-client'
 galera::percona::80::galera_package_name: 'percona-xtradb-cluster-galera'
 # Using the meta package avoids conflicts with other versions during installation.
 galera::percona::80::mysql_package_name: 'percona-xtradb-cluster-full'
+
+#
+# Percona - default settings
+#
+
 galera::percona::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::percona::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::arbitrator_service_name: 'garb'
@@ -123,7 +164,9 @@ galera::percona::want_repos:
   # Percona-XtraDB-Cluster package depends on xtrabackup
   - 'percona_tools'
 
-galera::epel_needed: true
+#
+# YUM repository configs
+#
 
 galera::repo::codership::yum:
   # NOTE: "redhat" in the URL is hardcoded on-purpose to cover all
@@ -174,6 +217,10 @@ galera::repo::percona_tools::yum:
   enabled: 1
   gpgcheck: 1
   gpgkey: 'https://www.percona.com/downloads/RPM-GPG-KEY-percona https://repo.percona.com/yum/PERCONA-PACKAGING-KEY'
+
+#
+# SST settings
+#
 
 galera::sst::mariabackup::mariadb::101::additional_packages:
   - 'MariaDB-backup'

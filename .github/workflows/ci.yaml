@@ -37,7 +37,6 @@ jobs:
       fail-fast: false
       matrix:
         os: ['el7', 'el8', 'ub2004', 'deb10', 'deb11']
-        # puppet_version: [6, 7]
         puppet_version: [7]
         vendor_type: ['codership', 'mariadb', 'percona']
 
@@ -52,6 +51,7 @@ jobs:
           echo '{"ipv6":true,"fixed-cidr-v6":"2001:db8:1::/64"}' | sudo tee /etc/docker/daemon.json
           sudo service docker restart
 
+      # Disable AppArmor, otherwise MySQL tests fail on GitHub Actions
       # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
       - name: apparmor
         run: |
