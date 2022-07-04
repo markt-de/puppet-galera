@@ -78,3 +78,7 @@ jobs:
           bundle exec rake 'litmus:install_agent[puppet${{ matrix.puppet_version }}]'
           bundle exec rake litmus:install_module
           bundle exec rake litmus:acceptance:parallel
+
+      - name: Cleanup
+        run: |
+          bundle exec rake 'litmus:tear_down'
