@@ -25,7 +25,7 @@ if ENV['VENDOR_TYPE'] == 'mariadb'
             }
           },
           vendor_type           => 'mariadb',
-          vendor_version        => '10.3'
+          vendor_version        => '10.6'
         }
         MANIFEST
       end

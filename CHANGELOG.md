@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
-* Add support for MariaDB 10.5 ([#173])
+* Add support for MariaDB 10.5 and 10.6 ([#173])
 * Add support for Codership on MySQL 8.0 ([#159])
 * Add support for Percona XtraDB Cluster 8.0 ([#155])
 
@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Update list of supported operation systems and versions
 * Add puppetlabs/yumrepo_core as new module dependency
 * Switch Percona to new YUM/APT repository layout
+* Switch MariaDB to new YUM/APT repository layout
 * Migrate tests to GitHub Actions
 
 ### Fixed

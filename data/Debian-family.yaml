@@ -43,6 +43,18 @@ galera::mariadb::104::arbitrator_package_name: 'galera-arbitrator-4'
 galera::mariadb::104::client_package_name: 'mariadb-client-10.4'
 galera::mariadb::104::galera_package_name: 'galera-4'
 galera::mariadb::104::mysql_package_name: 'mariadb-server-10.4'
+galera::mariadb::105::arbitrator_config_file: '/etc/default/garb'
+galera::mariadb::105::arbitrator_package_name: 'galera-arbitrator-4'
+galera::mariadb::105::arbitrator_service_name: 'garb'
+galera::mariadb::105::client_package_name: 'mariadb-client-10.5'
+galera::mariadb::105::galera_package_name: 'galera-4'
+galera::mariadb::105::mysql_package_name: 'mariadb-server-10.5'
+galera::mariadb::106::arbitrator_config_file: '/etc/default/garb'
+galera::mariadb::106::arbitrator_package_name: 'galera-arbitrator-4'
+galera::mariadb::106::arbitrator_service_name: 'garb'
+galera::mariadb::106::client_package_name: 'mariadb-client-10.6'
+galera::mariadb::106::galera_package_name: 'galera-4'
+galera::mariadb::106::mysql_package_name: 'mariadb-server-10.6'
 galera::mariadb::arbitrator_config_file: '/etc/default/garb'
 galera::mariadb::arbitrator_package_name: 'galera-arbitrator-3'
 galera::mariadb::arbitrator_service_name: 'garb'
@@ -117,7 +129,16 @@ galera::repo::mariadb::apt:
   key:
     id: '177F4010FE56CA3336300305F1656F24C74CD1D8'
     server: 'keyserver.ubuntu.com'
-  location: "http://mirror.rackspace.com/mariadb/repo/<%= $vendor_version_real %>/%{os_name_lc}"
+  location: "https://dlm.mariadb.com/repo/mariadb-server/<%= $vendor_version_real %>/repo/%{os_name_lc}"
+  release: "%{os.distro.codename}"
+  repos: 'main'
+galera::repo::mariadb_tools::apt:
+  include:
+    src: false
+  key:
+    id: '177F4010FE56CA3336300305F1656F24C74CD1D8'
+    server: 'keyserver.ubuntu.com'
+  location: "http://downloads.mariadb.com/Tools/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
 galera::repo::percona::apt:
@@ -149,6 +170,12 @@ galera::sst::mariabackup::mariadb::103::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::mariabackup::mariadb::104::additional_packages:
+  - 'mariadb-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::105::additional_packages:
+  - 'mariadb-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::106::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::xtrabackup::want_repos:
