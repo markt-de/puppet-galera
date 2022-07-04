@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['el7', 'el8', 'ub2004', 'deb11']
+        os: ['el7', 'el8', 'ub2004', 'deb10', 'deb11']
         puppet_version: [6, 7]
         vendor_type: ['codership', 'mariadb', 'percona']
 

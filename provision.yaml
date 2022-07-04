@@ -20,6 +20,9 @@ ub_all:
   provisioner: docker
   images: ['litmusimage/ubuntu:20.04', 'litmusimage/ubuntu:22.04']
 
+gha_deb10:
+  provisioner: docker
+  images: ['litmusimage/debian:10']
 gha_deb11:
   provisioner: docker
   images: ['litmusimage/debian:11']
