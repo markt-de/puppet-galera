@@ -20,12 +20,9 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
           ensure_packages('iproute')
         }
 
-        # Setup firewall package and service, otherwise adding firewall
-        # rules will fail.
-        class { 'firewall': }
-
         class { 'galera':
           cluster_name          => 'testcluster',
+          configure_firewall    => false,
           deb_sysmaint_password => 'sysmaint',
           galera_servers        => ['127.0.0.1'],
           galera_master         => $::fqdn,
