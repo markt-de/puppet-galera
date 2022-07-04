@@ -12,6 +12,11 @@ if ENV['VENDOR_TYPE'] == 'codership'
           ensure_packages('apparmor-utils')
         }
 
+        # Tests will fail if `ss` is not installed.
+        if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
+          ensure_packages('iproute')
+        }
+
         class { 'galera':
           cluster_name          => 'testcluster',
           deb_sysmaint_password => 'sysmaint',

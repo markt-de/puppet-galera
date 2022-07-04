@@ -6,6 +6,11 @@ if ENV['VENDOR_TYPE'] == 'mariadb'
     describe 'with vendor mariadb enabled' do
       let(:pp) do
         <<-MANIFEST
+        # Tests will fail if `ss` is not installed.
+        if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
+          ensure_packages('iproute')
+        }
+
         class { 'galera':
           cluster_name          => 'testcluster',
           deb_sysmaint_password => 'sysmaint',

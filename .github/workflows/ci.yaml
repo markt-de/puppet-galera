@@ -36,12 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # XXX: tests on el7+el8 are failing due to a known docker/systemd
-        # incompatibility; workarounds exist but don't solve all issues.
-        # see https://github.com/voxpupuli/puppet-zabbix/issues/645
-        # see https://github.com/moby/moby/issues/38749
-        #os: ['el7', 'el8', 'ub2004', 'deb11']
-        os: ['ub2004', 'deb11']
+        os: ['el7', 'el8', 'ub2004', 'deb11']
         puppet_version: [6, 7]
         vendor_type: ['codership', 'mariadb', 'percona']
 
