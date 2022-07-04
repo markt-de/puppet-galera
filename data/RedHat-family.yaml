@@ -129,7 +129,7 @@ galera::repo::codership_lib::yum:
   enabled: 1
   gpgcheck: 1
   gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
-galera::repo::codership_lib::80::yum:
+galera::repo::codership_lib::codership::80::yum:
   # Adjust URL to use Galera 4 for MySQL 8.0.
   baseurl: "http://releases.galeracluster.com/galera-4/redhat/%{os.release.major}/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Codership Galera"

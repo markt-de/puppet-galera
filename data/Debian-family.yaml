@@ -90,6 +90,7 @@ galera::repo::codership::apt:
   location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
+  pin: 1001
 galera::repo::codership_lib::apt:
   include:
     src: false
@@ -99,7 +100,8 @@ galera::repo::codership_lib::apt:
   location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
   release: "%{os.distro.codename}"
   repos: 'main'
-galera::repo::codership_lib::80::apt:
+  pin: 1001
+galera::repo::codership_lib::codership::80::apt:
   include:
     src: false
   key:

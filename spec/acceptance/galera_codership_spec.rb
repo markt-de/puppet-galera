@@ -31,7 +31,7 @@ if ENV['VENDOR_TYPE'] == 'codership'
             }
           },
           vendor_type           => 'codership',
-          vendor_version        => '5.7'
+          vendor_version        => '8.0'
         }
         MANIFEST
       end

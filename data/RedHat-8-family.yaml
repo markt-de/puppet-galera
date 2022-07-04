@@ -8,6 +8,9 @@ galera::repo::codership::yum:
 galera::repo::codership_lib::yum:
   priority: 1
   module_hotfixes: 1
+galera::repo::codership_lib::codership::80::yum:
+  priority: 1
+  module_hotfixes: 1
 galera::repo::mariadb::yum:
   priority: 1
   module_hotfixes: 1

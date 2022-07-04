@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Add support for Percona XtraDB Cluster 8.0 ([#155])
 
 ### Changed
+* Add priority to Codership APT repositories (resolves installation issues)
 * Use parameter for service name wherever possible ([#170])
 * Update PDK to 2.5.0
 * Bump module dependencies and supported Puppet versions
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fix MariaDB/Percona/Codership repo conflict on EL8 ([#168])
 * Fix creation of /root/.my.cnf when `$status_check=false` ([#171])
 * Fix Arbitrator package name for Codership Galera 5.7 on EL7+EL8
+* Fix Codership installation issues on Ubuntu 20.04 and EL8
 * Fix most puppet-lint offenses
 * Fix unit tests
 
