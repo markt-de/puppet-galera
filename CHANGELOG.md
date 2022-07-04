@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.0]
+This is a new major release. It supports the two most recent (long-term)
+versions of Codership Galera, Percona XtraDB and MariaDB. Older versions may
+still work, but they are no longer officially supported (see README).
+This release contains breaking changes: Some MySQL parameters had to be removed
+from the default configuration and new APT/YUM repositories were introduced.
 
 ### Added
 * Add support for MariaDB 10.5 and 10.6 ([#173])
@@ -14,13 +19,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 * Add priority to Codership APT repositories (resolves installation issues)
 * Use parameter for service name wherever possible ([#170])
-* Update PDK to 2.5.0
-* Bump module dependencies and supported Puppet versions
-* Update list of supported operation systems and versions
-* Add puppetlabs/yumrepo_core as new module dependency
 * Switch Percona to new YUM/APT repository layout
 * Switch MariaDB to new YUM/APT repository layout
+* Bump module dependencies and supported Puppet versions
+* Update list of supported operation systems and versions
 * Migrate tests to GitHub Actions
+* Add puppetlabs/yumrepo_core as new module dependency
+* Update PDK to 2.5.0
 
 ### Fixed
 * Fix broken /root/.my.cnf ([#166])
@@ -29,13 +34,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fix Arbitrator package name for Codership Galera 5.7 on EL7+EL8
 * Fix Codership installation issues on Ubuntu 20.04 and EL8
 * Fix most puppet-lint offenses
-* Fix unit tests
+* Fix unit tests and acceptance tests
 
 ### Removed
 * Remove query_cache_size and query_cache_type from default options ([#155])
 * Remove innodb_locks_unsafe_for_binlog from default options ([#159])
-* Remove outdated examples
 * Drop official support for Debian 9, Ubuntu 18.04, CentOS 6 and FreeBSD 12.x (they may still work)
+* Remove outdated examples
 
 ## [2.2.0] - 2020-08-17
 
@@ -247,7 +252,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/fraenki/puppet-galera/compare/2.2.0...HEAD
+[Unreleased]: https://github.com/fraenki/puppet-galera/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/fraenki/puppet-galera/compare/2.2.0...3.0.0
 [2.2.0]: https://github.com/fraenki/puppet-galera/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/fraenki/puppet-galera/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/fraenki/puppet-galera/compare/1.0.6...2.0.0
