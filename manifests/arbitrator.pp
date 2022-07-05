@@ -11,7 +11,9 @@ class galera::arbitrator (
 
   file { 'arbitrator-config-file':
     path    => $config_file,
-    mode    => '0600',
+    mode    => '0640',
+    owner   => 'root',
+    group   => 'nobody',
     content => epp($galera::arbitrator_template),
     require => [Package[$package_name]],
   }

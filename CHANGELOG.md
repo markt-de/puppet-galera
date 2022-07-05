@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 * Add an example Arbitrator config (see README)
 
+### Fixed
+* Fix Arbitrator service unable to read config file
+
 ## [3.0.0]
 This is a new major release. It supports the two most recent (long-term)
 versions of Codership Galera, Percona XtraDB and MariaDB. Older versions may
