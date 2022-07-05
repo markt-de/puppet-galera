@@ -14,6 +14,7 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
     - [Basic usage](#basic-usage)
     - [WSREP provider options](#wsrep-provider-options)
     - [More complex example](#more-complex-example)
+    - [Configuring an Arbitrator](#configuring-an-Arbitrator)
     - [Custom repository configuration](#custom-repository-configuration)
     - [FreeBSD support](#freebsd-support)
     - [EPP supported for many options](#epp-supported-for-many-options)
@@ -44,7 +45,7 @@ Basic usage requires only the FQDN of the master node, a list of IP addresses of
 ```puppet
 class { 'galera':
   cluster_name    => 'mycluster',
-  galera_servers  => ['10.0.99.101', '10.0.99.102'],
+  galera_servers  => ['10.0.99.101', '10.0.99.102', '10.0.99.103'],
   galera_master   => 'node1.example.com',
   root_password   => 'pa$$w0rd',
   status_password => 'pa$$w0rd',
@@ -92,7 +93,7 @@ Furthermore, a number of simple options are available to customize the cluster c
 ```puppet
 class { 'galera':
   cluster_name    => 'mycluster',
-  galera_servers  => ['10.0.99.101', '10.0.99.102'],
+  galera_servers  => ['10.0.99.101', '10.0.99.102', '10.0.99.103'],
   galera_master   => 'node1.example.com',
   root_password   => 'pa$$w0rd',
   status_password => 'pa$$w0rd',
@@ -139,6 +140,21 @@ class { 'galera':
   ...
 }
 ```
+
+### Configuring an Arbitrator
+
+Configuring an Arbitrator service is straight-forward:
+
+```puppet
+class { 'galera':
+  arbitrator      => true,
+  cluster_name    => 'mycluster',
+  galera_servers  => ['10.0.99.101', '10.0.99.102', '10.0.99.103'],
+  ...
+}
+```
+
+You may even use the same parameters that you would normally use for database nodes, when `$arbitrator` is set to `true` they will be ignored. This makes it easy to share the same parameters across all cluster nodes, no matter if they are real database nodes or just an arbitrator service.
 
 ### Custom repository configuration
 

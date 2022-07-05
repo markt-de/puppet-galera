@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+* Add an example Arbitrator config (see README)
+
 ## [3.0.0]
 This is a new major release. It supports the two most recent (long-term)
 versions of Codership Galera, Percona XtraDB and MariaDB. Older versions may
