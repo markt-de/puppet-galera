@@ -14,7 +14,7 @@ NOTE: The "master" branch on GitHub contains the development version, which may 
     - [Basic usage](#basic-usage)
     - [WSREP provider options](#wsrep-provider-options)
     - [More complex example](#more-complex-example)
-    - [Configuring an Arbitrator](#configuring-an-Arbitrator)
+    - [Configuring an Arbitrator](#configuring-an-arbitrator)
     - [Custom repository configuration](#custom-repository-configuration)
     - [FreeBSD support](#freebsd-support)
     - [EPP supported for many options](#epp-supported-for-many-options)

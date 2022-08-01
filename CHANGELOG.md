@@ -283,6 +283,7 @@ This is the first release after extensive code refactoring and introduces multip
 [#162]: https://github.com/fraenki/puppet-galera/pull/162
 [#159]: https://github.com/fraenki/puppet-galera/pull/159
 [#158]: https://github.com/fraenki/puppet-galera/pull/158
+[#155]: https://github.com/fraenki/puppet-galera/pull/155
 [#154]: https://github.com/fraenki/puppet-galera/pull/154
 [#153]: https://github.com/fraenki/puppet-galera/pull/153
 [#152]: https://github.com/fraenki/puppet-galera/pull/152
