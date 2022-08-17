@@ -1,6 +1,6 @@
 {
   "name": "fraenki-galera",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Frank Wall",
   "summary": "Setup a Galera cluster on MySQL/MariaDB/XtraDB with Arbitrator support",
   "license": "BSD-2-Clause",

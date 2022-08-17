@@ -4,13 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.1]
 
 ### Added
 * Add an example Arbitrator config (see README)
 
 ### Fixed
 * Fix Arbitrator service unable to read config file
+
+### Removed
+* Officially drop the concept of "stable" branches on GitHub
 
 ## [3.0.0]
 This is a new major release. It supports the two most recent (long-term)
@@ -260,7 +263,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/fraenki/puppet-galera/compare/3.0.0...HEAD
+[Unreleased]: https://github.com/fraenki/puppet-galera/compare/3.0.1...HEAD
+[3.0.1]: https://github.com/fraenki/puppet-galera/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/fraenki/puppet-galera/compare/2.2.0...3.0.0
 [2.2.0]: https://github.com/fraenki/puppet-galera/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/fraenki/puppet-galera/compare/2.0.0...2.1.0
