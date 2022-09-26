@@ -36,19 +36,17 @@ class galera::status (
     }
   }
 
+
   group { 'clustercheck':
     ensure => present,
     system => true,
-  }
-
+  }->
   user { 'clustercheck':
     shell  => '/bin/false',
     home   => '/var/empty',
     gid    => 'clustercheck',
     system => true,
-    before => File['/usr/local/bin/clustercheck'],
-  }
-
+  }->
   file { '/usr/local/bin/clustercheck':
     content => epp('galera/clustercheck.epp'),
     owner   => 'clustercheck',
@@ -56,29 +54,41 @@ class galera::status (
     mode    => '0500',
   }
 
-  xinetd::service { 'mysqlchk':
-    server                  => '/usr/local/bin/clustercheck',
-    port                    => $galera::status_port,
-    user                    => 'clustercheck',
-    flags                   => 'REUSE',
-    service_type            => 'UNLISTED',
-    log_on_success          => $galera::status_log_on_success,
-    log_on_success_operator => $galera::status_log_on_success_operator,
-    log_on_failure          => $galera::status_log_on_failure,
-    require                 => [
-      File['/usr/local/bin/clustercheck'],
-      User['clustercheck']
-    ],
+  if $::osfamily == 'FreeBSD' {
+    File['/usr/local/bin/clustercheck'] -> xinetd::service { 'mysqlchk':
+        server                  => '/usr/local/bin/clustercheck',
+        port                    => $galera::status_port,
+        user                    => 'clustercheck',
+        flags                   => 'REUSE',
+        service_type            => 'UNLISTED',
+        log_on_success          => $galera::status_log_on_success,
+        log_on_success_operator => $galera::status_log_on_success_operator,
+        log_on_failure          => $galera::status_log_on_failure,
+    }
+    Exec<| title == 'bootstrap_galera_cluster' |> -> Class['xinetd']
   }
+  else {
+    File['/usr/local/bin/clustercheck'] -> file {'/lib/systemd/system/mysqlchk.socket':
+      mode => '0644',
+      owner => 'root',
+      group => 'root',
+      content => epp('galera/mysqlchk.socket.epp')
+    }->
+    file {'/lib/systemd/system/mysqlchk@.service':
+      mode => '0644',
+      owner => 'root',
+      group => 'root',
+      content => epp('galera/mysqlchk.service.epp')
+    }~>
+    exec { 'mysqlchk-systemd-reload':
+      command     => 'systemctl daemon-reload',
+      path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+      refreshonly => true,
+    }
 
-  # Postpone the xinetd stuff. This is necessary in order to avoid package
-  # conflicts. On some platforms xinetd depends on MySQL libs. If installed
-  # too early it will install the wrong MySQL libs. This may cause the
-  # installation of the Galera packages to fail.
-  # This has been first observed on Debian 9 with Codership Galera 5.7 where
-  # the package installation just ended with a conflict instead of replacing
-  # the wrong MySQL libs. The root cause is likely a packaging bug in the
-  # Codership distribution, since this issue could not be reproduced for
-  # Percona.
-  Exec<| title == 'bootstrap_galera_cluster' |> -> Class['xinetd']
+    # remove xinetd service
+    file {'/etc/xinetd.d/mysqlchk':
+      ensure => 'absent',
+    }
+  }
 }

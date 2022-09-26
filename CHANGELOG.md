@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.1.0]
+### Changed
+* Replace xinetd service by systemd service for all OS excepted FreeBSD. Compatiblity with EL9 (Redhat dropped xinetd on RHEL 9)
+
 ## [3.0.1]
 
 ### Added

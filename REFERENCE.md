@@ -574,4 +574,3 @@ Specifies the firewall source addresses to unblock. Valid options: a string. Def
 Default value: ``undef``
 
 ## Defined types
-

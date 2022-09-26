@@ -1,6 +1,6 @@
 {
   "name": "fraenki-galera",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "author": "Frank Wall",
   "summary": "Setup a Galera cluster on MySQL/MariaDB/XtraDB with Arbitrator support",
   "license": "BSD-2-Clause",
@@ -18,15 +18,11 @@
     },
     {
       "name": "puppetlabs/mysql",
-      "version_requirement": ">= 10.8.0 < 13.0.0"
+      "version_requirement": ">= 10.8.0 < 14.0.0"
     },
     {
       "name": "puppetlabs/firewall",
       "version_requirement": ">= 2.0.0 < 4.0.0"
-    },
-    {
-      "name": "puppetlabs/xinetd",
-      "version_requirement": ">= 3.0.0 < 4.0.0"
     },
     {
       "name": "puppetlabs/yumrepo_core",
@@ -56,20 +52,23 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
