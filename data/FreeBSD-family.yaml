@@ -28,6 +28,16 @@ galera::mariadb::bootstrap_command: '/usr/local/bin/mysqld_safe --defaults-extra
 galera::mariadb::libgalera_location: '/usr/local/lib/libgalera_smm.so'
 galera::mariadb::mysql_service_name: 'mysql-server'
 
+galera::percona::arbitrator_config_file: '/UNSUPPORTED-arbitrator_config_file'
+galera::percona::arbitrator_package_name: 'UNSUPPORTED-arbitrator_package_name'
+galera::percona::arbitrator_service_name: 'UNSUPPORTED-arbitrator_service_name'
+galera::percona::bootstrap_command: 'UNSUPPORTED'
+galera::percona::client_package_name: 'UNSUPPORTED-client_package_name'
+galera::percona::galera_package_name: 'UNSUPPORTED-galera_package_name'
+galera::percona::libgalera_location: '/UNSUPPORTED-libgalera_location'
+galera::percona::mysql_package_name: 'UNSUPPORTED-mysql_package_name'
+galera::percona::mysql_service_name: 'UNSUPPORTED-mysql_service_name'
+
 galera::sst::mariabackup::mariadb::103::additional_packages:
   - 'socat'
 galera::sst::mariabackup::mariadb::104::additional_packages:

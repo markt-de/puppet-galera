@@ -31,8 +31,9 @@ It will try to recover from failures by bootstrapping on a node designated as th
 
 ## Requirements
 
-* Puppet 5 or higher
-* puppetlabs-mysql
+* Puppet 6 or higher
+* [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql) and other soft dependencies
+* A [supported version](#os-and-cluster-compatibility) of Codership Galera (MySQL), MariaDB or Percona XtraDB Cluster
 
 ## Usage
 
@@ -50,16 +51,16 @@ class { 'galera':
 }
 ```
 
-This will install the default galera vendor and version. However, in a production environment you should definitely set vendor and version to the desired value, because the default values might change:
+This will install the default packages and version. However, in a production environment you should definitely set the vendor and version variables to the desired value, because the default values might change:
 
 ```puppet
 class { 'galera':
   vendor_type    => 'percona',
-  vendor_version => '5.7',
+  vendor_version => '8.0',
   ...
 ```
 
-On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password:
+On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password when using these platforms:
 
 ```puppet
 class { 'galera':
@@ -98,7 +99,7 @@ class { 'galera':
 
   # Default is 'percona'
   vendor_type     => 'codership',
-  vendor_version  => '5.7',
+  vendor_version  => '8.0',
 
   # This will be used to populate my.cnf values that
   # control where wsrep binds, advertises, and listens
@@ -111,7 +112,7 @@ class { 'galera':
   configure_firewall => true,
 
   # Configure the SST method
-  wsrep_sst_method => 'xtrabackup',
+  wsrep_sst_method => 'xtrabackup-v2',
 
   # These options are only used for the firewall -
   # to change the my.cnf settings, use the override options
@@ -216,12 +217,12 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 
 |  | RedHat | Debian | Ubuntu | FreeBSD |
 | :---     |  :---: |  :---: |  :---: |  :---: |
-| **Percona XtraDB Cluster** | 7 / 8 | 9 / 10 | 18.04 | 12.x |
-| 5.6 / 5.7 | :green_circle: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
-| **Codership Galera** |  |  |  |  |
-| 5.6 / 5.7 | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: | :green_circle: :green_circle: |
+| **Percona XtraDB Cluster** | 7 / 8 | 10 / 11 | 20.04 / 22.04 | 13.x |
+| 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :no_entry_sign: :no_entry_sign: |
+| **Codership Galera (MySQL)** |  |  |  |  |
+| 5.7 / 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :no_entry_sign: |
 | **MariaDB Galera Cluster** |  |  |  |  |
-| 10.3 / 10.4 / 10.5 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: | :green_circle: :green_circle: |
+| 10.4 / 10.5 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :no_entry_sign: **/** :no_entry_sign: :green_circle: | :green_circle: :green_circle: **/** :no_entry_sign: :no_entry_sign: | :green_circle: :green_circle: |
 
 The table only includes the **two most recent** versions.
 Older and possibly outdated releases are not listed, although they may still be supported by their vendors.
@@ -237,6 +238,8 @@ This module was created to work in tandem with the puppetlabs-mysql module, rath
 Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple `nc` command and should not be considered terribly reliable.
 
 Furthermore the bootstrap functionality may be considered harmful for existing clusters. For extra safety, the bootstrap command may be set to something like `/bin/false` (see [GH-116](https://github.com/fraenki/puppet-galera/issues/116) for more information).
+
+It should also be noted that it is not possible to unset default configuration variables (see [GH-174](https://github.com/fraenki/puppet-galera/issues/174)). This is true for this modules' own variables, but also for pre-defined variables that are set by the puppetlabs/mysql module.
 
 ## Development
 

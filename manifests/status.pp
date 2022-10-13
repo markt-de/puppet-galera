@@ -36,39 +36,53 @@ class galera::status (
     }
   }
 
-  group { 'clustercheck':
-    ensure => present,
-    system => true,
+  if ($galera::status_group != 'nobody') {
+    group { $galera::status_group:
+      ensure => present,
+      system => true,
+    }
   }
 
-  user { 'clustercheck':
-    shell  => '/bin/false',
-    home   => '/var/empty',
-    gid    => 'clustercheck',
-    system => true,
-    before => File['/usr/local/bin/clustercheck'],
+  if ($galera::status_user != 'nobody') {
+    user { $galera::status_user:
+      shell  => '/bin/false',
+      home   => '/var/empty',
+      gid    => 'clustercheck',
+      system => true,
+      before => File['/usr/local/bin/clustercheck'],
+    }
+  } else {
+    user { $galera::status_user:
+      before => File['/usr/local/bin/clustercheck'],
+    }
   }
 
   file { '/usr/local/bin/clustercheck':
     content => epp('galera/clustercheck.epp'),
-    owner   => 'clustercheck',
-    group   => 'clustercheck',
+    owner   => $galera::status_user,
+    group   => $galera::status_group,
     mode    => '0500',
   }
 
   xinetd::service { 'mysqlchk':
     server                  => '/usr/local/bin/clustercheck',
     port                    => $galera::status_port,
-    user                    => 'clustercheck',
-    flags                   => 'REUSE',
-    service_type            => 'UNLISTED',
+    user                    => $galera::status_user,
+    group                   => $galera::status_group,
+    flags                   => $galera::status_flags,
+    service_type            => $galera::status_service_type,
+    cps                     => $galera::status_cps,
+    instances               => $galera::status_instances,
+    log_type                => $galera::status_log_type,
     log_on_success          => $galera::status_log_on_success,
     log_on_success_operator => $galera::status_log_on_success_operator,
     log_on_failure          => $galera::status_log_on_failure,
+    log_on_failure_operator => $galera::status_log_on_failure_operator,
     require                 => [
       File['/usr/local/bin/clustercheck'],
-      User['clustercheck']
+      User[$galera::status_user]
     ],
+    before                  => Anchor['mysql::server::end'],
   }
 
   # Postpone the xinetd stuff. This is necessary in order to avoid package

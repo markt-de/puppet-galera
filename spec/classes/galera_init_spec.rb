@@ -101,17 +101,29 @@ describe 'galera' do
 
     context 'when using xtrabackup' do
       before(:each) { params.merge!(wsrep_sst_method: 'xtrabackup') }
-      it { is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed') }
+      it {
+        if os_params[:p_xtrabackup_package] != 'NONE'
+          is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed')
+        end
+      }
     end
 
     context 'when using xtrabackup-v2' do
       before(:each) { params.merge!(wsrep_sst_method: 'xtrabackup-v2') }
-      it { is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed') }
+      it {
+        if os_params[:p_xtrabackup_package] != 'NONE'
+          is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed')
+        end
+      }
     end
 
     context 'when using mariabackup' do
       before(:each) { params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'mariabackup') }
-      it { is_expected.to contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('installed') }
+      it {
+        if os_params[:m_mariadb_backup_package_name] != 'NONE'
+          is_expected.to contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('installed')
+        end
+      }
       it { is_expected.to contain_package('socat').with_ensure('installed') }
     end
 
@@ -323,6 +335,29 @@ describe 'galera' do
             p_mysql_service_name: 'mysql',
             p_xtrabackup_package: 'percona-xtrabackup-24',
             mysql_service_name: 'mysql',
+            nmap_package_name: 'nmap' }
+        elsif facts[:osfamily] == 'FreeBSD'
+          { c_additional_packages: 'rsync',
+            c_client_package_name: 'mysql57-client',
+            c_galera_package_name: 'galera',
+            c_libgalera_location: '/usr/local/lib/libgalera_smm.so',
+            c_mysql_package_name: 'mysqlwsrep57-server',
+            c_mysql_service_name: 'mysql-server',
+            m_additional_packages: 'rsync',
+            m_client_package_name: 'mariadb103-client',
+            m_galera_package_name: 'galera',
+            m_libgalera_location: '/usr/local/lib/libgalera_smm.so',
+            m_mariadb_backup_package_name: 'NONE',
+            m_mysql_package_name: 'mariadb103-server',
+            m_mysql_service_name: 'mysql-server',
+            p_additional_packages: 'rsync',
+            p_client_package_name: 'UNSUPPORTED-client_package_name',
+            p_galera_package_name: 'UNSUPPORTED-galera_package_name',
+            p_libgalera_location: '/UNSUPPORTED-libgalera_location',
+            p_mysql_package_name: 'UNSUPPORTED-mysql_package_name',
+            p_mysql_service_name: 'UNSUPPORTED-mysql_service_name',
+            p_xtrabackup_package: 'NONE',
+            mysql_service_name: 'mysql-server',
             nmap_package_name: 'nmap' }
         end
       end
