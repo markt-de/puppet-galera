@@ -35,7 +35,9 @@ class galera::status (
       user       => "${galera::status_user}@localhost",
     }
   }
-
+  if (!defined($galera::status_group)) {
+   $galera::status_group = 'nobody'
+  }
   if ($galera::status_group != 'nobody') {
     group { $galera::status_group:
       ensure => present,
