@@ -1,0 +1,9 @@
+[Unit]
+Description=Mysqlchk socket
+
+[Socket]
+ListenStream=<%= $galera::status_port %>
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

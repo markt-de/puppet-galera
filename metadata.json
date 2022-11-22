@@ -18,7 +18,7 @@
     },
     {
       "name": "puppetlabs/mysql",
-      "version_requirement": ">= 10.8.0 < 13.0.0"
+      "version_requirement": ">= 10.8.0 < 14.0.0"
     },
     {
       "name": "puppetlabs/firewall",
@@ -56,20 +56,23 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {

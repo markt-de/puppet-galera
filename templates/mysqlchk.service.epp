@@ -1,0 +1,10 @@
+[Unit]
+Description=Mysqlchk service
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+User=clustercheck
+Group=clustercheck
+StandardInput=socket
+ExecStart=/usr/local/bin/clustercheck
