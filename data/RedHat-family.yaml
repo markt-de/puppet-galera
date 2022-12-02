@@ -135,11 +135,11 @@ galera::repo::codership_lib::80::yum:
   gpgcheck: 1
   gpgkey: 'http://releases.galeracluster.com/GPG-KEY-galeracluster.com'
 galera::repo::mariadb::yum:
-  baseurl: "http://yum.mariadb.org/<%= $vendor_version_real %>/%{os_name_lc}%{os.release.major}-amd64"
+  baseurl: "http://mirror.fi.mariadb.org/yum/<%= $vendor_version_real %>/%{os_name_lc}%{os.release.major}-amd64"
   descr: 'MariaDB Yum Repo'
   enabled: 1
   gpgcheck: 1
-  gpgkey: 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
+  gpgkey: 'https://mirror.fi.mariadb.org/yum/RPM-GPG-KEY-MariaDB'
 galera::repo::percona::yum:
   baseurl: "http://repo.percona.com/pxc-<%= $vendor_version_real %>/yum/release/%{os.release.major}/RPMS/%{os.architecture}/"
   descr: "CentOS %{os.release.major} - Percona"
