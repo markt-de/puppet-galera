@@ -47,7 +47,7 @@ define galera::repo::config (
   # galera::repo::REPONAME::TYPE:
   #   location: 'http://repo.example.com/mysql-wsrep-<%= $vendor_version_real %>'
   # 
-  $config = $_config_tmp.reduce( {}) |$memo, $x| {
+  $config = $_config_tmp.reduce({}) |$memo, $x| {
     # epp expects a string, so skip all other types.
     if ($x[1] =~ String) {
       $_values = inline_epp($x[1])
