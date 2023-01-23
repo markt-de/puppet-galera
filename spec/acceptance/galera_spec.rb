@@ -16,7 +16,7 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
           configure_firewall    => false,
           deb_sysmaint_password => 'sysmaint',
           galera_servers        => ['127.0.0.1'],
-          galera_master         => $::fqdn,
+          galera_master         => $facts['networking']['fqdn'],
           root_password         => 'root_password',
           status_password       => 'status_password',
           override_options      => {

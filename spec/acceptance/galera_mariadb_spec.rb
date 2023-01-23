@@ -16,7 +16,7 @@ if ENV['VENDOR_TYPE'] == 'mariadb'
           deb_sysmaint_password => 'sysmaint',
           configure_firewall    => false,
           galera_servers        => ['127.0.0.1'],
-          galera_master         => $::fqdn,
+          galera_master         => $facts['networking']['fqdn'],
           root_password         => 'root_password',
           status_password       => 'status_password',
           override_options      => {
