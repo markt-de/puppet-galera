@@ -302,8 +302,15 @@ class galera (
   Optional[String] $mysql_package_name = undef,
   Optional[String] $mysql_service_name = undef,
   Optional[Array] $override_repos = undef,
+  Optional[String] $status_group = undef,
+  Optional[String] $status_flags = 'REUSE',
+  Optional[String] $status_service_type = 'UNLISTED',
+  Optional[String] $status_cps = undef,
+  Optional[String] $status_instances = undef,
+  Optional[String] $status_log_type = undef,
   Optional[String] $status_log_on_failure = undef,
   Optional[String] $status_log_on_success = undef,
+  Optional[String] $status_log_on_failure_operator = undef,
   Optional[String] $vendor_version = undef,
 ) {
   # Fetch appropiate default values from module data, depending on the values
