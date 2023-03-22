@@ -19,6 +19,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+          bundler-cache: true
+
       - name: Checkout source
         uses: actions/checkout@v2
 
@@ -28,7 +35,7 @@ jobs:
           puppet-version: ${{ matrix.puppet_version }}
 
       - name: Run pdk test unit
-        uses: puppets-epic-show-theatre/action-pdk-test-unit@193987acba9977d1825fefbcbaf8d02d6af78106
+        uses: puppets-epic-show-theatre/action-pdk-test-unit@v1
         with:
           puppet-version: ${{ matrix.puppet_version }}
 
