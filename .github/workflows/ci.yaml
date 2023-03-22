@@ -24,7 +24,7 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
+          ruby-version: '2.7'
           bundler-cache: true
           cache-version: ${{ inputs.cache-version }}
           working-directory: ${{ inputs.working-directory }}
