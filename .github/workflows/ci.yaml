@@ -31,6 +31,11 @@ jobs:
       - name: noko
         run: gem install nokogiri -- --use-system-libraries
 
+      - name: raccl
+        run: gem list racc
+      - name: racc
+        run: gem install racc
+
       - name: Bundle Config
         run: bundle config build.nokogiri --use-system-libraries
 
