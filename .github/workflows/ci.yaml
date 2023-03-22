@@ -21,12 +21,17 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
-
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+          cache-version: ${{ inputs.cache-version }}
+          working-directory: ${{ inputs.working-directory }}
       - name: Run pdk validate
         uses: puppets-epic-show-theatre/action-pdk-validate@31b5407676af16b690b2b8c54c0767af72fcc34f
         with:
           puppet-version: ${{ matrix.puppet_version }}
-
       - name: Run pdk test unit
         uses: puppets-epic-show-theatre/action-pdk-test-unit@193987acba9977d1825fefbcbaf8d02d6af78106
         with:
