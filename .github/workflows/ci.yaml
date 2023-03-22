@@ -19,17 +19,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install depends
+        run: sudo apt-get install build-essential patch ruby-dev zlib1g-dev liblzma-dev
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "2.7"
           bundler-cache: true
-      - name: Install depends
-        run: sudo apt-get install build-essential patch ruby-dev zlib1g-dev liblzma-dev
+
       - name: Bundle Config
         run: bundle config build.nokogiri --use-system-libraries
-      - name: bunde install
-        run: bundle install
 
       - name: Checkout source
         uses: actions/checkout@v2
