@@ -28,6 +28,9 @@ jobs:
           ruby-version: "2.7"
           bundler-cache: true
 
+      - name: noko
+        run: gem install nokogiri -- --use-system-libraries
+
       - name: Bundle Config
         run: bundle config build.nokogiri --use-system-libraries
 
