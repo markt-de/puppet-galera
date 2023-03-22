@@ -1,14 +1,84 @@
-name: CI
+---
+name: ci
 
-on: pull_request
-
-concurrency:
-  group: ${{ github.ref_name }}
-  cancel-in-progress: true
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
-  puppet:
-    name: Puppet
-    uses: voxpupuli/gha-puppet/.github/workflows/beaker.yml@v1
-    with:
-      pidfile_workaround: 'false'
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        puppet_version: [6, 7]
+
+    name: Check / Puppet ${{ matrix.puppet_version }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Run pdk validate
+        uses: puppets-epic-show-theatre/action-pdk-validate@v1
+        with:
+          puppet-version: ${{ matrix.puppet_version }}
+
+      - name: Run pdk test unit
+        uses: puppets-epic-show-theatre/action-pdk-test-unit@193987acba9977d1825fefbcbaf8d02d6af78106
+        with:
+          puppet-version: ${{ matrix.puppet_version }}
+
+  acceptance:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['el7', 'el8', 'ub2004', 'deb10', 'deb11']
+        puppet_version: [7]
+        vendor_type: ['codership', 'mariadb', 'percona']
+
+    name: Acceptance / ${{ matrix.os }} / ${{ matrix.vendor_type }} / Puppet ${{ matrix.puppet_version }}
+    runs-on: ubuntu-20.04
+    needs:
+      - check
+
+    steps:
+      - name: Enable IPv6 on docker
+        run: |
+          echo '{"ipv6":true,"fixed-cidr-v6":"2001:db8:1::/64"}' | sudo tee /etc/docker/daemon.json
+          sudo service docker restart
+
+      # Disable AppArmor, otherwise MySQL tests fail on GitHub Actions
+      # https://github.com/actions/virtual-environments/issues/181#issuecomment-610874237
+      - name: apparmor
+        run: |
+            set -x
+            sudo apt-get remove mysql-server --purge
+            sudo apt-get install apparmor-profiles
+            sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+          bundler-cache: true
+
+      - name: Run Litmus
+        env:
+          VENDOR_TYPE: ${{ matrix.vendor_type }}
+          DEBUG: true
+        run: |
+          bundle exec rake 'litmus:provision_list[gha_${{ matrix.os }}]'
+          bundle exec rake 'litmus:install_agent[puppet${{ matrix.puppet_version }}]'
+          bundle exec rake litmus:install_module
+          bundle exec rake litmus:acceptance:parallel
+
+      - name: Cleanup
+        run: |
+          bundle exec rake 'litmus:tear_down'
