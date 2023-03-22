@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
+      - name: install additional packages
+        run: sudo apt install -y make automake
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
