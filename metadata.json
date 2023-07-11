@@ -1,12 +1,12 @@
 {
-  "name": "fraenki-galera",
-  "version": "3.0.1",
-  "author": "Frank Wall",
+  "name": "markt-galera",
+  "version": "3.0.2",
+  "author": "markt.de",
   "summary": "Setup a Galera cluster on MySQL/MariaDB/XtraDB with Arbitrator support",
   "license": "BSD-2-Clause",
-  "source": "https://github.com/fraenki/puppet-galera",
-  "project_page": "https://github.com/fraenki/puppet-galera",
-  "issues_url": "https://github.com/fraenki/puppet-galera/issues",
+  "source": "https://github.com/markt-de/puppet-galera",
+  "project_page": "https://github.com/markt-de/puppet-galera",
+  "issues_url": "https://github.com/markt-de/puppet-galera/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",

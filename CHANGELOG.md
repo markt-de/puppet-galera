@@ -4,12 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [3.0.2] - 2023-07-11
+
+### Changed
+* Use modern facts in acceptance tests ([#179])
 
 ### Fixed
-* Fix Puppet lint offenses
+* Fix Puppet lint offenses ([#179])
 
-## [3.0.1]
+## [3.0.1] - 2022-08-17
 
 ### Added
 * Add an example Arbitrator config (see README)
@@ -20,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 * Officially drop the concept of "stable" branches on GitHub
 
-## [3.0.0]
+## [3.0.0] - 2022-07-04
 This is a new major release. It supports the two most recent (long-term)
 versions of Codership Galera, Percona XtraDB and MariaDB. Older versions may
 still work, but they are no longer officially supported (see README).
@@ -268,7 +271,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/fraenki/puppet-galera/compare/3.0.1...HEAD
+[Unreleased]: https://github.com/fraenki/puppet-galera/compare/3.0.2...HEAD
+[3.0.2]: https://github.com/fraenki/puppet-galera/compare/3.0.1...3.0.2
 [3.0.1]: https://github.com/fraenki/puppet-galera/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/fraenki/puppet-galera/compare/2.2.0...3.0.0
 [2.2.0]: https://github.com/fraenki/puppet-galera/compare/2.1.0...2.2.0
@@ -284,6 +288,7 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/fraenki/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/fraenki/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/fraenki/puppet-galera/compare/0.0.6...0.7.0
+[#179]: https://github.com/fraenki/puppet-galera/pull/179
 [#173]: https://github.com/fraenki/puppet-galera/pull/173
 [#171]: https://github.com/fraenki/puppet-galera/pull/171
 [#170]: https://github.com/fraenki/puppet-galera/pull/170

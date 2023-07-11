@@ -1,8 +1,8 @@
 # puppet-galera
 
-[![Build Status](https://github.com/fraenki/puppet-galera/actions/workflows/ci.yaml/badge.svg)](https://github.com/fraenki/puppet-galera/actions/workflows/ci.yaml)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/fraenki/galera.svg)](https://forge.puppetlabs.com/fraenki/galera)
-[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/fraenki/galera.svg)](https://forge.puppetlabs.com/fraenki/galera)
+[![Build Status](https://github.com/markt-de/puppet-galera/actions/workflows/ci.yaml/badge.svg)](https://github.com/markt-de/puppet-galera/actions/workflows/ci.yaml)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/markt/galera.svg)](https://forge.puppetlabs.com/markt/galera)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/markt/galera.svg)](https://forge.puppetlabs.com/markt/galera)
 
 NOTE: The "master" branch on GitHub contains the development version, which may break anything at any time. Consider using one of the official releases instead.
 
@@ -253,9 +253,9 @@ This module was created to work in tandem with the puppetlabs-mysql module, rath
 
 Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple `nc` command and should not be considered terribly reliable.
 
-Furthermore the bootstrap functionality may be considered harmful for existing clusters. For extra safety, the bootstrap command may be set to something like `/bin/false` (see [GH-116](https://github.com/fraenki/puppet-galera/issues/116) for more information).
+Furthermore the bootstrap functionality may be considered harmful for existing clusters. For extra safety, the bootstrap command may be set to something like `/bin/false` (see [GH-116](https://github.com/markt-de/puppet-galera/issues/116) for more information).
 
-It should also be noted that it is not possible to unset default configuration variables (see [GH-174](https://github.com/fraenki/puppet-galera/issues/174)). This is true for this modules' own variables, but also for pre-defined variables that are set by the puppetlabs/mysql module.
+It should also be noted that it is not possible to unset default configuration variables (see [GH-174](https://github.com/markt-de/puppet-galera/issues/174)). This is true for this modules' own variables, but also for pre-defined variables that are set by the puppetlabs/mysql module.
 
 ## Development
 
