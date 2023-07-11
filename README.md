@@ -35,6 +35,7 @@ It will try to recover from failures by bootstrapping on a node designated as th
 * Puppet 6 or higher
 * [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql) and other soft dependencies
 * A [supported version](#os-and-cluster-compatibility) of Codership Galera (MySQL), MariaDB or Percona XtraDB Cluster
+* `nmap` is required for the cluster bootstrap functionality
 
 ## Usage
 
@@ -251,7 +252,7 @@ Classes and parameters are documented in [REFERENCE.md](REFERENCE.md).
 
 This module was created to work in tandem with the puppetlabs-mysql module, rather than replacing it. As the stages in the mysql module are quite strictly laid out in the `mysql::server` class, this module places its own resources in the gaps between them.
 
-Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is done with a simple `nc` command and should not be considered terribly reliable.
+Of note is an `exec` that will start the mysql service with parameters which will bootstrap/start a new cluster, but only if it cannot open the comms port to any other node in the provided list. This is verified with a simple `nmap` command and should not be considered terribly reliable.
 
 Furthermore the bootstrap functionality may be considered harmful for existing clusters. For extra safety, the bootstrap command may be set to something like `/bin/false` (see [GH-116](https://github.com/markt-de/puppet-galera/issues/116) for more information).
 
