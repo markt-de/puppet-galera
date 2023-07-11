@@ -1,7 +1,7 @@
 ---
 # NOTE: dnf gives preference to modular packages, hence we have to apply
 # the "module_hotfixes" workaround to install the required packages.
-# see https://github.com/fraenki/puppet-galera/issues/167
+# see https://github.com/markt-de/puppet-galera/issues/167
 galera::repo::codership::yum:
   priority: 1
   module_hotfixes: 1
