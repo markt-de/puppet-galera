@@ -11,7 +11,7 @@ class galera::status (
       # Create status user for the specified host
       mysql_user { "${galera::status_user}@${galera::status_allow}":
         ensure        => 'present',
-        password_hash => mysql_password($galera::status_password),
+        password_hash => mysql::password($galera::status_password),
       }
       -> mysql_grant { "${galera::status_user}@${galera::status_allow}/*.*":
         ensure     => 'present',
@@ -25,7 +25,7 @@ class galera::status (
     # Create status user for localhost (required by this module)
     mysql_user { "${galera::status_user}@localhost":
       ensure        => 'present',
-      password_hash => mysql_password($galera::status_password),
+      password_hash => mysql::password($galera::status_password),
     }
     -> mysql_grant { "${galera::status_user}@localhost/*.*":
       ensure     => 'present',
