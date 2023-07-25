@@ -13,35 +13,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        puppet_version: [6, 7]
+        puppet_version: [7]
 
     name: Check / Puppet ${{ matrix.puppet_version }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+    container: puppet/pdk:latest
 
     steps:
+      - name: Install build-essential
+        run: |
+          export DEBIAN_FRONTEND=noninteractive;
+          apt-get --yes update
+          apt-get --yes install build-essential
+
       - name: Checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Run pdk validate
-        uses: puppets-epic-show-theatre/action-pdk-validate@31b5407676af16b690b2b8c54c0767af72fcc34f
-        with:
-          puppet-version: ${{ matrix.puppet_version }}
+        run: pdk validate --format=text --puppet-version ${{ matrix.puppet_version }}
 
       - name: Run pdk test unit
-        uses: puppets-epic-show-theatre/action-pdk-test-unit@193987acba9977d1825fefbcbaf8d02d6af78106
-        with:
-          puppet-version: ${{ matrix.puppet_version }}
+        run: pdk test unit --format=text --puppet-version ${{ matrix.puppet_version }}
 
   acceptance:
     strategy:
       fail-fast: false
       matrix:
-        os: ['el7', 'el8', 'ub2004', 'deb10', 'deb11']
+        os: ['rocky8', 'ub2204', 'deb11']
         puppet_version: [7]
         vendor_type: ['codership', 'mariadb', 'percona']
 
     name: Acceptance / ${{ matrix.os }} / ${{ matrix.vendor_type }} / Puppet ${{ matrix.puppet_version }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - check
 
@@ -61,7 +64,7 @@ jobs:
             sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
       - name: Checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
