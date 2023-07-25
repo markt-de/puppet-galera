@@ -150,7 +150,7 @@
 #
 # @param package_ensure
 #   Specifies the ensure state for packages. Valid options: all values supported
-#   by the package type. Default: `installed`
+#   by the package type. Default: `present`
 #
 # @param purge_conf_dir
 #   Specifies the option to pass through to `mysql::server`. Default: `true`
@@ -505,7 +505,7 @@ class galera (
 
   # Install additional packages
   if ($manage_additional_packages and $additional_packages_real) {
-    ensure_packages($additional_packages_real,
+    stdlib::ensure_packages($additional_packages_real,
       {
         ensure => $package_ensure,
         before => $_packages_before,

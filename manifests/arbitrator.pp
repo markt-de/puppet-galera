@@ -7,7 +7,7 @@ class galera::arbitrator (
   String $package_name,
   String $service_name,
 ) {
-  ensure_packages([$package_name], { ensure => $galera::arbitrator_package_ensure })
+  stdlib::ensure_packages([$package_name], { ensure => $galera::arbitrator_package_ensure })
 
   file { 'arbitrator-config-file':
     path    => $config_file,

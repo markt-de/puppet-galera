@@ -4,6 +4,7 @@ describe 'galera' do
   let :params do
     {
       arbitrator_config_file: '/etc/default/garb',
+      arbitrator_package_ensure: 'present',
       arbitrator_package_name: 'galera-arbitrator',
       arbitrator_service_name: 'garb',
       bind_address: '10.2.2.1',
@@ -17,6 +18,7 @@ describe 'galera' do
       mysql_port: 3306,
       mysql_restart: false,
       override_options: {},
+      package_ensure: 'present',
       root_password: 'test',
       status_password: 'nonempty',
       vendor_type: 'percona',

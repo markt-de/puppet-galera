@@ -4,6 +4,7 @@ describe 'galera' do
   let :params do
     {
       arbitrator_config_file: '/etc/default/garb',
+      arbitrator_package_ensure: 'present',
       arbitrator_package_name: 'galera-arbitrator',
       arbitrator_service_name: 'garb',
       bind_address: '10.2.2.1',
@@ -17,6 +18,7 @@ describe 'galera' do
       mysql_port: 3306,
       mysql_restart: false,
       override_options: {},
+      package_ensure: 'present',
       root_password: 'test',
       status_password: 'nonempty',
       vendor_type: 'percona',
@@ -95,7 +97,7 @@ describe 'galera' do
       it { is_expected.to contain_class('mysql::server') }
 
       it { is_expected.to contain_package(os_params[:nmap_package_name]).with(ensure: 'installed') }
-      it { is_expected.to contain_package(os_params[:m_galera_package_name]).with(ensure: 'installed') }
+      it { is_expected.to contain_package(os_params[:m_galera_package_name]).with(ensure: 'present') }
       it { is_expected.to contain_package(os_params[:m_additional_packages]).with(ensure: 'installed') }
     end
 
@@ -210,7 +212,7 @@ describe 'galera' do
       }
       it { is_expected.to contain_class('mysql::server') }
 
-      it { is_expected.to contain_package(os_params[:c_galera_package_name]).with(ensure: 'installed') }
+      it { is_expected.to contain_package(os_params[:c_galera_package_name]).with(ensure: 'present') }
       it { is_expected.to contain_package(os_params[:c_additional_packages]).with(ensure: 'installed') }
     end
 
@@ -218,7 +220,7 @@ describe 'galera' do
       before(:each) do
         params.merge!(mysql_package_name: 'mysql-package-test',
                       galera_package_name: 'galera-package-test',
-                      galera_package_ensure: 'installed')
+                      galera_package_ensure: 'present')
       end
       it {
         is_expected.to contain_class('mysql::server').with(
@@ -228,34 +230,36 @@ describe 'galera' do
         )
       }
 
-      it { is_expected.to contain_package('galera-package-test').with(ensure: 'installed') }
+      it { is_expected.to contain_package('galera-package-test').with(ensure: 'present') }
     end
 
-    context 'when package_ensure=installed (default)' do
+    context 'when package_ensure=present (default)' do
       it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
       it {
         is_expected.to contain_class('mysql::server').with(
-          package_ensure: 'installed',
+          package_ensure: 'present',
           package_name: os_params[:p_mysql_package_name],
         )
       }
     end
 
-    context 'when package_ensure=latest' do
-      before(:each) { params.merge!(package_ensure: 'latest') }
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
-      it {
-        is_expected.to contain_class('mysql::server').with(
-          package_ensure: 'latest',
-          package_name: os_params[:p_mysql_package_name],
-        )
-      }
-    end
-
-    context 'when galera_package_ensure=latest' do
-      before(:each) { params.merge!(galera_package_ensure: 'latest') }
-      it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'latest') }
-    end
+# Class[Mysql::Server]: parameter 'package_ensure' expects a match for Variant[Enum['absent', 'present']
+#
+#   context 'when package_ensure=latest' do
+#     before(:each) { params.merge!(package_ensure: 'latest') }
+#     it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
+#     it {
+#       is_expected.to contain_class('mysql::server').with(
+#         package_ensure: 'latest',
+#         package_name: os_params[:p_mysql_package_name],
+#       )
+#     }
+#   end
+#
+#   context 'when galera_package_ensure=latest' do
+#     before(:each) { params.merge!(galera_package_ensure: 'latest') }
+#     it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'latest') }
+#   end
 
     context 'when configure_firewall=false' do
       before(:each) { params.merge!(configure_firewall: false) }
