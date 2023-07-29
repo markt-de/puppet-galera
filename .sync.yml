@@ -1,4 +1,7 @@
 ---
+.puppet-lint.rc:
+  required:
+    - '--no-140chars-check'
 
 spec/spec_helper.rb:
   hiera_config: spec/fixtures/hiera.yaml
