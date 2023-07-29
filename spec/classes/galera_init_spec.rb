@@ -243,23 +243,23 @@ describe 'galera' do
       }
     end
 
-# Class[Mysql::Server]: parameter 'package_ensure' expects a match for Variant[Enum['absent', 'present']
-#
-#   context 'when package_ensure=latest' do
-#     before(:each) { params.merge!(package_ensure: 'latest') }
-#     it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
-#     it {
-#       is_expected.to contain_class('mysql::server').with(
-#         package_ensure: 'latest',
-#         package_name: os_params[:p_mysql_package_name],
-#       )
-#     }
-#   end
-#
-#   context 'when galera_package_ensure=latest' do
-#     before(:each) { params.merge!(galera_package_ensure: 'latest') }
-#     it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'latest') }
-#   end
+    # Class[Mysql::Server]: parameter 'package_ensure' expects a match for Variant[Enum['absent', 'present']
+    #
+    # context 'when package_ensure=latest' do
+    #   before(:each) { params.merge!(package_ensure: 'latest') }
+    #   it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
+    #   it {
+    #     is_expected.to contain_class('mysql::server').with(
+    #       package_ensure: 'latest',
+    #       package_name: os_params[:p_mysql_package_name],
+    #     )
+    #   }
+    # end
+    #
+    # context 'when galera_package_ensure=latest' do
+    #   before(:each) { params.merge!(galera_package_ensure: 'latest') }
+    #   it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'latest') }
+    # end
 
     context 'when configure_firewall=false' do
       before(:each) { params.merge!(configure_firewall: false) }
