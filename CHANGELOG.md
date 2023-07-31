@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2023-07-31
+
+### Changed
+* Change default value of `ensure` parameters to `present` ([#185])
+* Replace deprecated function `mysql_password` ([#186])
+* Update module dependencies
+
+### Fixed
+* Fix compatibility with puppetlabs/stdlib v9.0.0
+* Fix GitHub Actions (unit/acceptance tests)
+
 ## [3.0.2] - 2023-07-11
 
 ### Changed
@@ -271,7 +282,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/markt-de/puppet-galera/compare/3.0.2...HEAD
+[Unreleased]: https://github.com/markt-de/puppet-galera/compare/3.1.0...HEAD
+[3.1.0]: https://github.com/markt-de/puppet-galera/compare/3.0.2...3.1.0
 [3.0.2]: https://github.com/markt-de/puppet-galera/compare/3.0.1...3.0.2
 [3.0.1]: https://github.com/markt-de/puppet-galera/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/markt-de/puppet-galera/compare/2.2.0...3.0.0
@@ -288,6 +300,8 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/markt-de/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/markt-de/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/markt-de/puppet-galera/compare/0.0.6...0.7.0
+[#186]: https://github.com/markt-de/puppet-galera/pull/186
+[#185]: https://github.com/markt-de/puppet-galera/pull/185
 [#179]: https://github.com/markt-de/puppet-galera/pull/179
 [#173]: https://github.com/markt-de/puppet-galera/pull/173
 [#171]: https://github.com/markt-de/puppet-galera/pull/171
