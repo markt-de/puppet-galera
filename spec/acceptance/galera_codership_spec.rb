@@ -21,7 +21,7 @@ if ENV['VENDOR_TYPE'] == 'codership'
           deb_sysmaint_password => 'sysmaint',
           configure_firewall    => false,
           galera_servers        => ['127.0.0.1'],
-          galera_master         => $::fqdn,
+          galera_master         => $fqdn,
           root_password         => 'root_password',
           status_password       => 'status_password',
           override_options      => {
