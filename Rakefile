@@ -7,3 +7,4 @@ require 'puppet-syntax/tasks/puppet-syntax'
 require 'puppet-strings/tasks' if Gem.loaded_specs.key? 'puppet-strings'
 
 PuppetLint.configuration.send('disable_relative')
+PuppetLint.configuration.send('no-140chars-check')
