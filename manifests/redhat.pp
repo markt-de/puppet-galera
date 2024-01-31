@@ -8,6 +8,7 @@ class galera::redhat {
         # they don't exist so the service won't start.
         file { '/var/log/mariadb':
           ensure => 'directory',
+          mode   => '0755',
           before => Class['mysql::server::install'],
         }
 
