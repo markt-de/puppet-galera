@@ -3,9 +3,9 @@ name: ci
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
           apt-get --yes update
           apt-get --yes install build-essential
 
-      - name: Checkout source
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Run pdk validate
         run: pdk validate --format=text --puppet-version ${{ matrix.puppet_version }}
@@ -63,8 +63,8 @@ jobs:
             sudo apt-get install apparmor-profiles
             sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
 
-      - name: Checkout source
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
