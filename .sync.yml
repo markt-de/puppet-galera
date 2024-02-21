@@ -1,7 +1,7 @@
 ---
 Rakefile:
-  linter_options:
-    - no-140chars-check
+  extra_disabled_lint_checks:
+    - 140chars
 
 spec/spec_helper.rb:
   hiera_config: spec/fixtures/hiera.yaml
