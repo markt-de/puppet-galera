@@ -38,7 +38,7 @@ describe 'galera' do
     end
 
     context 'when node is the master' do
-      before(:each) { params.merge!(galera_master: facts[:fqdn]) }
+      before(:each) { params.merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{systemctl start mysql@bootstrap.service}) }
     end
 
@@ -52,7 +52,7 @@ describe 'galera' do
 
   shared_examples_for 'galera on RedHat 6' do
     context 'when node is the master' do
-      before(:each) { params.merge!(galera_master: facts[:fqdn]) }
+      before(:each) { params.merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{/etc/init.d/mysql bootstrap-pxc}) }
     end
   end

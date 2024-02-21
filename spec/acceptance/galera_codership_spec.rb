@@ -8,12 +8,12 @@ if ENV['VENDOR_TYPE'] == 'codership'
         <<-MANIFEST
         # Codership's MySQL service fails to start if apparmor is not installed.
         if ($facts['os']['name'] == 'Ubuntu') {
-          ensure_packages('apparmor-utils')
+          stdlib::ensure_packages('apparmor-utils')
         }
 
         # Tests will fail if `ss` is not installed.
         if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
-          ensure_packages('iproute')
+          stdlib::ensure_packages('iproute')
         }
 
         class { 'galera':
@@ -21,7 +21,7 @@ if ENV['VENDOR_TYPE'] == 'codership'
           deb_sysmaint_password => 'sysmaint',
           configure_firewall    => false,
           galera_servers        => ['127.0.0.1'],
-          galera_master         => $fqdn,
+          galera_master         => $facts['networking']['fqdn'],
           root_password         => 'root_password',
           status_password       => 'status_password',
           override_options      => {

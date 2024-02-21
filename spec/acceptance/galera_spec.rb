@@ -8,7 +8,7 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
         <<-MANIFEST
         # Tests will fail if `ss` is not installed.
         if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
-          ensure_packages('iproute')
+          stdlib::ensure_packages('iproute')
         }
 
         class { 'galera':

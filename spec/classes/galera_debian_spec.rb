@@ -30,7 +30,7 @@ describe 'galera::debian' do
 
     context 'when this node is the master' do
       before(:each) do
-        facts.merge!(fqdn: 'control1')
+        facts.merge!(networking: { 'fqdn' => 'control1' })
       end
       let(:node) { 'control1' }
 
@@ -69,7 +69,7 @@ describe 'galera::debian' do
 
     context 'when this node is a slave' do
       before(:each) do
-        facts.merge!(fqdn: 'slave')
+        facts.merge!(networking: { 'fqdn' => 'slave' })
       end
       let(:node) { 'slave' }
 
