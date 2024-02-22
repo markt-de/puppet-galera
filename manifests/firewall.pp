@@ -21,7 +21,7 @@ class galera::firewall (
     before => $_before,
     proto  => 'tcp',
     dport  => $galera_ports,
-    action => 'accept',
+    jump   => 'accept',
     source => $source,
   }
 }
