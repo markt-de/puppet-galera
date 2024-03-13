@@ -14,7 +14,6 @@ galera::deb_sysmaint_password: 'sysmaint'
 galera::default_options:
   mysqld:
     bind-address: "<%= $bind_address %>"
-    binlog_format: 'ROW'
     default_storage_engine: 'InnoDB'
     innodb_autoinc_lock_mode: 2
     port: "<%= $mysql_port %>"
