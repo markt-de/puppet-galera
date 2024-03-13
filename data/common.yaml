@@ -23,7 +23,6 @@ galera::default_options:
     wsrep_node_incoming_address: "<%= $local_ip %>"
     wsrep_on: 'ON'
     wsrep_provider: "<%= $params['libgalera_location'] %>"
-    wsrep_slave_threads: 8
     wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
     wsrep_sst_method: "<%= $wsrep_sst_method %>"
     wsrep_sst_receive_address: "<%= $local_ip %>"
