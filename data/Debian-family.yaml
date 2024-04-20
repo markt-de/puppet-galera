@@ -139,7 +139,7 @@ galera::repo::codership::apt:
   include:
     src: false
   key:
-    id: '44B7345738EBDE52594DAD80D669017EBC19DDBA'
+    id: '3D53839A70BC938B08CDD47F45460A518DA84635'
     server: 'keyserver.ubuntu.com'
   location: "http://releases.galeracluster.com/mysql-wsrep-<%= $vendor_version_real %>/%{os_name_lc}"
   release: "%{os.distro.codename}"
@@ -149,7 +149,7 @@ galera::repo::codership_lib::apt:
   include:
     src: false
   key:
-    id: '44B7345738EBDE52594DAD80D669017EBC19DDBA'
+    id: '3D53839A70BC938B08CDD47F45460A518DA84635'
     server: 'keyserver.ubuntu.com'
   location: "http://releases.galeracluster.com/galera-3/%{os_name_lc}"
   release: "%{os.distro.codename}"
@@ -159,7 +159,7 @@ galera::repo::codership_lib::codership::80::apt:
   include:
     src: false
   key:
-    id: '44B7345738EBDE52594DAD80D669017EBC19DDBA'
+    id: '3D53839A70BC938B08CDD47F45460A518DA84635'
     server: 'keyserver.ubuntu.com'
   # Adjust URL to use Galera 4 for MySQL 8.0.
   location: "http://releases.galeracluster.com/galera-4/%{os_name_lc}"
