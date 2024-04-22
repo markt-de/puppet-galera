@@ -9,7 +9,7 @@
 #### Public Classes
 
 * [`galera`](#galera): Installs MySQL/MariaDB with galera cluster plugin
-* [`galera::firewall`](#galerafirewall): Open firewall ports used by galera using puppetlabs-firewall.
+* [`galera::firewall`](#galera--firewall): Open firewall ports used by galera using puppetlabs-firewall.
 
 #### Private Classes
 
@@ -23,9 +23,6 @@ the `mysql::server` resource is marked as complete.
 This is used because after returning success, the service is still not quite ready.
 
 ### Defined types
-
-#### Public Defined types
-
 
 #### Private Defined types
 
@@ -41,67 +38,78 @@ Installs MySQL/MariaDB with galera cluster plugin
 
 The following parameters are available in the `galera` class:
 
-* [`additional_packages`](#additional_packages)
-* [`arbitrator`](#arbitrator)
-* [`arbitrator_config_file`](#arbitrator_config_file)
-* [`arbitrator_log_file`](#arbitrator_log_file)
-* [`arbitrator_options`](#arbitrator_options)
-* [`arbitrator_package_ensure`](#arbitrator_package_ensure)
-* [`arbitrator_package_name`](#arbitrator_package_name)
-* [`arbitrator_service_enabled`](#arbitrator_service_enabled)
-* [`arbitrator_service_name`](#arbitrator_service_name)
-* [`arbitrator_template`](#arbitrator_template)
-* [`bind_address`](#bind_address)
-* [`bootstrap_command`](#bootstrap_command)
-* [`client_package_name`](#client_package_name)
-* [`cluster_name`](#cluster_name)
-* [`configure_firewall`](#configure_firewall)
-* [`configure_repo`](#configure_repo)
-* [`create_root_my_cnf`](#create_root_my_cnf)
-* [`create_root_user`](#create_root_user)
-* [`create_status_user`](#create_status_user)
-* [`deb_sysmaint_password`](#deb_sysmaint_password)
-* [`default_options`](#default_options)
-* [`epel_needed`](#epel_needed)
-* [`galera_master`](#galera_master)
-* [`galera_package_ensure`](#galera_package_ensure)
-* [`galera_package_name`](#galera_package_name)
-* [`galera_servers`](#galera_servers)
-* [`libgalera_location`](#libgalera_location)
-* [`local_ip`](#local_ip)
-* [`manage_additional_packages`](#manage_additional_packages)
-* [`mysql_package_name`](#mysql_package_name)
-* [`mysql_port`](#mysql_port)
-* [`mysql_restart`](#mysql_restart)
-* [`mysql_service_name`](#mysql_service_name)
-* [`override_options`](#override_options)
-* [`override_repos`](#override_repos)
-* [`package_ensure`](#package_ensure)
-* [`purge_conf_dir`](#purge_conf_dir)
-* [`root_password`](#root_password)
-* [`rundir`](#rundir)
-* [`service_enabled`](#service_enabled)
-* [`status_allow`](#status_allow)
-* [`status_available_when_donor`](#status_available_when_donor)
-* [`status_available_when_readonly`](#status_available_when_readonly)
-* [`status_check`](#status_check)
-* [`status_host`](#status_host)
-* [`status_log_on_failure`](#status_log_on_failure)
-* [`status_log_on_success`](#status_log_on_success)
-* [`status_log_on_success_operator`](#status_log_on_success_operator)
-* [`status_password`](#status_password)
-* [`status_port`](#status_port)
-* [`status_user`](#status_user)
-* [`validate_connection`](#validate_connection)
-* [`vendor_type`](#vendor_type)
-* [`vendor_version`](#vendor_version)
-* [`wsrep_group_comm_port`](#wsrep_group_comm_port)
-* [`wsrep_inc_state_transfer_port`](#wsrep_inc_state_transfer_port)
-* [`wsrep_sst_auth`](#wsrep_sst_auth)
-* [`wsrep_sst_method`](#wsrep_sst_method)
-* [`wsrep_state_transfer_port`](#wsrep_state_transfer_port)
+* [`additional_packages`](#-galera--additional_packages)
+* [`arbitrator`](#-galera--arbitrator)
+* [`arbitrator_config_file`](#-galera--arbitrator_config_file)
+* [`arbitrator_log_file`](#-galera--arbitrator_log_file)
+* [`arbitrator_options`](#-galera--arbitrator_options)
+* [`arbitrator_package_ensure`](#-galera--arbitrator_package_ensure)
+* [`arbitrator_package_name`](#-galera--arbitrator_package_name)
+* [`arbitrator_service_enabled`](#-galera--arbitrator_service_enabled)
+* [`arbitrator_service_name`](#-galera--arbitrator_service_name)
+* [`arbitrator_template`](#-galera--arbitrator_template)
+* [`bind_address`](#-galera--bind_address)
+* [`bootstrap_command`](#-galera--bootstrap_command)
+* [`client_package_name`](#-galera--client_package_name)
+* [`cluster_name`](#-galera--cluster_name)
+* [`configure_firewall`](#-galera--configure_firewall)
+* [`configure_repo`](#-galera--configure_repo)
+* [`create_root_my_cnf`](#-galera--create_root_my_cnf)
+* [`create_root_user`](#-galera--create_root_user)
+* [`create_status_user`](#-galera--create_status_user)
+* [`deb_sysmaint_password`](#-galera--deb_sysmaint_password)
+* [`default_options`](#-galera--default_options)
+* [`epel_needed`](#-galera--epel_needed)
+* [`galera_master`](#-galera--galera_master)
+* [`galera_package_ensure`](#-galera--galera_package_ensure)
+* [`galera_package_name`](#-galera--galera_package_name)
+* [`galera_servers`](#-galera--galera_servers)
+* [`libgalera_location`](#-galera--libgalera_location)
+* [`local_ip`](#-galera--local_ip)
+* [`manage_additional_packages`](#-galera--manage_additional_packages)
+* [`mysql_package_name`](#-galera--mysql_package_name)
+* [`mysql_port`](#-galera--mysql_port)
+* [`mysql_restart`](#-galera--mysql_restart)
+* [`mysql_service_name`](#-galera--mysql_service_name)
+* [`override_options`](#-galera--override_options)
+* [`override_repos`](#-galera--override_repos)
+* [`package_ensure`](#-galera--package_ensure)
+* [`purge_conf_dir`](#-galera--purge_conf_dir)
+* [`root_password`](#-galera--root_password)
+* [`rundir`](#-galera--rundir)
+* [`service_enabled`](#-galera--service_enabled)
+* [`status_allow`](#-galera--status_allow)
+* [`status_available_when_donor`](#-galera--status_available_when_donor)
+* [`status_available_when_readonly`](#-galera--status_available_when_readonly)
+* [`status_check`](#-galera--status_check)
+* [`status_cps`](#-galera--status_cps)
+* [`status_flags`](#-galera--status_flags)
+* [`status_host`](#-galera--status_host)
+* [`status_instances`](#-galera--status_instances)
+* [`status_log_on_failure`](#-galera--status_log_on_failure)
+* [`status_log_on_failure_operator`](#-galera--status_log_on_failure_operator)
+* [`status_log_on_success`](#-galera--status_log_on_success)
+* [`status_log_on_success_operator`](#-galera--status_log_on_success_operator)
+* [`status_log_type`](#-galera--status_log_type)
+* [`status_password`](#-galera--status_password)
+* [`status_port`](#-galera--status_port)
+* [`status_script`](#-galera--status_script)
+* [`status_service_type`](#-galera--status_service_type)
+* [`status_system_group`](#-galera--status_system_group)
+* [`status_system_user`](#-galera--status_system_user)
+* [`status_system_user_config`](#-galera--status_system_user_config)
+* [`status_user`](#-galera--status_user)
+* [`status_xinetd_service_name`](#-galera--status_xinetd_service_name)
+* [`validate_connection`](#-galera--validate_connection)
+* [`vendor_type`](#-galera--vendor_type)
+* [`vendor_version`](#-galera--vendor_version)
+* [`wsrep_group_comm_port`](#-galera--wsrep_group_comm_port)
+* [`wsrep_inc_state_transfer_port`](#-galera--wsrep_inc_state_transfer_port)
+* [`wsrep_sst_auth`](#-galera--wsrep_sst_auth)
+* [`wsrep_sst_method`](#-galera--wsrep_sst_method)
+* [`wsrep_state_transfer_port`](#-galera--wsrep_state_transfer_port)
 
-##### <a name="additional_packages"></a>`additional_packages`
+##### <a name="-galera--additional_packages"></a>`additional_packages`
 
 Data type: `Optional[Array]`
 
@@ -111,40 +119,40 @@ that are required for the selected vendor/sst, but this parameter can be
 used to overwrite the discovered package list.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="arbitrator"></a>`arbitrator`
+##### <a name="-galera--arbitrator"></a>`arbitrator`
 
 Data type: `Boolean`
 
 Specifies whether this node should run Galera Arbitrator instead of a
 MySQL/MariaDB server.
 
-##### <a name="arbitrator_config_file"></a>`arbitrator_config_file`
+##### <a name="-galera--arbitrator_config_file"></a>`arbitrator_config_file`
 
 Data type: `Optional[String]`
 
 Specifies the configuration file for the Arbitrator service.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="arbitrator_log_file"></a>`arbitrator_log_file`
+##### <a name="-galera--arbitrator_log_file"></a>`arbitrator_log_file`
 
 Data type: `Optional[String]`
 
 Specifies the optional log file for the Arbitrator service.
 By default it logs to syslog.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="arbitrator_options"></a>`arbitrator_options`
+##### <a name="-galera--arbitrator_options"></a>`arbitrator_options`
 
 Data type: `String`
 
 Specifies configuration options for the Arbitrator service.
 
-##### <a name="arbitrator_package_ensure"></a>`arbitrator_package_ensure`
+##### <a name="-galera--arbitrator_package_ensure"></a>`arbitrator_package_ensure`
 
 Data type: `String`
 
@@ -152,16 +160,16 @@ Specifies the ensure state for the Arbitrator package.
 Valid options: all values supported by the package type.
 Default: `present`
 
-##### <a name="arbitrator_package_name"></a>`arbitrator_package_name`
+##### <a name="-galera--arbitrator_package_name"></a>`arbitrator_package_name`
 
 Data type: `Optional[String]`
 
 Specifies the name of the Arbitrator package to install.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="arbitrator_service_enabled"></a>`arbitrator_service_enabled`
+##### <a name="-galera--arbitrator_service_enabled"></a>`arbitrator_service_enabled`
 
 Data type: `Boolean`
 
@@ -169,47 +177,47 @@ Specifies whether the Arbitrator service should be enabled.
 Expects that `$arbitrator` is also set to `true`.
 Default: `true`
 
-##### <a name="arbitrator_service_name"></a>`arbitrator_service_name`
+##### <a name="-galera--arbitrator_service_name"></a>`arbitrator_service_name`
 
 Data type: `Optional[String]`
 
 Specifies the name of the Arbitrator service.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="arbitrator_template"></a>`arbitrator_template`
+##### <a name="-galera--arbitrator_template"></a>`arbitrator_template`
 
 Data type: `String`
 
 Specifies the template to use when creating `$arbitrator_config_file`.
 
-##### <a name="bind_address"></a>`bind_address`
+##### <a name="-galera--bind_address"></a>`bind_address`
 
 Data type: `String`
 
 Specifies the IP address to bind MySQL/MariaDB to. The module expects the
 server to listen on localhost for proper operation. Default: `::`
 
-##### <a name="bootstrap_command"></a>`bootstrap_command`
+##### <a name="-galera--bootstrap_command"></a>`bootstrap_command`
 
 Data type: `Optional[String]`
 
 Specifies a command used to bootstrap the galera cluster.
 Default: A vendor-, version- and OS-specific bootstrap command.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="client_package_name"></a>`client_package_name`
+##### <a name="-galera--client_package_name"></a>`client_package_name`
 
 Data type: `Optional[String]`
 
 Specifies the name of the MySQL/MariaDB client package to install.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cluster_name"></a>`cluster_name`
+##### <a name="-galera--cluster_name"></a>`cluster_name`
 
 Data type: `String`
 
@@ -217,28 +225,28 @@ Specifies the name of the cluster and should be identical on all nodes.
 This must be set for the module to work properly (although galera does
 not require this value.)
 
-##### <a name="configure_firewall"></a>`configure_firewall`
+##### <a name="-galera--configure_firewall"></a>`configure_firewall`
 
 Data type: `Boolean`
 
 Specifies whether to open firewall ports used by galera using
 puppetlabs-firewall. Default: `true`
 
-##### <a name="configure_repo"></a>`configure_repo`
+##### <a name="-galera--configure_repo"></a>`configure_repo`
 
 Data type: `Boolean`
 
 Specifies whether to configure additional repositories that are required for
 installing galera. Default: `true`
 
-##### <a name="create_root_my_cnf"></a>`create_root_my_cnf`
+##### <a name="-galera--create_root_my_cnf"></a>`create_root_my_cnf`
 
 Data type: `Boolean`
 
 A flag to indicate if we should manage the root .my.cnf. Set this to false
 if you wish to manage your root .my.cnf file elsewhere. Default: `true`
 
-##### <a name="create_root_user"></a>`create_root_user`
+##### <a name="-galera--create_root_user"></a>`create_root_user`
 
 Data type: `Optional[Boolean]`
 
@@ -246,30 +254,30 @@ A flag to indicate if we should manage the root user. Set this to false if
 you wish to manage your root user elsewhere. If this is set to `undef`, the
 module will use `true` if this node is `$galera_master`. Default: `undef`
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="create_status_user"></a>`create_status_user`
+##### <a name="-galera--create_status_user"></a>`create_status_user`
 
 Data type: `Boolean`
 
 A flag to indicate if we should manage the status user. Set this to false
 if you wish to manage your status user elsewhere. Default: `true`
 
-##### <a name="deb_sysmaint_password"></a>`deb_sysmaint_password`
+##### <a name="-galera--deb_sysmaint_password"></a>`deb_sysmaint_password`
 
 Data type: `String`
 
 Specifies the password to set on Debian/Ubuntu for the sysmaint user used
 during updates. Default: `sysmaint`
 
-##### <a name="default_options"></a>`default_options`
+##### <a name="-galera--default_options"></a>`default_options`
 
 Data type: `Hash`
 
 Internal parameter, *do NOT change!* Use `$override_options` to customize
 MySQL options.
 
-##### <a name="epel_needed"></a>`epel_needed`
+##### <a name="-galera--epel_needed"></a>`epel_needed`
 
 Data type: `Boolean`
 
@@ -278,14 +286,14 @@ RedHat-based systems. This is required for certain vendors and SST methods
 to install packages such as socat.
 Default: `true`
 
-##### <a name="galera_master"></a>`galera_master`
+##### <a name="-galera--galera_master"></a>`galera_master`
 
 Data type: `String`
 
 Specifies the node that will bootstrap the cluster if all nodes go down.
 Default: `$fqdn`
 
-##### <a name="galera_package_ensure"></a>`galera_package_ensure`
+##### <a name="-galera--galera_package_ensure"></a>`galera_package_ensure`
 
 Data type: `Optional[String]`
 
@@ -294,87 +302,87 @@ do not allow installation of the wsrep-enabled MySQL/MariaDB and galera
 (arbitrator) on the same server. Valid options: all values supported by
 the package type. Default: `absent`
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="galera_package_name"></a>`galera_package_name`
+##### <a name="-galera--galera_package_name"></a>`galera_package_name`
 
 Data type: `Optional[String]`
 
 Specifies the name of the galera wsrep package to install.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="galera_servers"></a>`galera_servers`
+##### <a name="-galera--galera_servers"></a>`galera_servers`
 
 Data type: `Optional[Array]`
 
 Specifies a list of IP addresses of the nodes in the galera cluster.
 Default: `[${facts['networking']['ip']}]`
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="libgalera_location"></a>`libgalera_location`
+##### <a name="-galera--libgalera_location"></a>`libgalera_location`
 
 Data type: `Optional[String]`
 
 Specifies the location of the WSREP libraries.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="local_ip"></a>`local_ip`
+##### <a name="-galera--local_ip"></a>`local_ip`
 
 Data type: `String`
 
 Specifies the IP address of this node to use for communications.
 Default: `$networking.ip`
 
-##### <a name="manage_additional_packages"></a>`manage_additional_packages`
+##### <a name="-galera--manage_additional_packages"></a>`manage_additional_packages`
 
 Data type: `Boolean`
 
 Specifies whether additional packages should be installed that may be
 required for SST and other features. Default: `true`
 
-##### <a name="mysql_package_name"></a>`mysql_package_name`
+##### <a name="-galera--mysql_package_name"></a>`mysql_package_name`
 
 Data type: `Optional[String]`
 
 Specifies the name of the server package to install.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="mysql_port"></a>`mysql_port`
+##### <a name="-galera--mysql_port"></a>`mysql_port`
 
 Data type: `Integer`
 
 Specifies the port to use for MySQL/MariaDB. Default: `3306`
 
-##### <a name="mysql_restart"></a>`mysql_restart`
+##### <a name="-galera--mysql_restart"></a>`mysql_restart`
 
 Data type: `Boolean`
 
 Specifies the option to pass through to `mysql::server::restart`. This can
 cause issues during bootstrapping if switched on. Default: `false`
 
-##### <a name="mysql_service_name"></a>`mysql_service_name`
+##### <a name="-galera--mysql_service_name"></a>`mysql_service_name`
 
 Data type: `Optional[String]`
 
 Specifies the option to pass through to `mysql::server`.
 Default: A vendor-, version- and OS-specific value.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="override_options"></a>`override_options`
+##### <a name="-galera--override_options"></a>`override_options`
 
 Data type: `Hash`
 
 Specifies options to pass to `mysql::server` class. See the puppetlabs-mysql
 documentation for more information. Default: `{}`
 
-##### <a name="override_repos"></a>`override_repos`
+##### <a name="-galera--override_repos"></a>`override_repos`
 
 Data type: `Optional[Array]`
 
@@ -382,56 +390,56 @@ Usually the required YUM/APT repositories are automatically selected,
 depending on the values of `$vendor_type` and `$vendor_version`. This
 parameter will override this to provide a custom selection of repositories.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="package_ensure"></a>`package_ensure`
+##### <a name="-galera--package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
 Specifies the ensure state for packages. Valid options: all values supported
-by the package type. Default: `installed`
+by the package type. Default: `present`
 
-##### <a name="purge_conf_dir"></a>`purge_conf_dir`
+##### <a name="-galera--purge_conf_dir"></a>`purge_conf_dir`
 
 Data type: `Boolean`
 
 Specifies the option to pass through to `mysql::server`. Default: `true`
 
-##### <a name="root_password"></a>`root_password`
+##### <a name="-galera--root_password"></a>`root_password`
 
 Data type: `String`
 
 Specifies the MySQL/MariaDB root password.
 
-##### <a name="rundir"></a>`rundir`
+##### <a name="-galera--rundir"></a>`rundir`
 
 Data type: `String`
 
 Specifies the rundir for the MySQL/MariaDB service.
 Default: `/var/run/mysqld`
 
-##### <a name="service_enabled"></a>`service_enabled`
+##### <a name="-galera--service_enabled"></a>`service_enabled`
 
 Data type: `Boolean`
 
 Specifies whether the MySQL/MariaDB service should be enabled.
 Default: `true`
 
-##### <a name="status_allow"></a>`status_allow`
+##### <a name="-galera--status_allow"></a>`status_allow`
 
 Data type: `String`
 
 Specifies the subnet or host(s) (in MySQL/MariaDB syntax) to allow status
 checks from. Default: `%`
 
-##### <a name="status_available_when_donor"></a>`status_available_when_donor`
+##### <a name="-galera--status_available_when_donor"></a>`status_available_when_donor`
 
 Data type: `Integer`
 
 Specifies whether the node will remain in the cluster when it enters donor
 mode. Valid options: `0` (remove), `1` (remain). Default: `0`
 
-##### <a name="status_available_when_readonly"></a>`status_available_when_readonly`
+##### <a name="-galera--status_available_when_readonly"></a>`status_available_when_readonly`
 
 Data type: `Integer`
 
@@ -439,62 +447,140 @@ When set to 0, clustercheck will return a "503 Service Unavailable" if the
 node is in the read_only state, as defined by the `read_only` MySQL/MariaDB
 variable. Values other than 0 have no effect. Default: `-1`
 
-##### <a name="status_check"></a>`status_check`
+##### <a name="-galera--status_check"></a>`status_check`
 
 Data type: `Boolean`
 
 Specifies whether to configure a user and script that will check the status
 of the galera cluster. Default: `true`
 
-##### <a name="status_host"></a>`status_host`
+##### <a name="-galera--status_cps"></a>`status_cps`
+
+Data type: `Optional[String]`
+
+Rate limit config for the xinetd status service.
+
+Default value: `undef`
+
+##### <a name="-galera--status_flags"></a>`status_flags`
+
+Data type: `Optional[String]`
+
+Flags for the xinetd status service.
+
+Default value: `undef`
+
+##### <a name="-galera--status_host"></a>`status_host`
 
 Data type: `String`
 
 Specifies the cluster to add the cluster check user to. Default: `localhost`
 
-##### <a name="status_log_on_failure"></a>`status_log_on_failure`
+##### <a name="-galera--status_instances"></a>`status_instances`
+
+Data type: `Optional[String]`
+
+Number of active instances for the xinetd status service.
+
+Default value: `undef`
+
+##### <a name="-galera--status_log_on_failure"></a>`status_log_on_failure`
 
 Data type: `Optional[String]`
 
 Specifies which fields xinetd will log on failure. Default: `undef`
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="status_log_on_success"></a>`status_log_on_success`
+##### <a name="-galera--status_log_on_failure_operator"></a>`status_log_on_failure_operator`
+
+Data type: `Optional[String]`
+
+Specifies which operator xinetd uses to output logs on failure.
+
+Default value: `undef`
+
+##### <a name="-galera--status_log_on_success"></a>`status_log_on_success`
 
 Data type: `Optional[String]`
 
 Specifies which fields xinetd will log on success. Default: `''`
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="status_log_on_success_operator"></a>`status_log_on_success_operator`
+##### <a name="-galera--status_log_on_success_operator"></a>`status_log_on_success_operator`
 
 Data type: `String`
 
 Specifies which operator xinetd uses to output logs on success.
 Default: `=`
 
-##### <a name="status_password"></a>`status_password`
+##### <a name="-galera--status_log_type"></a>`status_log_type`
+
+Data type: `Optional[String]`
+
+Log type for the xinetd status service.
+
+Default value: `undef`
+
+##### <a name="-galera--status_password"></a>`status_password`
 
 Data type: `String`
 
 Specifies the password of the status check user.
 
-##### <a name="status_port"></a>`status_port`
+##### <a name="-galera--status_port"></a>`status_port`
 
 Data type: `Integer`
 
 Specifies the port for cluster check service. Default: `9200`
 
-##### <a name="status_user"></a>`status_user`
+##### <a name="-galera--status_script"></a>`status_script`
+
+Data type: `Stdlib::Absolutepath`
+
+The script that will be used for status checks.
+
+##### <a name="-galera--status_service_type"></a>`status_service_type`
+
+Data type: `Optional[String]`
+
+Service type for the xinetd status service.
+
+Default value: `undef`
+
+##### <a name="-galera--status_system_group"></a>`status_system_group`
+
+Data type: `String`
+
+The operating system group that will be managed for the status check.
+
+##### <a name="-galera--status_system_user"></a>`status_system_user`
+
+Data type: `String`
+
+The operating system user that will be managed for the status check.
+
+##### <a name="-galera--status_system_user_config"></a>`status_system_user_config`
+
+Data type: `Hash`
+
+The config for the operating system user.
+
+##### <a name="-galera--status_user"></a>`status_user`
 
 Data type: `String`
 
 Specifies the name of the user to use for status checks.
 Default: `clustercheck`
 
-##### <a name="validate_connection"></a>`validate_connection`
+##### <a name="-galera--status_xinetd_service_name"></a>`status_xinetd_service_name`
+
+Data type: `String`
+
+The name of the xinetd service.
+
+##### <a name="-galera--validate_connection"></a>`validate_connection`
 
 Data type: `Boolean`
 
@@ -503,14 +589,14 @@ connections at the point where the `mysql::server` resource is marked
 as complete. This is used because after returning success, the service
 is still not quite ready. Default: `true`
 
-##### <a name="vendor_type"></a>`vendor_type`
+##### <a name="-galera--vendor_type"></a>`vendor_type`
 
 Data type: `Enum['codership', 'mariadb', 'percona']`
 
 Specifies the galera vendor (or flavour) to use.
 Valid options: codership, mariadb, percona. Default: `percona`
 
-##### <a name="vendor_version"></a>`vendor_version`
+##### <a name="-galera--vendor_version"></a>`vendor_version`
 
 Data type: `Optional[String]`
 
@@ -518,29 +604,29 @@ Specifies the galera version to use. To avoid accidential updates,
 set this to the required version.
 Default: A vendor- and OS-specific value. (Usually the most recent version.)
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="wsrep_group_comm_port"></a>`wsrep_group_comm_port`
+##### <a name="-galera--wsrep_group_comm_port"></a>`wsrep_group_comm_port`
 
 Data type: `Integer`
 
 Specifies the port to use for galera clustering. Default: `4567`
 
-##### <a name="wsrep_inc_state_transfer_port"></a>`wsrep_inc_state_transfer_port`
+##### <a name="-galera--wsrep_inc_state_transfer_port"></a>`wsrep_inc_state_transfer_port`
 
 Data type: `Integer`
 
 Specifies the port to use for galera incremental state transfer.
 Default: `4568`
 
-##### <a name="wsrep_sst_auth"></a>`wsrep_sst_auth`
+##### <a name="-galera--wsrep_sst_auth"></a>`wsrep_sst_auth`
 
 Data type: `String`
 
 Specifies the authentication information to use for SST.
 Default: `root:<%= $root_password %>`
 
-##### <a name="wsrep_sst_method"></a>`wsrep_sst_method`
+##### <a name="-galera--wsrep_sst_method"></a>`wsrep_sst_method`
 
 Data type: `Enum['mariabackup', 'mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2']`
 
@@ -548,14 +634,14 @@ Specifies the method to use for state snapshot transfer between nodes.
 Valid options: mysqldump, rsync, skip, xtrabackup, xtrabackup-v2 (Percona).
 Default: `rsync`
 
-##### <a name="wsrep_state_transfer_port"></a>`wsrep_state_transfer_port`
+##### <a name="-galera--wsrep_state_transfer_port"></a>`wsrep_state_transfer_port`
 
 Data type: `Integer`
 
 Specifies the port to use for galera state transfer.
 Default: `4444`
 
-### <a name="galerafirewall"></a>`galera::firewall`
+### <a name="galera--firewall"></a>`galera::firewall`
 
 Open firewall ports used by galera using puppetlabs-firewall.
 
@@ -563,15 +649,13 @@ Open firewall ports used by galera using puppetlabs-firewall.
 
 The following parameters are available in the `galera::firewall` class:
 
-* [`source`](#source)
+* [`source`](#-galera--firewall--source)
 
-##### <a name="source"></a>`source`
+##### <a name="-galera--firewall--source"></a>`source`
 
 Data type: `Optional[String]`
 
 Specifies the firewall source addresses to unblock. Valid options: a string. Default: `undef`
 
-Default value: ``undef``
-
-## Defined types
+Default value: `undef`
 

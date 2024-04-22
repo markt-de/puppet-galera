@@ -183,11 +183,23 @@
 #   Specifies whether to configure a user and script that will check the status
 #   of the galera cluster. Default: `true`
 #
+# @param status_cps
+#   Rate limit config for the xinetd status service.
+#
+# @param status_flags
+#   Flags for the xinetd status service.
+#
 # @param status_host
 #   Specifies the cluster to add the cluster check user to. Default: `localhost`
 #
+# @param status_instances
+#   Number of active instances for the xinetd status service.
+#
 # @param status_log_on_failure
 #   Specifies which fields xinetd will log on failure. Default: `undef`
+#
+# @param status_log_on_failure_operator
+#   Specifies which operator xinetd uses to output logs on failure.
 #
 # @param status_log_on_success
 #   Specifies which fields xinetd will log on success. Default: `''`
@@ -196,15 +208,36 @@
 #   Specifies which operator xinetd uses to output logs on success.
 #   Default: `=`
 #
+# @param status_log_type
+#   Log type for the xinetd status service.
+#
 # @param status_password
 #   Specifies the password of the status check user.
 #
 # @param status_port
 #   Specifies the port for cluster check service. Default: `9200`
 #
+# @param status_script
+#   The script that will be used for status checks.
+#
+# @param status_service_type
+#   Service type for the xinetd status service.
+#
+# @param status_system_group
+#   The operating system group that will be managed for the status check.
+#
+# @param status_system_user
+#   The operating system user that will be managed for the status check.
+#
+# @param status_system_user_config
+#   The config for the operating system user.
+#
 # @param status_user
 #   Specifies the name of the user to use for status checks.
 #   Default: `clustercheck`
+#
+# @param status_xinetd_service_name
+#   The name of the xinetd service.
 #
 # @param validate_connection
 #   Specifies whether the module should ensure that the cluster can accept
@@ -274,11 +307,16 @@ class galera (
   Integer $status_available_when_donor,
   Integer $status_available_when_readonly,
   Boolean $status_check,
+  Stdlib::Absolutepath $status_script,
   String $status_host,
   String $status_log_on_success_operator,
   String $status_password,
   Integer $status_port,
+  String $status_system_group,
+  String $status_system_user,
+  Hash $status_system_user_config,
   String $status_user,
+  String $status_xinetd_service_name,
   Boolean $validate_connection,
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,
@@ -302,8 +340,14 @@ class galera (
   Optional[String] $mysql_package_name = undef,
   Optional[String] $mysql_service_name = undef,
   Optional[Array] $override_repos = undef,
+  Optional[String] $status_cps = undef,
+  Optional[String] $status_flags = undef,
+  Optional[String] $status_instances = undef,
   Optional[String] $status_log_on_failure = undef,
+  Optional[String] $status_log_on_failure_operator = undef,
   Optional[String] $status_log_on_success = undef,
+  Optional[String] $status_log_type = undef,
+  Optional[String] $status_service_type = undef,
   Optional[String] $vendor_version = undef,
 ) {
   # Fetch appropiate default values from module data, depending on the values

@@ -2,10 +2,6 @@
 # @api private
 class galera::status (
 ) {
-  if ! $galera::status_password {
-    fail('galera::status_password unset. Please specify a password for the clustercheck MySQL user.')
-  }
-
   if $galera::create_status_user {
     if $galera::status_allow != 'localhost' {
       # Create status user for the specified host
@@ -36,38 +32,41 @@ class galera::status (
     }
   }
 
-  group { 'clustercheck':
+  group { $galera::status_system_group:
     ensure => present,
     system => true,
   }
 
-  user { 'clustercheck':
-    shell  => '/bin/false',
-    home   => '/var/empty',
-    gid    => 'clustercheck',
+  user { $galera::status_system_user:
+    *      => $galera::status_system_user_config,
+    gid    => $galera::status_system_group,
     system => true,
-    before => File['/usr/local/bin/clustercheck'],
+    before => File[$galera::status_script],
   }
 
-  file { '/usr/local/bin/clustercheck':
+  file { $galera::status_script:
     content => epp('galera/clustercheck.epp'),
-    owner   => 'clustercheck',
-    group   => 'clustercheck',
+    owner   => $galera::status_system_user,
+    group   => $galera::status_system_group,
     mode    => '0500',
   }
 
-  xinetd::service { 'mysqlchk':
-    server                  => '/usr/local/bin/clustercheck',
-    port                    => $galera::status_port,
-    user                    => 'clustercheck',
-    flags                   => 'REUSE',
-    service_type            => 'UNLISTED',
+  xinetd::service { $galera::status_xinetd_service_name:
+    cps                     => $galera::status_cps,
+    flags                   => $galera::status_flags,
+    instances               => $galera::status_instances,
+    log_on_failure          => $galera::status_log_on_failure,
+    log_on_failure_operator => $galera::status_log_on_failure_operator,
     log_on_success          => $galera::status_log_on_success,
     log_on_success_operator => $galera::status_log_on_success_operator,
-    log_on_failure          => $galera::status_log_on_failure,
+    log_type                => $galera::status_log_type,
+    port                    => $galera::status_port,
+    server                  => $galera::status_script,
+    service_type            => $galera::status_service_type,
+    user                    => $galera::status_system_user,
     require                 => [
-      File['/usr/local/bin/clustercheck'],
-      User['clustercheck']
+      File[$galera::status_script],
+      User[$galera::status_system_user]
     ],
   }
 

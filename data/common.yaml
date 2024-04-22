@@ -56,11 +56,20 @@ galera::status_allow: '%'
 galera::status_available_when_donor: 0
 galera::status_available_when_readonly: -1
 galera::status_check: true
+galera::status_flags: 'REUSE'
 galera::status_host: 'localhost'
 galera::status_log_on_success: ''
 galera::status_log_on_success_operator: '='
 galera::status_port: 9200
+galera::status_script: '/usr/local/bin/clustercheck'
+galera::status_service_type: 'UNLISTED'
+galera::status_system_group: 'clustercheck'
+galera::status_system_user: 'clustercheck'
+galera::status_system_user_config:
+  home: '/var/empty'
+  shell: '/bin/false'
 galera::status_user: 'clustercheck'
+galera::status_xinetd_service_name: 'mysqlchk'
 galera::validate::action: 'select count(1);'
 galera::validate::catch: 'ERROR'
 galera::validate::delay: 3
