@@ -12,21 +12,26 @@ describe 'galera::debian' do
 
   shared_examples_for 'galera on Debian' do
     context 'with default parameters' do
-      it { is_expected.to contain_file('/lib/systemd/system/mysqlchk.socket').with_content(%r{ListenStream=9200}) }
       it {
-        is_expected.to contain_file('/lib/systemd/system/mysqlchk@.service')
-          .with_content(%r{User=clustercheck})
-          .with_content(%r{Group=clustercheck})
-          .with_content(%r{ExecStart=/usr/local/bin/clustercheck})
-          .with_content(%r{StandardInput=socket})
-      }
-      it {
-        is_expected.to contain_exec('mysqlchk-systemd-reload').with(
-          'command'     => 'systemctl daemon-reload',
-          'path'        => ['/usr/bin', '/bin', '/usr/sbin'],
-          'refreshonly' => true,
+        is_expected.to contain_systemd__manage_unit('mysqlchk.socket').with(
+          socket_entry: {
+            'ListenStream' => 9200,
+            'Accept' => true
+          }
         )
       }
+      it { is_expected.to create_systemd__daemon_reload('mysqlchk.socket') }
+      it {
+        is_expected.to contain_systemd__manage_unit('mysqlchk@.service').with(
+          service_entry: {
+            'User' => 'clustercheck',
+            'Group' => 'clustercheck',
+            'StandardInput' => 'socket',
+            'ExecStart' => '/usr/local/bin/clustercheck'
+          }
+        )
+      }
+      it { is_expected.to create_systemd__daemon_reload('mysqlchk@.service') }
       it { is_expected.to contain_file('/etc/mysql/puppet_debfix.cnf').with_content(%r{[mysqld]}) }
       it {
         is_expected.to contain_exec('clean_up_ubuntu').with(

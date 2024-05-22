@@ -22,7 +22,7 @@ class galera::validate (
   Integer $retries,
   Optional[String] $inv_catch,
 ) {
-  if $galera::status_check {
+  if $galera::status_check != false {
     $validate_host     = $galera::status_host
     $validate_user     = $galera::status_user
     $validate_password = $galera::status_password
@@ -30,8 +30,7 @@ class galera::validate (
     $validate_host     = 'localhost'
     $validate_user     = 'root'
     $validate_password = $galera::root_password
-  }
-  else {
+  } else {
     fail('Cannot validate connection without $root_password or $status_check')
   }
 

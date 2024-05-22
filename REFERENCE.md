@@ -99,7 +99,7 @@ The following parameters are available in the `galera` class:
 * [`status_system_user`](#-galera--status_system_user)
 * [`status_system_user_config`](#-galera--status_system_user_config)
 * [`status_user`](#-galera--status_user)
-* [`status_xinetd_service_name`](#-galera--status_xinetd_service_name)
+* [`status_service_name`](#-galera--status_service_name)
 * [`validate_connection`](#-galera--validate_connection)
 * [`vendor_type`](#-galera--vendor_type)
 * [`vendor_version`](#-galera--vendor_version)
@@ -449,7 +449,7 @@ variable. Values other than 0 have no effect. Default: `-1`
 
 ##### <a name="-galera--status_check"></a>`status_check`
 
-Data type: `Boolean`
+Data type: `Variant[Enum['xinetd','systemd'],Boolean[false]]`
 
 Specifies whether to configure a user and script that will check the status
 of the galera cluster. Default: `true`
@@ -574,11 +574,11 @@ Data type: `String`
 Specifies the name of the user to use for status checks.
 Default: `clustercheck`
 
-##### <a name="-galera--status_xinetd_service_name"></a>`status_xinetd_service_name`
+##### <a name="-galera--status_service_name"></a>`status_service_name`
 
 Data type: `String`
 
-The name of the xinetd service.
+The name of the xinetd or systemd service.
 
 ##### <a name="-galera--validate_connection"></a>`validate_connection`
 

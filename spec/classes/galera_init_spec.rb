@@ -258,6 +258,11 @@ describe 'galera' do
       it { is_expected.not_to contain_class('galera::firewall') }
       it { is_expected.not_to contain_firewall('4567 galera accept tcp') }
     end
+
+    context 'when status_check=false' do
+      before(:each) { params.merge!(status_check: false) }
+      it { is_expected.not_to contain_class('galera::status') }
+    end
   end
 
   on_supported_os.each do |os, facts|

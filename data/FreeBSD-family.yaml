@@ -84,3 +84,5 @@ galera::sst::xtrabackup::additional_packages:
   - 'xtrabackup'
 galera::sst::xtrabackup::codership::57::additional_packages:
   - 'xtrabackup'
+
+galera::status_check: 'xinetd'

@@ -236,8 +236,8 @@
 #   Specifies the name of the user to use for status checks.
 #   Default: `clustercheck`
 #
-# @param status_xinetd_service_name
-#   The name of the xinetd service.
+# @param status_service_name
+#   The name of the xinetd or systemd service.
 #
 # @param validate_connection
 #   Specifies whether the module should ensure that the cluster can accept
@@ -306,7 +306,7 @@ class galera (
   String $status_allow,
   Integer $status_available_when_donor,
   Integer $status_available_when_readonly,
-  Boolean $status_check,
+  Variant[Enum['xinetd','systemd'],Boolean[false]] $status_check,
   Stdlib::Absolutepath $status_script,
   String $status_host,
   String $status_log_on_success_operator,
@@ -316,7 +316,7 @@ class galera (
   String $status_system_user,
   Hash $status_system_user_config,
   String $status_user,
-  String $status_xinetd_service_name,
+  String $status_service_name,
   Boolean $validate_connection,
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,

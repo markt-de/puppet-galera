@@ -36,6 +36,9 @@ It will try to recover from failures by bootstrapping on a node designated as th
 * [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql) and other soft dependencies
 * A [supported version](#os-and-cluster-compatibility) of Codership Galera (MySQL), MariaDB or Percona XtraDB Cluster
 * `nmap` is required for the cluster bootstrap functionality
+* [puppetlabs/xinetd](https://github.com/puppetlabs/puppetlabs-xinetd) if `galera::status_check` is set to `xinetd` (Default for FreeBSD)
+* [puppet/systemd](https://github.com/voxpupuli/puppet-systemd) if `galera::status_check` is set to `systemd` (Default for Linux)
+* [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) unless `galera::configure_firewall` is disabled
 
 ## Usage
 

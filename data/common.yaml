@@ -55,7 +55,7 @@ galera::sst::xtrabackup_v2::percona::80::additional_packages:
 galera::status_allow: '%'
 galera::status_available_when_donor: 0
 galera::status_available_when_readonly: -1
-galera::status_check: true
+galera::status_check: 'systemd'
 galera::status_flags: 'REUSE'
 galera::status_host: 'localhost'
 galera::status_log_on_success: ''
@@ -69,7 +69,7 @@ galera::status_system_user_config:
   home: '/var/empty'
   shell: '/bin/false'
 galera::status_user: 'clustercheck'
-galera::status_xinetd_service_name: 'mysqlchk'
+galera::status_service_name: 'mysqlchk'
 galera::validate::action: 'select count(1);'
 galera::validate::catch: 'ERROR'
 galera::validate::delay: 3
