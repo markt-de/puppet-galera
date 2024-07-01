@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'galera' do
-  let :params do
+  let(:params) do
     {
       arbitrator_config_file: '/etc/default/garb',
       arbitrator_package_ensure: 'present',
@@ -38,12 +38,12 @@ describe 'galera' do
     end
 
     context 'when node is the master' do
-      before(:each) { params.merge!(galera_master: facts[:networking]['fqdn']) }
+      before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{systemctl start mysql@bootstrap.service}) }
     end
 
     context 'when installing mariadb' do
-      before(:each) { params.merge!(vendor_type: 'mariadb', vendor_version: '10.3') }
+      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3') }
 
       it { is_expected.to contain_file('/var/log/mariadb') }
       it { is_expected.to contain_file('/var/run/mariadb') }
@@ -52,7 +52,7 @@ describe 'galera' do
 
   shared_examples_for 'galera on RedHat 6' do
     context 'when node is the master' do
-      before(:each) { params.merge!(galera_master: facts[:networking]['fqdn']) }
+      before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{/etc/init.d/mysql bootstrap-pxc}) }
     end
   end
@@ -60,7 +60,7 @@ describe 'galera' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do # rubocop:disable RSpec/EmptyExampleGroup
       let(:facts) do
-        facts.merge({})
+        facts
       end
 
       let(:os_params) do

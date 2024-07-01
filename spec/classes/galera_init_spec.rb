@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'galera' do
-  let :params do
+  let(:params) do
     {
       arbitrator_config_file: '/etc/default/garb',
       arbitrator_package_ensure: 'present',
@@ -76,17 +76,17 @@ describe 'galera' do
     end
 
     context 'when node is the master' do
-      before(:each) { params.merge!(galera_master: facts[:networking]['fqdn']) }
+      before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster') }
     end
 
     context 'when node is not the master' do
-      before(:each) { params.merge!(galera_master: "not_#{facts[:networking]['fqdn']}") }
+      before(:each) { params.deep_merge!(galera_master: "not_#{facts[:networking]['fqdn']}") }
       it { is_expected.not_to contain_exec('bootstrap_galera_cluster') }
     end
 
     context 'when installing mariadb' do
-      before(:each) { params.merge!(vendor_type: 'mariadb', vendor_version: '10.3') }
+      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_name: os_params[:m_mysql_package_name],
@@ -102,7 +102,7 @@ describe 'galera' do
     end
 
     context 'when using xtrabackup' do
-      before(:each) { params.merge!(wsrep_sst_method: 'xtrabackup') }
+      before(:each) { params.deep_merge!(wsrep_sst_method: 'xtrabackup') }
       it {
         if os_params[:p_xtrabackup_package] != 'NONE'
           is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed')
@@ -111,7 +111,7 @@ describe 'galera' do
     end
 
     context 'when using xtrabackup-v2' do
-      before(:each) { params.merge!(wsrep_sst_method: 'xtrabackup-v2') }
+      before(:each) { params.deep_merge!(wsrep_sst_method: 'xtrabackup-v2') }
       it {
         if os_params[:p_xtrabackup_package] != 'NONE'
           is_expected.to contain_package(os_params[:p_xtrabackup_package]).with(ensure: 'installed')
@@ -120,7 +120,7 @@ describe 'galera' do
     end
 
     context 'when using mariabackup' do
-      before(:each) { params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'mariabackup') }
+      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'mariabackup') }
       it {
         if os_params[:m_mariadb_backup_package_name] != 'NONE'
           is_expected.to contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('installed')
@@ -130,38 +130,38 @@ describe 'galera' do
     end
 
     context 'when managing root .my.cnf' do
-      before(:each) { params.merge!(create_root_my_cnf: true) }
+      before(:each) { params.deep_merge!(create_root_my_cnf: true) }
       it { is_expected.to contain_class('mysql::server').with(create_root_my_cnf: true) }
       it { is_expected.to contain_exec('create .my.cnf for user root') }
     end
 
     context 'when not managing root .my.cnf' do
-      before(:each) { params.merge!(create_root_my_cnf: false) }
+      before(:each) { params.deep_merge!(create_root_my_cnf: false) }
       it { is_expected.to contain_class('mysql::server').with(create_root_my_cnf: false) }
       it { is_expected.not_to contain_exec('create .my.cnf for user root') }
     end
 
     context 'when create_root_user=undef (default) and the master' do
-      before(:each) { params.merge!(galera_master: facts[:networking]['fqdn']) }
+      before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_class('galera').with(create_root_user: nil) }
       it { is_expected.to contain_class('mysql::server').with(create_root_user: true) }
       it { is_expected.to contain_mysql_user('root@localhost') }
     end
 
     context 'when create_root_user=undef (default) and not the master' do
-      before(:each) { params.merge!(galera_master: "not_#{facts[:networking]['fqdn']}") }
+      before(:each) { params.deep_merge!(galera_master: "not_#{facts[:networking]['fqdn']}") }
       it { is_expected.to contain_class('mysql::server').with(create_root_user: false) }
       it { is_expected.not_to contain_mysql_user('root@localhost') }
     end
 
     context 'when create_root_user=true' do
-      before(:each) { params.merge!(create_root_user: true) }
+      before(:each) { params.deep_merge!(create_root_user: true) }
       it { is_expected.to contain_class('mysql::server').with(create_root_user: true) }
       it { is_expected.to contain_mysql_user('root@localhost') }
     end
 
     context 'when create root user is false' do
-      before(:each) { params.merge!(create_root_user: false) }
+      before(:each) { params.deep_merge!(create_root_user: false) }
       it { is_expected.to contain_class('mysql::server').with(create_root_user: false) }
       it { is_expected.not_to contain_mysql_user('root@localhost') }
     end
@@ -174,7 +174,7 @@ describe 'galera' do
     end
 
     context 'when create_status_user=false' do
-      before(:each) { params.merge!(create_status_user: false) }
+      before(:each) { params.deep_merge!(create_status_user: false) }
       it { is_expected.not_to contain_mysql_user('clustercheck@localhost') }
       it { is_expected.not_to contain_mysql_user('clustercheck@%') }
       it { is_expected.not_to contain_mysql_grant('clustercheck@localhost/*.*') }
@@ -182,7 +182,7 @@ describe 'galera' do
     end
 
     context 'when status_allow=example' do
-      before(:each) { params.merge!(status_allow: 'example') }
+      before(:each) { params.deep_merge!(status_allow: 'example') }
       it { is_expected.to contain_mysql_user('clustercheck@localhost') }
       it { is_expected.to contain_mysql_user('clustercheck@example') }
       it { is_expected.not_to contain_mysql_user('clustercheck@%') }
@@ -196,13 +196,13 @@ describe 'galera' do
     end
 
     context 'when validate_connection=false' do
-      before(:each) { params.merge!(validate_connection: false) }
+      before(:each) { params.deep_merge!(validate_connection: false) }
       it { is_expected.not_to contain_class('galera::validate') }
       it { is_expected.not_to contain_exec('validate_connection') }
     end
 
     context 'when installing codership' do
-      before(:each) { params.merge!(vendor_type: 'codership') }
+      before(:each) { params.deep_merge!(vendor_type: 'codership') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_name: os_params[:c_mysql_package_name],
@@ -218,7 +218,7 @@ describe 'galera' do
 
     context 'when specifying package names' do
       before(:each) do
-        params.merge!(mysql_package_name: 'mysql-package-test',
+        params.deep_merge!(mysql_package_name: 'mysql-package-test',
                       galera_package_name: 'galera-package-test',
                       galera_package_ensure: 'present')
       end
@@ -246,7 +246,7 @@ describe 'galera' do
     # Class[Mysql::Server]: parameter 'package_ensure' expects a match for Variant[Enum['absent', 'present']
     #
     # context 'when package_ensure=latest' do
-    #   before(:each) { params.merge!(package_ensure: 'latest') }
+    #   before(:each) { params.deep_merge!(package_ensure: 'latest') }
     #   it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'absent') }
     #   it {
     #     is_expected.to contain_class('mysql::server').with(
@@ -257,19 +257,19 @@ describe 'galera' do
     # end
     #
     # context 'when galera_package_ensure=latest' do
-    #   before(:each) { params.merge!(galera_package_ensure: 'latest') }
+    #   before(:each) { params.deep_merge!(galera_package_ensure: 'latest') }
     #   it { is_expected.to contain_package(os_params[:p_galera_package_name]).with(ensure: 'latest') }
     # end
 
     context 'when configure_firewall=false' do
-      before(:each) { params.merge!(configure_firewall: false) }
+      before(:each) { params.deep_merge!(configure_firewall: false) }
       it { is_expected.not_to contain_class('galera::firewall') }
       it { is_expected.not_to contain_firewall('4567 galera accept tcp') }
     end
 
     context 'when specifying logging options' do
       before(:each) do
-        params.merge!(status_log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
+        params.deep_merge!(status_log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
                       status_log_on_success_operator: '-=',
                       status_log_on_failure: 'USERID')
       end
@@ -286,7 +286,7 @@ describe 'galera' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do # rubocop:disable RSpec/EmptyExampleGroup
       let(:facts) do
-        facts.merge({})
+        facts
       end
 
       let(:os_params) do

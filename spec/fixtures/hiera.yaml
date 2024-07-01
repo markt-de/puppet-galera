@@ -4,4 +4,3 @@
   :datadir: 'spec/fixtures/hiera'
 :hierarchy:
   - common
-
