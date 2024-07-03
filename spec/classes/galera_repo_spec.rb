@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'galera' do
-  let :params do
+  let(:params) do
     {
       configure_repo: true,
       cluster_name: 'testcluster',
@@ -12,7 +12,7 @@ describe 'galera' do
   shared_examples_for 'repo on RedHat-family' do
     context 'for codership' do
       before(:each) do
-        params.merge!(vendor_type: 'codership', vendor_version: '5.7')
+        params.deep_merge!(vendor_type: 'codership', vendor_version: '5.7')
       end
       it { is_expected.to contain_galera__repo__config('codership') }
       it { is_expected.to contain_galera__repo__config('codership_lib') }
@@ -22,7 +22,7 @@ describe 'galera' do
 
     context 'for codership with wsrep_sst_method=xtrabackup' do
       before(:each) do
-        params.merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
+        params.deep_merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
       end
       it { is_expected.to contain_galera__repo__config('codership') }
       it { is_expected.to contain_galera__repo__config('codership_lib') }
@@ -34,7 +34,7 @@ describe 'galera' do
 
     context 'for mariadb' do
       before(:each) do
-        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3')
+        params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3')
       end
       it { is_expected.to contain_galera__repo__config('mariadb') }
       it { is_expected.to contain_yumrepo('galera_mariadb').with(enabled: 1) }
@@ -42,7 +42,7 @@ describe 'galera' do
 
     context 'for mariadb with wsrep_sst_method=xtrabackup-v2' do
       before(:each) do
-        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
+        params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
       end
       it { is_expected.to contain_galera__repo__config('mariadb') }
       it { is_expected.to contain_galera__repo__config('percona_tools') }
@@ -52,7 +52,7 @@ describe 'galera' do
 
     context 'for percona' do
       before(:each) do
-        params.merge!(vendor_type: 'percona', vendor_version: '5.7')
+        params.deep_merge!(vendor_type: 'percona', vendor_version: '5.7')
       end
       it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_galera__repo__config('percona_tools') }
@@ -62,7 +62,7 @@ describe 'galera' do
 
     context 'with configure_repo=false' do
       before(:each) do
-        params.merge!(configure_repo: false)
+        params.deep_merge!(configure_repo: false)
       end
       it { is_expected.not_to contain_galera__repo__config('codership') }
       it { is_expected.not_to contain_galera__repo__config('codership_lib') }
@@ -82,7 +82,7 @@ describe 'galera' do
 
     context 'with epel_needed=false' do
       before(:each) do
-        params.merge!(epel_needed: false)
+        params.deep_merge!(epel_needed: false)
       end
       it { is_expected.not_to contain_class('epel') }
     end
@@ -91,7 +91,7 @@ describe 'galera' do
   shared_examples_for 'repo on Debian-family' do
     context 'for codership' do
       before(:each) do
-        params.merge!(vendor_type: 'codership', vendor_version: '5.7')
+        params.deep_merge!(vendor_type: 'codership', vendor_version: '5.7')
       end
       it { is_expected.to contain_galera__repo__config('codership') }
       it { is_expected.to contain_galera__repo__config('codership_lib') }
@@ -101,7 +101,7 @@ describe 'galera' do
 
     context 'for codership with wsrep_sst_method=xtrabackup' do
       before(:each) do
-        params.merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
+        params.deep_merge!(vendor_type: 'codership', vendor_version: '5.7', wsrep_sst_method: 'xtrabackup')
       end
       it { is_expected.to contain_galera__repo__config('codership') }
       it { is_expected.to contain_galera__repo__config('codership_lib') }
@@ -113,14 +113,14 @@ describe 'galera' do
 
     context 'for mariadb' do
       before(:each) do
-        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3')
+        params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3')
       end
       it { is_expected.to contain_apt__source('galera_mariadb').with(repos: 'main') }
     end
 
     context 'for mariadb with wsrep_sst_method=xtrabackup-v2' do
       before(:each) do
-        params.merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
+        params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'xtrabackup-v2')
       end
       it { is_expected.to contain_galera__repo__config('mariadb') }
       it { is_expected.to contain_galera__repo__config('percona_tools') }
@@ -130,7 +130,7 @@ describe 'galera' do
 
     context 'for percona' do
       before(:each) do
-        params.merge!(vendor_type: 'percona', vendor_version: '5.7')
+        params.deep_merge!(vendor_type: 'percona', vendor_version: '5.7')
       end
       it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_galera__repo__config('percona_tools') }
@@ -140,7 +140,7 @@ describe 'galera' do
 
     context 'with configure_repo=false' do
       before(:each) do
-        params.merge!(configure_repo: false)
+        params.deep_merge!(configure_repo: false)
       end
       it { is_expected.not_to contain_galera__repo__config('codership') }
       it { is_expected.not_to contain_galera__repo__config('codership_lib') }
@@ -156,7 +156,7 @@ describe 'galera' do
 
     context 'with epel_needed=true should do nothing' do
       before(:each) do
-        params.merge!(epel_needed: true)
+        params.deep_merge!(epel_needed: true)
       end
       it { is_expected.not_to contain_class('epel') }
     end
@@ -165,7 +165,7 @@ describe 'galera' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do # rubocop:disable RSpec/EmptyExampleGroup
       let(:facts) do
-        facts.merge({})
+        facts
       end
 
       case facts[:osfamily]

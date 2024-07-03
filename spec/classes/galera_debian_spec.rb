@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'galera::debian' do
-  let :pre_condition do
+  let(:pre_condition) do
     "class { 'galera':
        cluster_name    => 'testcluster',
        galera_master   => 'control1',
@@ -30,7 +30,7 @@ describe 'galera::debian' do
 
     context 'when this node is the master' do
       before(:each) do
-        facts.merge!(networking: { 'fqdn' => 'control1' })
+        facts.deep_merge!(networking: { 'fqdn' => 'control1' })
       end
       let(:node) { 'control1' }
 
@@ -69,7 +69,7 @@ describe 'galera::debian' do
 
     context 'when this node is a slave' do
       before(:each) do
-        facts.merge!(networking: { 'fqdn' => 'slave' })
+        facts.deep_merge!(networking: { 'fqdn' => 'slave' })
       end
       let(:node) { 'slave' }
 
@@ -91,7 +91,7 @@ describe 'galera::debian' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do # rubocop:disable RSpec/EmptyExampleGroup
       let(:facts) do
-        facts.merge({})
+        facts
       end
 
       case facts[:osfamily]
