@@ -1,24 +1,24 @@
 ---
 default:
   provisioner: docker_exp
-  images: ['waffleimage/centos7']
+  images: ['litmusimage/rockylinux:8']
 vagrant:
   provisioner: vagrant
-  images: ['centos/7', 'generic/ubuntu2004']
+  images: ['centos/8', 'generic/ubuntu2404']
 
 deb_all:
   provisioner: docker
-  images: ['litmusimage/debian:10', 'litmusimage/debian:11']
+  images: ['litmusimage/debian:11', 'litmusimage/debian:12']
 el_all:
   provisioner: docker
-  images: ['litmusimage/centos:7', 'litmusimage/centos:8']
+  images: ['litmusimage/centos:7', 'litmusimage/rockylinux:8']
   # The most reliable workaround for the docker/systemd incompatibility.
   # see https://github.com/docker/for-linux/issues/835
   # see https://github.com/moby/moby/issues/38749
   vars: '{docker_run_opts: ["-v /sys/fs/cgroup:/sys/fs/cgroup:ro"]}'
 ub_all:
   provisioner: docker
-  images: ['litmusimage/ubuntu:20.04', 'litmusimage/ubuntu:22.04']
+  images: ['litmusimage/ubuntu:20.04', 'litmusimage/ubuntu:22.04', 'litmusimage/ubuntu:24.04']
 
 gha_deb10:
   provisioner: docker
@@ -26,6 +26,9 @@ gha_deb10:
 gha_deb11:
   provisioner: docker
   images: ['litmusimage/debian:11']
+gha_deb12:
+  provisioner: docker
+  images: ['litmusimage/debian:12']
 gha_el7:
   provisioner: docker
   images: ['litmusimage/centos:7']
@@ -53,3 +56,6 @@ gha_ub2004:
 gha_ub2204:
   provisioner: docker
   images: ['litmusimage/ubuntu:22.04']
+gha_ub2404:
+  provisioner: docker
+  images: ['litmusimage/ubuntu:24.04']
