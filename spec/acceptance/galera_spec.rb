@@ -25,7 +25,7 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
             }
           },
           vendor_type           => 'percona',
-          vendor_version        => '5.7'
+          vendor_version        => '8.0'
         }
         MANIFEST
       end

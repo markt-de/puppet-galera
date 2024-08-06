@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Add support for new operating systems
 
 ### Changed
+* Change default version of Codership/MySQL, MariaDB and Percona XtraDB
 * Enable systemd-based status check on RHEL 9, Debian 12 and Ubuntu 24.04 ([#191])
 * Add new dependency for systemd-based status check ([#191])
 * Extend unit tests ([#191])
