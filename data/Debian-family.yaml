@@ -78,6 +78,13 @@ galera::mariadb::106::client_package_name: 'mariadb-client-10.6'
 galera::mariadb::106::galera_package_name: 'galera-4'
 galera::mariadb::106::mysql_package_name: 'mariadb-server-10.6'
 
+galera::mariadb::1011::arbitrator_config_file: '/etc/default/garb'
+galera::mariadb::1011::arbitrator_package_name: 'galera-arbitrator-4'
+galera::mariadb::1011::arbitrator_service_name: 'garb'
+galera::mariadb::1011::client_package_name: 'mariadb-client-10.11'
+galera::mariadb::1011::galera_package_name: 'galera-4'
+galera::mariadb::1011::mysql_package_name: 'mariadb-server-10.11'
+
 #
 # MariaDB - default settings
 #
@@ -222,6 +229,9 @@ galera::sst::mariabackup::mariadb::105::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::mariabackup::mariadb::106::additional_packages:
+  - 'mariadb-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::1011::additional_packages:
   - 'mariadb-backup'
   - 'socat'
 galera::sst::xtrabackup::want_repos:
