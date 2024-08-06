@@ -1,0 +1,2 @@
+---
+galera::status_check_type: 'xinetd'

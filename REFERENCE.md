@@ -18,9 +18,7 @@
 * `galera::redhat`: Adds workarounds to solve issues specific to RedHat-based systems.
 * `galera::repo`: Evaluates which repositories should be enabled depending on $vendor_type and $vendor_version.
 * `galera::status`: Configures a user and script that will check the status of the galera cluster.
-* `galera::validate`: Validate that the cluster can accept connections at the point where
-the `mysql::server` resource is marked as complete.
-This is used because after returning success, the service is still not quite ready.
+* `galera::validate`: Validate that the cluster can accept connections.
 
 ### Defined types
 
@@ -82,6 +80,7 @@ The following parameters are available in the `galera` class:
 * [`status_available_when_donor`](#-galera--status_available_when_donor)
 * [`status_available_when_readonly`](#-galera--status_available_when_readonly)
 * [`status_check`](#-galera--status_check)
+* [`status_check_type`](#-galera--status_check_type)
 * [`status_cps`](#-galera--status_cps)
 * [`status_flags`](#-galera--status_flags)
 * [`status_host`](#-galera--status_host)
@@ -98,6 +97,7 @@ The following parameters are available in the `galera` class:
 * [`status_system_group`](#-galera--status_system_group)
 * [`status_system_user`](#-galera--status_system_user)
 * [`status_system_user_config`](#-galera--status_system_user_config)
+* [`status_systemd_service_name`](#-galera--status_systemd_service_name)
 * [`status_user`](#-galera--status_user)
 * [`status_xinetd_service_name`](#-galera--status_xinetd_service_name)
 * [`validate_connection`](#-galera--validate_connection)
@@ -454,6 +454,13 @@ Data type: `Boolean`
 Specifies whether to configure a user and script that will check the status
 of the galera cluster. Default: `true`
 
+##### <a name="-galera--status_check_type"></a>`status_check_type`
+
+Data type: `Enum['systemd', 'xinetd']`
+
+Specifies the type of service to use for status checks. Supported values
+are either `systemd` or `xinetd`, depending on the operating system.
+
 ##### <a name="-galera--status_cps"></a>`status_cps`
 
 Data type: `Optional[String]`
@@ -567,6 +574,12 @@ Data type: `Hash`
 
 The config for the operating system user.
 
+##### <a name="-galera--status_systemd_service_name"></a>`status_systemd_service_name`
+
+Data type: `String`
+
+The name of the systemd status service.
+
 ##### <a name="-galera--status_user"></a>`status_user`
 
 Data type: `String`
@@ -578,7 +591,7 @@ Default: `clustercheck`
 
 Data type: `String`
 
-The name of the xinetd service.
+The name of the xinetd status service.
 
 ##### <a name="-galera--validate_connection"></a>`validate_connection`
 

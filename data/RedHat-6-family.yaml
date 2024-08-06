@@ -10,3 +10,5 @@ galera::percona::55::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::56::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::57::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
 galera::percona::bootstrap_command: '/etc/init.d/mysql bootstrap-pxc'
+
+galera::status_check_type: 'xinetd'

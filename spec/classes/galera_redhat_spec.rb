@@ -35,11 +35,45 @@ describe 'galera' do
       it { is_expected.to contain_class('galera::redhat') }
       it { is_expected.to contain_package(os_params[:p_additional_packages]).with(ensure: 'installed') }
       it { is_expected.to contain_service('mysql@bootstrap') }
+      it {
+        is_expected.to contain_systemd__manage_unit('mysqlchk.socket').with(
+          socket_entry: {
+            'ListenStream' => 9200,
+            'Accept' => true,
+          },
+        )
+      }
+      it { is_expected.to create_systemd__daemon_reload('mysqlchk.socket') }
+      it {
+        is_expected.to contain_systemd__manage_unit('mysqlchk@.service').with(
+          service_entry: {
+            'User' => 'clustercheck',
+            'Group' => 'clustercheck',
+            'StandardInput' => 'socket',
+            'ExecStart' => '/usr/local/bin/clustercheck',
+          },
+        )
+      }
+      it { is_expected.to create_systemd__daemon_reload('mysqlchk@.service') }
     end
 
     context 'when node is the master' do
       before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
       it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{systemctl start mysql@bootstrap.service}) }
+    end
+
+    context 'when status_port=12345' do
+      before(:each) do
+        params.merge!(status_port: 12_345)
+      end
+      it {
+        is_expected.to contain_systemd__manage_unit('mysqlchk.socket').with(
+          socket_entry: {
+            'ListenStream' => 12_345,
+            'Accept' => true,
+          },
+        )
+      }
     end
 
     context 'when installing mariadb' do
@@ -50,10 +84,29 @@ describe 'galera' do
     end
   end
 
-  shared_examples_for 'galera on RedHat 6' do
-    context 'when node is the master' do
-      before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
-      it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{/etc/init.d/mysql bootstrap-pxc}) }
+  shared_examples_for 'galera on RedHat 8 and older' do
+    context 'when installing percona' do
+      it {
+        is_expected.to contain_xinetd__service('mysqlchk').with(
+          log_on_success: '',
+          log_on_success_operator: '=',
+          log_on_failure: nil,
+        )
+      }
+    end
+    context 'when specifying logging options' do
+      before(:each) do
+        params.merge!(status_log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
+                      status_log_on_success_operator: '-=',
+                      status_log_on_failure: 'USERID')
+      end
+      it {
+        is_expected.to contain_xinetd__service('mysqlchk').with(
+          log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
+          log_on_success_operator: '-=',
+          log_on_failure: 'USERID',
+        )
+      }
     end
   end
 
@@ -71,10 +124,10 @@ describe 'galera' do
 
       case facts[:osfamily]
       when 'RedHat'
-        if Puppet::Util::Package.versioncmp(facts[:operatingsystemmajrelease], '7') >= 0
+        if Puppet::Util::Package.versioncmp(facts[:operatingsystemmajrelease], '9') >= 0
           it_configures 'galera on RedHat'
-        elsif facts[:operatingsystemmajrelease] == '6'
-          it_configures 'galera on RedHat 6'
+        else
+          it_configures 'galera on RedHat 8 and older'
         end
       end
     end

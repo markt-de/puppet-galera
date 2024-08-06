@@ -20,3 +20,5 @@ galera::repo::percona::yum:
 galera::repo::percona_tools::yum:
   priority: 1
   module_hotfixes: 1
+
+galera::status_check_type: 'xinetd'

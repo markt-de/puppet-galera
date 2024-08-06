@@ -33,6 +33,10 @@
       "version_requirement": ">= 2.0.0 < 3.0.0"
     },
     {
+      "name": "puppet/systemd",
+      "version_requirement": ">= 5.2.0 < 8.0.0"
+    },
+    {
       "name": "puppet/epel",
       "version_requirement": ">= 5.0.0 < 6.0.0"
     },
@@ -61,26 +65,30 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "FreeBSD",
       "operatingsystemrelease": [
-        "13"
+        "13",
+        "14"
       ]
     }
   ],

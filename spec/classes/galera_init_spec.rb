@@ -53,14 +53,6 @@ describe 'galera' do
 
       it { is_expected.to contain_class('mysql::server') }
 
-      it {
-        is_expected.to contain_xinetd__service('mysqlchk').with(
-          log_on_success: '',
-          log_on_success_operator: '=',
-          log_on_failure: nil,
-        )
-      }
-
       it { is_expected.to contain_group('clustercheck').with(system: true) }
       it {
         is_expected.to contain_user('clustercheck').with(
@@ -267,19 +259,9 @@ describe 'galera' do
       it { is_expected.not_to contain_firewall('4567 galera accept tcp') }
     end
 
-    context 'when specifying logging options' do
-      before(:each) do
-        params.deep_merge!(status_log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
-                      status_log_on_success_operator: '-=',
-                      status_log_on_failure: 'USERID')
-      end
-      it {
-        is_expected.to contain_xinetd__service('mysqlchk').with(
-          log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
-          log_on_success_operator: '-=',
-          log_on_failure: 'USERID',
-        )
-      }
+    context 'when status_check=false' do
+      before(:each) { params.merge!(status_check: false) }
+      it { is_expected.not_to contain_class('galera::status') }
     end
   end
 

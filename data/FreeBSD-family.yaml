@@ -3,6 +3,8 @@
 galera::configure_firewall: false
 galera::configure_repo: false
 
+galera::status_check_type: 'xinetd'
+
 #
 # Codership - version-specific settings
 #

@@ -1,31 +1,53 @@
 require 'spec_helper'
 
-describe 'galera::debian' do
-  let(:pre_condition) do
-    "class { 'galera':
-       cluster_name    => 'testcluster',
-       galera_master   => 'control1',
-       package_ensure  => 'present',
-       status_password => 'nonempty'
-    }"
+describe 'galera' do
+  let(:params) do
+    {
+      bind_address: '10.2.2.1',
+      cluster_name: 'testcluster',
+      configure_firewall: true,
+      configure_repo: true,
+      deb_sysmaint_password: 'sysmaint',
+      galera_master: 'control1',
+      galera_servers: ['10.2.2.1'],
+      local_ip: '10.2.2.1',
+      mysql_port: 3306,
+      mysql_restart: false,
+      override_options: {},
+      package_ensure: 'present',
+      root_password: 'test',
+      status_password: 'nonempty',
+      vendor_type: 'percona',
+      vendor_version: '5.7',
+      wsrep_group_comm_port: 4567,
+      wsrep_inc_state_transfer_port: 4568,
+      wsrep_sst_method: 'rsync',
+      wsrep_state_transfer_port: 4444,
+    }
   end
 
   shared_examples_for 'galera on Debian' do
     context 'with default parameters' do
-      it { is_expected.to contain_file('/etc/mysql/puppet_debfix.cnf').with_content(%r{[mysqld]}) }
       it {
-        is_expected.to contain_exec('clean_up_ubuntu').with(
-          command: 'service mysql stop',
-          path: '/usr/bin:/bin:/usr/sbin:/sbin',
-          refreshonly: true,
-          subscribe: 'Package[mysql-server]',
+        is_expected.to contain_systemd__manage_unit('mysqlchk.socket').with(
+          socket_entry: {
+            'ListenStream' => 9200,
+            'Accept' => true,
+          },
         )
       }
-      it { is_expected.to contain_file('/var/lib/mysql-install-tmp') }
-      it { is_expected.to contain_exec('fix_galera_config_errors_episode_I').with(refreshonly: true) }
-      it { is_expected.to contain_exec('fix_galera_config_errors_episode_II').with(refreshonly: true) }
-      it { is_expected.to contain_exec('fix_galera_config_errors_episode_III').with(refreshonly: true) }
-      it { is_expected.to contain_exec('fix_galera_config_errors_episode_IV').with(refreshonly: true) }
+      it { is_expected.to create_systemd__daemon_reload('mysqlchk.socket') }
+      it {
+        is_expected.to contain_systemd__manage_unit('mysqlchk@.service').with(
+          service_entry: {
+            'User' => 'clustercheck',
+            'Group' => 'clustercheck',
+            'StandardInput' => 'socket',
+            'ExecStart' => '/usr/local/bin/clustercheck',
+          },
+        )
+      }
+      it { is_expected.to create_systemd__daemon_reload('mysqlchk@.service') }
     end
 
     context 'when this node is the master' do
@@ -88,6 +110,32 @@ describe 'galera::debian' do
     end
   end
 
+  shared_examples_for 'galera on Debian 11 and older' do
+    context 'when installing percona' do
+      it {
+        is_expected.to contain_xinetd__service('mysqlchk').with(
+          log_on_success: '',
+          log_on_success_operator: '=',
+          log_on_failure: nil,
+        )
+      }
+    end
+    context 'when specifying logging options' do
+      before(:each) do
+        params.merge!(status_log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
+                      status_log_on_success_operator: '-=',
+                      status_log_on_failure: 'USERID')
+      end
+      it {
+        is_expected.to contain_xinetd__service('mysqlchk').with(
+          log_on_success: 'PID HOST USERID EXIT DURATION TRAFFIC',
+          log_on_success_operator: '-=',
+          log_on_failure: 'USERID',
+        )
+      }
+    end
+  end
+
   on_supported_os.each do |os, facts|
     context "on #{os}" do # rubocop:disable RSpec/EmptyExampleGroup
       let(:facts) do
@@ -96,7 +144,13 @@ describe 'galera::debian' do
 
       case facts[:osfamily]
       when 'Debian'
-        it_configures 'galera on Debian'
+        if facts[:os]['name'] == 'Debian' and Puppet::Util::Package.versioncmp(facts[:os]['release']['major'], '12') >= 0
+          it_configures 'galera on Debian'
+        elsif facts[:os]['name'] == 'Ubuntu' and Puppet::Util::Package.versioncmp(facts[:os]['release']['full'], '24.04') >= 0
+          it_configures 'galera on Debian'
+        else
+          it_configures 'galera on Debian 11 and older'
+        end
       end
     end
   end

@@ -183,6 +183,10 @@
 #   Specifies whether to configure a user and script that will check the status
 #   of the galera cluster. Default: `true`
 #
+# @param status_check_type
+#   Specifies the type of service to use for status checks. Supported values
+#   are either `systemd` or `xinetd`, depending on the operating system.
+#
 # @param status_cps
 #   Rate limit config for the xinetd status service.
 #
@@ -232,12 +236,15 @@
 # @param status_system_user_config
 #   The config for the operating system user.
 #
+# @param status_systemd_service_name
+#   The name of the systemd status service.
+#
 # @param status_user
 #   Specifies the name of the user to use for status checks.
 #   Default: `clustercheck`
 #
 # @param status_xinetd_service_name
-#   The name of the xinetd service.
+#   The name of the xinetd status service.
 #
 # @param validate_connection
 #   Specifies whether the module should ensure that the cluster can accept
@@ -307,6 +314,7 @@ class galera (
   Integer $status_available_when_donor,
   Integer $status_available_when_readonly,
   Boolean $status_check,
+  Enum['systemd', 'xinetd'] $status_check_type,
   Stdlib::Absolutepath $status_script,
   String $status_host,
   String $status_log_on_success_operator,
@@ -315,6 +323,7 @@ class galera (
   String $status_system_group,
   String $status_system_user,
   Hash $status_system_user_config,
+  String $status_systemd_service_name,
   String $status_user,
   String $status_xinetd_service_name,
   Boolean $validate_connection,

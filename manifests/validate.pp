@@ -1,6 +1,8 @@
-# @summary Validate that the cluster can accept connections at the point where
-#   the `mysql::server` resource is marked as complete.
-#   This is used because after returning success, the service is still not quite ready.
+# @summary Validate that the cluster can accept connections.
+#
+# This validation is done at the point where the `mysql::server` resource is
+# marked as complete. This is used because after returning success, the
+# service is still not quite ready.
 #
 # @api private
 #
