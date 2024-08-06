@@ -144,9 +144,9 @@ describe 'galera' do
 
       case facts[:osfamily]
       when 'Debian'
-        if facts[:os]['name'] == 'Debian' and Puppet::Util::Package.versioncmp(facts[:os]['release']['major'], '12') >= 0
+        if facts[:os]['name'] == 'Debian' && Puppet::Util::Package.versioncmp(facts[:os]['release']['major'], '12') >= 0
           it_configures 'galera on Debian'
-        elsif facts[:os]['name'] == 'Ubuntu' and Puppet::Util::Package.versioncmp(facts[:os]['release']['full'], '24.04') >= 0
+        elsif facts[:os]['name'] == 'Ubuntu' && Puppet::Util::Package.versioncmp(facts[:os]['release']['full'], '24.04') >= 0
           it_configures 'galera on Debian'
         else
           it_configures 'galera on Debian 11 and older'
