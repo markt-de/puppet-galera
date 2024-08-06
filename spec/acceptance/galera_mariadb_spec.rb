@@ -25,7 +25,9 @@ if ENV['VENDOR_TYPE'] == 'mariadb'
             }
           },
           vendor_type           => 'mariadb',
-          vendor_version        => '11.4'
+          # FIXME: switch to 11.4, requires this PR:
+          # https://github.com/puppetlabs/puppetlabs-mysql/pull/1626
+          vendor_version        => '10.11'
         }
         MANIFEST
       end

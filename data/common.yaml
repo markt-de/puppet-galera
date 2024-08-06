@@ -100,7 +100,7 @@ galera::codership::galera_package_ensure: 'present'
 galera::percona::default_version: '8.0'
 # Percona does not allow installation of wsrep-enabled server and wsrep provider.
 galera::percona::galera_package_ensure: 'absent'
-galera::mariadb::default_version: '11.4'
+galera::mariadb::default_version: '10.11'
 galera::mariadb::galera_package_ensure: 'present'
 
 # binlog_format is deprecated in MySQL, but still required for MariaDB
