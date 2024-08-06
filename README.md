@@ -238,7 +238,7 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 |  | RedHat | Debian | Ubuntu | FreeBSD |
 | :---     |  :---: |  :---: |  :---: |  :---: |
 | **Percona XtraDB Cluster** | 8 / 9 | 11 / 12 | 22.04 / 24.04 | 14.x |
-| 8.0 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
+| 8.0 | :green_circle: **/** :green_circle: | :green_circle: **/** :green_circle: | :green_circle: **/** :green_circle: | :no_entry_sign: |
 | **Codership Galera (MySQL)** |  |  |  |  |
 | 8.0 / 8.4 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
 | **MariaDB Galera Cluster** |  |  |  |  |
