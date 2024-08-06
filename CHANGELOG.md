@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Add new dependency for systemd-based status check ([#191])
 * Extend unit tests ([#191])
 
+### Fixed
+* Fix Percona XtraDB 8.0 package name on Debian/Ubuntu
+
 ## [3.2.1] - 2024-03-13
 
 ### Changed
