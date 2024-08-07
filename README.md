@@ -238,11 +238,11 @@ Below you will find an **incomplete** and possibly **outdated** list of known (i
 |  | RedHat | Debian | Ubuntu | FreeBSD |
 | :---     |  :---: |  :---: |  :---: |  :---: |
 | **Percona XtraDB Cluster** | 8 / 9 | 11 / 12 | 22.04 / 24.04 | 14.x |
-| 8.0 | :green_circle: **/** :green_circle: | :green_circle: **/** :green_circle: | :green_circle: **/** :green_circle: | :no_entry_sign: |
+| 8.0 | ✔️ **/** ✔️ | ✔️ **/** ✔️ | ✔️ **/** ✔️ | ❌ |
 | **Codership Galera (MySQL)** |  |  |  |  |
-| 8.0 / 8.4 | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :green_circle: :green_circle: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: |
+| 8.0 / 8.4 | ✔️ ✔️ **/** ✔️ ✔️ | ✔️ ✔️ **/** ✔️ ✔️ | ✔️ ✔️ **/** ✔️ ✔️ | ❌ ❌ |
 | **MariaDB Galera Cluster** |  |  |  |  |
-| 10.11 / 11.4 | :no_entry_sign: :no_entry_sign: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: **/** :green_circle: :green_circle: | :no_entry_sign: :no_entry_sign: **/** :green_circle: :green_circle: | :green_circle: :green_circle: |
+| 10.11 / 11.4 | ❌ ❌ **/** ✔️ ✔️ | ❌ ❌ **/** ✔️ ✔️ | ❌ ❌ **/** ✔️ ✔️ | ✔️ ✔️ |
 
 The table only includes the **two most recent** (LTS) versions.
 Older and possibly outdated releases are not listed, although they may still be supported by their vendors.
