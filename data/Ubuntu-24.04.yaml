@@ -1,0 +1,7 @@
+---
+galera::repo::percona::apt:
+  # xtradb for noble is only available in experimental repo
+  repos: 'experimental'
+galera::repo::percona_tools::apt:
+  # qpress for noble is only available in testing repo
+  repos: 'testing'
