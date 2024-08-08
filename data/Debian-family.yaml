@@ -125,10 +125,10 @@ galera::percona::57::mysql_package_name: 'percona-xtradb-cluster-server-5.7'
 
 galera::percona::80::arbitrator_package_name: 'percona-xtradb-cluster-garbd'
 galera::percona::80::bootstrap_command: >
-  sed -i 's@ExecStart=/usr/sbin/mysqld@ExecStart=/usr/sbin/mysqld --wsrep-new-cluster@' /usr/lib/systemd/system/mysql.service;
+  sed -i 's@ExecStart=/usr/sbin/mysqld@ExecStart=/usr/sbin/mysqld --wsrep-new-cluster@' /lib/systemd/system/mysql.service;
   systemctl daemon-reload;
   systemctl start mysqld;
-  sed -i 's@ExecStart=/usr/sbin/mysqld --wsrep-new-cluster@ExecStart=/usr/sbin/mysqld@' /usr/lib/systemd/system/mysql.service;
+  sed -i 's@ExecStart=/usr/sbin/mysqld --wsrep-new-cluster@ExecStart=/usr/sbin/mysqld@' /lib/systemd/system/mysql.service;
   systemctl daemon-reload
 galera::percona::80::client_package_name: 'percona-xtradb-cluster-client'
 # In XtraDB Cluster 8.0 there is no "galera" package anymore.
