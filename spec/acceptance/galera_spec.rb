@@ -25,7 +25,9 @@ if ENV['VENDOR_TYPE'].nil? || ENV['VENDOR_TYPE'] == 'percona'
             }
           },
           vendor_type           => 'percona',
-          vendor_version        => '8.0'
+          vendor_version        => '8.0',
+          # XtraDB 8 does not support the default SST method 'rsync'
+          wsrep_sst_method      => 'xtrabackup-v2',
         }
         MANIFEST
       end

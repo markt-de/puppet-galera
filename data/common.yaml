@@ -22,7 +22,6 @@ galera::default_options:
     wsrep_node_incoming_address: "<%= $local_ip %>"
     wsrep_on: 'ON'
     wsrep_provider: "<%= $params['libgalera_location'] %>"
-    wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
     wsrep_sst_method: "<%= $wsrep_sst_method %>"
     wsrep_sst_receive_address: "<%= $local_ip %>"
 galera::epel_needed: false
@@ -95,11 +94,32 @@ galera::percona::additional_packages:
 galera::mariadb::additional_packages:
   - 'nmap'
 
+galera::codership::default_options:
+  mysqld:
+    wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
 galera::codership::default_version: '8.0'
 galera::codership::galera_package_ensure: 'present'
+
+# Percona XtraDB removed support for wsrep_sst_auth in version 8.0,
+# hence it should only be configured in older versions.
+galera::percona::56::default_options:
+  mysqld:
+    wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
+galera::percona::57::default_options:
+  mysqld:
+    wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
+galera::percona::80::default_options:
+  mysqld:
+    # On XtraDB 8.0 the option pxc-encrypt-cluster-traffic is enabled by
+    # default. Disable it to make it easier to bootstrap new clusters.
+    pxc-encrypt-cluster-traffic: 'OFF'
 galera::percona::default_version: '8.0'
 # Percona does not allow installation of wsrep-enabled server and wsrep provider.
 galera::percona::galera_package_ensure: 'absent'
+
+galera::mariadb::default_options:
+  mysqld:
+    wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
 galera::mariadb::default_version: '10.11'
 galera::mariadb::galera_package_ensure: 'present'
 

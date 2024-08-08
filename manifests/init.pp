@@ -451,12 +451,12 @@ class galera (
   }
 
   # Lookup vendor specific options for MySQL/MariaDB.
-  $_defaults_vendor = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", { default_value => undef }) ? {
-    undef => lookup("${module_name}::${vendor_type}::default_options", { default_value => {} }),
-    default => lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", { default_value => {} }),
-  }
+  $_defaults_vendor = lookup("${module_name}::${vendor_type}::default_options", { default_value => {} })
+  $_defaults_vendor_version = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::default_options", { default_value => {} })
+  # Merge results, the version-specific values take precedence.
+  $_default_pre = deep_merge($_defaults_vendor, $_defaults_vendor_version)
   # Now merge the vendor specific options with the global default values.
-  $_default_tmp = deep_merge($default_options, $_defaults_vendor)
+  $_default_tmp = deep_merge($default_options, $_default_pre)
 
   # XXX: The following is sort-of a compatibility layer. It passes all options
   # to the inline_epp() function. This way it is possible to use the values of
@@ -517,6 +517,8 @@ class galera (
   }
 
   if $configure_repo {
+    # Ensure that repos are setup before trying to install packages.
+    $_packages_require = [Class['galera::repo']]
     include galera::repo
     unless $galera::arbitrator {
       if ($galera::params['galera_package_name']) {
@@ -524,6 +526,8 @@ class galera (
       }
       Class['galera::repo'] -> Class['mysql::server']
     }
+  } else {
+    $_packages_require = []
   }
 
   if $configure_firewall {
@@ -560,8 +564,9 @@ class galera (
   if ($manage_additional_packages and $additional_packages_real) {
     stdlib::ensure_packages($additional_packages_real,
       {
-        ensure => $package_ensure,
-        before => $_packages_before,
+        ensure  => $package_ensure,
+        before  => $_packages_before,
+        require => $_packages_require,
     })
   }
 

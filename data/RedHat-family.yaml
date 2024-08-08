@@ -148,7 +148,12 @@ galera::percona::57::mysql_package_name: 'Percona-XtraDB-Cluster-57'
 galera::percona::80::additional_packages:
   - 'nmap'
 galera::percona::80::arbitrator_package_name: 'percona-xtradb-cluster-garbd'
-galera::percona::80::bootstrap_command: 'systemctl start mysql@bootstrap.service'
+galera::percona::80::bootstrap_command: >
+  sed -i 's@ExecStart=/usr/sbin/mysqld@ExecStart=/usr/sbin/mysqld --wsrep-new-cluster@' /usr/lib/systemd/system/mysql.service;
+  systemctl daemon-reload;
+  systemctl start mysqld;
+  sed -i 's@ExecStart=/usr/sbin/mysqld --wsrep-new-cluster@ExecStart=/usr/sbin/mysqld@' /usr/lib/systemd/system/mysql.service;
+  systemctl daemon-reload
 galera::percona::80::client_package_name: 'percona-xtradb-cluster-client'
 # In XtraDB Cluster 8.0 there is no "galera" package anymore.
 galera::percona::80::galera_package_name: 'percona-xtradb-cluster-galera'
@@ -163,6 +168,7 @@ galera::percona::arbitrator_config_file: '/etc/sysconfig/garb'
 galera::percona::arbitrator_package_name: 'Percona-XtraDB-Cluster-garbd-3'
 galera::percona::arbitrator_service_name: 'garb'
 galera::percona::bootstrap_command: 'systemctl start mysql@bootstrap.service'
+galera::percona::config_file: '/etc/my.cnf'
 galera::percona::default_options:
   mysqld:
     log-error: '/var/log/mysqld.log'

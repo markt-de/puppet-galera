@@ -13,15 +13,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Add support for new operating systems
 
 ### Changed
+* Disable option `pxc-encrypt-cluster-traffic` on Percona XtraDB 8.0
 * Change default version of Codership/MySQL to 8.0
 * Change default version of MariaDB to 10.11
 * Change default version of Percona XtraDB to 8.0
 * Enable systemd-based status check on RHEL 9, Debian 12 and Ubuntu 24.04 ([#191])
 * Add new dependency for systemd-based status check ([#191])
+* Merge internal $default_options from multiple hierarchy levels
 * Extend unit tests ([#191])
 
 ### Fixed
+* SST package install fails because repo is not yet configured
 * Fix Percona XtraDB 8.0 package name on Debian/Ubuntu
+* Fix Percona XtraDB 8.0 bootstrap command
+* Fix Percona XtraDB `my.cnf` location on RHEL-based systems
+* Percona XtraDB 8.0 no longer supports option `wsrep_sst_auth`
 
 ## [3.2.1] - 2024-03-13
 
