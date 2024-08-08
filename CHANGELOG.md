@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 * SST package install fails because repo is not yet configured
+* Remove incompatible options from bootstrap workaround on Debian/Ubuntu
 * Fix Percona XtraDB 8.0 package name on Debian/Ubuntu
 * Fix Percona XtraDB 8.0 bootstrap command
 * Fix Percona XtraDB `my.cnf` location on RHEL-based systems
