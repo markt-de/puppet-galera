@@ -5,13 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+This is a new major release with breaking changes. MariaDB 11.x is not yet
+supported because puppetlabs/mysql lacks support for it.
 
 ### Added
 * Add new parameter `$status_check_type`
 * Add new parameter `$status_systemd_service_name`
+* Add customization options for the xinetd service ([#177])
 * Add systemd-based status check ([#191])
 * Add support for new operating systems
-* Add support for Percona XtraDB 8.0 and MariaDB 10.11
+* Add support for Percona XtraDB 8.0 and MariaDB 10.11 ([#192])
 
 ### Changed
 * Remove default values: `$vendor_type`, `$vendor_version`
@@ -19,10 +22,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Enable systemd-based status check on RHEL 9, Debian 12 and Ubuntu 24.04 ([#191])
 * Add new dependency for systemd-based status check ([#191])
 * Merge internal $default_options from multiple hierarchy levels
+* Update Codership APT key
 * Switch unit tests to Codership/MySQL 8.0, MariaDB 10.11 and XtraDB 8.0
 * Extend unit tests ([#191])
 
 ### Fixed
+* Revive `binlog_format` for MariaDB ([#190])
 * SST package install fails because repo is not yet configured
 * Remove incompatible options from bootstrap workaround on Debian/Ubuntu
 * Fix Percona XtraDB 8.0 package name on Debian/Ubuntu
@@ -339,10 +344,13 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/markt-de/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/markt-de/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/markt-de/puppet-galera/compare/0.0.6...0.7.0
+[#192]: https://github.com/markt-de/puppet-galera/pull/192
 [#191]: https://github.com/markt-de/puppet-galera/pull/191
+[#190]: https://github.com/markt-de/puppet-galera/pull/190
 [#186]: https://github.com/markt-de/puppet-galera/pull/186
 [#185]: https://github.com/markt-de/puppet-galera/pull/185
 [#179]: https://github.com/markt-de/puppet-galera/pull/179
+[#177]: https://github.com/markt-de/puppet-galera/pull/177
 [#173]: https://github.com/markt-de/puppet-galera/pull/173
 [#171]: https://github.com/markt-de/puppet-galera/pull/171
 [#170]: https://github.com/markt-de/puppet-galera/pull/170

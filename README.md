@@ -91,36 +91,37 @@ Furthermore, a number of simple options are available to customize the cluster c
 
 ```puppet
 class { 'galera':
+  # Galera vendor and version
+  vendor_type     => 'codership',
+  vendor_version  => '8.0',
+  #
+  # Galera cluster config
   cluster_name    => 'mycluster',
   galera_servers  => ['10.0.99.101', '10.0.99.102', '10.0.99.103'],
   galera_master   => 'node1.example.com',
   root_password   => 'pa$$w0rd',
   status_password => 'pa$$w0rd',
-
-  # Default is 'percona'
-  vendor_type     => 'codership',
-  vendor_version  => '8.0',
-
+  #
   # This will be used to populate my.cnf values that
   # control where wsrep binds, advertises, and listens
   local_ip => $facts['networking']['ip'],
-
+  #
   # This will be set when the cluster is bootstrapped
   root_password => 'myrootpassword',
-
+  #
   # Disable this if you don't want firewall rules to be set
   configure_firewall => true,
-
+  #
   # Configure the SST method
   wsrep_sst_method => 'xtrabackup-v2',
-
+  #
   # These options are only used for the firewall -
   # to change the my.cnf settings, use the override options
   # described below
   mysql_port => 3306,
   wsrep_state_transfer_port => 4444,
   wsrep_inc_state_transfer_port => 4568,
-
+  #
   # This is used for the firewall + for status checks
   # when deciding whether to bootstrap
   wsrep_group_comm_port => 4567,
@@ -199,7 +200,7 @@ class { 'galera':
   root_password      => 'pa$$w0rd',
   status_password    => 'pa$$w0rd',
   vendor_type        => 'mariadb',
-  vendor_version     => '8.0',
+  vendor_version     => '10.11',
 }
 ```
 
