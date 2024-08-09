@@ -8,9 +8,9 @@ define galera::repo::config (
   String $repo = $title,
 ) {
   # Adjust $vendor_version for use with lookup() and inline_epp()
-  if !$galera::vendor_version {
-    $vendor_version_real = lookup("${module_name}::${galera::vendor_type}::default_version")
-  } else { $vendor_version_real = $galera::vendor_version }
+  # The '_real' variable is kept for compatibility reasons, it may be
+  # used in inline epp templates.
+  $vendor_version_real = $galera::vendor_version
   $vendor_version_internal = regsubst($vendor_version_real, '\.', '', 'G')
 
   # Prepare $wsrep_sst_method for use with inline_epp()

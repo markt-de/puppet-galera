@@ -49,6 +49,11 @@ galera::mariadb::106::client_package_name: 'mariadb106-client'
 galera::mariadb::106::galera_package_name: 'galera26'
 galera::mariadb::106::mysql_package_name: 'mariadb106-server'
 
+galera::mariadb::1011::arbitrator_package_name: 'galera26'
+galera::mariadb::1011::client_package_name: 'mariadb1011-client'
+galera::mariadb::1011::galera_package_name: 'galera26'
+galera::mariadb::1011::mysql_package_name: 'mariadb1011-server'
+
 #
 # MariaDB - default settings
 #
@@ -81,6 +86,12 @@ galera::percona::mysql_service_name: 'UNSUPPORTED-mysql_service_name'
 galera::sst::mariabackup::mariadb::103::additional_packages:
   - 'socat'
 galera::sst::mariabackup::mariadb::104::additional_packages:
+  - 'socat'
+galera::sst::mariabackup::mariadb::105::additional_packages:
+  - 'socat'
+galera::sst::mariabackup::mariadb::106::additional_packages:
+  - 'socat'
+galera::sst::mariabackup::mariadb::1011::additional_packages:
   - 'socat'
 galera::sst::xtrabackup::additional_packages:
   - 'xtrabackup'

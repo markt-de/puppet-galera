@@ -284,6 +284,7 @@
 class galera (
   # parameters that need to be evaluated early
   Enum['codership', 'mariadb', 'percona'] $vendor_type,
+  String $vendor_version,
   # required parameters
   Boolean $arbitrator,
   String $arbitrator_options,
@@ -357,18 +358,11 @@ class galera (
   Optional[String] $status_log_on_success = undef,
   Optional[String] $status_log_type = undef,
   Optional[String] $status_service_type = undef,
-  Optional[String] $vendor_version = undef,
 ) {
-  # Fetch appropiate default values from module data, depending on the values
-  # of $vendor_type and $vendor_version.
-  # XXX: Originally this was supposed to take place when evaluating the class
-  # parameters. Now this is basically an ugly compatibility layer to support
-  # overriding parameters in non-hiera configurations (where solely relying
-  # on lookup() simply does not work). Should be refactored when a better
-  # solution is available.
-  if !$vendor_version {
-    $vendor_version_real = lookup("${module_name}::${vendor_type}::default_version")
-  } else { $vendor_version_real = $vendor_version }
+  # Adjust $vendor_version for use with lookup()
+  # The '_real' variable is kept for compatibility reasons, it may be
+  # used in inline epp templates.
+  $vendor_version_real = $vendor_version
   $vendor_version_internal = regsubst($vendor_version_real, '\.', '', 'G')
 
   # Percona supports 'xtrabackup-v2', but this value cannot be used in our automatic

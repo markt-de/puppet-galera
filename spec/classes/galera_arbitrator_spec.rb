@@ -19,6 +19,8 @@ describe 'galera' do
           root_password: 'test',
           deb_sysmaint_password: 'test',
           status_password: 'test',
+          vendor_type: 'percona',
+          vendor_version: '8.0',
         }
       end
 

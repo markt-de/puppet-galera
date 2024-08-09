@@ -11,15 +11,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Add new parameter `$status_systemd_service_name`
 * Add systemd-based status check ([#191])
 * Add support for new operating systems
+* Add support for Percona XtraDB 8.0 and MariaDB 10.11
 
 ### Changed
+* Remove default values: `$vendor_type`, `$vendor_version`
 * Disable option `pxc-encrypt-cluster-traffic` on Percona XtraDB 8.0
-* Change default version of Codership/MySQL to 8.0
-* Change default version of MariaDB to 10.11
-* Change default version of Percona XtraDB to 8.0
 * Enable systemd-based status check on RHEL 9, Debian 12 and Ubuntu 24.04 ([#191])
 * Add new dependency for systemd-based status check ([#191])
 * Merge internal $default_options from multiple hierarchy levels
+* Switch unit tests to Codership/MySQL 8.0, MariaDB 10.11 and XtraDB 8.0
 * Extend unit tests ([#191])
 
 ### Fixed

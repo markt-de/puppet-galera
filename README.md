@@ -48,21 +48,16 @@ Basic usage requires only the FQDN of the master node, a list of IP addresses of
 
 ```puppet
 class { 'galera':
+  # Galera vendor and version
+  vendor_type    => 'codership',
+  vendor_version => '8.0',
+  # Galera cluster config
   cluster_name    => 'mycluster',
   galera_servers  => ['10.0.99.101', '10.0.99.102', '10.0.99.103'],
   galera_master   => 'node1.example.com',
   root_password   => 'pa$$w0rd',
   status_password => 'pa$$w0rd',
 }
-```
-
-This will install the default packages and version. However, in a production environment you should definitely set the vendor and version variables to the desired value, because the default values might change:
-
-```puppet
-class { 'galera':
-  vendor_type    => 'percona',
-  vendor_version => '8.0',
-  ...
 ```
 
 On Debian/Ubuntu systems the user `debian-sys-maint@localhost` is required for updates and will be created automatically, but you should set a proper password when using these platforms:

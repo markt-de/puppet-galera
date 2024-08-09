@@ -22,7 +22,7 @@ describe 'galera' do
       root_password: 'test',
       status_password: 'nonempty',
       vendor_type: 'percona',
-      vendor_version: '5.7',
+      vendor_version: '8.0',
       wsrep_group_comm_port: 4567,
       wsrep_inc_state_transfer_port: 4568,
       wsrep_sst_method: 'rsync',
@@ -31,7 +31,8 @@ describe 'galera' do
   end
 
   shared_examples_for 'galera' do
-    context 'with default parameters (percona)' do
+    context 'when installing percona' do
+      before(:each) { params.deep_merge!(vendor_type: 'percona', vendor_version: '8.0') }
       it { is_expected.to contain_class('galera::firewall') }
       it { is_expected.to contain_class('galera::repo') }
       it { is_expected.to contain_class('galera::status') }
@@ -78,7 +79,7 @@ describe 'galera' do
     end
 
     context 'when installing mariadb' do
-      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3') }
+      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.11') }
       it {
         is_expected.to contain_class('mysql::server').with(
           package_name: os_params[:m_mysql_package_name],
@@ -112,7 +113,7 @@ describe 'galera' do
     end
 
     context 'when using mariabackup' do
-      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3', wsrep_sst_method: 'mariabackup') }
+      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.11', wsrep_sst_method: 'mariabackup') }
       it {
         if os_params[:m_mariadb_backup_package_name] != 'NONE'
           is_expected.to contain_package(os_params[:m_mariadb_backup_package_name]).with_ensure('installed')
@@ -194,18 +195,31 @@ describe 'galera' do
     end
 
     context 'when installing codership' do
-      before(:each) { params.deep_merge!(vendor_type: 'codership') }
+      before(:each) { params.deep_merge!(vendor_type: 'codership', vendor_version: '8.0') }
       it {
-        is_expected.to contain_class('mysql::server').with(
-          package_name: os_params[:c_mysql_package_name],
-          root_password: params[:root_password],
-          service_name: os_params[:c_mysql_service_name],
-        )
+        if facts[:os]['family'] != 'FreeBSD'
+          is_expected.to contain_class('mysql::server').with(
+            package_name: os_params[:c_mysql_package_name],
+            root_password: params[:root_password],
+            service_name: os_params[:c_mysql_service_name],
+          )
+        end
       }
-      it { is_expected.to contain_class('mysql::server') }
-
-      it { is_expected.to contain_package(os_params[:c_galera_package_name]).with(ensure: 'present') }
-      it { is_expected.to contain_package(os_params[:c_additional_packages]).with(ensure: 'installed') }
+      it {
+        if facts[:os]['family'] != 'FreeBSD'
+          is_expected.to contain_class('mysql::server')
+        end
+      }
+      it {
+        if facts[:os]['family'] != 'FreeBSD'
+          is_expected.to contain_package(os_params[:c_galera_package_name]).with(ensure: 'present')
+        end
+      }
+      it {
+        if facts[:os]['family'] != 'FreeBSD'
+          is_expected.to contain_package(os_params[:c_additional_packages]).with(ensure: 'installed')
+        end
+      }
     end
 
     context 'when specifying package names' do
@@ -272,69 +286,69 @@ describe 'galera' do
       end
 
       let(:os_params) do
-        if facts[:osfamily] == 'RedHat'
-          m_mysql_service_name = if Puppet::Util::Package.versioncmp(facts[:operatingsystemmajrelease], '7') >= 0
+        if facts[:os]['family'] == 'RedHat'
+          m_mysql_service_name = if Puppet::Util::Package.versioncmp(facts[:os]['release']['major'], '7') >= 0
                                    'mariadb'
                                  else
                                    'mysql'
                                  end
           { c_additional_packages: 'rsync',
-            c_client_package_name: 'mysql-wsrep-client-5.7',
-            c_galera_package_name: 'galera-3',
-            c_libgalera_location: '/usr/lib64/galera-3/libgalera_smm.so',
-            c_mysql_package_name: 'mysql-wsrep-5.7',
+            c_client_package_name: 'mysql-wsrep-client',
+            c_galera_package_name: 'galera-4',
+            c_libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so',
+            c_mysql_package_name: 'mysql-wsrep-8.0',
             c_mysql_service_name: 'mysqld',
             m_additional_packages: 'rsync',
             m_client_package_name: 'MariaDB-client',
-            m_galera_package_name: 'galera',
-            m_libgalera_location: '/usr/lib64/galera/libgalera_smm.so',
+            m_galera_package_name: 'galera-4',
+            m_libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so',
             m_mariadb_backup_package_name: 'MariaDB-backup',
             m_mysql_package_name: 'MariaDB-server',
             m_mysql_service_name: m_mysql_service_name,
             p_additional_packages: 'rsync',
-            p_client_package_name: 'Percona-XtraDB-Cluster-client-57',
-            p_galera_package_name: 'Percona-XtraDB-Cluster-galera-3',
+            p_client_package_name: 'percona-xtradb-cluster-client',
+            p_galera_package_name: 'percona-xtradb-cluster-galera',
             p_libgalera_location: '/usr/lib64/libgalera_smm.so',
-            p_mysql_package_name: 'Percona-XtraDB-Cluster-57',
+            p_mysql_package_name: 'percona-xtradb-cluster-full',
             p_mysql_service_name: 'mysql',
-            p_xtrabackup_package: 'percona-xtrabackup-24',
+            p_xtrabackup_package: 'percona-xtrabackup-80',
             nmap_package_name: 'nmap' }
-        elsif facts[:osfamily] == 'Debian'
+        elsif facts[:os]['family'] == 'Debian'
           { c_additional_packages: 'rsync',
-            c_client_package_name: 'mysql-wsrep-client-5.7',
-            c_galera_package_name: 'galera-3',
+            c_client_package_name: 'mysql-wsrep-client-8.0',
+            c_galera_package_name: 'galera-4',
             c_libgalera_location: '/usr/lib/libgalera_smm.so',
-            c_mysql_package_name: 'mysql-wsrep-5.7',
+            c_mysql_package_name: 'mysql-wsrep-8.0',
             c_mysql_service_name: 'mysql',
             m_additional_packages: 'rsync',
-            m_client_package_name: 'mariadb-client-10.3',
-            m_galera_package_name: 'galera-3',
+            m_client_package_name: 'mariadb-client',
+            m_galera_package_name: 'galera-4',
             m_libgalera_location: '/usr/lib/galera/libgalera_smm.so',
             m_mariadb_backup_package_name: 'mariadb-backup',
-            m_mysql_package_name: 'mariadb-server-10.3',
+            m_mysql_package_name: 'mariadb-server',
             m_mysql_service_name: 'mysql',
             p_additional_packages: 'rsync',
-            p_client_package_name: 'percona-xtradb-cluster-client-5.7',
-            p_galera_package_name: 'percona-xtradb-cluster-galera-3.x',
+            p_client_package_name: 'percona-xtradb-cluster-client',
+            p_galera_package_name: 'percona-xtradb-cluster-galera',
             p_libgalera_location: '/usr/lib/galera/libgalera_smm.so',
-            p_mysql_package_name: 'percona-xtradb-cluster-server-5.7',
+            p_mysql_package_name: 'percona-xtradb-cluster-full',
             p_mysql_service_name: 'mysql',
-            p_xtrabackup_package: 'percona-xtrabackup-24',
+            p_xtrabackup_package: 'percona-xtrabackup-80',
             mysql_service_name: 'mysql',
             nmap_package_name: 'nmap' }
-        elsif facts[:osfamily] == 'FreeBSD'
+        elsif facts[:os]['family'] == 'FreeBSD'
           { c_additional_packages: 'rsync',
-            c_client_package_name: 'mysql57-client',
-            c_galera_package_name: 'galera',
-            c_libgalera_location: '/usr/local/lib/libgalera_smm.so',
-            c_mysql_package_name: 'mysqlwsrep57-server',
-            c_mysql_service_name: 'mysql-server',
+            c_client_package_name: 'UNSUPPORTED-client_package_name',
+            c_galera_package_name: 'UNSUPPORTED-galera_package_name',
+            c_libgalera_location: '/UNSUPPORTED-libgalera_location',
+            c_mysql_package_name: 'UNSUPPORTED-mysql_package_name',
+            c_mysql_service_name: 'UNSUPPORTED-mysql_service_name',
             m_additional_packages: 'rsync',
-            m_client_package_name: 'mariadb103-client',
-            m_galera_package_name: 'galera',
+            m_client_package_name: 'mariadb1011-client',
+            m_galera_package_name: 'galera26',
             m_libgalera_location: '/usr/local/lib/libgalera_smm.so',
             m_mariadb_backup_package_name: 'NONE',
-            m_mysql_package_name: 'mariadb103-server',
+            m_mysql_package_name: 'mariadb1011-server',
             m_mysql_service_name: 'mysql-server',
             p_additional_packages: 'rsync',
             p_client_package_name: 'UNSUPPORTED-client_package_name',

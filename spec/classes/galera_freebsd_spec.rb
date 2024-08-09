@@ -20,7 +20,7 @@ describe 'galera' do
       root_password: 'test',
       status_password: 'nonempty',
       vendor_type: 'percona',
-      vendor_version: '5.7',
+      vendor_version: '8.0',
       wsrep_group_comm_port: 4567,
       wsrep_inc_state_transfer_port: 4568,
       wsrep_sst_method: 'rsync',
@@ -61,7 +61,7 @@ describe 'galera' do
         facts.merge({})
       end
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'FreeBSD'
         it_configures 'galera on FreeBSD'
       end

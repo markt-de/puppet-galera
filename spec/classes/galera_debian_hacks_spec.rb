@@ -6,7 +6,9 @@ describe 'galera::debian' do
        cluster_name    => 'testcluster',
        galera_master   => 'control1',
        package_ensure  => 'present',
-       status_password => 'nonempty'
+       status_password => 'nonempty',
+       vendor_type     => 'percona',
+       vendor_version  => '8.0',
     }"
   end
 
@@ -35,7 +37,7 @@ describe 'galera::debian' do
         facts
       end
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'Debian'
         it_configures 'galera workarounds on Debian and Ubuntu'
       end

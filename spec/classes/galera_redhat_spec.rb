@@ -22,7 +22,7 @@ describe 'galera' do
       root_password: 'test',
       status_password: 'nonempty',
       vendor_type: 'percona',
-      vendor_version: '5.7',
+      vendor_version: '8.0',
       wsrep_group_comm_port: 4567,
       wsrep_inc_state_transfer_port: 4568,
       wsrep_sst_method: 'rsync',
@@ -59,7 +59,7 @@ describe 'galera' do
 
     context 'when node is the master' do
       before(:each) { params.deep_merge!(galera_master: facts[:networking]['fqdn']) }
-      it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{systemctl start mysql@bootstrap.service}) }
+      it { is_expected.to contain_exec('bootstrap_galera_cluster').with_command(%r{--wsrep-new-cluster}) }
     end
 
     context 'when status_port=12345' do
@@ -77,7 +77,7 @@ describe 'galera' do
     end
 
     context 'when installing mariadb' do
-      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.3') }
+      before(:each) { params.deep_merge!(vendor_type: 'mariadb', vendor_version: '10.11') }
 
       it { is_expected.to contain_file('/var/log/mariadb') }
       it { is_expected.to contain_file('/var/run/mariadb') }
@@ -122,9 +122,9 @@ describe 'galera' do
         }
       end
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'RedHat'
-        if Puppet::Util::Package.versioncmp(facts[:operatingsystemmajrelease], '9') >= 0
+        if Puppet::Util::Package.versioncmp(facts[:os]['release']['major'], '9') >= 0
           it_configures 'galera on RedHat'
         else
           it_configures 'galera on RedHat 8 and older'
