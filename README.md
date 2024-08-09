@@ -4,7 +4,7 @@
 [![Puppet Forge](https://img.shields.io/puppetforge/v/markt/galera.svg)](https://forge.puppetlabs.com/markt/galera)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/markt/galera.svg)](https://forge.puppetlabs.com/markt/galera)
 
-NOTE: The "master" branch on GitHub contains the development version, which may break anything at any time. Consider using one of the official releases instead.
+NOTE: The "main" branch on GitHub contains the development version, which may break anything at any time. Consider using one of the official releases instead.
 
 #### Table of Contents
 
@@ -32,8 +32,8 @@ It will try to recover from failures by bootstrapping on a node designated as th
 
 ## Requirements
 
-* Puppet 6 or higher
-* [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql) and other soft dependencies
+* Puppet 7 or higher
+* [puppetlabs/mysql](https://github.com/puppetlabs/puppetlabs-mysql)
 * A [supported version](#os-and-cluster-compatibility) of Codership Galera (MySQL), MariaDB or Percona XtraDB Cluster
 * `nmap` is required for the cluster bootstrap functionality
 * [puppetlabs/xinetd](https://github.com/puppetlabs/puppetlabs-xinetd) if `galera::status_type` is set to `xinetd` (default for FreeBSD)
@@ -162,7 +162,7 @@ You may even use the same parameters that you would normally use for database no
 
 ### Custom repository configuration
 
-This module automatically determines which APT/YUM repositories need to be configured. This depends on your choices for `$vendor_type`, `$vendor_version` and `$wsrep_sst_method`. Each of these choices may enabled additional repositories.
+This module automatically determines which APT/YUM repositories need to be configured. This depends on your choices for `$vendor_type`, `$vendor_version` and `$wsrep_sst_method`. Each of these choices may enable additional repositories.
 
 For example, if setting `$vendor_type=codership` and `$wsrep_sst_method=xtrabackup`, the module will enable the Codership repository to install the Galera server and the Percona repository to install the XtraBackup tool. This works because every vendor/version and SST method may specify the internal `$want_repos` parameter, which is essentially a list of repositories.
 
@@ -180,20 +180,20 @@ Or if you just want to switch to using a local mirror, simply change the repo UR
 ```puppet
 # RHEL-based systems
 galera::repo::codership::yum:
-  baseurl: "http://repo.example.com/RPMS/%{facts.os.release.major}/RPMS/%{facts.os.architecture}/"
   baseurl: "http://repo.example.com/RPMS/<%= $vendor_version_real %>/%{facts.os.release.major}/%{facts.os.architecture}/"
+  ...
 ```
 
 ```puppet
 # Debian-based systems
 galera::repo::codership::apt:
-  apt_location: "http://repo.example.com/apt/%{facts.os.distro.codename}/"
+  location: "http://repo.example.com/apt/<%= $vendor_version_real %>/%{facts.os.distro.codename}/"
   ...
 ```
 
 ### FreeBSD support
 
-This module (and all its dependencies) provide support for the FreeBSD operating system. However, from all vendors Codership seems to provide the best support for Galera clusters on FreeBSD. The following configuration is known to work:
+This module (and all its dependencies) provide support for the FreeBSD operating system. However, from all vendors MariaDB seems to provide the best support for Galera clusters on FreeBSD. The following configuration is known to work:
 
 ```puppet
 class { 'galera':
@@ -203,8 +203,8 @@ class { 'galera':
   galera_master      => 'node1.example.com',
   root_password      => 'pa$$w0rd',
   status_password    => 'pa$$w0rd',
-  vendor_type        => 'codership',
-  vendor_version     => '5.7',
+  vendor_type        => 'mariadb',
+  vendor_version     => '8.0',
 }
 ```
 
