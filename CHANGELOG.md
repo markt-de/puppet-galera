@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [4.0.0]
 This is a new major release with breaking changes. MariaDB 11.x is not yet
 supported because puppetlabs/mysql lacks support for it.
 
@@ -14,7 +14,7 @@ supported because puppetlabs/mysql lacks support for it.
 * Add customization options for the xinetd service ([#177])
 * Add systemd-based status check ([#191])
 * Add support for new operating systems
-* Add support for Percona XtraDB 8.0 and MariaDB 10.11 ([#192])
+* Add support for MariaDB 10.11 (LTS) ([#192])
 
 ### Changed
 * Remove default values: `$vendor_type`, `$vendor_version`
@@ -28,6 +28,7 @@ supported because puppetlabs/mysql lacks support for it.
 
 ### Fixed
 * Revive `binlog_format` for MariaDB ([#190])
+* Fix support for Percona XtraDB Cluster 8.0
 * SST package install fails because repo is not yet configured
 * Remove incompatible options from bootstrap workaround on Debian/Ubuntu
 * Fix Percona XtraDB 8.0 package name on Debian/Ubuntu
@@ -324,7 +325,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/markt-de/puppet-galera/compare/3.2.1...HEAD
+[Unreleased]: https://github.com/markt-de/puppet-galera/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/markt-de/puppet-galera/compare/3.2.1...4.0.0
 [3.2.1]: https://github.com/markt-de/puppet-galera/compare/3.2.0...3.2.1
 [3.2.0]: https://github.com/markt-de/puppet-galera/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/markt-de/puppet-galera/compare/3.0.2...3.1.0
