@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.0.1]
+
+### Fixed
+* Duplication of key `galera::mariadb::default_options` ([#197])
+
 ## [4.0.0]
 This is a new major release with breaking changes. MariaDB 11.x is not yet
 supported because puppetlabs/mysql lacks support for it.
@@ -346,6 +351,7 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/markt-de/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/markt-de/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/markt-de/puppet-galera/compare/0.0.6...0.7.0
+[#197]: https://github.com/markt-de/puppet-galera/pull/197
 [#192]: https://github.com/markt-de/puppet-galera/pull/192
 [#191]: https://github.com/markt-de/puppet-galera/pull/191
 [#190]: https://github.com/markt-de/puppet-galera/pull/190
