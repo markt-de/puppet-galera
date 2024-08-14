@@ -112,13 +112,13 @@ galera::percona::80::default_options:
     # On XtraDB 8.0 the option pxc-encrypt-cluster-traffic is enabled by
     # default. Disable it to make it easier to bootstrap new clusters.
     pxc-encrypt-cluster-traffic: 'OFF'
-# Percona does not allow installation of wsrep-enabled server and wsrep provider.
+# Percona does not allow installation of wsrep-enabled server and wsrep
+# provider.
 galera::percona::galera_package_ensure: 'absent'
-
-galera::mariadb::galera_package_ensure: 'present'
 
 # binlog_format is deprecated in MySQL, but still required for MariaDB
 galera::mariadb::default_options:
   mysqld:
     binlog_format: 'ROW'
     wsrep_sst_auth: "\"<%= $wsrep_sst_auth_real %>\""
+galera::mariadb::galera_package_ensure: 'present'
