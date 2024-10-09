@@ -50,7 +50,7 @@ describe 'galera' do
             'User' => 'clustercheck',
             'Group' => 'clustercheck',
             'StandardInput' => 'socket',
-            'ExecStart' => '/usr/local/bin/clustercheck',
+            'ExecStart' => '-/usr/local/bin/clustercheck',
           },
         )
       }

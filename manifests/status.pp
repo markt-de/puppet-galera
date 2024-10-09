@@ -95,7 +95,7 @@ class galera::status (
           'User'          => $galera::status_system_user,
           'Group'         => $galera::status_system_group,
           'StandardInput' => 'socket',
-          'ExecStart'     => $galera::status_script,
+          'ExecStart'     => "-${galera::status_script}",
         },
         require       => File[$galera::status_script],
       }
