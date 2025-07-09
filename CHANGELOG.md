@@ -6,15 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [4.0.1]
-
 ### Added
 * Add support for `clone` in `$wsrep_sst_method`
+
+## [4.0.1] - 2024-08-14
 
 ### Fixed
 * Duplication of key `galera::mariadb::default_options` ([#197])
 
-## [4.0.0]
+## [4.0.0] - 2024-08-12
 This is a new major release with breaking changes. MariaDB 11.x is not yet
 supported because puppetlabs/mysql lacks support for it.
 
