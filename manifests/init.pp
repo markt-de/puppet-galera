@@ -274,7 +274,7 @@
 #
 # @param wsrep_sst_method
 #   Specifies the method to use for state snapshot transfer between nodes.
-#   Valid options: mysqldump, rsync, skip, xtrabackup, xtrabackup-v2 (Percona).
+#   Valid options: clone, mysqldump, rsync, skip, xtrabackup, xtrabackup-v2.
 #   Default: `rsync`
 #
 # @param wsrep_state_transfer_port
@@ -331,7 +331,7 @@ class galera (
   Integer $wsrep_group_comm_port,
   Integer $wsrep_inc_state_transfer_port,
   String $wsrep_sst_auth,
-  Enum['mariabackup', 'mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2'] $wsrep_sst_method,
+  Enum['clone', 'mariabackup', 'mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2'] $wsrep_sst_method,
   Integer $wsrep_state_transfer_port,
   # optional parameters
   # (some of them are actually required, see notes)
