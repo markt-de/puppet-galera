@@ -304,7 +304,7 @@ describe 'galera' do
             m_libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so',
             m_mariadb_backup_package_name: 'MariaDB-backup',
             m_mysql_package_name: 'MariaDB-server',
-            m_mysql_service_name: m_mysql_service_name,
+            m_mysql_service_name: m_mysql_service_name, # rubocop:disable Style/HashSyntax
             p_additional_packages: 'rsync',
             p_client_package_name: 'percona-xtradb-cluster-client',
             p_galera_package_name: 'percona-xtradb-cluster-galera',
