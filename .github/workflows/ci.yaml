@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        puppet_version: [7]
+        puppet_version: [8]
 
     name: Check / Puppet ${{ matrix.puppet_version }}
     runs-on: ubuntu-24.04
@@ -40,7 +40,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ['rocky8', 'ub2004', 'ub2204', 'ub2404', 'deb11', 'deb12']
-        puppet_version: [7]
+        puppet_version: [8]
         vendor_type: ['codership', 'mariadb', 'percona']
 
     name: Acceptance / ${{ matrix.os }} / ${{ matrix.vendor_type }} / Puppet ${{ matrix.puppet_version }}
@@ -69,7 +69,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.7"
+          ruby-version: "3.2"
           bundler-cache: true
 
       - name: Run Litmus
