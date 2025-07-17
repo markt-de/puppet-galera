@@ -68,12 +68,15 @@ else
     pass = node_config.dig('winrm', 'password') unless node_config.dig('winrm', 'password').nil?
     endpoint = "http://#{ENV['TARGET_HOST']}:5985/wsman"
 
+    # disable the ruby3.1+ style of omitting the hash value for a while to keep compatibility
+    # rubocop:disable Style/HashSyntax
     opts = {
       user: user,
       password: pass,
       endpoint: endpoint,
       operation_timeout: 300,
     }
+    # rubocop:enable Style/HashSyntax
 
     winrm = WinRM::Connection.new opts
     Specinfra.configuration.winrm = winrm
