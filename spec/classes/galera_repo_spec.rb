@@ -9,6 +9,24 @@ describe 'galera' do
     }
   end
 
+  # XXX Temporary workaround for Ubuntu 24.04
+  let(:percona_repo_channel_var1) do
+    if facts.dig(:os, 'name') == 'Ubuntu' && facts.dig(:os, 'release', 'full') == '24.04'
+      'testing'
+    else
+      'main'
+    end
+  end
+
+  # XXX Temporary workaround for Ubuntu 24.04
+  let(:percona_repo_channel_var2) do
+    if facts.dig(:os, 'name') == 'Ubuntu' && facts.dig(:os, 'release', 'full') == '24.04'
+      'experimental'
+    else
+      'main'
+    end
+  end
+
   shared_examples_for 'repo on RedHat-family' do
     context 'for codership' do
       before(:each) do
@@ -111,7 +129,7 @@ describe 'galera' do
       it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_apt__source('galera_codership').with(repos: 'main') }
       it { is_expected.to contain_apt__source('galera_codership_lib').with(repos: 'main') }
-      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: percona_repo_channel_var1) }
     end
 
     context 'for mariadb' do
@@ -128,7 +146,7 @@ describe 'galera' do
       it { is_expected.to contain_galera__repo__config('mariadb') }
       it { is_expected.to contain_galera__repo__config('percona_tools') }
       it { is_expected.to contain_apt__source('galera_mariadb').with(repos: 'main') }
-      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: percona_repo_channel_var1) }
     end
 
     context 'for percona' do
@@ -137,8 +155,8 @@ describe 'galera' do
       end
       it { is_expected.to contain_galera__repo__config('percona') }
       it { is_expected.to contain_galera__repo__config('percona_tools') }
-      it { is_expected.to contain_apt__source('galera_percona').with(repos: 'main') }
-      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: 'main') }
+      it { is_expected.to contain_apt__source('galera_percona').with(repos: percona_repo_channel_var2) }
+      it { is_expected.to contain_apt__source('galera_percona_tools').with(repos: percona_repo_channel_var1) }
     end
 
     context 'with configure_repo=false' do
