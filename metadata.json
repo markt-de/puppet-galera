@@ -1,6 +1,6 @@
 {
   "name": "markt-galera",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "author": "markt.de",
   "summary": "Setup a Galera cluster on MySQL/MariaDB/XtraDB with Arbitrator support",
   "license": "BSD-2-Clause",

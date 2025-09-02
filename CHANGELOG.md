@@ -4,10 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [4.1.0] - 2025-09-02
 
 ### Added
 * Add support for `clone` in `$wsrep_sst_method`
+
+### Changed
+* Update PDK to 3.4
+* use Puppet 8 and Ruby 3.2 in CI pipelines
+
+### Fixed
+* systemd: Ignore exit code of mysqlchk@.service instantiations ([#199])
 
 ## [4.0.1] - 2024-08-14
 
@@ -335,7 +342,8 @@ This is the first release after extensive code refactoring and introduces multip
 ## 0.1.0
 * Bugfix: Additional package as an ensure_resource
 
-[Unreleased]: https://github.com/markt-de/puppet-galera/compare/4.0.1...HEAD
+[Unreleased]: https://github.com/markt-de/puppet-galera/compare/4.1.0...HEAD
+[4.1.0]: https://github.com/markt-de/puppet-galera/compare/4.0.1...4.1.0
 [4.0.1]: https://github.com/markt-de/puppet-galera/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/markt-de/puppet-galera/compare/3.2.1...4.0.0
 [3.2.1]: https://github.com/markt-de/puppet-galera/compare/3.2.0...3.2.1
@@ -357,6 +365,7 @@ This is the first release after extensive code refactoring and introduces multip
 [0.7.2]: https://github.com/markt-de/puppet-galera/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/markt-de/puppet-galera/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/markt-de/puppet-galera/compare/0.0.6...0.7.0
+[#199]: https://github.com/markt-de/puppet-galera/pull/199
 [#197]: https://github.com/markt-de/puppet-galera/pull/197
 [#192]: https://github.com/markt-de/puppet-galera/pull/192
 [#191]: https://github.com/markt-de/puppet-galera/pull/191
