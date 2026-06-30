@@ -45,7 +45,7 @@ class galera::validate (
     fail('No catch method specified in galera validation script')
   }
 
-  $cmd = "mysql --host=${validate_host} --user=${validate_user} --password=${validate_password} -e '${action}' | grep -q ${truecatch}"
+  $cmd = "${galera::clientcli} --host=${validate_host} --user=${validate_user} --password=${validate_password} -e '${action}' | grep -q ${truecatch}"
   exec { 'validate_connection':
     path        => '/usr/bin:/bin:/usr/local/bin:/usr/sbin:/sbin:/usr/local/sbin',
     provider    => shell,

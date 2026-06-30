@@ -611,13 +611,11 @@ Valid options: codership, mariadb, percona. Default: `percona`
 
 ##### <a name="-galera--vendor_version"></a>`vendor_version`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 Specifies the galera version to use. To avoid accidential updates,
 set this to the required version.
 Default: A vendor- and OS-specific value. (Usually the most recent version.)
-
-Default value: `undef`
 
 ##### <a name="-galera--wsrep_group_comm_port"></a>`wsrep_group_comm_port`
 
@@ -641,10 +639,10 @@ Default: `root:<%= $root_password %>`
 
 ##### <a name="-galera--wsrep_sst_method"></a>`wsrep_sst_method`
 
-Data type: `Enum['mariabackup', 'mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2']`
+Data type: `Enum['clone', 'mariabackup', 'mysqldump', 'rsync', 'skip', 'xtrabackup', 'xtrabackup-v2']`
 
 Specifies the method to use for state snapshot transfer between nodes.
-Valid options: mysqldump, rsync, skip, xtrabackup, xtrabackup-v2 (Percona).
+Valid options: clone, mysqldump, rsync, skip, xtrabackup, xtrabackup-v2.
 Default: `rsync`
 
 ##### <a name="-galera--wsrep_state_transfer_port"></a>`wsrep_state_transfer_port`

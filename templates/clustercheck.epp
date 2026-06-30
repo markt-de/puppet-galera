@@ -44,11 +44,14 @@ DEFAULTS_EXTRA_FILE=${6:-/etc/my.cnf}
 #Timeout exists for instances where mysqld may be hung
 TIMEOUT=10
 
+if command -v mariadb >/dev/null 2>&1; then
+    MYSQL_BIN='mariadb'
+fi
 if [[ -r $DEFAULTS_EXTRA_FILE ]];then
-    MYSQL_CMDLINE="mysql --defaults-extra-file=$DEFAULTS_EXTRA_FILE -nNE --connect-timeout=$TIMEOUT \
+    MYSQL_CMDLINE="${MYSQL_BIN:-mysql} --defaults-extra-file=$DEFAULTS_EXTRA_FILE -nNE --connect-timeout=$TIMEOUT \
                     --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD} --host=${MYSQL_HOST}"
 else
-    MYSQL_CMDLINE="mysql -nNE --connect-timeout=$TIMEOUT --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD} --host=${MYSQL_HOST}"
+    MYSQL_CMDLINE="${MYSQL_BIN:-mysql} -nNE --connect-timeout=$TIMEOUT --user=${MYSQL_USERNAME} --password=${MYSQL_PASSWORD} --host=${MYSQL_HOST}"
 fi
 #
 # Perform the query to check the wsrep_local_state
