@@ -493,6 +493,12 @@ class galera (
   # Finally merge options from all 3 sources.
   $options = $_default_options.deep_merge($_wsrep_cluster_address.deep_merge($override_options))
 
+  $clientcli = if $galera::vendor_type == 'mariadb' and versioncmp($vendor_version, '10.4') >= 0 {
+    'mariadb'
+  } else {
+    'mysql'
+  }
+
   # Manage MySQL/MariaDB root user.
   if ($create_root_user =~ Undef) {
     # Automatically determine if we should manage the root user.
@@ -604,7 +610,7 @@ class galera (
         path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
         command => "echo \"${my_cnf}\" > ${facts['root_home']}/.my.cnf",
         onlyif  => [
-          "mysql --user=root --password=${root_password} -e 'select count(1);'",
+          "${clientcli} --user=root --password=${root_password} -e 'select count(1);'",
           "test `cat ${facts['root_home']}/.my.cnf | grep -c \"password='${root_password}'\"` -eq 0",
         ],
         require => Service[$params['mysql_service_name']],

@@ -105,6 +105,15 @@ galera::mariadb::114::galera_package_name: 'galera-4'
 galera::mariadb::114::libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so'
 galera::mariadb::114::mysql_package_name: 'MariaDB-server'
 
+galera::mariadb::123::additional_packages:
+  - 'nmap'  # from galera::mariadb::additional_packages
+  - 'MariaDB-server-galera'
+galera::mariadb::123::arbitrator_package_name: 'galera-4'
+galera::mariadb::123::client_package_name: 'MariaDB-client'
+galera::mariadb::123::galera_package_name: 'galera-4'
+galera::mariadb::123::libgalera_location: '/usr/lib64/galera-4/libgalera_smm.so'
+galera::mariadb::123::mysql_package_name: 'MariaDB-server'
+
 #
 # MariaDB - default settings
 #
@@ -259,6 +268,12 @@ galera::sst::mariabackup::mariadb::106::additional_packages:
   - 'MariaDB-backup'
   - 'socat'
 galera::sst::mariabackup::mariadb::1011::additional_packages:
+  - 'MariaDB-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::114::additional_packages:
+  - 'MariaDB-backup'
+  - 'socat'
+galera::sst::mariabackup::mariadb::123::additional_packages:
   - 'MariaDB-backup'
   - 'socat'
 galera::sst::xtrabackup::want_repos:
